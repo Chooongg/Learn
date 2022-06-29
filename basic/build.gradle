@@ -29,8 +29,11 @@ android {
 }
 
 dependencies {
-    api "androidx.startup:startup-runtime:1.2.0-alpha01"
     implementation "androidx.appcompat:appcompat:${appcompatVersion}"
+    api "androidx.startup:startup-runtime:1.2.0-alpha01"
+    api "androidx.datastore:datastore:1.0.0"
+
+    api 'com.tencent:mmkv:1.2.13'
     // 调试工具
     implementation 'com.facebook.stetho:stetho:1.6.0'
 }

@@ -1,6 +1,5 @@
 package com.chooongg.basic
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
@@ -8,10 +7,9 @@ import java.util.*
 
 val APPLICATION = ApplicationManager.getApplication()
 
-val ACTIVITY_TASK: List<Activity> = ApplicationManager.ActivityLifecycleManager.activityTask
+val ACTIVITY_TASK: List<Activity> get() = ApplicationManager.ActivityLifecycleManager.activityTask
 
-val ACTIVITY_TOP = if (ApplicationManager.ActivityLifecycleManager.activityTask.isEmpty()) null
-else ApplicationManager.ActivityLifecycleManager.activityTask.last
+val ACTIVITY_TOP get() = if (ApplicationManager.ActivityLifecycleManager.activityTask.isEmpty()) null else ApplicationManager.ActivityLifecycleManager.activityTask.last
 
 internal object ApplicationManager {
     private var application: Application? = null
@@ -30,8 +28,6 @@ internal object ApplicationManager {
     internal object ActivityLifecycleManager : Application.ActivityLifecycleCallbacks {
 
         internal val activityTask = LinkedList<Activity>()
-
-        internal val activityTop get() = if (activityTask.isEmpty()) null else activityTask.last
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             activityTask.add(activity)
