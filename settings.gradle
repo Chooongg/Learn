@@ -17,5 +17,5 @@ rootProject.name = "Learn"
 include ':app'
 include ':basic'
 include ':core'
-include ':network'
+include ':net'
 include ':stateLayout'
