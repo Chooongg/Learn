@@ -1,0 +1,2 @@
+-keep class androidx.startup.** { *; }
+-keep class * extends androidx.startup.Initializer

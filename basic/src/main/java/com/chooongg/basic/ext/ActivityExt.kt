@@ -1,7 +1,6 @@
 package com.chooongg.basic.ext
 
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.content.ComponentName
 import android.content.Context
 import android.view.Window

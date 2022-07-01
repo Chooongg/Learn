@@ -28,6 +28,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -43,6 +48,11 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = 'Learn_' + variant.buildType.name + '_v' + versionName + '_' + new Date().format("MMddHHmm").toString() + '.apk'
+        }
     }
 }
 

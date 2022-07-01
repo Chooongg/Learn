@@ -19,5 +19,6 @@ class BasicInitializer : Initializer<Unit> {
         Stetho.initializeWithDefaults(context)
     }
 
-    override fun dependencies(): MutableList<Class<out Initializer<*>>> = mutableListOf()
+    override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()
+
 }
