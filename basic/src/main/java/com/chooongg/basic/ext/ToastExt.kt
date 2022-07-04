@@ -10,14 +10,14 @@ import com.chooongg.basic.APPLICATION
 /**
  * Toast 唯一实例
  */
-private var boxToast: Toast? = null
+private var basicToast: Toast? = null
 
 /**
  * 展示 Toast
  */
 fun showToast(text: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
     cancelToast()
-    boxToast = Toast.makeText(ACTIVITY_TOP ?: APPLICATION, text, duration).apply {
+    basicToast = Toast.makeText(ACTIVITY_TOP ?: APPLICATION, text, duration).apply {
         setGravity(Gravity.CENTER, 0, 0)
         show()
     }
@@ -28,7 +28,7 @@ fun showToast(text: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
  */
 fun showToast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
     cancelToast()
-    boxToast = Toast.makeText(ACTIVITY_TOP ?: APPLICATION, resId, duration).apply {
+    basicToast = Toast.makeText(ACTIVITY_TOP ?: APPLICATION, resId, duration).apply {
         setGravity(Gravity.CENTER, 0, 0)
         show()
     }
@@ -45,7 +45,7 @@ fun showToast(
     duration: Int = Toast.LENGTH_SHORT
 ) {
     cancelToast()
-    boxToast = Toast.makeText(ACTIVITY_TOP ?: APPLICATION, text, duration).apply {
+    basicToast = Toast.makeText(ACTIVITY_TOP ?: APPLICATION, text, duration).apply {
         setGravity(gravity, xOffset, yOffset)
         show()
     }
@@ -62,7 +62,7 @@ fun showToast(
     duration: Int = Toast.LENGTH_SHORT
 ) {
     cancelToast()
-    boxToast = Toast.makeText(ACTIVITY_TOP ?: APPLICATION, resId, duration).apply {
+    basicToast = Toast.makeText(ACTIVITY_TOP ?: APPLICATION, resId, duration).apply {
         setGravity(gravity, xOffset, yOffset)
         show()
     }
@@ -73,6 +73,6 @@ fun showToast(
  * 取消Toast
  */
 fun cancelToast() {
-    boxToast?.cancel()
-    boxToast = null
+    basicToast?.cancel()
+    basicToast = null
 }

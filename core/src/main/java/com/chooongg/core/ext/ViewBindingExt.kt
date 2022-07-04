@@ -1,5 +1,6 @@
 package com.chooongg.core.ext
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +12,10 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.ParameterizedType
 
 @Suppress("UNCHECKED_CAST")
-fun <BINDING : ViewBinding> AppCompatActivity.inflateBinding(): BINDING {
-    val clazz = bindingClass<BINDING>(this)
+fun <BINDING : ViewBinding> AppCompatActivity.getBindingT(): BINDING {
+    val clazz = viewModelClass<BINDING>(this)
+    Log.e("BINDING", clazz.name)
+//    showToast(clazz.name)
     val method = clazz.getMethod("inflate", LayoutInflater::class.java)
     val binding = method.invoke(null, LayoutInflater.from(this)) as BINDING
     if (binding is ViewDataBinding) (binding as ViewDataBinding).lifecycleOwner = this
@@ -20,12 +23,12 @@ fun <BINDING : ViewBinding> AppCompatActivity.inflateBinding(): BINDING {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <BINDING : ViewBinding> Fragment.inflateBinding(
+fun <BINDING : ViewBinding> Fragment.getBindingT(
     layoutInflater: LayoutInflater,
     parent: ViewGroup?,
     attachToParent: Boolean
 ): BINDING {
-    val clazz = bindingClass<BINDING>(this)
+    val clazz = viewModelClass<BINDING>(this)
     val binding = clazz.getMethod(
         "inflate",
         LayoutInflater::class.java,
@@ -37,7 +40,7 @@ fun <BINDING : ViewBinding> Fragment.inflateBinding(
 }
 
 @Suppress("UNCHECKED_CAST")
-private fun <BINDING : ViewBinding> bindingClass(any: Any): Class<BINDING> {
+private fun <BINDING : ViewBinding> viewModelClass(any: Any): Class<BINDING> {
     var genericSuperclass = any.javaClass.genericSuperclass
     var superclass = any.javaClass.superclass
     while (superclass != null) {

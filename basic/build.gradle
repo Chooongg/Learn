@@ -30,6 +30,7 @@ android {
 
 dependencies {
     implementation "androidx.appcompat:appcompat:${appcompatVersion}"
+    implementation "com.google.android.material:material:$materialVersion"
     api "androidx.startup:startup-runtime:1.2.0-alpha01"
     api "androidx.datastore:datastore:1.0.0"
 
