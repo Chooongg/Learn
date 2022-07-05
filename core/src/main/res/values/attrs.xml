@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="navigationType" format="enum">
+        <enum name="none" value="0" />
+        <enum name="back" value="1" />
+        <enum name="close" value="2" />
+    </attr>
+
+    <declare-styleable name="TopAppBar">
+        <attr name="navigationType" />
+    </declare-styleable>
+
+    <declare-styleable name="TopAppBarLayout">
+        <attr name="appBarType" format="enum">
+            <enum name="small" value="0" />
+            <enum name="medium" value="1" />
+            <enum name="large" value="2" />
+        </attr>
+        <attr name="navigationType" />
+        <attr name="titleMargin" format="dimension" />
+        <attr name="titleMarginStart" format="dimension" />
+        <attr name="titleMarginEnd" format="dimension" />
+        <attr name="titleMarginTop" format="dimension" />
+        <attr name="titleMarginBottom" format="dimension" />
+
+        <attr name="titleCollapseEnabled" format="boolean" />
+        <attr name="titleCollapseMode" />
+        <attr name="collapsedTitleGravity" />
+        <attr name="expandedTitleGravity" />
+        <attr name="expandedTitleMargin" format="dimension" />
+        <attr name="expandedTitleMarginStart" format="dimension" />
+        <attr name="expandedTitleMarginTop" format="dimension" />
+        <attr name="expandedTitleMarginEnd" format="dimension" />
+        <attr name="expandedTitleMarginBottom" format="dimension" />
+        <attr name="expandedTitleTextAppearance" format="reference" />
+        <attr name="collapsedTitleTextAppearance" format="reference" />
+        <attr name="titleTextEllipsize" />
+        <attr name="expandedTitleTextColor" format="color|reference" />
+        <attr name="collapsedTitleTextColor" format="color|reference" />
+    </declare-styleable>
+
+</resources>

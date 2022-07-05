@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appbar_layout"
+    style="?appBarLayoutStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar_layout"
+        style="?attr/collapsingToolbarLayoutLargeStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+        app:maxLines="2">
+
+        <com.chooongg.core.widget.TopAppBar
+            android:id="@+id/top_app_bar"
+            style="?toolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:elevation="0dp"
+            app:layout_collapseMode="pin"
+            tools:title="标题" />
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+</com.google.android.material.appbar.AppBarLayout>

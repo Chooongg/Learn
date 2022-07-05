@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TopAppBar -->
+
+    <style name="Widget.Learn.TopAppBar.PrimarySurface" parent="Widget.Learn.TopAppBar.Surface" />
+
+    <style name="Widget.Learn.TopAppBar.OnPrimarySurface" parent="Widget.Learn.TopAppBar.OnSurface" />
+
+    <!-- AppBarLayout -->
+
+    <style name="Widget.Learn.AppBarLayout.PrimarySurface" parent="Widget.Learn.AppBarLayout.Surface" />
+
+</resources>

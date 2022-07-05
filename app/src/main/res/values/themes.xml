@@ -1,11 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Learn" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
-    </style>
+<resources>
 
-    <style name="Theme.Learn" parent="Base.Theme.Learn" />
+    <style name="AppTheme" parent="Theme.Learn.Surface" />
+
 </resources>

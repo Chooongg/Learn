@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Learn.Surface" parent="Base.Theme.Learn">
+        <item name="appBarLayoutStyle">@style/Widget.Learn.AppBarLayout.Surface</item>
+        <item name="toolbarStyle">@style/Widget.Learn.TopAppBar.OnSurface</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Learn.primarySurface" parent="Theme.Learn.Surface" />
+
+</resources>

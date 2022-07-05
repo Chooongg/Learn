@@ -12,7 +12,6 @@ import com.chooongg.learn.databinding.ActivityMainBinding
 class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>() {
 
     override fun initView(savedInstanceState: Bundle?) {
-        setSupportActionBar(binding.toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

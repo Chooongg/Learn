@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.logDTag
 import com.chooongg.core.annotation.ActivityEdgeToEdge
 import com.chooongg.core.annotation.Theme
