@@ -3,6 +3,8 @@ package com.chooongg.basic.ext
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
+import android.graphics.RectF
+import android.view.MotionEvent
 import android.view.View
 
 val View?.localVisibleRect: Rect get() = Rect().also { this?.getLocalVisibleRect(it) }
@@ -69,3 +71,17 @@ fun View.toBitmap(config: Bitmap.Config = Bitmap.Config.RGB_565): Bitmap {
     return screenshot
 }
 
+fun View?.isTouchView(event: MotionEvent?): Boolean {
+    if (event == null || this == null) return false
+    val x = event.x
+    val y = event.y
+    val outLocation = IntArray(2)
+    getLocationOnScreen(outLocation)
+    val rectF = RectF(
+        outLocation[0].toFloat(),
+        outLocation[1].toFloat(),
+        outLocation[0].toFloat() + width,
+        outLocation[1].toFloat() + height
+    )
+    return x >= rectF.left && x <= rectF.right && y >= rectF.top && y <= rectF.bottom
+}

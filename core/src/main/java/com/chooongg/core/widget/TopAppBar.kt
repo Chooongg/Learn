@@ -37,10 +37,10 @@ class TopAppBar @JvmOverloads constructor(
 
     fun setNavigationType(@NavigationType type: Int) {
         when (type) {
-            1 -> setNavigation(R.drawable.ic_top_app_bar_back) {
+            TYPE_NAVIGATION_BACK -> setNavigation(R.drawable.ic_top_app_bar_back) {
                 if (multipleValid()) context.getActivity()?.onBackPressed()
             }
-            2 -> setNavigation(R.drawable.ic_top_app_bar_back) {
+            TYPE_NAVIGATION_CLOSE -> setNavigation(R.drawable.ic_top_app_bar_close) {
                 if (multipleValid()) context.getActivity()?.finish()
             }
             else -> setNavigation(null, null)

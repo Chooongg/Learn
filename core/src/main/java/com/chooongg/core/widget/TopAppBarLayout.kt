@@ -33,6 +33,20 @@ class TopAppBarLayout @JvmOverloads constructor(
             2 -> inflate(context, R.layout.learn_top_app_bar_large, this)
         }
         (context.getActivity() as? AppCompatActivity)?.setSupportActionBar(topAppBar)
+        if (a.hasValue(R.styleable.TopAppBarLayout_title)) {
+            topAppBar.title = a.getString(R.styleable.TopAppBarLayout_title)
+        }
+        if (a.hasValue(R.styleable.TopAppBarLayout_titleCentered)) {
+            topAppBar.isTitleCentered =
+                a.getBoolean(R.styleable.TopAppBarLayout_titleCentered, false)
+        }
+        if (a.hasValue(R.styleable.TopAppBarLayout_subtitle)) {
+            topAppBar.subtitle = a.getString(R.styleable.TopAppBarLayout_subtitle)
+        }
+        if (a.hasValue(R.styleable.TopAppBarLayout_subtitleCentered)) {
+            topAppBar.isSubtitleCentered =
+                a.getBoolean(R.styleable.TopAppBarLayout_subtitleCentered, false)
+        }
         if (a.hasValue(R.styleable.TopAppBarLayout_navigationType)) {
             topAppBar.setNavigationType(
                 a.getInt(R.styleable.TopAppBarLayout_navigationType, TopAppBar.TYPE_NAVIGATION_NONE)

@@ -4,19 +4,23 @@
     <!-- TopAppBar -->
 
     <style name="Widget.Learn.TopAppBar.Surface" parent="Widget.Material3.Toolbar.Surface">
-        <item name="maxButtonHeight">?actionBarSize</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="maxButtonHeight">?attr/actionBarSize</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.OnSurface" parent="Widget.Material3.Toolbar.OnSurface">
-        <item name="maxButtonHeight">?actionBarSize</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="maxButtonHeight">?attr/actionBarSize</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.Primary" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <item name="maxButtonHeight">?actionBarSize</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="maxButtonHeight">?attr/actionBarSize</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.OnPrimary" parent="Widget.Learn.TopAppBar.Primary">
-        <item name="maxButtonHeight">?actionBarSize</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="maxButtonHeight">?attr/actionBarSize</item>
         <item name="android:background">@null</item>
         <item name="android:elevation">0dp</item>
     </style>
@@ -26,7 +30,6 @@
     <style name="Widget.Learn.TopAppBar.OnPrimarySurface" parent="Widget.Learn.TopAppBar.OnPrimary" />
 
     <style name="Widget.Learn.Button.Navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:minWidth">?actionBarSize</item>
         <item name="android:scaleType">centerInside</item>
     </style>
 
@@ -38,8 +41,17 @@
 
     <style name="Widget.Learn.AppBarLayout.Primary" parent="Widget.MaterialComponents.AppBarLayout.Primary">
         <item name="layout_behavior">com.chooongg.core.widget.behavior.AppBarLayoutBehavior</item>
+        <item name="liftOnScroll">false</item>
     </style>
 
     <style name="Widget.Learn.AppBarLayout.PrimarySurface" parent="Widget.Learn.AppBarLayout.Primary" />
+
+    <!-- CollapsingToolbar -->
+
+    <style name="Widget.Learn.CollapsingToolbar.Primary" parent="Widget.Material3.CollapsingToolbar">
+        <item name="titleCollapseMode">scale</item>
+        <item name="statusBarScrim">?attr/colorPrimaryDark</item>
+        <item name="expandedTitleTextAppearance">?attr/textAppearanceHeadlineLarge</item>
+    </style>
 
 </resources>

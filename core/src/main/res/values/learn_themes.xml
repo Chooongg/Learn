@@ -8,12 +8,16 @@
     </style>
 
     <style name="Theme.Learn.Primary" parent="Base.Theme.Learn">
+        <item name="actionBarSize">@dimen/d48</item>
         <item name="appBarLayoutStyle">@style/Widget.Learn.AppBarLayout.Primary</item>
+        <item name="collapsingToolbarLayoutStyle">
+            @style/Widget.Learn.CollapsingToolbar.Primary
+        </item>
         <item name="collapsingToolbarLayoutMediumStyle">
-            @style/Widget.MaterialComponents.CollapsingToolbar
+            @style/Widget.Learn.CollapsingToolbar.Primary
         </item>
         <item name="collapsingToolbarLayoutLargeStyle">
-            @style/Widget.MaterialComponents.CollapsingToolbar
+            @style/Widget.Learn.CollapsingToolbar.Primary
         </item>
         <item name="toolbarStyle">@style/Widget.Learn.TopAppBar.OnPrimary</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -22,7 +26,7 @@
     <style name="Theme.Learn.primarySurface" parent="Theme.Learn.Primary" />
 
     <style name="Base.Theme.Learn" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="actionBarSize">48dp</item>
+        <item name="android:configChanges">orientation|keyboardHidden|screenSize</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.Button.Navigation</item>
     </style>
