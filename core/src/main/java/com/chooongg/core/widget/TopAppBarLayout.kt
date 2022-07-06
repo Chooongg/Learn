@@ -7,9 +7,11 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import com.chooongg.basic.ext.getActivity
+import com.chooongg.basic.ext.resString
 import com.chooongg.core.R
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -32,9 +34,14 @@ class TopAppBarLayout @JvmOverloads constructor(
             1 -> inflate(context, R.layout.learn_top_app_bar_medium, this)
             2 -> inflate(context, R.layout.learn_top_app_bar_large, this)
         }
-        (context.getActivity() as? AppCompatActivity)?.setSupportActionBar(topAppBar)
+        if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
+            (context.getActivity() as? AppCompatActivity)?.setSupportActionBar(topAppBar)
+        }
         if (a.hasValue(R.styleable.TopAppBarLayout_title)) {
-            topAppBar.title = a.getString(R.styleable.TopAppBarLayout_title)
+            val title = a.getString(R.styleable.TopAppBarLayout_title)
+            if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
+                context.getActivity()?.title = title
+            } else topAppBar.title = title
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleCentered)) {
             topAppBar.isTitleCentered =
@@ -73,6 +80,9 @@ class TopAppBarLayout @JvmOverloads constructor(
                     if (marginBottom >= 0) marginBottom else topAppBar.titleMarginBottom
                 )
             }
+        }
+        if (a.hasValue(R.styleable.TopAppBarLayout_titleBackground)) {
+            appBarLayout.background = a.getDrawable(R.styleable.TopAppBarLayout_titleBackground)
         }
         collapsingToolbarLayout?.let {
             if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseEnabled)) {
@@ -155,8 +165,29 @@ class TopAppBarLayout @JvmOverloads constructor(
         a.recycle()
     }
 
-    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
-        if (child != null && child !is AppBarLayout && params != null && params is LayoutParams
+    private var isHavTopAppBarContent = false
+
+    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams) {
+        if (child != null && child.tag == resString(R.string.topAppBarContentTag)) {
+            val contentParams = Toolbar.LayoutParams(params.width, params.height)
+            if (params is LayoutParams) {
+                contentParams.marginStart = params.marginStart
+                contentParams.marginEnd = params.marginEnd
+                contentParams.topMargin = params.topMargin
+                contentParams.bottomMargin = params.bottomMargin
+                contentParams.leftMargin = params.leftMargin
+                contentParams.rightMargin = params.rightMargin
+                contentParams.gravity = params.gravity
+            }
+            topAppBar.addView(child, contentParams)
+            if (!isHavTopAppBarContent) {
+                isHavTopAppBarContent = true
+                context.getActivity()?.title = null
+                topAppBar.title = null
+            }
+            return
+        }
+        if (child != null && child !is AppBarLayout && params is LayoutParams
             && params.height == ViewGroup.LayoutParams.MATCH_PARENT
         ) {
             params.behavior = AppBarLayout.ScrollingViewBehavior()

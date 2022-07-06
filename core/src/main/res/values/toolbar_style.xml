@@ -6,21 +6,23 @@
     <style name="Widget.Learn.TopAppBar.Surface" parent="Widget.Material3.Toolbar.Surface">
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="maxButtonHeight">?attr/actionBarSize</item>
+        <item name="titleMargin">0dp</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.OnSurface" parent="Widget.Material3.Toolbar.OnSurface">
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="maxButtonHeight">?attr/actionBarSize</item>
+        <item name="titleMargin">0dp</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.Primary" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="contentInsetStartWithNavigation">56dp</item>
         <item name="maxButtonHeight">?attr/actionBarSize</item>
+        <item name="titleMargin">0dp</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.OnPrimary" parent="Widget.Learn.TopAppBar.Primary">
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="maxButtonHeight">?attr/actionBarSize</item>
         <item name="android:background">@null</item>
         <item name="android:elevation">0dp</item>
     </style>
@@ -31,6 +33,7 @@
 
     <style name="Widget.Learn.Button.Navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:scaleType">centerInside</item>
+        <item name="android:adjustViewBounds">true</item>
     </style>
 
     <!-- AppBarLayout -->
@@ -41,7 +44,6 @@
 
     <style name="Widget.Learn.AppBarLayout.Primary" parent="Widget.MaterialComponents.AppBarLayout.Primary">
         <item name="layout_behavior">com.chooongg.core.widget.behavior.AppBarLayoutBehavior</item>
-        <item name="liftOnScroll">false</item>
     </style>
 
     <style name="Widget.Learn.AppBarLayout.PrimarySurface" parent="Widget.Learn.AppBarLayout.Primary" />

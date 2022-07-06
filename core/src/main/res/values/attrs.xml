@@ -14,6 +14,7 @@
     </declare-styleable>
 
     <declare-styleable name="TopAppBarLayout">
+        <attr name="setActionBar" format="boolean" />
         <attr name="appBarType" format="enum">
             <enum name="small" value="0" />
             <enum name="medium" value="1" />
@@ -29,6 +30,8 @@
         <attr name="titleMarginEnd" format="dimension" />
         <attr name="titleMarginTop" format="dimension" />
         <attr name="titleMarginBottom" format="dimension" />
+
+        <attr name="titleBackground" format="reference" />
 
         <attr name="titleCollapseEnabled" format="boolean" />
         <attr name="titleCollapseMode" />

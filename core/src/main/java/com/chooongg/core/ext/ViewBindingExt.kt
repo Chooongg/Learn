@@ -14,8 +14,6 @@ import java.lang.reflect.ParameterizedType
 @Suppress("UNCHECKED_CAST")
 fun <BINDING : ViewBinding> AppCompatActivity.getBindingT(): BINDING {
     val clazz = viewModelClass<BINDING>(this)
-    Log.e("BINDING", clazz.name)
-//    showToast(clazz.name)
     val method = clazz.getMethod("inflate", LayoutInflater::class.java)
     val binding = method.invoke(null, LayoutInflater.from(this)) as BINDING
     if (binding is ViewDataBinding) (binding as ViewDataBinding).lifecycleOwner = this

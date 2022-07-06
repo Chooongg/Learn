@@ -104,6 +104,12 @@ fun Fragment.resOpenRaw(@RawRes id: Int) =
 fun Fragment.resAnimation(@AnimRes id: Int): Animation =
     requireContext().resAnimation(id)
 
+fun View.resString(@StringRes id: Int) =
+    context.getString(id)
+
+fun View.resString(@StringRes id: Int, vararg format: Any?) =
+    context.getString(id, *format)
+
 fun View.resText(@StringRes id: Int) =
     context.resText(id)
 
