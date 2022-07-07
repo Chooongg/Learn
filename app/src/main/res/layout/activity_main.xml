@@ -8,6 +8,31 @@
     app:navigationType="back"
     app:title="测试主页">
 
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:elevation="@dimen/d4"
+        app:isTopAppBarChild="true"
+        app:tabIndicatorColor="?colorPrimary"
+        app:tabMode="auto"
+        app:tabSelectedTextColor="?colorOnSurface"
+        app:tabTextAppearance="?textAppearanceTitleMedium"
+        app:tabTextColor="?colorOutline">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="测试1" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="测试2" />
+
+    </com.google.android.material.tabs.TabLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"

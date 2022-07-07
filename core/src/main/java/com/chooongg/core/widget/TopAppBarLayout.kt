@@ -3,6 +3,7 @@ package com.chooongg.core.widget
 import android.content.Context
 import android.text.TextUtils.TruncateAt
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import com.chooongg.basic.ext.getActivity
-import com.chooongg.basic.ext.resString
 import com.chooongg.core.R
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -165,29 +165,40 @@ class TopAppBarLayout @JvmOverloads constructor(
         a.recycle()
     }
 
+    override fun generateLayoutParams(attrs: AttributeSet?): CoordinatorLayout.LayoutParams {
+        val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBarLayout_Layout)
+        if (a.hasValue(R.styleable.TopAppBarLayout_Layout_isTopAppBarChild)) {
+            val parentParams = super.generateLayoutParams(attrs)
+            val params = LayoutParams(parentParams).apply {
+                Log.e("SDFSDFSDFSDFSDF", parentParams.gravity.toString())
+                gravity = parentParams.gravity
+                Log.e("SDFSDFSDFSDFSDF", gravity.toString())
+                isTopAppBarChild =
+                    a.getBoolean(R.styleable.TopAppBarLayout_Layout_isTopAppBarChild, false)
+            }
+            a.recycle()
+            return params
+        }
+        a.recycle()
+        return super.generateLayoutParams(attrs)
+    }
+
     private var isHavTopAppBarContent = false
 
     override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams) {
-        if (child != null && child.tag == resString(R.string.topAppBarContentTag)) {
-            val contentParams = Toolbar.LayoutParams(params.width, params.height)
-            if (params is LayoutParams) {
-                contentParams.marginStart = params.marginStart
-                contentParams.marginEnd = params.marginEnd
-                contentParams.topMargin = params.topMargin
-                contentParams.bottomMargin = params.bottomMargin
-                contentParams.leftMargin = params.leftMargin
-                contentParams.rightMargin = params.rightMargin
-                contentParams.gravity = params.gravity
-            }
+        if (params is LayoutParams && params.isTopAppBarChild) {
+            val contentParams = Toolbar.LayoutParams(params)
+            contentParams.gravity = params.gravity
             topAppBar.addView(child, contentParams)
             if (!isHavTopAppBarContent) {
                 isHavTopAppBarContent = true
+                collapsingToolbarLayout?.isTitleEnabled = false
                 context.getActivity()?.title = null
                 topAppBar.title = null
             }
             return
         }
-        if (child != null && child !is AppBarLayout && params is LayoutParams
+        if (child != null && child !is AppBarLayout && params is CoordinatorLayout.LayoutParams
             && params.height == ViewGroup.LayoutParams.MATCH_PARENT
         ) {
             params.behavior = AppBarLayout.ScrollingViewBehavior()
@@ -203,5 +214,10 @@ class TopAppBarLayout @JvmOverloads constructor(
             3 -> TruncateAt.MARQUEE
             else -> TruncateAt.END
         }
+    }
+
+    class LayoutParams(p: CoordinatorLayout.LayoutParams) : CoordinatorLayout.LayoutParams(p) {
+        var isTopAppBarChild = false
+            internal set
     }
 }
