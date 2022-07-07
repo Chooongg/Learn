@@ -185,7 +185,7 @@ class TopAppBarLayout @JvmOverloads constructor(
 
     private var isHavTopAppBarContent = false
 
-    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams) {
+    override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams) {
         if (params is LayoutParams && params.isTopAppBarChild) {
             val contentParams = Toolbar.LayoutParams(params)
             contentParams.gravity = params.gravity
@@ -198,7 +198,7 @@ class TopAppBarLayout @JvmOverloads constructor(
             }
             return
         }
-        if (child != null && child !is AppBarLayout && params is CoordinatorLayout.LayoutParams
+        if (child !is AppBarLayout && params is CoordinatorLayout.LayoutParams
             && params.height == ViewGroup.LayoutParams.MATCH_PARENT
         ) {
             params.behavior = AppBarLayout.ScrollingViewBehavior()
@@ -216,8 +216,13 @@ class TopAppBarLayout @JvmOverloads constructor(
         }
     }
 
-    class LayoutParams(p: CoordinatorLayout.LayoutParams) : CoordinatorLayout.LayoutParams(p) {
+    class LayoutParams : CoordinatorLayout.LayoutParams {
         var isTopAppBarChild = false
             internal set
+        constructor(width: Int, height: Int) : super(width, height)
+        constructor(p: MarginLayoutParams?) : super(p)
+        constructor(p: ViewGroup.LayoutParams?) : super(p)
+        constructor(p: CoordinatorLayout.LayoutParams):super(p)
+
     }
 }
