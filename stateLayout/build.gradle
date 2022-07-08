@@ -26,9 +26,14 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 
 dependencies {
+    api project(path: ':basic')
+    implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
 }

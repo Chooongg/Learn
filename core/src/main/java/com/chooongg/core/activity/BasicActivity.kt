@@ -2,9 +2,9 @@ package com.chooongg.core.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -15,6 +15,7 @@ import com.chooongg.basic.ext.logDClass
 import com.chooongg.core.annotation.ActivityEdgeToEdge
 import com.chooongg.core.annotation.Theme
 import com.chooongg.core.ext.getAnnotationTitle
+import com.chooongg.core.viewModel.BasicModel
 
 abstract class BasicActivity : AppCompatActivity() {
 

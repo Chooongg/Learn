@@ -42,6 +42,8 @@ class TopAppBarLayout @JvmOverloads constructor(
             if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
                 context.getActivity()?.title = title
             } else topAppBar.title = title
+        } else if (isInEditMode) {
+            topAppBar.title = "Title"
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleCentered)) {
             topAppBar.isTitleCentered =
@@ -219,10 +221,11 @@ class TopAppBarLayout @JvmOverloads constructor(
     class LayoutParams : CoordinatorLayout.LayoutParams {
         var isTopAppBarChild = false
             internal set
+
         constructor(width: Int, height: Int) : super(width, height)
         constructor(p: MarginLayoutParams?) : super(p)
         constructor(p: ViewGroup.LayoutParams?) : super(p)
-        constructor(p: CoordinatorLayout.LayoutParams):super(p)
+        constructor(p: CoordinatorLayout.LayoutParams) : super(p)
 
     }
 }

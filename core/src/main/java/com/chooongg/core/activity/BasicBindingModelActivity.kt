@@ -7,7 +7,7 @@ import com.chooongg.core.ext.getViewModelTClass
 
 abstract class BasicBindingModelActivity<BINDING : ViewBinding, MODEL : ViewModel> : BasicBindingActivity<BINDING>() {
 
-    val viewModel: MODEL by ViewModelLazy(
+    val model: MODEL by ViewModelLazy(
         getViewModelTClass<MODEL>(activity).kotlin,
         { viewModelStore },
         { defaultViewModelProviderFactory },

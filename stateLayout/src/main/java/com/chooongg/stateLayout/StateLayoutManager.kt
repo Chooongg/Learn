@@ -3,10 +3,11 @@ package com.chooongg.stateLayout
 import com.chooongg.stateLayout.animation.FadeStateLayoutAnimation
 import com.chooongg.stateLayout.animation.StateLayoutAnimation
 import com.chooongg.stateLayout.state.AbstractState
+import com.chooongg.stateLayout.state.SuccessState
 import kotlin.reflect.KClass
 
 object StateLayoutManager {
-    var defaultStatus: KClass<out AbstractState>? = null
+    var defaultState: KClass<out AbstractState> = SuccessState::class
     var enableAnimation = true
-    var animation: KClass<out StateLayoutAnimation> = FadeStateLayoutAnimation::class
+    var animation: StateLayoutAnimation = FadeStateLayoutAnimation
 }

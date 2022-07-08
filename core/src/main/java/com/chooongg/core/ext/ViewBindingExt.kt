@@ -1,6 +1,5 @@
 package com.chooongg.core.ext
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -58,5 +57,5 @@ private fun <BINDING : ViewBinding> viewModelClass(any: Any): Class<BINDING> {
         genericSuperclass = superclass.genericSuperclass
         superclass = superclass.superclass
     }
-    throw LearnFrameException("没有找到ViewBinding泛型")
+    throw NullPointerException("没有找到ViewBinding泛型")
 }
