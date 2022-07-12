@@ -1,29 +1,52 @@
 package com.chooongg.learn
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.recyclerview.widget.RecyclerView
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingModelActivity
+import com.chooongg.core.adapter.BindingAdapter
+import com.chooongg.core.ext.divider
+import com.chooongg.core.ext.doOnItemClick
+import com.chooongg.core.ext.showAllDivider
 import com.chooongg.core.viewModel.BasicModel
 import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
+import com.chooongg.learn.topAppBar.TopAppBarActivity
 
 class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>() {
 
-    private val adapter = Adapter(
-        mutableListOf(
-            MainItem(com.chooongg.core.R.drawable.ic_top_app_bar_close, "TopAppBar"),
-            MainItem(com.chooongg.core.R.drawable.ic_top_app_bar_close, "StateLayout")
-        )
-    )
+    private val adapter = Adapter()
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.divider {
+            asSpace().showAllDivider()
+            size(resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium))
+        }
+        adapter.doOnItemClick { _, _, position ->
+            when (adapter.data[position].icon) {
+                R.drawable.ic_main_state_layout -> {
+
+                }
+                R.drawable.ic_main_top_app_bar -> {
+                    startActivity(Intent(context, TopAppBarActivity::class.java))
+                }
+            }
+        }
+    }
+
+    override fun initContent(savedInstanceState: Bundle?) {
+        adapter.setNewInstance(
+            mutableListOf(
+                MainItem(R.drawable.ic_main_state_layout, "StateLayout"),
+                MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar")
+            )
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -51,22 +74,10 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
 
     data class MainItem(val icon: Int, val title: String)
 
-    private class Adapter(var data: MutableList<MainItem>? = null) :
-        RecyclerView.Adapter<Adapter.ViewHolder>() {
-
-        class ViewHolder(val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root)
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(
-                ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
+    private class Adapter : BindingAdapter<MainItem, ItemMainBinding>() {
+        override fun convert(holder: BaseViewHolder, binding: ItemMainBinding, item: MainItem) {
+            binding.btn.text = item.title
+            binding.btn.setIconResource(item.icon)
         }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.binding.ivIcon.setImageResource(data!![position].icon)
-            holder.binding.tvTitle.text = data!![position].title
-        }
-
-        override fun getItemCount() = data?.size ?: 0
     }
 }

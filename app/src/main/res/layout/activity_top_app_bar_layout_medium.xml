@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chooongg.core.widget.TopAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/top_appbar_Layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:appBarType="medium">
+
+    <com.chooongg.core.widget.NestedScrollWebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</com.chooongg.core.widget.TopAppBarLayout>

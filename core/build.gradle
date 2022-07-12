@@ -41,12 +41,14 @@ dependencies {
     api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     api 'androidx.work:work-runtime-ktx:2.8.0-alpha02'
+    api 'androidx.constraintlayout:constraintlayout:2.0.4'
     api 'androidx.navigation:navigation-ui-ktx:2.5.0-rc01'
     api 'androidx.navigation:navigation-fragment-ktx:2.5.0-rc01'
     api 'androidx.viewpager2:viewpager2:1.1.0-beta01'
     api 'com.google.android.flexbox:flexbox:3.0.0'
     api 'com.github.getActivity:XXPermissions:15.0'
     api 'com.github.fondesa:recycler-view-divider:3.5.0'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
     // 下拉刷新-上拉加载
     api 'io.github.scwang90:refresh-layout-kernel:2.0.5'
     api 'io.github.scwang90:refresh-header-classics:2.0.5'

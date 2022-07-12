@@ -2,14 +2,12 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appbar_layout"
-    style="?appBarLayoutStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true">
 
     <com.chooongg.core.widget.TopAppBar
         android:id="@+id/top_app_bar"
-        style="?toolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="0dp"

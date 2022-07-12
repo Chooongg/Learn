@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/btn"
+    style="@style/Widget.Material3.Button.OutlinedButton"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="@dimen/d48"
-        android:layout_height="@dimen/d48"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/contentSmall"
-        android:padding="@dimen/d12"
-        tools:src="@drawable/ic_top_app_bar_back" />
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/contentMedium"
-        android:layout_marginTop="@dimen/d64"
-        android:layout_marginEnd="@dimen/contentMedium"
-        android:layout_marginBottom="@dimen/contentMedium"
-        android:gravity="center_horizontal"
-        tools:text="功能名称" />
-
-</com.google.android.material.card.MaterialCardView>
+    android:layout_height="wrap_content"
+    android:insetTop="0dp"
+    android:insetBottom="0dp"
+    android:paddingBottom="@dimen/contentMedium"
+    app:iconGravity="textTop"
+    app:iconSize="@dimen/d48"
+    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium"
+    tools:icon="@drawable/ic_top_app_bar_back"
+    tools:text="功能" />

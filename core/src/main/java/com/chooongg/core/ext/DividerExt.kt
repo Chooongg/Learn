@@ -17,3 +17,5 @@ fun RecyclerView.dividerStaggered(block: StaggeredDividerBuilder.() -> Unit) {
     block(dividerBuilder)
     dividerBuilder.build().addTo(this)
 }
+
+fun DividerBuilder.showAllDivider() = showFirstDivider().showLastDivider().showSideDividers()

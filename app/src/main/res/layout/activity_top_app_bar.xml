@@ -2,23 +2,261 @@
 <com.chooongg.core.widget.TopAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:appBarType="medium">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?colorSurfaceVariant">
+        android:overScrollMode="never">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.chooongg.core.widget.TopAppBar
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:title="Surface" />
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginTop="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="TopAppBarLayout-Small" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginTop="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="TopAppBarLayout-Medium" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginTop="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="TopAppBarLayout-Large" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.Surface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.Surface"
+                    app:title="Surface" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.OnSurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.OnSurface"
+                    app:title="OnSurface" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.Primary"
+                    app:title="Primary" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.OnPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.OnPrimary"
+                    app:title="OnPrimary" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.PrimarySurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.PrimarySurface"
+                    app:title="PrimarySurface" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.OnPrimarySurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.OnPrimarySurface"
+                    app:title="OnPrimarySurface" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.Surface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.Surface"
+                    app:subtitleCentered="true"
+                    app:title="Surface"
+                    app:titleCentered="true" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.OnSurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.OnSurface"
+                    app:subtitleCentered="true"
+                    app:title="OnSurface"
+                    app:titleCentered="true" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.Primary"
+                    app:subtitleCentered="true"
+                    app:title="Primary"
+                    app:titleCentered="true" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.OnPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.OnPrimary"
+                    app:subtitleCentered="true"
+                    app:title="OnPrimary"
+                    app:titleCentered="true" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.PrimarySurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.PrimarySurface"
+                    app:subtitleCentered="true"
+                    app:title="PrimarySurface"
+                    app:titleCentered="true" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d2"
+                android:layout_marginBottom="@dimen/d48"
+                android:layout_marginTop="@dimen/contentLarge"
+                android:layout_marginEnd="@dimen/d2"
+                app:cardCornerRadius="0dp">
+
+                <com.chooongg.core.widget.TopAppBar
+                    style="@style/Widget.Learn.TopAppBar.OnPrimarySurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:subtitle="Widget.Learn.TopAppBar.OnPrimarySurface"
+                    app:subtitleCentered="true"
+                    app:title="OnPrimarySurface"
+                    app:titleCentered="true" />
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
