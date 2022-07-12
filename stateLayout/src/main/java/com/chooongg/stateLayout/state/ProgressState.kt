@@ -1,8 +1,10 @@
 package com.chooongg.stateLayout.state
 
 import android.content.Context
-import android.content.res.Resources
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
+import com.chooongg.basic.ext.dp2px
 import com.google.android.material.progressindicator.BaseProgressIndicator
 import com.google.android.material.progressindicator.CircularProgressIndicator
 
@@ -19,12 +21,18 @@ class ProgressState : AbstractState() {
         (view as CircularProgressIndicator).show()
     }
 
+    override fun onDetach(view: View, removeBlock: () -> Unit) {
+        view.animate().cancel()
+        view.animate().alpha(0f).withEndAction { removeBlock.invoke() }
+    }
+
     override fun onChangeMessage(view: View, message: CharSequence?) {
     }
 
-    override fun onDetach(view: View) {
-    }
+    override fun getLayoutParams(): FrameLayout.LayoutParams =
+        FrameLayout.LayoutParams(-1, -1, Gravity.CENTER)
 
-    private fun dp2px(dp: Float) =
-        (dp * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
+    override fun isEnableShowAnimation() = false
+
+    override fun isEnableHideAnimation() = false
 }

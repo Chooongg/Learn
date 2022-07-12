@@ -57,9 +57,8 @@ class TopAppBarLayout @JvmOverloads constructor(
                 a.getBoolean(R.styleable.TopAppBarLayout_subtitleCentered, false)
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_navigationType)) {
-            topAppBar.setNavigationType(
+            topAppBar.navigationType =
                 a.getInt(R.styleable.TopAppBarLayout_navigationType, TopAppBar.TYPE_NAVIGATION_NONE)
-            )
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleMargin)) {
             val margin =

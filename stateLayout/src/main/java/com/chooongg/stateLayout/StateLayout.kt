@@ -1,8 +1,8 @@
 package com.chooongg.stateLayout
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -17,8 +17,13 @@ class StateLayout @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
-    private var atFirstIsSuccess: Boolean = false
+    private var firstIsSuccess: Boolean = false
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+
+    private val successView = FrameLayout(context).also {
+        it.tag = STATE_ITEM_TAG
+        addView(it)
+    }
 
     // 是否启用动画
     var enableAnimation: Boolean = false
@@ -38,27 +43,28 @@ class StateLayout @JvmOverloads constructor(
     // 状态变化监听
     private var onStateChangeListener: OnStateChangeListener? = null
 
-    private var successView = FrameLayout(context).also {
-        addView(it)
-    }
-
     init {
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.StateLayout, defStyleAttr, defStyleRes
         )
-        atFirstIsSuccess = a.getBoolean(R.styleable.StateLayout_atFirstIsSuccess, atFirstIsSuccess)
+        firstIsSuccess = a.getBoolean(R.styleable.StateLayout_firstIsSuccess, firstIsSuccess)
         a.recycle()
-        if (!isInEditMode && !atFirstIsSuccess && StateLayoutManager.defaultState != SuccessState::class) {
+        if (!isInEditMode && !firstIsSuccess && StateLayoutManager.defaultState != SuccessState::class) {
             showState(StateLayoutManager.defaultState)
         }
         enableAnimation = StateLayoutManager.enableAnimation
+    }
+
+    fun showSuccess() {
+        showState(SuccessState::class)
     }
 
     fun showState(state: KClass<out AbstractState>, message: CharSequence? = null) {
         if (state == currentState) return
         if (state == SuccessState::class) {
             hideAllOtherState()
-            if (canUseAnimation()) animation.createAnimation(successView)
+            if (canUseAnimation() && successView.visibility != View.VISIBLE)
+                animation.createAnimation(successView)
             successView.visibility = View.VISIBLE
             if (canUseAnimation()) animation.showAnimation(successView)
         } else {
@@ -66,11 +72,13 @@ class StateLayout @JvmOverloads constructor(
             val preState = createAlsoShowState(state, message)
             if (preState.isShowSuccess()) {
                 successView.visibility = View.VISIBLE
-                if (canUseAnimation()) animation.showAnimation(successView)
+                if (canUseAnimation())
+                    animation.showAnimation(successView)
             } else {
-                if (canUseAnimation()) animation.hideAnimation(successView) {
-                    successView.visibility = View.GONE
-                }
+                if (canUseAnimation())
+                    animation.hideAnimation(successView) {
+                        successView.visibility = View.GONE
+                    }
                 else successView.visibility = View.GONE
             }
         }
@@ -84,16 +92,16 @@ class StateLayout @JvmOverloads constructor(
     ): AbstractState {
         val preState = existingOtherState[state] ?: state.java.newInstance().also {
             it.obtainTargetView(context)
-            if (canUseAnimation()) animation.createAnimation(it.targetView)
+            if (canUseAnimation() && it.isEnableShowAnimation()) animation.createAnimation(it.targetView)
             it.getReloadEventView(it.targetView)?.doOnClick { onRetryEventListener?.onRetry() }
         }
         preState.onAttach(preState.targetView, message)
         if (preState.targetView.parent == null) {
-            addView(preState.targetView, LayoutParams(-2, -2, Gravity.CENTER))
+            addView(preState.targetView, preState.getLayoutParams())
         }
         currentState = state
         existingOtherState[state] = preState
-        if (canUseAnimation()) animation.showAnimation(preState.targetView)
+        if (canUseAnimation() && preState.isEnableShowAnimation()) animation.showAnimation(preState.targetView)
         return preState
     }
 
@@ -103,15 +111,22 @@ class StateLayout @JvmOverloads constructor(
 
     private fun hideState(stateClazz: KClass<out AbstractState>) {
         val state = existingOtherState[stateClazz] ?: return
-        state.onDetach(state.targetView)
-        if (canUseAnimation()) animation.hideAnimation(state.targetView) {
+        if (canUseAnimation()) {
+            if (state.isEnableHideAnimation()) {
+                animation.hideAnimation(state.targetView) {
+                    state.onDetach(state.targetView)
+                    removeView(state.targetView)
+                }
+            } else state.onDetach(state.targetView) { removeView(state.targetView) }
+        } else {
+            state.onDetach(state.targetView)
             removeView(state.targetView)
-        } else removeView(state.targetView)
+        }
         existingOtherState.remove(stateClazz)
     }
 
-    override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
-        if (child.tag != STATE_ITEM_TAG) {
+    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
+        if (child != null && child.tag != STATE_ITEM_TAG) {
             successView.addView(child, params)
             return
         }
@@ -140,6 +155,14 @@ class StateLayout @JvmOverloads constructor(
         super.removeAllViewsInLayout()
         successView.removeAllViewsInLayout()
         addViewInLayout(successView, -1, null)
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        super.onRestoreInstanceState(state)
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        return super.onSaveInstanceState()
     }
 
     private fun canUseAnimation() = isAttachedToWindow && enableAnimation

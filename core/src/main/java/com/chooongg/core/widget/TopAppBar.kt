@@ -27,24 +27,27 @@ class TopAppBar @JvmOverloads constructor(
     @IntDef(TYPE_NAVIGATION_NONE, TYPE_NAVIGATION_BACK, TYPE_NAVIGATION_CLOSE)
     annotation class NavigationType
 
+    @NavigationType
+    var navigationType = TYPE_NAVIGATION_NONE
+        set(value) {
+            field = value
+            when (field) {
+                TYPE_NAVIGATION_BACK -> setNavigation(R.drawable.ic_top_app_bar_back) {
+                    if (multipleValid()) context.getActivity()?.onBackPressed()
+                }
+                TYPE_NAVIGATION_CLOSE -> setNavigation(R.drawable.ic_top_app_bar_close) {
+                    if (multipleValid()) context.getActivity()?.onBackPressed()
+                }
+                else -> setNavigation(null, null)
+            }
+        }
+
     private var mTitleTextColor: ColorStateList? = null
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBar, defStyleAttr, 0)
-        setNavigationType(a.getInt(R.styleable.TopAppBar_navigationType, TYPE_NAVIGATION_NONE))
+        navigationType = a.getInt(R.styleable.TopAppBar_navigationType, TYPE_NAVIGATION_NONE)
         a.recycle()
-    }
-
-    fun setNavigationType(@NavigationType type: Int) {
-        when (type) {
-            TYPE_NAVIGATION_BACK -> setNavigation(R.drawable.ic_top_app_bar_back) {
-                if (multipleValid()) context.getActivity()?.onBackPressed()
-            }
-            TYPE_NAVIGATION_CLOSE -> setNavigation(R.drawable.ic_top_app_bar_close) {
-                if (multipleValid()) context.getActivity()?.finish()
-            }
-            else -> setNavigation(null, null)
-        }
     }
 
     fun setNavigation(@DrawableRes resId: Int, listener: ((View) -> Unit)?) {

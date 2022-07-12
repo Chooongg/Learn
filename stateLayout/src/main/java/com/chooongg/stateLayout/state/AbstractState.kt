@@ -1,7 +1,9 @@
 package com.chooongg.stateLayout.state
 
 import android.content.Context
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import com.chooongg.stateLayout.StateLayout
 
 abstract class AbstractState {
@@ -24,7 +26,16 @@ abstract class AbstractState {
 
     open fun getReloadEventView(view: View): View? = targetView
 
-    abstract fun onDetach(view: View)
+    open fun onDetach(view: View) = Unit
+
+    open fun onDetach(view: View, removeBlock: () -> Unit) = Unit
+
+    open fun getLayoutParams(): FrameLayout.LayoutParams =
+        FrameLayout.LayoutParams(-2, -2, Gravity.CENTER)
 
     open fun isShowSuccess(): Boolean = false
+
+    open fun isEnableShowAnimation(): Boolean = true
+
+    open fun isEnableHideAnimation(): Boolean = true
 }

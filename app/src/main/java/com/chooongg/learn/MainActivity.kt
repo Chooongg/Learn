@@ -10,14 +10,17 @@ import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingModelActivity
 import com.chooongg.core.adapter.BindingAdapter
+import com.chooongg.core.annotation.HomeButton
 import com.chooongg.core.ext.divider
 import com.chooongg.core.ext.doOnItemClick
 import com.chooongg.core.ext.showAllDivider
 import com.chooongg.core.viewModel.BasicModel
 import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
+import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
 
+@HomeButton(false)
 class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>() {
 
     private val adapter = Adapter()
@@ -31,7 +34,7 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
         adapter.doOnItemClick { _, _, position ->
             when (adapter.data[position].icon) {
                 R.drawable.ic_main_state_layout -> {
-
+                    startActivity(Intent(context, StateLayoutActivity::class.java))
                 }
                 R.drawable.ic_main_top_app_bar -> {
                     startActivity(Intent(context, TopAppBarActivity::class.java))

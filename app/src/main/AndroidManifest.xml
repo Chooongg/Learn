@@ -24,11 +24,17 @@
         <activity android:name=".MainActivity" />
 
         <activity
+            android:name=".stateLayout.StateLayoutActivity"
+            android:label="StateLayout" />
+
+
+        <activity
             android:name=".topAppBar.TopAppBarActivity"
             android:label="TopAppBar" />
         <activity
             android:name=".topAppBar.TopAppBarLayoutActivity"
             android:label="TopAppBarLayout" />
+
 
     </application>
 
