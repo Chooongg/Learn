@@ -30,12 +30,12 @@ fun multipleValid(): Boolean {
     } else false
 }
 
-fun View.doOnClick(block: (View) -> Unit) = apply {
+fun <T : View> T.doOnClick(block: (T) -> Unit) = apply {
     setOnClickListener { if (multipleValid()) block(this) }
 }
 
-fun View.doOnLongClick(block: (View) -> Boolean) = apply {
-    setOnLongClickListener { if (multipleValid()) block(it) else false }
+fun <T : View> T.doOnLongClick(block: (T) -> Boolean) = apply {
+    setOnLongClickListener { if (multipleValid()) block(this) else false }
 }
 
 /**

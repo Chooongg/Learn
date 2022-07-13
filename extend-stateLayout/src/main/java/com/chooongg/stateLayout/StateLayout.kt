@@ -1,11 +1,13 @@
 package com.chooongg.stateLayout
 
 import android.content.Context
+import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.customview.view.AbsSavedState
 import com.chooongg.basic.ext.doOnClick
 import com.chooongg.stateLayout.animation.StateLayoutAnimation
 import com.chooongg.stateLayout.state.AbstractState
@@ -50,16 +52,22 @@ class StateLayout @JvmOverloads constructor(
         firstIsSuccess = a.getBoolean(R.styleable.StateLayout_firstIsSuccess, firstIsSuccess)
         a.recycle()
         if (!isInEditMode && !firstIsSuccess && StateLayoutManager.defaultState != SuccessState::class) {
-            showState(StateLayoutManager.defaultState)
+            show(StateLayoutManager.defaultState)
         }
         enableAnimation = StateLayoutManager.enableAnimation
     }
 
+    /**
+     * 显示成功状态
+     */
     fun showSuccess() {
-        showState(SuccessState::class)
+        show(SuccessState::class)
     }
 
-    fun showState(state: KClass<out AbstractState>, message: CharSequence? = null) {
+    /**
+     * 显示状态
+     */
+    fun show(state: KClass<out AbstractState>, message: CharSequence? = null) {
         if (state == currentState) return
         if (state == SuccessState::class) {
             hideAllOtherState()
@@ -158,11 +166,51 @@ class StateLayout @JvmOverloads constructor(
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        super.onRestoreInstanceState(state)
+        if (state !is SavedState) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+        super.onRestoreInstanceState(state.superState)
+        if (state.currentState != null) {
+            show(state.currentState!!)
+        }
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
-        return super.onSaveInstanceState()
+    override fun onSaveInstanceState(): Parcelable {
+        val ss = SavedState(super.onSaveInstanceState()!!)
+        ss.currentState = currentState
+        return ss
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private class SavedState : AbsSavedState {
+        var currentState: KClass<out AbstractState>? = null
+
+        constructor(superState: Parcelable) : super(superState)
+        constructor(source: Parcel, loader: ClassLoader?) : super(source, loader) {
+            currentState = source.readString()?.let {
+                (Class.forName(it) as Class<AbstractState>).kotlin
+            }
+        }
+
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            super.writeToParcel(dest, flags)
+            dest.writeString(currentState?.toString())
+        }
+
+        companion object CREATOR : Parcelable.ClassLoaderCreator<SavedState> {
+            override fun createFromParcel(source: Parcel, loader: ClassLoader?): SavedState {
+                return SavedState(source, loader)
+            }
+
+            override fun createFromParcel(parcel: Parcel): SavedState {
+                return SavedState(parcel, null)
+            }
+
+            override fun newArray(size: Int): Array<SavedState?> {
+                return arrayOfNulls(size)
+            }
+        }
     }
 
     private fun canUseAnimation() = isAttachedToWindow && enableAnimation

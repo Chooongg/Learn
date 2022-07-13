@@ -13,14 +13,13 @@ import com.chooongg.stateLayout.state.ProgressState
 class StateLayoutActivity : BasicBindingActivity<ActivityStateLayoutBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding.stateLayout
         binding.btnProgress.doOnClick {
-            binding.stateLayout.showState(ProgressState::class)
+            binding.stateLayout.show(ProgressState::class)
         }
 
         binding.btnProgressLine.doOnClick {
-            binding.stateLayout.showState(LineProgressState::class)
-        }
+            binding.stateLayout.show(LineProgressState::class)
+        }.tooltipText
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
