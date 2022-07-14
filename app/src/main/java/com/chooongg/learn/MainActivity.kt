@@ -19,6 +19,7 @@ import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
+import com.hjq.permissions.Permission
 
 @HomeButton(false)
 class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>() {

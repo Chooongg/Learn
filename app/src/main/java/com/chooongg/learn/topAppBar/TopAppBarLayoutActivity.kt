@@ -1,6 +1,10 @@
 package com.chooongg.learn.topAppBar
 
 import android.os.Bundle
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewFeature
+import com.chooongg.basic.ext.attrColor
+import com.chooongg.basic.ext.isNightMode
 import com.chooongg.core.activity.BasicActivity
 import com.chooongg.core.widget.NestedScrollWebView
 import com.chooongg.learn.R
@@ -21,7 +25,14 @@ class TopAppBarLayoutActivity : BasicActivity() {
         }
         findViewById<NestedScrollWebView>(R.id.web_view).apply {
             settings.javaScriptEnabled = true
-            loadUrl("https://github.com/Chooongg/Learn")
+            if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                WebSettingsCompat.setForceDark(
+                    settings,
+                    if (isNightMode()) WebSettingsCompat.FORCE_DARK_ON else WebSettingsCompat.FORCE_DARK_OFF
+                )
+                this.setBackgroundColor(attrColor(com.google.android.material.R.attr.colorSurface))
+            }
+            loadUrl("https://www.baidu.com")
         }
     }
 }

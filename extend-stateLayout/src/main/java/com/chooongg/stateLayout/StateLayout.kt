@@ -69,29 +69,31 @@ class StateLayout @JvmOverloads constructor(
      */
     fun show(state: KClass<out AbstractState>, message: CharSequence? = null) {
         if (state == currentState) return
-        if (state == SuccessState::class) {
-            hideAllOtherState()
-            if (canUseAnimation() && successView.visibility != View.VISIBLE)
-                animation.createAnimation(successView)
-            successView.visibility = View.VISIBLE
-            if (canUseAnimation()) animation.showAnimation(successView)
-        } else {
-            hideAllOtherState()
-            val preState = createAlsoShowState(state, message)
-            if (preState.isShowSuccess()) {
+        post {
+            if (state == SuccessState::class) {
+                hideAllOtherState()
+                if (canUseAnimation() && successView.visibility != View.VISIBLE)
+                    animation.createAnimation(successView)
                 successView.visibility = View.VISIBLE
-                if (canUseAnimation())
-                    animation.showAnimation(successView)
+                if (canUseAnimation()) animation.showAnimation(successView)
             } else {
-                if (canUseAnimation())
-                    animation.hideAnimation(successView) {
-                        successView.visibility = View.GONE
-                    }
-                else successView.visibility = View.GONE
+                hideAllOtherState()
+                val preState = createAlsoShowState(state, message)
+                if (preState.isShowSuccess()) {
+                    successView.visibility = View.VISIBLE
+                    if (canUseAnimation())
+                        animation.showAnimation(successView)
+                } else {
+                    if (canUseAnimation())
+                        animation.hideAnimation(successView) {
+                            successView.visibility = View.GONE
+                        }
+                    else successView.visibility = View.GONE
+                }
             }
+            currentState = state
+            onStateChangeListener?.onStateChange(state)
         }
-        currentState = state
-        onStateChangeListener?.onStateChange(state)
     }
 
     private fun createAlsoShowState(
