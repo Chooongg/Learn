@@ -43,7 +43,7 @@ class TopAppBarLayout @JvmOverloads constructor(
                 context.getActivity()?.title = title
             } else topAppBar.title = title
         } else if (isInEditMode) {
-            topAppBar.title = "Title"
+            topAppBar.title = "TITLE"
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleCentered)) {
             topAppBar.isTitleCentered =

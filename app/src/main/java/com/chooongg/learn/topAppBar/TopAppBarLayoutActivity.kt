@@ -17,6 +17,7 @@ class TopAppBarLayoutActivity : BasicActivity() {
         else -> R.layout.activity_top_app_bar_layout_small
     }
 
+    @Suppress("DEPRECATION")
     override fun initView(savedInstanceState: Bundle?) {
         title = when (intent.getStringExtra("type")) {
             "medium" -> "TopAppBarLayout-Medium"

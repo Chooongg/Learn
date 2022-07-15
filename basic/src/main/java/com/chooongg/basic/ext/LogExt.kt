@@ -1,5 +1,6 @@
 package com.chooongg.basic.ext
 
+import android.annotation.SuppressLint
 import android.util.Log
 
 private fun getTag(offset: Int): String {
@@ -99,6 +100,7 @@ fun logEClass(clazz: Class<*>, msg: String, e: Throwable? = null) {
     else Log.e(getClassTag(clazz), msg, e)
 }
 
+@SuppressLint("NewApi")
 fun logWTF(msg: String, e: Throwable? = null, offsetStack: Int = 0) {
     if (BasicLog.isEnable) {
         if (e == null) Log.wtf(getTag(offsetStack), msg)
@@ -107,10 +109,12 @@ fun logWTF(msg: String, e: Throwable? = null, offsetStack: Int = 0) {
     }
 }
 
+@SuppressLint("NewApi")
 fun logWTFTag(tag: String, msg: String, e: Throwable? = null) {
     if (BasicLog.isEnable) if (e == null) Log.wtf(tag, msg) else Log.wtf(tag, msg, e)
 }
 
+@SuppressLint("NewApi")
 fun logWTFClass(clazz: Class<*>, msg: String, e: Throwable? = null) {
     if (BasicLog.isEnable) if (e == null) Log.wtf(getClassTag(clazz), msg)
     else Log.wtf(getClassTag(clazz), msg, e)

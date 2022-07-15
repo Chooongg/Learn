@@ -18,11 +18,11 @@ android {
             keyPassword 'chooongg'
         }
     }
-    compileSdk 32
+    compileSdk rootProject.ext.compileSdk
     defaultConfig {
         applicationId "com.chooongg.learn"
-        minSdk 21
-        targetSdk 32
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
         versionCode 1
         versionName "1.0"
     }
@@ -62,4 +62,5 @@ dependencies {
     implementation project(path: ':core')
     implementation project(path: ':net')
     implementation project(path: ':extend-stateLayout')
+    implementation project(path: ':extend-eventFlow')
 }

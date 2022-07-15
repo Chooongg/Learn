@@ -17,9 +17,9 @@ import com.chooongg.core.ext.showAllDivider
 import com.chooongg.core.viewModel.BasicModel
 import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
+import com.chooongg.learn.eventFlow.EventFlowActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
-import com.hjq.permissions.Permission
 
 @HomeButton(false)
 class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>() {
@@ -34,12 +34,12 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
         }
         adapter.doOnItemClick { _, _, position ->
             when (adapter.data[position].icon) {
-                R.drawable.ic_main_state_layout -> {
+                R.drawable.ic_main_event_flow ->
+                    startActivity(Intent(context, EventFlowActivity::class.java))
+                R.drawable.ic_main_state_layout ->
                     startActivity(Intent(context, StateLayoutActivity::class.java))
-                }
-                R.drawable.ic_main_top_app_bar -> {
+                R.drawable.ic_main_top_app_bar ->
                     startActivity(Intent(context, TopAppBarActivity::class.java))
-                }
             }
         }
     }
@@ -47,6 +47,7 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
     override fun initContent(savedInstanceState: Bundle?) {
         adapter.setNewInstance(
             mutableListOf(
+                MainItem(R.drawable.ic_main_event_flow, "EventFlow"),
                 MainItem(R.drawable.ic_main_state_layout, "StateLayout"),
                 MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar")
             )

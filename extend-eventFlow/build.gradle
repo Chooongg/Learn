@@ -28,12 +28,8 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:${appcompatVersion}"
-    implementation "com.google.android.material:material:$materialVersion"
-    api "androidx.startup:startup-runtime:1.2.0-alpha01"
-    api "androidx.datastore:datastore:1.0.0"
-
-    api 'com.tencent:mmkv:1.2.13'
-    // 调试工具
-    implementation 'com.facebook.stetho:stetho:1.6.0'
+    implementation project(path: ':basic')
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 }
