@@ -44,6 +44,23 @@ class EventFlowCore : ViewModel() {
         }
     }
 
+    fun observeEventTag(
+        lifecycleOwner: LifecycleOwner,
+        tag: String,
+        minState: Lifecycle.State,
+        dispatcher: CoroutineDispatcher,
+        isSticky: Boolean,
+        onReceived: () -> Unit
+    ): Job = lifecycleOwner.lifecycleScope.launch {
+        lifecycleOwner.lifecycle.whenStateAtLeast(minState) {
+            getEventFlow(tag, isSticky).collect {
+                this.launch(dispatcher) {
+                    onReceived.invoke()
+                }
+            }
+        }
+    }
+
     suspend fun <T : Any> observerWithoutLifecycle(
         eventName: String,
         isSticky: Boolean,
@@ -52,14 +69,34 @@ class EventFlowCore : ViewModel() {
         getEventFlow(eventName, isSticky).collect { invokeReceived(it, onReceived) }
     }
 
+    suspend fun observerTagWithoutLifecycle(
+        tag: String,
+        isSticky: Boolean,
+        onReceived: () -> Unit
+    ) {
+        getEventFlow(tag, isSticky).collect { onReceived.invoke() }
+    }
+
     fun postEvent(eventName: String, value: Any, timeMillis: Long) {
         listOfNotNull(
             getEventFlow(eventName, false),
             getEventFlow(eventName, true)
         ).forEach {
             viewModelScope.launch {
-                delay(timeMillis)
+                if (timeMillis > 0) delay(timeMillis)
                 it.emit(value)
+            }
+        }
+    }
+
+    fun postEventTag(tag: String, timeMillis: Long) {
+        listOfNotNull(
+            getEventFlow(tag, false),
+            getEventFlow(tag, true)
+        ).forEach {
+            viewModelScope.launch {
+                if (timeMillis > 0) delay(timeMillis)
+                it.emit(TagEvent())
             }
         }
     }

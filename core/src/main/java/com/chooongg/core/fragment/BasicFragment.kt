@@ -21,14 +21,6 @@ abstract class BasicFragment : Fragment() {
 
     open fun getLiftOnScrollTargetId(): Int = ResourcesCompat.ID_NULL
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         logDTag("FRAGMENT", "${javaClass.simpleName}(${title}) onCreate")
         super.onCreate(savedInstanceState)

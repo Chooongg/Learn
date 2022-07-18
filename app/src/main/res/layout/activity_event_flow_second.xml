@@ -20,32 +20,15 @@
             android:hint="文本接收" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_post_event_in_current_activity"
+            android:id="@+id/btn_post_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="post event in current activity" />
 
-        <TextView
-            android:id="@+id/tv_text_application"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/contentMedium"
-            android:layout_marginEnd="@dimen/contentMedium"
-            android:layout_marginBottom="@dimen/contentMedium"
-            android:gravity="center_horizontal"
-            android:hint="文本接收" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_second_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="open second page" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_second_page_fragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="open fragment" />
+        <androidx.fragment.app.FragmentContainerView
+            android:name="com.chooongg.learn.eventFlow.EventFlowFragment"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
