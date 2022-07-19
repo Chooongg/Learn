@@ -6,7 +6,7 @@ import androidx.viewbinding.ViewBinding
 import com.chooongg.core.ext.getViewModelTClass
 
 abstract class BasicBindingModelActivity<BINDING : ViewBinding, MODEL : ViewModel> :
-    BasicBindingFragment() {
+    BasicBindingFragment<BINDING>() {
 
     val viewModel: MODEL by ViewModelLazy(
         getViewModelTClass<MODEL>(fragment).kotlin,

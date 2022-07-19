@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 
 /**
- * 全局范围发送事件
+ * 发送全局范围事件
  */
 inline fun <reified T : Any> postEvent(
     event: T, timeMillis: Long = 0L
@@ -14,7 +14,7 @@ inline fun <reified T : Any> postEvent(
 }
 
 /**
- * 全局范围发送事件标签
+ * 发送全局范围事件标签
  */
 fun postEventTag(tag: String, timeMillis: Long = 0L) {
     ApplicationScopeViewModelProvider.getApplicationScopeViewModel(EventFlowCore::class.java)
@@ -22,7 +22,7 @@ fun postEventTag(tag: String, timeMillis: Long = 0L) {
 }
 
 /**
- * 限定范围发送事件
+ * 发送限定范围内事件
  */
 inline fun <reified T : Any> postEvent(
     scope: ViewModelStoreOwner, event: T, timeMillis: Long = 0L
@@ -32,7 +32,7 @@ inline fun <reified T : Any> postEvent(
 }
 
 /**
- * 限定范围内发送事件标签
+ * 发送限定范围事件标签
  */
 fun postEventTag(scope: ViewModelStoreOwner, tag: String, timeMillis: Long = 0L) {
     ViewModelProvider(scope)[EventFlowCore::class.java].postEventTag(tag, timeMillis)

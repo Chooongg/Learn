@@ -17,12 +17,4 @@
         app:spanCount="2"
         tools:listitem="@layout/item_main" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/contentMedium"
-        android:layout_marginBottom="@dimen/contentMedium" />
-
 </com.chooongg.core.widget.TopAppBarLayout>

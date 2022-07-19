@@ -30,6 +30,9 @@
         <activity
             android:name=".eventFlow.EventFlowActivity"
             android:label="EventFlow" />
+        <activity
+            android:name=".eventFlow.EventFlowSecondActivity"
+            android:label="EventFlowSecond" />
 
 
         <activity

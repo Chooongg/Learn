@@ -10,42 +10,42 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_text"
+            android:id="@+id/tv_application_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/contentMedium"
             android:layout_marginEnd="@dimen/contentMedium"
-            android:layout_marginBottom="@dimen/contentMedium"
             android:gravity="center_horizontal"
-            android:hint="文本接收" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_post_event_in_current_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="post event in current activity" />
+            android:hint="全局范围消息" />
 
         <TextView
-            android:id="@+id/tv_text_application"
+            android:id="@+id/tv_range_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/contentMedium"
+            android:layout_marginTop="@dimen/contentMedium"
             android:layout_marginEnd="@dimen/contentMedium"
-            android:layout_marginBottom="@dimen/contentMedium"
             android:gravity="center_horizontal"
-            android:hint="文本接收" />
+            android:hint="Activity 范围消息" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_second_page"
+            android:id="@+id/btn_send_global"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="open second page" />
+            android:layout_marginTop="@dimen/contentMedium"
+            android:text="发送 全局 范围内消息" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_second_page_fragment"
+            android:id="@+id/btn_send_range"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="open fragment" />
+            android:text="发送 Activity 范围内消息" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="打开第二页" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -2,14 +2,46 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?colorSurfaceVariant"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/contentLarge"
+        android:text="这是一个Fragment" />
+
+    <TextView
+        android:id="@+id/tv_application_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/contentMedium"
         android:layout_marginEnd="@dimen/contentMedium"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:hint="全局范围消息" />
+
+    <TextView
+        android:id="@+id/tv_range_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/contentMedium"
+        android:layout_marginTop="@dimen/contentMedium"
+        android:layout_marginEnd="@dimen/contentMedium"
+        android:gravity="center_horizontal"
+        android:hint="Fragment 范围消息" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_send_global"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/contentMedium"
+        android:text="发送 全局 范围内消息" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_send_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送 Fragment 范围内消息" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

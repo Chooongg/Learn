@@ -10,21 +10,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
+import com.chooongg.basic.ACTIVITY_TASK
 import com.chooongg.basic.ext.contentView
 import com.chooongg.basic.ext.hideIME
 import com.chooongg.basic.ext.logDClass
 import com.chooongg.core.R
 import com.chooongg.core.annotation.ActivityEdgeToEdge
+import com.chooongg.core.annotation.AutoBackPressed
 import com.chooongg.core.annotation.HomeButton
 import com.chooongg.core.annotation.Theme
 import com.chooongg.core.ext.getAnnotationTitle
+import com.chooongg.core.fragment.BasicFragment
 import com.chooongg.core.widget.TopAppBar
+import com.google.android.material.snackbar.Snackbar
 
 @HomeButton
+@AutoBackPressed
 abstract class BasicActivity : AppCompatActivity() {
 
     inline val context: Context get() = this
     inline val activity: BasicActivity get() = this
+
+    private val autoBackPressed =
+        javaClass.getAnnotation(AutoBackPressed::class.java)?.value ?: false
 
     @LayoutRes
     protected abstract fun initLayout(): Int
@@ -32,6 +40,8 @@ abstract class BasicActivity : AppCompatActivity() {
     protected open fun initView(savedInstanceState: Bundle?) = Unit
 
     protected open fun initContent(savedInstanceState: Bundle?) = Unit
+
+    open fun onRefresh(any: Any? = null) = Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         javaClass.getAnnotation(Theme::class.java)?.value?.let { setTheme(it) }
@@ -96,6 +106,24 @@ abstract class BasicActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private var firstTime: Long = 0
+    override fun onBackPressed() {
+        supportFragmentManager.fragments.forEach {
+            if (it is BasicFragment && !it.isHidden && it.isResumed && it.onBackPressedIntercept()) {
+                return
+            }
+        }
+        if (autoBackPressed && ACTIVITY_TASK.size <= 1) {
+            val secondTime = System.currentTimeMillis()
+            if (secondTime - firstTime > 2000) {
+                Snackbar.make(contentView, "再按一次退出程序", Snackbar.LENGTH_SHORT).show()
+                firstTime = secondTime
+                return
+            }
+        }
+        super.onBackPressed()
     }
 
     override fun onDestroy() {

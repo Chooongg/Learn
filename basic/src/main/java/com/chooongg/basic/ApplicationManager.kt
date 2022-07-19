@@ -7,6 +7,8 @@ import java.util.*
 
 val APPLICATION = ApplicationManager.getApplication()
 
+val APPLICATION_OR_NULL = ApplicationManager.getApplicationOrNull()
+
 val ACTIVITY_TASK: List<Activity> get() = ApplicationManager.ActivityLifecycleManager.activityTask
 
 val ACTIVITY_TOP get() = if (ApplicationManager.ActivityLifecycleManager.activityTask.isEmpty()) null else ApplicationManager.ActivityLifecycleManager.activityTask.last
@@ -15,15 +17,17 @@ internal object ApplicationManager {
     private var application: Application? = null
 
     internal fun initialize(application: Application) {
-        if (this.application == null) {
-            this.application = application
-            this.application!!.registerActivityLifecycleCallbacks(ActivityLifecycleManager)
-        }
+        if (this.application != null) throw LearnFrameException("ApplicationManager has not been initialized")
+        this.application = application
+        this.application!!.registerActivityLifecycleCallbacks(ActivityLifecycleManager)
     }
 
     internal fun getApplication(): Application {
-        return application ?: throw LearnFrameException("AppManager has not been initialized")
+        return application
+            ?: throw LearnFrameException("ApplicationManager has not been initialized")
     }
+
+    internal fun getApplicationOrNull() = application
 
     internal object ActivityLifecycleManager : Application.ActivityLifecycleCallbacks {
 
