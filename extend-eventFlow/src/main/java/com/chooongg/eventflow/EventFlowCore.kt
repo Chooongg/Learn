@@ -96,7 +96,7 @@ class EventFlowCore : ViewModel() {
         ).forEach {
             viewModelScope.launch {
                 if (timeMillis > 0) delay(timeMillis)
-                it.emit(TagEvent())
+                it.emit(Any())
             }
         }
     }

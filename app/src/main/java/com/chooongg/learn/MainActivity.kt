@@ -1,30 +1,50 @@
 package com.chooongg.learn
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
+import com.chooongg.basic.ext.showToast
 import com.chooongg.core.activity.BasicBindingModelActivity
 import com.chooongg.core.adapter.BindingAdapter
 import com.chooongg.core.annotation.HomeButton
 import com.chooongg.core.ext.divider
-import com.chooongg.core.ext.doOnItemClick
 import com.chooongg.core.ext.showAllDivider
+import com.chooongg.core.ext.startActivity
 import com.chooongg.core.viewModel.BasicModel
 import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
 import com.chooongg.learn.eventFlow.EventFlowActivity
+import com.chooongg.learn.loading.LoadingActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
 
 @HomeButton(false)
 class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>() {
 
-    private val adapter = Adapter()
+    private val adapter by lazy {
+        Adapter().apply {
+            setNewInstance(
+                mutableListOf(
+                    MainItem(R.drawable.ic_main_echarts, "ECharts") {
+                        showToast("暂未开发")
+                    }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
+                        startActivity(EventFlowActivity::class, it)
+                    }, MainItem(R.drawable.ic_main_loading, "Loading") {
+                        startActivity(LoadingActivity::class, it)
+                    }, MainItem(R.drawable.ic_main_state_layout, "StateLayout") {
+                        startActivity(StateLayoutActivity::class, it)
+                    }, MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar") {
+                        startActivity(TopAppBarActivity::class, it)
+                    }
+                )
+            )
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.recyclerView.adapter = adapter
@@ -32,26 +52,9 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
             asSpace().showAllDivider()
             size(resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium))
         }
-        adapter.doOnItemClick { _, _, position ->
-            when (adapter.data[position].icon) {
-                R.drawable.ic_main_event_flow ->
-                    startActivity(Intent(context, EventFlowActivity::class.java))
-                R.drawable.ic_main_state_layout ->
-                    startActivity(Intent(context, StateLayoutActivity::class.java))
-                R.drawable.ic_main_top_app_bar ->
-                    startActivity(Intent(context, TopAppBarActivity::class.java))
-            }
+        adapter.setOnItemClickListener { _, view, position ->
+            adapter.data[position].action(view)
         }
-    }
-
-    override fun initContent(savedInstanceState: Bundle?) {
-        adapter.setNewInstance(
-            mutableListOf(
-                MainItem(R.drawable.ic_main_event_flow, "EventFlow"),
-                MainItem(R.drawable.ic_main_state_layout, "StateLayout"),
-                MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar")
-            )
-        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -77,7 +80,7 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
         }
     }
 
-    data class MainItem(val icon: Int, val title: String)
+    data class MainItem(val icon: Int, val title: String, val action: (View) -> Unit)
 
     private class Adapter : BindingAdapter<MainItem, ItemMainBinding>() {
         override fun convert(holder: BaseViewHolder, binding: ItemMainBinding, item: MainItem) {

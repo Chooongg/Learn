@@ -29,23 +29,34 @@
 
         <activity
             android:name=".eventFlow.EventFlowActivity"
-            android:label="EventFlow" />
+            android:label="EventFlow"
+            android:launchMode="singleTop" />
         <activity
             android:name=".eventFlow.EventFlowSecondActivity"
-            android:label="EventFlowSecond" />
+            android:label="EventFlowSecond"
+            android:launchMode="singleTop" />
+
+
+        <activity
+            android:name=".loading.LoadingActivity"
+            android:label="Loading"
+            android:launchMode="singleTop" />
 
 
         <activity
             android:name=".stateLayout.StateLayoutActivity"
-            android:label="StateLayout" />
+            android:label="StateLayout"
+            android:launchMode="singleTop" />
 
 
         <activity
             android:name=".topAppBar.TopAppBarActivity"
-            android:label="TopAppBar" />
+            android:label="TopAppBar"
+            android:launchMode="singleTop" />
         <activity
             android:name=".topAppBar.TopAppBarLayoutActivity"
-            android:label="TopAppBarLayout" />
+            android:label="TopAppBarLayout"
+            android:launchMode="singleTop" />
 
     </application>
 

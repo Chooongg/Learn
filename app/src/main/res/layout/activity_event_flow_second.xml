@@ -16,7 +16,7 @@
             android:layout_marginStart="@dimen/contentMedium"
             android:layout_marginEnd="@dimen/contentMedium"
             android:gravity="center_horizontal"
-            android:hint="全局范围消息" />
+            android:hint="全局范围粘性消息" />
 
         <TextView
             android:id="@+id/tv_range_text"

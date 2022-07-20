@@ -1,6 +1,5 @@
 package com.chooongg.learn.eventFlow
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.chooongg.basic.ext.doOnClick
@@ -11,10 +10,10 @@ import com.chooongg.learn.databinding.ActivityEventFlowSecondBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class EventFlowSecondActivity:BasicBindingActivity<ActivityEventFlowSecondBinding>() {
+class EventFlowSecondActivity : BasicBindingActivity<ActivityEventFlowSecondBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
-        observeEventTag("测试") {
+        observeEventTag("测试", isSticky = true) {
             binding.tvApplicationText.text = "接收到了全局消息${System.currentTimeMillis()}"
         }
         observeEventTag(activity, "测试") {

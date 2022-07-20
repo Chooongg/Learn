@@ -4,7 +4,7 @@
     <style name="Theme.Learn.Surface" parent="Base.Theme.Learn">
         <item name="appBarLayoutStyle">@style/Widget.Learn.AppBarLayout.Surface</item>
         <item name="toolbarStyle">@style/Widget.Learn.TopAppBar.OnSurface</item>
-        <item name="android:statusBarColor">#11000000</item>
+        <item name="android:statusBarColor">#22000000</item>
     </style>
 
     <style name="Theme.Learn.Primary" parent="Base.Theme.Learn">
@@ -25,6 +25,7 @@
     <style name="Theme.Learn.primarySurface" parent="Theme.Learn.Primary" />
 
     <style name="Base.Theme.Learn" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="windowActionModeOverlay">false</item>
         <item name="android:configChanges">orientation|keyboardHidden|screenSize</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.Button.Navigation</item>

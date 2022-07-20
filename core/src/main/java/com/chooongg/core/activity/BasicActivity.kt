@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -31,9 +32,6 @@ abstract class BasicActivity : AppCompatActivity() {
     inline val context: Context get() = this
     inline val activity: BasicActivity get() = this
 
-    private val autoBackPressed =
-        javaClass.getAnnotation(AutoBackPressed::class.java)?.value ?: false
-
     @LayoutRes
     protected abstract fun initLayout(): Int
 
@@ -45,6 +43,7 @@ abstract class BasicActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         javaClass.getAnnotation(Theme::class.java)?.value?.let { setTheme(it) }
+        window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
         configEdgeToEdge()
         super.onCreate(savedInstanceState)
         javaClass.getAnnotationTitle(context)?.let { title = it }
@@ -115,7 +114,7 @@ abstract class BasicActivity : AppCompatActivity() {
                 return
             }
         }
-        if (autoBackPressed && ACTIVITY_TASK.size <= 1) {
+        if (javaClass.getAnnotation(AutoBackPressed::class.java)?.value == true && ACTIVITY_TASK.size <= 1) {
             val secondTime = System.currentTimeMillis()
             if (secondTime - firstTime > 2000) {
                 Snackbar.make(contentView, "再按一次退出程序", Snackbar.LENGTH_SHORT).show()

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chooongg.core.widget.TopAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:appBarType="medium">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/contentMedium"
+                android:text="显示Loading" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginTop="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:layout_marginBottom="@dimen/contentMedium"
+                android:text="最近，似乎有越来越多的术语提到了开发软件的新方法。我们很难跟上和理解这些新术语的含义，或者理解它们的对我们的具体含义。作为一个几年来一直浸淫在自动化应用程序构建和测试的人，当我听到移动端 DevOps 这个术语时，我很想知道是什么让它不同于普通的 DevOps（我已经在应用程序中使用过 DevOps 流程，并且团队也有相关经验）。\n
+不幸的是，DevOps 本身已经成为了一个流行词。更糟糕的是，许多在线服务很适合 DevOps 流水线。这可能是一件坏事，因为当你在网上搜索 DevOps 甚至是移动端 DevOps 的时候，你在网上看到的很多信息都是来源于那些试图向你推销他们自己的解决方案的网站。所以，如果你需要在 5 分钟内参加一个会议，然后你在 Google 上搜索了“什么是移动端 DevOps？”并打开了本文，那么让我为你简化一下：这只是应用于手机应用程序的 DevOps 方法。就这样，它不是可以移动的，它哪儿也去不了（译者注：双关语，mobile 也有移动、活动的意思）。这就是你所认知和喜爱的 DevOps，不过只是应用到手机应用程序的环境中。\n
+但是很长一段时间以来，软件开发组织在没有采用任何与 DevOps 相关的东西的情况下就完成了软件的开发并将其推出市场。如果你采用的是更传统的瀑布开发模式来开发软件，那么你应该思考一下 DevOps 能为你提供什么，更准确地说，移动端 DevOps 能为你的开发团队提供什么。\n
+所以，让我们用一个简单的方法来理解什么是移动端 DevOps，以及它是如何融入你的流水线的。为此，让我们回忆一下这些年来软件开发实践是如何变化的。\n
+\n
+瀑布模型的不同阶段如下：\n
+\n
+需求定义 —— 明确定义应用程序的需求。在这个阶段，获取系统的所有可能需求是很重要的。\n
+详细设计 —— 使用上一步确定的需求来制定系统设计。在这一部分中，我们通常还会定义工作所需的硬件和软件。\n
+具体实现 —— 通过使用设计文档（定义应用程序的体系结构），我们在程序雏形中实现预期的功能。我们创建的每个单元都是针对其功能进行开发和测试的。\n
+集成测试 —— 已开发的单元在单独测试后集成到系统中。在完成系统集成之后，整个系统将被测试是否存在任何未解决的 bug 或问题。\n
+系统部署 —— 我们的辛勤工作即将结束！测试已经完成，现在我们可以将我们的应用上架到应用市场。\n
+后期维护 —— 上架完成后，未来可能会出现问题。随着时间的推移，开发者会发布修补程序来解决在初始开发或实现过程中没有遇到的问题。\n
+\n
+当然，这种开发方式没有问题。很多开发团队使用这种开发方式很多年了，没有人因此而受折磨。如果坚持这种开发方式，得到的就是高质量的软件。其中一个原因是，这些步骤只是按照从左到右的顺序进行的 —— 例如，详细设计阶段只能在需求定义阶段完成后才能开始，具体实现阶段只能在详细设计阶段完成后开始，等等。\n
+表面上看，这种方法似乎十分普遍。在需求定义明确的系统中，这个模式运作得非常好。但是近些年来，我们看到采用这种方法的软件项目越来越少，而相反，DevOps 兴起了，它成为一种更新颖、更灵活的开发框架。这是为什么呢？\n
+\n
+作者：披着狼皮的羊_\n
+链接：https://juejin.cn/post/7113577700543397918\n
+来源：稀土掘金" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</com.chooongg.core.widget.TopAppBarLayout>
