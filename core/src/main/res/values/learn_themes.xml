@@ -25,10 +25,21 @@
     <style name="Theme.Learn.primarySurface" parent="Theme.Learn.Primary" />
 
     <style name="Base.Theme.Learn" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:colorBackground">?colorSurface</item>
         <item name="windowActionModeOverlay">false</item>
         <item name="android:configChanges">orientation|keyboardHidden|screenSize</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/LearnWindowAnimation</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.Button.Navigation</item>
+    </style>
+
+    <style name="LearnWindowAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/shared_axis_y_enter</item>
+        <item name="android:windowExitAnimation">@anim/shared_axis_y_exit</item>
+        <item name="android:activityOpenEnterAnimation">@anim/shared_axis_y_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/nothing</item>
+        <item name="android:activityCloseExitAnimation">@anim/shared_axis_y_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/nothing</item>
     </style>
 
 </resources>

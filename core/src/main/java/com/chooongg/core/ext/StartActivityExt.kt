@@ -8,6 +8,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import com.chooongg.basic.ACTIVITY_TOP
 import com.chooongg.basic.APPLICATION
+import com.chooongg.basic.ext.logE
 import kotlin.reflect.KClass
 
 internal const val EXTRA_TRANSITION_NAME = "EXTRA_TRANSITION_NAME"
@@ -53,11 +54,17 @@ fun startActivity(
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
     context.startActivity(intent, option)
+    logE("启动Activity")
 }
 
 private fun getActivityOption(
     activity: Activity?,
     vararg sharedElements: Pair<View, String>
 ) = if (activity != null) {
-    ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *sharedElements)
+    when (sharedElements.size) {
+        1 -> ActivityOptionsCompat.makeSceneTransitionAnimation(
+            activity, sharedElements[0].first, sharedElements[0].second
+        )
+        else -> ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *sharedElements)
+    }
 } else null

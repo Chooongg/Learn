@@ -17,4 +17,10 @@
         app:spanCount="2"
         tools:listitem="@layout/item_main" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/night_mode" />
+
 </com.chooongg.core.widget.TopAppBarLayout>

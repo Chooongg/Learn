@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.chooongg.basic.ext.logE
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.basic.ext.showToast
@@ -26,25 +27,7 @@ import com.chooongg.learn.topAppBar.TopAppBarActivity
 @HomeButton(false)
 class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>() {
 
-    private val adapter by lazy {
-        Adapter().apply {
-            setNewInstance(
-                mutableListOf(
-                    MainItem(R.drawable.ic_main_echarts, "ECharts") {
-                        showToast("暂未开发")
-                    }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
-                        startActivity(EventFlowActivity::class, it)
-                    }, MainItem(R.drawable.ic_main_loading, "Loading") {
-                        startActivity(LoadingActivity::class, it)
-                    }, MainItem(R.drawable.ic_main_state_layout, "StateLayout") {
-                        startActivity(StateLayoutActivity::class, it)
-                    }, MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar") {
-                        startActivity(TopAppBarActivity::class, it)
-                    }
-                )
-            )
-        }
-    }
+    private val adapter = Adapter()
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.recyclerView.adapter = adapter
@@ -53,8 +36,24 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
             size(resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium))
         }
         adapter.setOnItemClickListener { _, view, position ->
+            logE("MainAdapter点击事件")
             adapter.data[position].action(view)
         }
+        adapter.setNewInstance(
+            mutableListOf(
+                MainItem(R.drawable.ic_main_echarts, "ECharts") {
+                    showToast("暂未开发")
+                }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
+                    startActivity(EventFlowActivity::class)
+                }, MainItem(R.drawable.ic_main_loading, "Loading") {
+                    startActivity(LoadingActivity::class, it)
+                }, MainItem(R.drawable.ic_main_state_layout, "StateLayout") {
+                    startActivity(StateLayoutActivity::class, it)
+                }, MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar") {
+                    startActivity(TopAppBarActivity::class, it)
+                }
+            )
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

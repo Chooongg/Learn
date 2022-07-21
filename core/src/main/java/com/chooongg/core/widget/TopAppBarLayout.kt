@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.getActivity
 import com.chooongg.core.R
 import com.google.android.material.appbar.AppBarLayout
@@ -27,7 +28,7 @@ class TopAppBarLayout @JvmOverloads constructor(
     val topAppBar: TopAppBar by lazy { findViewById(R.id.top_app_bar) }
 
     init {
-        fitsSystemWindows = true
+        setBackgroundColor(attrColor(com.google.android.material.R.attr.colorSurface))
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBarLayout, defStyleAttr, 0)
         when (a.getInt(R.styleable.TopAppBarLayout_appBarType, 0)) {
             0 -> inflate(context, R.layout.learn_top_app_bar_small, this)

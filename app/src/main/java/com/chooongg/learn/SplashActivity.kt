@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : BasicBindingActivity<ActivitySplashBinding>() {
 
     private var job: Job? = null
