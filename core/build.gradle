@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk rootProject.ext.compileSdk
+    compileSdk sdkConfig.compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
+        minSdk sdkConfig.minSdk
+        targetSdk sdkConfig.targetSdk
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -33,12 +33,12 @@ android {
 
 dependencies {
     api project(path: ':basic')
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.appcompat:appcompat:$appcompatVersion"
-    api "androidx.activity:activity-ktx:$appcompatVersion"
-    api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
+    implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
+    api "androidx.activity:activity-ktx:$dependenciesVersion.appcompatVersion"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$dependenciesVersion.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$dependenciesVersion.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependenciesVersion.lifecycleVersion"
     api 'androidx.webkit:webkit:1.5.0-beta01'
     api 'androidx.work:work-runtime-ktx:2.8.0-alpha02'
     api 'androidx.constraintlayout:constraintlayout:2.1.4'

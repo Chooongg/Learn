@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk rootProject.ext.compileSdk
+    compileSdk sdkConfig.compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
+        minSdk sdkConfig.minSdk
+        targetSdk sdkConfig.targetSdk
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -28,7 +28,5 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
 }

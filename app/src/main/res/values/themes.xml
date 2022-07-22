@@ -1,6 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.Learn.Surface" />
+    <style name="AppTheme" parent="Theme.Learn.Surface">
+        <item name="liftOnScroll">false</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

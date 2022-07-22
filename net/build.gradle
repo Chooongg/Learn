@@ -4,12 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk sdkConfig.compileSdk
 
     defaultConfig {
-        minSdk 21
-        targetSdk 32
-
+        minSdk sdkConfig.minSdk
+        targetSdk sdkConfig.targetSdk
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -30,7 +29,7 @@ android {
 
 dependencies {
     api project(path: ':basic')
-    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
     // JSON解析
     api 'com.google.code.gson:gson:2.9.0'
     api 'com.github.getActivity:GsonFactory:6.0'

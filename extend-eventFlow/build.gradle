@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk rootProject.ext.compileSdk
+    compileSdk sdkConfig.compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
+        minSdk sdkConfig.minSdk
+        targetSdk sdkConfig.targetSdk
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -29,7 +29,7 @@ android {
 
 dependencies {
     implementation project(path: ':basic')
-    implementation "androidx.appcompat:appcompat:$appcompatVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$dependenciesVersion.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependenciesVersion.lifecycleVersion"
 }

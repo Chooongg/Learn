@@ -18,13 +18,13 @@ android {
             keyPassword 'chooongg'
         }
     }
-    compileSdk rootProject.ext.compileSdk
+    compileSdk sdkConfig.compileSdk
     defaultConfig {
         applicationId "com.chooongg.learn"
-        minSdk rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
-        versionCode 1
-        versionName "1.0"
+        minSdk sdkConfig.minSdk
+        targetSdk sdkConfig.targetSdk
+        versionCode versionConfig.versionCode
+        versionName versionConfig.versionName
     }
 
     buildTypes {
@@ -57,8 +57,8 @@ android {
 }
 
 dependencies {
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
+    implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
     implementation project(path: ':core')
     implementation project(path: ':net')
     implementation project(path: ':extend-stateLayout')

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk rootProject.ext.compileSdk
+    compileSdk sdkConfig.compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
+        minSdk sdkConfig.minSdk
+        targetSdk sdkConfig.targetSdk
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -28,8 +28,8 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:${appcompatVersion}"
-    implementation "com.google.android.material:material:$materialVersion"
+    implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
+    implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
     api "androidx.startup:startup-runtime:1.2.0-alpha01"
     api "androidx.datastore:datastore:1.0.0"
 
@@ -37,3 +37,9 @@ dependencies {
     // 调试工具
     implementation 'com.facebook.stetho:stetho:1.6.0'
 }
+
+ext {
+    PUBLISH_ARTIFACT_ID = "basic"
+}
+
+apply from: '../publish.gradle'
