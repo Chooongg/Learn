@@ -44,7 +44,7 @@ afterEvaluate {
                 from components.release
                 groupId = "com.chooongg.learn"
                 artifactId = "eventFlow"
-                version = versionConfig.versionName
+                version = rootProject.versionConfig.versionName
             }
         }
     }

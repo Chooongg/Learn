@@ -4,6 +4,8 @@ plugins {
     id 'maven-publish'
 }
 
+group = 'com.chooongg.learn'
+
 android {
     compileSdk sdkConfig.compileSdk
 
@@ -46,7 +48,7 @@ afterEvaluate {
                 from components.release
                 groupId = "com.chooongg.learn"
                 artifactId = "basic"
-                version = versionConfig.versionName
+                version = rootProject.versionConfig.versionName
             }
         }
     }
