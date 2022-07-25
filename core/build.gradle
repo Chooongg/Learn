@@ -1,7 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
+
+group = 'com.chooongg.learn'
 
 android {
     compileSdk sdkConfig.compileSdk
@@ -54,8 +57,22 @@ dependencies {
     api 'io.github.scwang90:refresh-header-classics:2.0.5'
 }
 
-ext {
-    PUBLISH_ARTIFACT_ID = "core"
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.chooongg.learn"
+                artifactId = "core"
+                version = versionConfig.versionName
+            }
+        }
+    }
 }
 
-apply from: '../publish.gradle'
+//
+//ext {
+//    PUBLISH_ARTIFACT_ID = "core"
+//}
+//
+//apply from: '../publish.gradle'

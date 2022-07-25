@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -38,8 +39,22 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.6.0'
 }
 
-ext {
-    PUBLISH_ARTIFACT_ID = "basic"
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.chooongg.learn"
+                artifactId = "basic"
+                version = versionConfig.versionName
+            }
+        }
+    }
 }
 
-apply from: '../publish.gradle'
+//
+//ext {
+//    PUBLISH_ARTIFACT_ID = "basic"
+//}
+//
+//apply from: '../publish.gradle'
