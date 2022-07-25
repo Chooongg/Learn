@@ -15,7 +15,7 @@ def projectVersionName = versionConfig.versionName
 def projectDescription = localProperties.getProperty("description")
 def projectGitUrl = localProperties.getProperty("gitUrl")
 def projectLicense = localProperties.getProperty("license")
-def projectLicenseUrl = projectLicense ? "https://opensource.org/licenses/${projectLicense.toString().replace(" ", "-")} " : null
+def projectLicenseUrl = projectLicense ? "https://github.com/Chooongg/Learn/blob/master/${projectLicense.toString().replace(" ", "-")} " : null
 def developerAuthorEmail = localProperties.getProperty("email")
 
 def developerAuthorId = mavenUsername
