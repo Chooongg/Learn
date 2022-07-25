@@ -36,3 +36,9 @@ dependencies {
     implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
 }
+
+ext {
+    PUBLISH_ARTIFACT_ID = "stateLayout"
+}
+
+apply from: '../publish.gradle'

@@ -33,3 +33,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$dependenciesVersion.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependenciesVersion.lifecycleVersion"
 }
+
+ext {
+    PUBLISH_ARTIFACT_ID = "eventFlow"
+}
+
+apply from: '../publish.gradle'
