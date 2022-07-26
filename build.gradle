@@ -9,18 +9,16 @@ task clean(type: Delete) {
 }
 
 ext {
-    versionConfig = [
-            versionCode: 1,
-            versionName: '1.0.0',
-    ]
+    versionCode = 1
+    versionName = "1.0.0"
     sdkConfig = [
             compileSdk: 32,
             minSdk    : 21,
             targetSdk : 32,
     ]
     dependenciesVersion = [
-            appcompatVersion : '1.6.0-alpha05',
-            materialVersion  : '1.7.0-alpha03',
+            appcompatVersion: '1.6.0-alpha05',
+            materialVersion : '1.7.0-alpha03',
             lifecycleVersion: "2.5.0-rc02"
     ]
 }
