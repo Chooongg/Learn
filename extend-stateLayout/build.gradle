@@ -47,7 +47,7 @@ afterEvaluate {
                 from components.release
                 groupId = "com.chooongg.learn"
                 artifactId = "stateLayout"
-                version = rootProject.versionConfig.versionName
+                version = rootProject.ext.versionConfig.versionName
             }
         }
     }

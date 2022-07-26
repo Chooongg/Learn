@@ -52,7 +52,7 @@ afterEvaluate {
                 from components.release
                 groupId = "com.chooongg.learn"
                 artifactId = "net"
-                version = rootProject.versionConfig.versionName
+                version = rootProject.ext.versionConfig.versionName
             }
         }
     }
