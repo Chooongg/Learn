@@ -2,6 +2,7 @@ package com.chooongg.core.activity
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.Explode
 import android.view.*
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -25,15 +26,15 @@ import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
 import com.chooongg.core.widget.TopAppBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
-import com.google.android.material.transition.platform.MaterialSharedAxis
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
 @HomeButton
 @AutoBackPressed
 @ActivityEdgeToEdge
-abstract class BasicActivity : AppCompatActivity() {
+abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     inline val context: Context get() = this
     inline val activity: BasicActivity get() = this
@@ -68,7 +69,7 @@ abstract class BasicActivity : AppCompatActivity() {
         initContent(savedInstanceState)
     }
 
-    internal open fun setContentViewInternal() {
+    protected open fun setContentViewInternal() {
         super.setContentView(initLayout())
     }
 
@@ -82,10 +83,10 @@ abstract class BasicActivity : AppCompatActivity() {
         window.apply {
             setBackgroundDrawable(null)
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-            enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-            exitTransition = null
-            returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-            reenterTransition = null
+            enterTransition = Explode()
+            exitTransition = Explode()
+            returnTransition = Explode()
+            reenterTransition = Explode()
         }
         window.sharedElementsUseOverlay = false
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
@@ -98,12 +99,11 @@ abstract class BasicActivity : AppCompatActivity() {
         }
     }
 
-    private fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
+    protected open fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
         val transform = MaterialContainerTransform(this, entering)
         transform.addTarget(android.R.id.content)
         transform.containerColor = attrColor(com.google.android.material.R.attr.colorSurface)
         transform.fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
-        transform.pathMotion = MaterialArcMotion()
         return transform
     }
 
@@ -160,7 +160,7 @@ abstract class BasicActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun clearTransitionAnimation(){
+    fun clearTransitionAnimation() {
         contentView.transitionName = null
     }
 

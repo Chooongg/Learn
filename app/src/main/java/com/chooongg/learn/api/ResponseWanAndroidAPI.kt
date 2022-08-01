@@ -9,8 +9,7 @@ data class ResponseWanAndroidAPI<T>(
 ) : ResponseData<T>() {
     override fun getCode() = code.toString()
     override fun getMessage() = message
-    override fun getData() = data
-    override fun validation(): Boolean {
-        return true
+    override suspend fun checkData(): T? {
+        return data
     }
 }
