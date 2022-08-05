@@ -2,7 +2,6 @@ package com.chooongg.core.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.transition.Explode
 import android.view.*
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +16,7 @@ import com.chooongg.basic.ext.contentView
 import com.chooongg.basic.ext.hideIME
 import com.chooongg.basic.ext.logDClass
 import com.chooongg.core.R
-import com.chooongg.core.annotation.ActivityEdgeToEdge
-import com.chooongg.core.annotation.AutoBackPressed
-import com.chooongg.core.annotation.HomeButton
-import com.chooongg.core.annotation.Theme
+import com.chooongg.core.annotation.*
 import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
@@ -28,12 +24,14 @@ import com.chooongg.core.widget.TopAppBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
 @HomeButton
 @AutoBackPressed
 @ActivityEdgeToEdge
+@ActivityTransitions
 abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     inline val context: Context get() = this
@@ -80,13 +78,14 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     override fun setContentView(view: View?, params: ViewGroup.LayoutParams?) = Unit
 
     private fun configContainerTransform() {
+        if (javaClass.getAnnotation(ActivityTransitions::class.java)?.enable != true) return
         window.apply {
             setBackgroundDrawable(null)
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-            enterTransition = Explode()
-            exitTransition = Explode()
-            returnTransition = Explode()
-            reenterTransition = Explode()
+            enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+            exitTransition = null
+            returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+            reenterTransition = null
         }
         window.sharedElementsUseOverlay = false
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
