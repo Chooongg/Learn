@@ -58,8 +58,6 @@ dependencies {
     // 下拉刷新-上拉加载
     api 'io.github.scwang90:refresh-layout-kernel:2.0.5'
     api 'io.github.scwang90:refresh-header-classics:2.0.5'
-    // 权限申请
-    api 'com.github.getActivity:XXPermissions:15.0'
 }
 
 afterEvaluate {
