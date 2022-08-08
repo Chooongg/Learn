@@ -4,11 +4,26 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import com.chooongg.basic.APPLICATION
 import com.chooongg.basic.ext.activityManager
 
 object AppUtils {
+
+    fun getAppVersionName(): String {
+        return APPLICATION.packageManager.getPackageInfo(APPLICATION.packageName, 0).versionName
+    }
+
+    @Suppress("DEPRECATION")
+    fun getAppVersionCode(): Long {
+        val info = APPLICATION.packageManager.getPackageInfo(APPLICATION.packageName, 0)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            info.longVersionCode
+        } else {
+            info.versionCode.toLong()
+        }
+    }
 
     /**
      * 打开应用的详细信息设置
