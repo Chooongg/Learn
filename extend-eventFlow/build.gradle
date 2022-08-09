@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -25,6 +26,11 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -33,3 +39,23 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$dependenciesVersion.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependenciesVersion.lifecycleVersion"
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.chooongg.learn"
+                artifactId = "eventFlow"
+                version = rootProject.ext.versionName
+            }
+        }
+    }
+}
+
+//
+//ext {
+//    PUBLISH_ARTIFACT_ID = "eventFlow"
+//}
+//
+//apply from: '../publish.gradle'

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -25,6 +26,11 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -41,3 +47,23 @@ dependencies {
     // 调试工具-拦截器
     implementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.chooongg.learn"
+                artifactId = "net"
+                version = rootProject.ext.versionName
+            }
+        }
+    }
+}
+
+//
+//ext {
+//    PUBLISH_ARTIFACT_ID = "net"
+//}
+//
+//apply from: '../publish.gradle'

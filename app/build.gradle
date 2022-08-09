@@ -23,8 +23,8 @@ android {
         applicationId "com.chooongg.learn"
         minSdk sdkConfig.minSdk
         targetSdk sdkConfig.targetSdk
-        versionCode versionConfig.versionCode
-        versionName versionConfig.versionName
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
     }
 
     buildTypes {

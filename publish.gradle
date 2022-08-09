@@ -9,15 +9,15 @@ localProperties.each { name, value ->
 
 def mavenUsername = localProperties.getProperty("sonatype.username")
 def mavenPassword = localProperties.getProperty("sonatype.password")
-def projectGroupId = "com.chooongg.learn"
+def projectGroupId = localProperties.getProperty("groupId")
 def projectArtifactId = PUBLISH_ARTIFACT_ID
 def projectVersionName = versionConfig.versionName
-def projectDescription = "Android 快速开发框架"
-def projectGitUrl = "https://github.com/Chooongg/Learn"
-def projectLicense = "LICENSE"
-def projectLicenseUrl = "https://github.com/Chooongg/Learn/blob/master/$projectLicense"
+def projectDescription = localProperties.getProperty("description")
+def projectGitUrl = localProperties.getProperty("gitUrl")
+def projectLicense = localProperties.getProperty("license")
+def projectLicenseUrl = projectLicense ? "https://github.com/Chooongg/Learn/blob/master/${projectLicense.toString().replace(" ", "-")} " : null
+def developerAuthorEmail = localProperties.getProperty("email")
 
-def developerAuthorEmail = "chooongg@outlook.com"
 def developerAuthorId = mavenUsername
 def developerAuthorName = mavenUsername
 
@@ -65,7 +65,7 @@ tasks.withType(Javadoc).all {
         charSet 'UTF-8'
         author true
         version true
-        links "http://docs.oracle.com/javase/11/docs/api"
+        links "http://docs.oracle.com/javase/8/docs/api"
         if (isAndroidProject) {
             linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
         }

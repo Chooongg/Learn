@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -28,6 +29,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 
@@ -36,3 +42,23 @@ dependencies {
     implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.chooongg.learn"
+                artifactId = "stateLayout"
+                version = rootProject.ext.versionName
+            }
+        }
+    }
+}
+
+//
+//ext {
+//    PUBLISH_ARTIFACT_ID = "stateLayout"
+//}
+//
+//apply from: '../publish.gradle'

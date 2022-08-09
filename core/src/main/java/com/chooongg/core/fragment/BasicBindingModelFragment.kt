@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModelLazy
 import androidx.viewbinding.ViewBinding
 import com.chooongg.core.ext.getViewModelTClass
 
-abstract class BasicBindingModelActivity<BINDING : ViewBinding, MODEL : ViewModel> :
+abstract class BasicBindingModelFragment<BINDING : ViewBinding, MODEL : ViewModel> :
     BasicBindingFragment<BINDING>() {
 
-    val viewModel: MODEL by ViewModelLazy(
+    val model: MODEL by ViewModelLazy(
         getViewModelTClass<MODEL>(fragment).kotlin,
         { viewModelStore },
         { defaultViewModelProviderFactory },

@@ -16,24 +16,23 @@ import com.chooongg.basic.ext.contentView
 import com.chooongg.basic.ext.hideIME
 import com.chooongg.basic.ext.logDClass
 import com.chooongg.core.R
-import com.chooongg.core.annotation.ActivityEdgeToEdge
-import com.chooongg.core.annotation.AutoBackPressed
-import com.chooongg.core.annotation.HomeButton
-import com.chooongg.core.annotation.Theme
+import com.chooongg.core.annotation.*
 import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
 import com.chooongg.core.widget.TopAppBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialSharedAxis
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
 @HomeButton
 @AutoBackPressed
 @ActivityEdgeToEdge
-abstract class BasicActivity : AppCompatActivity() {
+@ActivityTransitions
+abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     inline val context: Context get() = this
     inline val activity: BasicActivity get() = this
@@ -68,7 +67,7 @@ abstract class BasicActivity : AppCompatActivity() {
         initContent(savedInstanceState)
     }
 
-    internal open fun setContentViewInternal() {
+    protected open fun setContentViewInternal() {
         super.setContentView(initLayout())
     }
 
@@ -79,6 +78,7 @@ abstract class BasicActivity : AppCompatActivity() {
     override fun setContentView(view: View?, params: ViewGroup.LayoutParams?) = Unit
 
     private fun configContainerTransform() {
+        if (javaClass.getAnnotation(ActivityTransitions::class.java)?.enable != true) return
         window.apply {
             setBackgroundDrawable(null)
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
@@ -98,12 +98,11 @@ abstract class BasicActivity : AppCompatActivity() {
         }
     }
 
-    private fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
+    protected open fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
         val transform = MaterialContainerTransform(this, entering)
         transform.addTarget(android.R.id.content)
         transform.containerColor = attrColor(com.google.android.material.R.attr.colorSurface)
         transform.fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
-        transform.pathMotion = MaterialArcMotion()
         return transform
     }
 
@@ -160,7 +159,7 @@ abstract class BasicActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun clearTransitionAnimation(){
+    fun clearTransitionAnimation() {
         contentView.transitionName = null
     }
 
