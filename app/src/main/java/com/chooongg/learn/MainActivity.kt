@@ -54,6 +54,7 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
                 }
             )
         )
+        model.test = "sdf"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

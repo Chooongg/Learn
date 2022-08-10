@@ -3,15 +3,18 @@ package com.chooongg.core.activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelLazy
 import androidx.viewbinding.ViewBinding
-import com.chooongg.core.ext.getViewModelTClass
+import com.chooongg.basic.ext.getTClass
 
-abstract class BasicBindingModelActivity<BINDING : ViewBinding, MODEL : ViewModel> : BasicBindingActivity<BINDING>() {
+abstract class BasicBindingModelActivity<BINDING : ViewBinding, MODEL : ViewModel> :
+    BasicBindingActivity<BINDING>() {
 
+    @Suppress("UNCHECKED_CAST")
     val model: MODEL by ViewModelLazy(
-        getViewModelTClass<MODEL>(activity).kotlin,
+        (javaClass.getTClass(1) as Class<MODEL>).kotlin,
         { viewModelStore },
         { defaultViewModelProviderFactory },
         { defaultViewModelCreationExtras }
     )
 
+    protected open fun getViewModelTIndex() = 1
 }

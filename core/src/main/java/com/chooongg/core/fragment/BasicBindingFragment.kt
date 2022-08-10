@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewbinding.ViewBinding
 import com.chooongg.core.ext.getBindingT
-import kotlinx.coroutines.GlobalScope
 
 abstract class BasicBindingFragment<BINDING : ViewBinding> : BasicFragment() {
 
@@ -19,7 +18,9 @@ abstract class BasicBindingFragment<BINDING : ViewBinding> : BasicFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = getBindingT<BINDING>(inflater, container, false).also {
+    ) = getBindingT<BINDING>(getBindingTIndex(), inflater, container, false).also {
         binding = it
     }.root
+
+    protected open fun getBindingTIndex() = 0
 }

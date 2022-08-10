@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.ParameterizedType
 
 @Suppress("UNCHECKED_CAST")
-fun <MODEL : ViewModel> getViewModelTClass(any: Any): Class<MODEL> {
+fun <MODEL : ViewModel> getViewModelClass(any: Any): Class<MODEL> {
     var genericSuperclass = any.javaClass.genericSuperclass
     var superclass = any.javaClass.superclass
     while (superclass != null) {

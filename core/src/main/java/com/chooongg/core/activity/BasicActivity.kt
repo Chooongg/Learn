@@ -181,6 +181,10 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         super.onBackPressed()
     }
 
+    fun clearTransition() {
+        contentView.transitionName = null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         logDClass(javaClass, "(${title}) onDestroy")
