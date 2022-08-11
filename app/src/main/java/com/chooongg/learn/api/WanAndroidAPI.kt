@@ -15,5 +15,5 @@ interface WanAndroidAPI {
     }
 
     @GET("json")
-    suspend fun getPackageList(): ResponseWanAndroidAPI<Any>
+    suspend fun getPackageList(): ResponseWanAndroidAPI<String>
 }

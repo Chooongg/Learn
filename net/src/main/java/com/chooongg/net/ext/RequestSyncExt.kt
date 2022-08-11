@@ -7,8 +7,8 @@ import com.chooongg.net.ResponseData
 /**
  * 常规同步请求 DSL
  */
-suspend fun <DATA> requestSync(block: suspend CoroutinesRequestSyncDSL<out ResponseData<DATA?>, DATA>.() -> Unit) =
-    CoroutinesRequestSyncDSL<ResponseData<DATA?>, DATA>().apply { block(this) }.executeRequest()
+suspend fun <DATA> requestSync(block: suspend CoroutinesRequestSyncDSL<ResponseData<DATA>, DATA>.() -> Unit) =
+    CoroutinesRequestSyncDSL<ResponseData<DATA>, DATA>().apply { block(this) }.executeRequest()
 
 /**
  * 基础的同步请求 DSL

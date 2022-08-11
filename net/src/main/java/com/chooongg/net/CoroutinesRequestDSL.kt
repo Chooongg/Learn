@@ -5,8 +5,9 @@ import com.chooongg.basic.ext.withMain
 /**
  * 网络请求且返回提封装 DSL
  */
-open class CoroutinesRequestDSL<RESPONSE : ResponseData<DATA?>, DATA> :
+open class CoroutinesRequestDSL<RESPONSE : ResponseData<DATA>, DATA> :
     CoroutinesRequestBasicDSL<RESPONSE>() {
+
     private var onSuccessMessage: (suspend (String?) -> Unit)? = null
     private var onSuccess: (suspend (DATA?) -> Unit)? = null
 

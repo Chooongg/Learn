@@ -15,9 +15,8 @@ import kotlin.coroutines.EmptyCoroutineContext
 fun <DATA> CoroutineScope.launchRequest(
     context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
-    block: CoroutinesRequestDSL<out ResponseData<DATA?>, DATA>.() -> Unit
+    block: suspend CoroutinesRequestDSL<ResponseData<DATA>, DATA>.() -> Unit
 ) = launch(context, start) { request(block) }
-
 
 /**
  * 启动请求
@@ -25,5 +24,5 @@ fun <DATA> CoroutineScope.launchRequest(
 fun <RESPONSE> CoroutineScope.launchRequestBasic(
     context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
-    block: CoroutinesRequestBasicDSL<RESPONSE>.() -> Unit
+    block: suspend CoroutinesRequestBasicDSL<RESPONSE>.() -> Unit
 ) = launch(context, start) { requestBasic(block) }

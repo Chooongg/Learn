@@ -8,6 +8,7 @@ import com.chooongg.net.exception.HttpRetryException
  * 网络同步请求 DSL
  */
 open class CoroutinesRequestSyncBasicDSL<RESPONSE> {
+
     private var api: (suspend () -> RESPONSE)? = null
 
     fun api(block: suspend () -> RESPONSE) {

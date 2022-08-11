@@ -10,6 +10,7 @@ import com.chooongg.net.exception.HttpRetryException
  * 网络请求 DSL
  */
 open class CoroutinesRequestBasicDSL<RESPONSE> {
+
     private var api: (suspend () -> RESPONSE)? = null
     private var onStart: (suspend () -> Unit)? = null
     private var onResponse: (suspend (RESPONSE) -> Unit)? = null
