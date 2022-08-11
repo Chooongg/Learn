@@ -45,7 +45,7 @@ class HttpException : ConnectException {
     }
 
     constructor(message: String) : super(message) {
-        this.type = Type.UNKNOWN
+        this.type = Type.CUSTOM
     }
 
     constructor(e: Throwable) : super() {
