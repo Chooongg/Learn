@@ -44,6 +44,10 @@ class HttpException : ConnectException {
         this.type = type
     }
 
+    constructor(message: String) : super(message) {
+        this.type = Type.UNKNOWN
+    }
+
     constructor(e: Throwable) : super() {
         if (e is HttpException) {
             this.type = e.type
