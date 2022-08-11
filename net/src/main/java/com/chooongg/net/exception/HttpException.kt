@@ -49,17 +49,6 @@ class HttpException : RuntimeException {
         this.type = Type.CUSTOM
     }
 
-    constructor(code: Int) : super() {
-        var tempType = Type.UNKNOWN
-        for (i in Type.values().indices) {
-            if (Type.values()[i].value == code) {
-                tempType = Type.values()[i]
-                break
-            }
-        }
-        this.type = tempType
-    }
-
     constructor(code: String, message: String) : super(message) {
         this.code = code
         this.mMessage = message
