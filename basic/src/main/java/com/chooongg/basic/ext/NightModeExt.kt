@@ -24,6 +24,6 @@ fun getNightMode() = AppCompatDelegate.getDefaultNightMode()
  * 设置深色模式
  */
 fun setNightMode(@AppCompatDelegate.NightMode mode: Int) {
-    AppCompatDelegate.setDefaultNightMode(mode)
     LearnMMKV.DayNightMode.set(mode)
+    AppCompatDelegate.setDefaultNightMode(mode)
 }
