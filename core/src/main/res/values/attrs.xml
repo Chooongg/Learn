@@ -89,8 +89,10 @@
         <attr name="navigationType" />
         <attr name="title" />
         <attr name="titleCentered" />
+        <attr name="titleTextAppearance" />
         <attr name="subtitle" />
         <attr name="subtitleCentered" />
+        <attr name="subtitleTextAppearance" />
         <attr name="titleMargin" format="dimension" />
         <attr name="titleMarginStart" format="dimension" />
         <attr name="titleMarginEnd" format="dimension" />

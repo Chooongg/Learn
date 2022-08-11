@@ -31,6 +31,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/LearnWindowAnimation</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.Button.Navigation</item>
+        <item name="snackbarStyle">@style/Widget.Learn.Snackbar</item>
     </style>
 
     <style name="LearnWindowAnimation" parent="@android:style/Animation.Activity">
@@ -40,6 +41,16 @@
         <item name="android:activityOpenExitAnimation">@anim/nothing</item>
         <item name="android:activityCloseExitAnimation">@anim/shared_axis_y_exit</item>
         <item name="android:activityCloseEnterAnimation">@anim/nothing</item>
+    </style>
+
+    <style name="Widget.Learn.Snackbar" parent="Base.Widget.Material3.Snackbar">
+        <item name="animationMode">fade</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout_marginBottom">@dimen/contentLarge</item>
+        <item name="android:layout_marginEnd">@dimen/contentSmall</item>
+        <item name="android:layout_marginStart">@dimen/contentSmall</item>
+        <item name="android:layout_marginTop">@dimen/contentSmall</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceCornerExtraSmall</item>
     </style>
 
 </resources>

@@ -102,7 +102,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         val transform = MaterialContainerTransform(this, entering)
         transform.addTarget(android.R.id.content)
         transform.containerColor = attrColor(com.google.android.material.R.attr.colorSurface)
-        transform.fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
         return transform
     }
 

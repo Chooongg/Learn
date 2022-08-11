@@ -50,12 +50,24 @@ class TopAppBarLayout @JvmOverloads constructor(
             topAppBar.isTitleCentered =
                 a.getBoolean(R.styleable.TopAppBarLayout_titleCentered, false)
         }
+        if (a.hasValue(R.styleable.TopAppBarLayout_titleTextAppearance)) {
+            topAppBar.setTitleTextAppearance(
+                context,
+                a.getResourceId(R.styleable.TopAppBarLayout_titleTextAppearance, 0)
+            )
+        }
         if (a.hasValue(R.styleable.TopAppBarLayout_subtitle)) {
             topAppBar.subtitle = a.getString(R.styleable.TopAppBarLayout_subtitle)
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_subtitleCentered)) {
             topAppBar.isSubtitleCentered =
                 a.getBoolean(R.styleable.TopAppBarLayout_subtitleCentered, false)
+        }
+        if (a.hasValue(R.styleable.TopAppBarLayout_subtitleTextAppearance)) {
+            topAppBar.setSubtitleTextAppearance(
+                context,
+                a.getResourceId(R.styleable.TopAppBarLayout_subtitleTextAppearance, 0)
+            )
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_navigationType)) {
             topAppBar.navigationType =
