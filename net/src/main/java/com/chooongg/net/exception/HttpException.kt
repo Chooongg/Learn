@@ -45,6 +45,13 @@ class HttpException : ConnectException {
     }
 
     constructor(message: String) : super(message) {
+        this.mMessage = message
+        this.type = Type.CUSTOM
+    }
+
+    constructor(code: String, message: String) : super(message) {
+        this.code = code
+        this.mMessage = message
         this.type = Type.CUSTOM
     }
 
