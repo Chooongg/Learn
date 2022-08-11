@@ -10,7 +10,7 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.net.ssl.SSLHandshakeException
 
-class HttpException : ConnectException {
+class HttpException : RuntimeException {
 
     object Converter {
         private var converter: HttpErrorConverter = DefaultErrorConverter()
@@ -55,7 +55,7 @@ class HttpException : ConnectException {
         this.type = Type.CUSTOM
     }
 
-    constructor(e: Throwable) : super() {
+    constructor(e: Throwable) : super(e.message, e) {
         if (e is HttpException) {
             this.type = e.type
             this.code = e.code
