@@ -1,7 +1,6 @@
 package com.chooongg.net
 
 import com.chooongg.basic.APPLICATION
-import com.chooongg.basic.ext.getTClass
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.Cache
 import okhttp3.HttpUrl
@@ -10,6 +9,8 @@ import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 import java.net.URL
 import java.util.concurrent.TimeUnit
@@ -22,9 +23,11 @@ object RetrofitManager {
     const val DEFAULT_TIMEOUT = 30L // 默认超时时间 秒为单位
     const val DEFAULT_HTTP_CACHE_SIZE = 10L * 1048576L // 默认缓存大小
 
-    class Builder<T> {
+    class Builder<T : Any>(private val clazz: KClass<T>) {
 
         private var retrofitBuilder = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
         private var okhttpBuilder = OkHttpClient.Builder()
             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -112,7 +115,7 @@ object RetrofitManager {
             if (baseUrl != null) retrofitBuilder.baseUrl(baseUrl!!)
             retrofitBlock?.invoke(retrofitBuilder)
             val retrofit = retrofitBuilder.build()
-            return retrofit.create(javaClass.getTClass()) as T
+            return retrofit.create(clazz.java) as T
         }
     }
 }

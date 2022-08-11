@@ -58,6 +58,11 @@
             android:label="TopAppBarLayout"
             android:launchMode="singleTop" />
 
+        <activity
+            android:name=".network.NetworkActivity"
+            android:label="Network"
+            android:launchMode="singleTop" />
+
     </application>
 
 </manifest>

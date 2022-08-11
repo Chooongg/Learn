@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.chooongg.basic.ext.logE
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.basic.ext.showToast
@@ -21,6 +20,7 @@ import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
 import com.chooongg.learn.eventFlow.EventFlowActivity
 import com.chooongg.learn.loading.LoadingActivity
+import com.chooongg.learn.network.NetworkActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
 
@@ -36,7 +36,6 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
             size(resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium))
         }
         adapter.setOnItemClickListener { _, view, position ->
-            logE("MainAdapter点击事件")
             adapter.data[position].action(view)
         }
         adapter.setNewInstance(
@@ -44,17 +43,18 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
                 MainItem(R.drawable.ic_main_echarts, "ECharts") {
                     showToast("暂未开发")
                 }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
-                    startActivity(EventFlowActivity::class)
+                    startActivity(EventFlowActivity::class, it)
                 }, MainItem(R.drawable.ic_main_loading, "Loading") {
                     startActivity(LoadingActivity::class, it)
                 }, MainItem(R.drawable.ic_main_state_layout, "StateLayout") {
                     startActivity(StateLayoutActivity::class, it)
+                }, MainItem(R.drawable.ic_main_network, "Network") {
+                    startActivity(NetworkActivity::class, it)
                 }, MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar") {
                     startActivity(TopAppBarActivity::class, it)
                 }
             )
         )
-        model.test = "sdf"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

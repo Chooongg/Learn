@@ -21,6 +21,10 @@ open class CoroutinesRequestBasicDSL<RESPONSE> {
         api = block
     }
 
+    fun onStart(block: suspend () -> Unit) {
+        onStart = block
+    }
+
     fun onResponse(block: suspend (RESPONSE) -> Unit) {
         onResponse = block
     }
