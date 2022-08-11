@@ -6,13 +6,15 @@ import com.chooongg.core.ext.getBindingT
 
 abstract class BasicBindingActivity<BINDING : ViewBinding> : BasicActivity() {
 
-    @Suppress("UNCHECKED_CAST")
-    protected val binding: BINDING by lazy { getBindingT(getBindingTIndex()) }
+    protected lateinit var binding: BINDING
+        private set
 
     override fun initLayout() = ResourcesCompat.ID_NULL
 
     override fun setContentViewInternal() {
-        setContentView(binding.root)
+        setContentView(getBindingT<BINDING>(getBindingTIndex()).apply {
+            binding = this
+        }.root)
     }
 
     protected open fun getBindingTIndex() = 0
