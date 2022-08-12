@@ -29,7 +29,7 @@ class DefaultErrorConverter : HttpErrorConverter() {
         HttpException.Type.HTTP417 -> "请求出现错误(417)"
         HttpException.Type.HTTP500 -> "服务器遇到错误(500)"
         HttpException.Type.HTTP501 -> "服务器不具备完成请求的功能(501)"
-        HttpException.Type.HTTP502 -> "服务器遇到错误(502)"
+        HttpException.Type.HTTP502 -> "服务器暂时不可用(502)"
         HttpException.Type.HTTP503 -> "服务器暂时不可用(503)"
         HttpException.Type.HTTP504 -> "服务器遇到错误(504)"
         HttpException.Type.HTTP505 -> "服务器遇到错误(505)"
