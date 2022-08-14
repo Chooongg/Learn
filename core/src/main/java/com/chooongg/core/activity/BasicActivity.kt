@@ -80,7 +80,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     private fun configContainerTransform() {
         if (javaClass.getAnnotation(ActivityTransitions::class.java)?.enable != true) return
         window.apply {
-            setBackgroundDrawable(null)
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
             exitTransition = null
