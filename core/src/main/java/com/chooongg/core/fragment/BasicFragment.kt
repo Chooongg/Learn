@@ -20,7 +20,7 @@ abstract class BasicFragment : Fragment() {
     var isLoaded = false; private set
     val isShowing get() = !isHidden && isResumed
 
-    var title: CharSequence? = javaClass.getAnnotationTitle(context)
+    open var title: CharSequence? = javaClass.getAnnotationTitle(context)
 
     open fun getLiftOnScrollTargetId(): Int = ResourcesCompat.ID_NULL
 
