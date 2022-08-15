@@ -33,6 +33,8 @@ abstract class BasicFragment : Fragment() {
 
     protected open fun initContentByLazy() = Unit
 
+    open fun onReselected() = Unit
+
     open fun onRefresh(any: Any? = null) = Unit
 
     override fun onCreateView(
