@@ -1,14 +1,14 @@
 package com.chooongg.core.ext
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.chooongg.basic.ext.getTClass
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.ParameterizedType
 
 @Suppress("UNCHECKED_CAST")
 fun <BINDING : ViewBinding> AppCompatActivity.getBindingT(
@@ -38,3 +38,7 @@ fun <BINDING : ViewBinding> Fragment.getBindingT(
     if (binding is ViewDataBinding) (binding as ViewDataBinding).lifecycleOwner = viewLifecycleOwner
     return binding
 }
+
+@Suppress("UNCHECKED_CAST")
+inline fun <reified BINDING : ViewBinding> ViewStub.inflateToBinding() =
+    BINDING::class.java.getMethod("bind", View::class.java).invoke(null, inflate()) as BINDING

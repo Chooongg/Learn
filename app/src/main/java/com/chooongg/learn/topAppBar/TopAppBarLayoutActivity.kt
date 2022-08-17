@@ -31,9 +31,9 @@ class TopAppBarLayoutActivity : BasicActivity() {
                     settings,
                     if (isNightMode()) WebSettingsCompat.FORCE_DARK_ON else WebSettingsCompat.FORCE_DARK_OFF
                 )
-                this.setBackgroundColor(attrColor(com.google.android.material.R.attr.colorSurface))
+                this.setBackgroundColor(0)
             }
-            loadUrl("https://www.baidu.com")
+//            loadUrl("https://www.baidu.com")
         }
     }
 }

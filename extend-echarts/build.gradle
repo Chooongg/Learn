@@ -34,13 +34,8 @@ android {
 }
 
 dependencies {
-    implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
-    api "androidx.startup:startup-runtime:1.2.0-alpha01"
-
-    api 'com.tencent:mmkv:1.2.14'
-    // 调试工具
-    implementation 'com.facebook.stetho:stetho:1.6.0'
+    implementation 'androidx.webkit:webkit:1.5.0-rc01'
 }
 
 afterEvaluate {
@@ -49,7 +44,7 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = "com.chooongg.learn"
-                artifactId = "basic"
+                artifactId = "echarts"
                 version = rootProject.ext.versionName
             }
         }

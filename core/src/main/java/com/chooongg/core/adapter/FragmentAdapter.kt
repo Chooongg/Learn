@@ -1,7 +1,6 @@
 package com.chooongg.core.adapter
 
 import android.view.View
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -11,19 +10,15 @@ import androidx.viewpager2.widget.ViewPager2
 import com.chooongg.core.fragment.BasicFragment
 import com.google.android.material.appbar.AppBarLayout
 
-fun ViewPager2.setAdapterBindAppBarLayout(
-    adapter: FragmentAdapter<out BasicFragment>,
-    appBarLayout: AppBarLayout
-) {
-    setAdapter(adapter)
+fun ViewPager2.bindAppBarLayout(appBarLayout: AppBarLayout) {
     val liftOnScrollSwitchTargetIdCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            adapter.getLiftOnScrollTargetId(position).apply {
-                appBarLayout.liftOnScrollTargetViewId = this
-            }
+            (adapter as? FragmentAdapter<out BasicFragment>)
+                ?.getLiftOnScrollTargetId(position)
+                ?.let { appBarLayout.liftOnScrollTargetViewId = it }
         }
     }
-    if (ViewCompat.isAttachedToWindow(this)) {
+    if (isAttachedToWindow) {
         registerOnPageChangeCallback(liftOnScrollSwitchTargetIdCallback)
     }
     addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
@@ -40,7 +35,7 @@ fun ViewPager2.setAdapterBindAppBarLayout(
 
 class FragmentAdapter<T : BasicFragment> : FragmentStateAdapter {
 
-    private val fragments: MutableList<T>
+    val fragments: MutableList<T>
 
     constructor(fragmentActivity: FragmentActivity, fragments: MutableList<T>) : super(
         fragmentActivity
