@@ -171,7 +171,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         if (javaClass.getAnnotation(AutoBackPressed::class.java)?.value == true && ACTIVITY_TASK.size <= 1) {
             val secondTime = System.currentTimeMillis()
             if (secondTime - firstTime > 2000) {
-                Snackbar.make(contentView, "再按一次退出程序", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(contentView, "再按一次退出应用", Snackbar.LENGTH_SHORT).show()
                 firstTime = secondTime
                 return
             }
