@@ -41,18 +41,19 @@ dependencies {
     api project(path: ':basic')
     implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
-    api "androidx.activity:activity-ktx:$dependenciesVersion.appcompatVersion"
+//    api 'androidx.core:core-ktx:1.9.0-beta01'
     api "androidx.lifecycle:lifecycle-runtime-ktx:$dependenciesVersion.lifecycleVersion"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$dependenciesVersion.lifecycleVersion"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependenciesVersion.lifecycleVersion"
-    api 'androidx.webkit:webkit:1.5.0-beta01'
-    api 'androidx.work:work-runtime-ktx:2.8.0-alpha02'
-    api 'androidx.constraintlayout:constraintlayout:2.1.4'
-    api 'androidx.navigation:navigation-ui-ktx:2.5.0-rc01'
-    api 'androidx.navigation:navigation-fragment-ktx:2.5.0-rc01'
+    api 'androidx.webkit:webkit:1.5.0-rc01'
+    api 'androidx.work:work-runtime-ktx:2.8.0-alpha03'
+    api 'androidx.constraintlayout:constraintlayout:2.2.0-alpha03'
+    api 'androidx.navigation:navigation-ui-ktx:2.5.1'
+    api 'androidx.navigation:navigation-fragment-ktx:2.5.1'
     api 'androidx.viewpager2:viewpager2:1.1.0-beta01'
+    api 'androidx.paging:paging-runtime-ktx:3.2.0-alpha02'
     api 'com.google.android.flexbox:flexbox:3.0.0'
-    api 'com.github.getActivity:XXPermissions:15.0'
+    api 'com.github.getActivity:XXPermissions:16.0'
     api 'com.github.fondesa:recycler-view-divider:3.5.0'
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
     // 下拉刷新-上拉加载

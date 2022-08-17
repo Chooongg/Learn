@@ -12,14 +12,14 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 
-class PermissionInterceptor : IPermissionInterceptor {
+open class PermissionInterceptor : IPermissionInterceptor {
 
     override fun requestPermissions(
         activity: Activity,
-        callback: OnPermissionCallback,
-        permissions: MutableList<String>
+        permissions: MutableList<String>,
+        callback: OnPermissionCallback
     ) {
-        super.requestPermissions(activity, callback, permissions)
+        super.requestPermissions(activity, permissions, callback)
     }
 
     override fun grantedPermissions(
