@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
-import com.chooongg.basic.ext.showToast
 import com.chooongg.core.activity.BasicBindingModelActivity
 import com.chooongg.core.adapter.BindingAdapter
 import com.chooongg.core.annotation.HomeButton
@@ -18,6 +17,7 @@ import com.chooongg.core.ext.startActivity
 import com.chooongg.core.viewModel.BasicModel
 import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
+import com.chooongg.learn.echarts.EChartsActivity
 import com.chooongg.learn.eventFlow.EventFlowActivity
 import com.chooongg.learn.loading.LoadingActivity
 import com.chooongg.learn.network.NetworkActivity
@@ -41,7 +41,7 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
         adapter.setNewInstance(
             mutableListOf(
                 MainItem(R.drawable.ic_main_echarts, "ECharts") {
-                    showToast("暂未开发")
+                    startActivity(EChartsActivity::class, it)
                 }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
                     startActivity(EventFlowActivity::class, it)
                 }, MainItem(R.drawable.ic_main_loading, "Loading") {

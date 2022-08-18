@@ -109,10 +109,10 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
             if (it.isEdgeToEdge.not()) return
             WindowCompat.setDecorFitsSystemWindows(window, false)
             window.statusBarColor = it.statusBarColor
-            val left = it.fitsSide and WindowInsets.Side.LEFT != 0
-            val top = it.fitsSide and WindowInsets.Side.TOP != 0
-            val right = it.fitsSide and WindowInsets.Side.RIGHT != 0
-            val bottom = it.fitsSide and WindowInsets.Side.BOTTOM != 0
+            val left = it.fitsSide and ActivityEdgeToEdge.LEFT != 0
+            val top = it.fitsSide and ActivityEdgeToEdge.TOP != 0
+            val right = it.fitsSide and ActivityEdgeToEdge.RIGHT != 0
+            val bottom = it.fitsSide and ActivityEdgeToEdge.BOTTOM != 0
             if (left || top || right || bottom) {
                 ViewCompat.setOnApplyWindowInsetsListener(contentView) { view, insets ->
                     val systemBarInsets =
@@ -151,7 +151,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -162,6 +162,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     private var firstTime: Long = 0
+
     override fun onBackPressed() {
         supportFragmentManager.fragments.forEach {
             if (it is BasicFragment && !it.isHidden && it.isResumed && it.onBackPressedIntercept()) {
