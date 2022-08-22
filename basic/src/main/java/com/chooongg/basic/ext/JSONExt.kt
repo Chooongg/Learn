@@ -1,4 +1,4 @@
-package com.chooongg.basic.utils
+package com.chooongg.basic.ext
 
 import org.json.JSONArray
 import org.json.JSONObject
