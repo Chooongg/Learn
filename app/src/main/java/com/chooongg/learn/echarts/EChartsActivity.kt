@@ -1,383 +1,279 @@
 package com.chooongg.learn.echarts
 
 import android.os.Bundle
-import androidx.paging.PagingDataAdapter
 import com.chooongg.basic.ext.doOnClick
+import com.chooongg.basic.utils.json
+import com.chooongg.basic.utils.jsonArray
 import com.chooongg.core.activity.BasicBindingActivity
 import com.chooongg.learn.databinding.ActivityEchartsBinding
-import org.json.JSONArray
-import org.json.JSONObject
 
 class EChartsActivity : BasicBindingActivity<ActivityEchartsBinding>() {
 
     private var change = false
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding.echartsView.setOption(setOption1())
+        binding.echartsView.setOption(option1())
         binding.btnChange.doOnClick {
             if (change) {
-                binding.echartsView.setOption(setOption3())
+                binding.echartsView.setOption(option3())
             } else {
-                binding.echartsView.setOption(setOption2())
+                binding.echartsView.setOption(option2())
             }
             change = !change
         }
     }
 
-    private fun setOption1() = JSONObject().apply {
-        put("color", JSONArray().apply {
-            put("#80FFA5")
-            put("#00DDFF")
-            put("#37A2FF")
-            put("#FF0087")
-            put("#FFBF00")
-        })
-        put("title", JSONObject().apply {
-            put("text", "渐变堆叠面积图")
-        })
-        put("tooltip", JSONObject().apply {
-            put("trigger", "axis")
-            put("axisPointer", JSONObject().apply {
-                put("type", "cross")
-                put("label", JSONObject().apply {
-                    put("backgroundColor", "#6a7985")
-                })
-            })
-        })
-        put("grid", JSONObject().apply {
-            put("left", "3%")
-            put("right", "4%")
-            put("bottom", "3%")
-            put("containLabel", true)
-        })
-        put("xAxis", JSONObject().apply {
-            put("type", "category")
-            put("boundaryGap", false)
-            put("data", JSONArray().apply {
-                put("Mon")
-                put("Tue")
-                put("Wed")
-                put("Thu")
-                put("Fri")
-                put("Sat")
-                put("Sun")
-            })
-        })
-        put("yAxis", JSONObject().apply {
-            put("type", "value")
-        })
-        put("series", JSONArray().apply {
-            put(JSONObject().apply {
-                put("name", "Line 1")
-                put("type", "line")
-                put("stack", "Total")
-                put("smooth", true)
-                put("lineStyle", JSONObject().apply {
-                    put("width", 0)
-                })
-                put("showSymbol", false)
-                put("areaStyle", JSONObject().apply {
-                    put("opacity", 0.8)
-                    put("color", JSONObject().apply {
-                        put("type", "linear")
-                        put("x", 0)
-                        put("y", 0)
-                        put("x2", 0)
-                        put("y2", 1)
-                        put("colorStops", JSONArray().apply {
-                            put(JSONObject().apply {
-                                put("offset", 0)
-                                put("color", "rgb(128, 255, 165)")
-                            })
-                            put(JSONObject().apply {
-                                put("offset", 1)
-                                put("color", "rgb(1, 191, 236)")
-                            })
-                        })
-                    })
-                })
-                put("emphasis", JSONObject().apply {
-                    put("focus", "series")
-                })
-                put("data", JSONArray().apply {
-                    put(140)
-                    put(232)
-                    put(101)
-                    put(264)
-                    put(90)
-                    put(340)
-                    put(250)
-                })
-            })
-            put(JSONObject().apply {
-                put("name", "Line 2")
-                put("type", "line")
-                put("stack", "Total")
-                put("smooth", true)
-                put("lineStyle", JSONObject().apply {
-                    put("width", 0)
-                })
-                put("showSymbol", false)
-                put("areaStyle", JSONObject().apply {
-                    put("opacity", 0.8)
-                    put("color", JSONObject().apply {
-                        put("type", "linear")
-                        put("x", 0)
-                        put("y", 0)
-                        put("x2", 0)
-                        put("y2", 1)
-                        put("colorStops", JSONArray().apply {
-                            put(JSONObject().apply {
-                                put("offset", 0)
-                                put("color", "rgb(0, 221, 255)")
-                            })
-                            put(JSONObject().apply {
-                                put("offset", 1)
-                                put("color", "rgb(77, 119, 255)")
-                            })
-                        })
-                    })
-                })
-                put("emphasis", JSONObject().apply {
-                    put("focus", "series")
-                })
-                put("data", JSONArray().apply {
-                    put(120)
-                    put(282)
-                    put(111)
-                    put(234)
-                    put(220)
-                    put(340)
-                    put(310)
-                })
-            })
-            put(JSONObject().apply {
-                put("name", "Line 3")
-                put("type", "line")
-                put("stack", "Total")
-                put("smooth", true)
-                put("lineStyle", JSONObject().apply {
-                    put("width", 0)
-                })
-                put("showSymbol", false)
-                put("areaStyle", JSONObject().apply {
-                    put("opacity", 0.8)
-                    put("color", JSONObject().apply {
-                        put("type", "linear")
-                        put("x", 0)
-                        put("y", 0)
-                        put("x2", 0)
-                        put("y2", 1)
-                        put("colorStops", JSONArray().apply {
-                            put(JSONObject().apply {
-                                put("offset", 0)
-                                put("color", "rgb(55, 162, 255)")
-                            })
-                            put(JSONObject().apply {
-                                put("offset", 1)
-                                put("color", "rgb(116, 21, 219)")
-                            })
-                        })
-                    })
-                })
-                put("emphasis", JSONObject().apply {
-                    put("focus", "series")
-                })
-                put("data", JSONArray().apply {
-                    put(320)
-                    put(132)
-                    put(201)
-                    put(334)
-                    put(190)
-                    put(130)
-                    put(220)
-                })
-            })
-            put(JSONObject().apply {
-                put("name", "Line 4")
-                put("type", "line")
-                put("stack", "Total")
-                put("smooth", true)
-                put("lineStyle", JSONObject().apply {
-                    put("width", 0)
-                })
-                put("showSymbol", false)
-                put("areaStyle", JSONObject().apply {
-                    put("opacity", 0.8)
-                    put("color", JSONObject().apply {
-                        put("type", "linear")
-                        put("x", 0)
-                        put("y", 0)
-                        put("x2", 0)
-                        put("y2", 1)
-                        put("colorStops", JSONArray().apply {
-                            put(JSONObject().apply {
-                                put("offset", 0)
-                                put("color", "rgb(255, 0, 135)")
-                            })
-                            put(JSONObject().apply {
-                                put("offset", 1)
-                                put("color", "rgb(135, 0, 157)")
-                            })
-                        })
-                    })
-                })
-                put("emphasis", JSONObject().apply {
-                    put("focus", "series")
-                })
-                put("data", JSONArray().apply {
-                    put(220)
-                    put(402)
-                    put(231)
-                    put(134)
-                    put(190)
-                    put(230)
-                    put(120)
-                })
-            })
-            put(JSONObject().apply {
-                put("name", "Line 5")
-                put("type", "line")
-                put("stack", "Total")
-                put("smooth", true)
-                put("lineStyle", JSONObject().apply {
-                    put("width", 0)
-                })
-                put("showSymbol", false)
-                put("areaStyle", JSONObject().apply {
-                    put("opacity", 0.8)
-                    put("color", JSONObject().apply {
-                        put("type", "linear")
-                        put("x", 0)
-                        put("y", 0)
-                        put("x2", 0)
-                        put("y2", 1)
-                        put("colorStops", JSONArray().apply {
-                            put(JSONObject().apply {
-                                put("offset", 0)
-                                put("color", "rgb(255, 191, 0)")
-                            })
-                            put(JSONObject().apply {
-                                put("offset", 1)
-                                put("color", "rgb(224, 62, 76)")
-                            })
-                        })
-                    })
-                })
-                put("emphasis", JSONObject().apply {
-                    put("focus", "series")
-                })
-                put("data", JSONArray().apply {
-                    put(220)
-                    put(302)
-                    put(181)
-                    put(234)
-                    put(210)
-                    put(290)
-                    put(150)
-                })
-            })
-        })
+    private fun option1() = json {
+        "color" to jsonArray("#80FFA5", "#00DDFF", "#37A2FF", "#FF0087", "#FFBF00")
+        "title" to json {
+            "text" to "渐变堆叠面积图"
+        }
+        "tooltip" to json {
+            "trigger" to "axis"
+            "axisPointer" to json {
+                "type" to "cross"
+                "label" to json {
+                    "backgroundColor" to "#6a7985"
+                }
+            }
+        }
+        "grid" to json {
+            "left" to "0%"
+            "right" to "0%"
+            "bottom" to "0%"
+            "containLabel" to true
+        }
+        "xAxis" to json {
+            "type" to "category"
+            "boundaryGap" to false
+            "data" to jsonArray("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+        }
+        "yAxis" to json {
+            "type" to "value"
+        }
+        "series" to jsonArray(
+            json {
+                "name" to "Line 1"
+                "type" to "line"
+                "stack" to "Total"
+                "smooth" to true
+                "lineStyle" to json {
+                    "width" to 0
+                }
+                "showSymbol" to false
+                "areaStyle" to json {
+                    "opacity" to 0.8
+                    "color" to json {
+                        "type" to "linear"
+                        "x" to 0
+                        "y" to 0
+                        "x2" to 0
+                        "y2" to 1
+                        "colorStops" to jsonArray(
+                            json {
+                                "offset" to 0
+                                "color" to "rgb(128, 255, 165)"
+                            }, json {
+                                "offset" to 1
+                                "color" to "rgb(1, 191, 236)"
+                            }
+                        )
+                    }
+                }
+                "emphasis" to json {
+                    "focus" to "series"
+                }
+                "data" to jsonArray(140, 232, 101, 264, 90, 340, 250)
+            }, json {
+                "name" to "Line 2"
+                "type" to "line"
+                "stack" to "Total"
+                "smooth" to true
+                "lineStyle" to json {
+                    "width" to 0
+                }
+                "showSymbol" to false
+                "areaStyle" to json {
+                    "opacity" to 0.8
+                    "color" to json {
+                        "type" to "linear"
+                        "x" to 0
+                        "y" to 0
+                        "x2" to 0
+                        "y2" to 1
+                        "colorStops" to jsonArray(
+                            json {
+                                "offset" to 0
+                                "color" to "rgb(0, 221, 255)"
+                            }, json {
+                                "offset" to 1
+                                "color" to "rgb(77, 119, 255)"
+                            }
+                        )
+                    }
+                }
+                "emphasis" to json {
+                    "focus" to "series"
+                }
+                "data" to jsonArray(120, 282, 111, 234, 220, 340, 310)
+            }, json {
+                "name" to "Line 3"
+                "type" to "line"
+                "stack" to "Total"
+                "smooth" to true
+                "lineStyle" to json {
+                    "width" to 0
+                }
+                "showSymbol" to false
+                "areaStyle" to json {
+                    "opacity" to 0.8
+                    "color" to json {
+                        "type" to "linear"
+                        "x" to 0
+                        "y" to 0
+                        "x2" to 0
+                        "y2" to 1
+                        "colorStops" to jsonArray(
+                            json {
+                                "offset" to 0
+                                "color" to "rgb(55, 162, 255)"
+                            }, json {
+                                "offset" to 1
+                                "color" to "rgb(116, 21, 219)"
+                            }
+                        )
+                    }
+                }
+                "emphasis" to json {
+                    "focus" to "series"
+                }
+                "data" to jsonArray(320, 132, 201, 334, 190, 130, 220)
+            }, json {
+                "name" to "Line 4"
+                "type" to "line"
+                "stack" to "Total"
+                "smooth" to true
+                "lineStyle" to json {
+                    "width" to 0
+                }
+                "showSymbol" to false
+                "areaStyle" to json {
+                    "opacity" to 0.8
+                    "color" to json {
+                        "type" to "linear"
+                        "x" to 0
+                        "y" to 0
+                        "x2" to 0
+                        "y2" to 1
+                        "colorStops" to jsonArray(
+                            json {
+                                "offset" to 0
+                                "color" to "rgb(255, 0, 135)"
+                            }, json {
+                                "offset" to 1
+                                "color" to "rgb(135, 0, 157)"
+                            }
+                        )
+                    }
+                }
+                "emphasis" to json {
+                    "focus" to "series"
+                }
+                "data" to jsonArray(220, 402, 231, 134, 190, 230, 120)
+            }, json {
+                "name" to "Line 5"
+                "type" to "line"
+                "stack" to "Total"
+                "smooth" to true
+                "lineStyle" to json {
+                    "width" to 0
+                }
+                "showSymbol" to false
+                "areaStyle" to json {
+                    "opacity" to 0.8
+                    "color" to json {
+                        "type" to "linear"
+                        "x" to 0
+                        "y" to 0
+                        "x2" to 0
+                        "y2" to 1
+                        "colorStops" to jsonArray(
+                            json {
+                                "offset" to 0
+                                "color" to "rgb(255, 191, 0)"
+                            }, json {
+                                "offset" to 1
+                                "color" to "rgb(224, 62, 76)"
+                            }
+                        )
+                    }
+                }
+                "emphasis" to json {
+                    "focus" to "series"
+                }
+                "data" to jsonArray(220, 302, 181, 234, 210, 290, 150)
+            }
+        )
     }
 
-    private fun setOption2() = JSONObject().apply {
-        put("title", JSONObject().apply {
-            put("text", "坐标轴刻度与标签对齐")
-        })
-        put("tooltip", JSONObject().apply {
-            put("trigger", "shadow")
-        })
-        put("grid", JSONObject().apply {
-            put("left", "3%")
-            put("right", "4%")
-            put("bottom", "3%")
-            put("containLabel", true)
-        })
-        put("xAxis", JSONArray().apply {
-            put(JSONObject().apply {
-                put("type", "category")
-                put("data", JSONArray().apply {
-                    put("Mon")
-                    put("Tue")
-                    put("Wed")
-                    put("Thu")
-                    put("Fri")
-                    put("Sat")
-                    put("Sun")
-                })
-            })
-        })
-        put("yAxis", JSONArray().apply {
-            put(JSONObject().apply {
-                put("type", "value")
-            })
-        })
-        put("series", JSONArray().apply {
-            put(JSONObject().apply {
-                put("name", "Direct")
-                put("type", "bar")
-                put("barWidth", "60%")
-                put("data", JSONArray().apply {
-                    put(10)
-                    put(52)
-                    put(200)
-                    put(334)
-                    put(390)
-                    put(330)
-                    put(220)
-                })
-            })
-        })
+    private fun option2() = json {
+        "title" to json {
+            "text" to "坐标轴刻度与标签对齐"
+        }
+        "tooltip" to json {
+            "trigger" to "shadow"
+        }
+        "grid" to json {
+            "left" to "0%"
+            "right" to "0%"
+            "bottom" to "0%"
+            "containLabel" to true
+        }
+        "xAxis" to json {
+            "type" to "category"
+            "data" to jsonArray("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+        }
+        "yAxis" to json {
+            "type" to "value"
+        }
+        "series" to json {
+            "name" to "Direct"
+            "type" to "bar"
+            "barWidth" to "60%"
+            "itemStyle" to json {
+                "shadowBlur" to 10
+                "shadowColor" to "rgba(128,128,128,0.5)"
+            }
+            "data" to jsonArray(10, 52, 200, 334, 390, 330, 220)
+        }
     }
 
-    private fun setOption3() = JSONObject().apply {
-        put("title", JSONObject().apply {
-            put("text", "坐标轴刻度与标签对齐")
-        })
-        put("tooltip", JSONObject().apply {
-            put("trigger", "shadow")
-        })
-        put("grid", JSONObject().apply {
-            put("left", "3%")
-            put("right", "4%")
-            put("bottom", "3%")
-            put("containLabel", true)
-        })
-        put("xAxis", JSONArray().apply {
-            put(JSONObject().apply {
-                put("type", "category")
-                put("data", JSONArray().apply {
-                    put("Mon")
-                    put("Tue")
-                    put("Wed")
-                    put("Thu")
-                    put("Fri")
-                    put("Sat")
-                    put("Sun")
-                })
-            })
-        })
-        put("yAxis", JSONArray().apply {
-            put(JSONObject().apply {
-                put("type", "value")
-            })
-        })
-        put("series", JSONArray().apply {
-            put(JSONObject().apply {
-                put("name", "Direct")
-                put("type", "bar")
-                put("barWidth", "60%")
-                put("data", JSONArray().apply {
-                    put(220)
-                    put(330)
-                    put(390)
-                    put(334)
-                    put(200)
-                    put(52)
-                    put(10)
-                })
-            })
-        })
+    private fun option3() = json {
+        "title" to json {
+            "text" to "坐标轴刻度与标签对齐"
+        }
+        "tooltip" to json {
+            "trigger" to "shadow"
+        }
+        "grid" to json {
+            "left" to "0%"
+            "right" to "0%"
+            "bottom" to "0%"
+            "containLabel" to true
+        }
+        "xAxis" to json {
+            "type" to "category"
+            "data" to jsonArray("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+        }
+        "yAxis" to json {
+            "type" to "value"
+        }
+        "series" to json {
+            "name" to "Direct"
+            "type" to "bar"
+            "barWidth" to "60%"
+            "data" to jsonArray(484, 751, 914, 534, 200, 483, 184)
+        }
     }
 
     override fun onDestroy() {
