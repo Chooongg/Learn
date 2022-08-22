@@ -2,8 +2,8 @@ package com.chooongg.learn.echarts
 
 import android.os.Bundle
 import com.chooongg.basic.ext.doOnClick
-import com.chooongg.basic.utils.json
-import com.chooongg.basic.utils.jsonArray
+import com.chooongg.basic.ext.json
+import com.chooongg.basic.ext.jsonArray
 import com.chooongg.core.activity.BasicBindingActivity
 import com.chooongg.learn.databinding.ActivityEchartsBinding
 
