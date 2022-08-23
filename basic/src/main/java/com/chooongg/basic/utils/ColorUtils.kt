@@ -132,7 +132,7 @@ object ColorUtils {
     fun int2CssString(@ColorInt colorInt: Int): String {
         val alpha = Color.alpha(colorInt)
         val red = Color.red(colorInt)
-        val green = Color.red(colorInt)
+        val green = Color.green(colorInt)
         val blue = Color.blue(colorInt)
         return if (alpha >= 255) {
             "rgb(${red},${green},${blue})"
