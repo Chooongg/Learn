@@ -20,7 +20,7 @@ abstract class BasicFragment : Fragment() {
     var isLoaded = false; private set
     val isShowing get() = !isHidden && isResumed
 
-    open var title: CharSequence? = javaClass.getAnnotationTitle(context)
+    open var title: CharSequence? = null; get() = field ?: javaClass.getAnnotationTitle(context)
 
     open fun getLiftOnScrollTargetId(): Int = ResourcesCompat.ID_NULL
 
@@ -47,7 +47,10 @@ abstract class BasicFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        logDClass(javaClass, "(${javaClass.simpleName}${title}) onViewCreated")
+        logDClass(javaClass, buildString {
+            if (title != null) append('(').append(title).append(") ")
+            append("onViewCreated")
+        })
         super.onViewCreated(view, savedInstanceState)
         initView(savedInstanceState)
         initContent(savedInstanceState)
@@ -76,7 +79,10 @@ abstract class BasicFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        logDClass(javaClass, "(${javaClass.simpleName}${title}) onDestroyView")
+        logDClass(javaClass, buildString {
+            if (title != null) append('(').append(title).append(") ")
+            append("onDestroyView")
+        })
         isLoaded = false
     }
 }

@@ -26,8 +26,6 @@ class EChartsView @JvmOverloads constructor(
 
     private var isFinished = false
 
-    private var lastOption:JSONObject? = null
-
     init {
         setWebContentsDebuggingEnabled(true)
         overScrollMode = OVER_SCROLL_NEVER
@@ -66,7 +64,6 @@ class EChartsView @JvmOverloads constructor(
     }
 
     fun setOption(json: JSONObject) {
-        lastOption = json
         loadJavaScript("javascript:setOption('${json}')")
     }
 
@@ -75,7 +72,7 @@ class EChartsView @JvmOverloads constructor(
             shouldCallJsFunctionArray.add(function)
             return
         }
-        loadUrl(function)
+        evaluateJavascript(function, null)
     }
 
     private fun initWebViewClient() {
@@ -83,9 +80,7 @@ class EChartsView @JvmOverloads constructor(
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 isFinished = true
-                shouldCallJsFunctionArray.forEach {
-                    loadUrl(it)
-                }
+                shouldCallJsFunctionArray.forEach { evaluateJavascript(it, null) }
                 shouldCallJsFunctionArray.clear()
             }
         }
@@ -99,7 +94,7 @@ class EChartsView @JvmOverloads constructor(
 
         @JavascriptInterface
         fun showDebugMessage(message: String) {
-            if (debug) Log.d("EChartsView", message)
+            if (debug) Log.v("EChartsView", message)
         }
 
         /**添加图表事件响应监听
@@ -146,8 +141,6 @@ class EChartsView @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         settings.javaScriptEnabled = false
-        isFinished = false
-        lastOption?.let { setOption(it) }
         super.onDetachedFromWindow()
     }
 }

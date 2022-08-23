@@ -58,7 +58,10 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
-        logDClass(javaClass, "(${title}) onCreated")
+        logDClass(javaClass, buildString {
+            if (title != null) append('(').append(title).append(") ")
+            append("onCreated")
+        })
         super.onPostCreate(savedInstanceState)
         contentView.setOnClickListener {
             it.clearFocus()
@@ -186,6 +189,9 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     override fun onDestroy() {
         super.onDestroy()
-        logDClass(javaClass, "(${title}) onDestroy")
+        logDClass(javaClass, buildString {
+            if (title != null) append('(').append(title).append(") ")
+            append("onDestroy")
+        })
     }
 }
