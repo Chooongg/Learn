@@ -9,9 +9,8 @@ import com.chooongg.core.ext.getBindingT
 
 abstract class BasicBindingFragment<BINDING : ViewBinding> : BasicFragment() {
 
-    private var _binding: BINDING? = null
-
-    protected val binding: BINDING get() = _binding!!
+    protected lateinit var binding: BINDING
+        private set
 
     override fun initLayout() = ResourcesCompat.ID_NULL
 
@@ -20,13 +19,8 @@ abstract class BasicBindingFragment<BINDING : ViewBinding> : BasicFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = getBindingT<BINDING>(getBindingTIndex(), inflater, container, false).also {
-        _binding = it
+        binding = it
     }.root
 
     protected open fun getBindingTIndex() = 0
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

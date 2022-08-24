@@ -2,6 +2,8 @@ package com.chooongg.echarts
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.util.AttributeSet
 import android.util.Log
@@ -9,6 +11,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.annotation.Keep
+import androidx.core.content.getSystemService
 import org.json.JSONObject
 
 @Suppress("DEPRECATION")
@@ -20,7 +23,7 @@ class EChartsView @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : WebView(context, attrs, defStyleAttr, defStyleRes) {
 
-    private var debug: Boolean = false
+    private var debug: Boolean = isAppDebug()
 
     private val shouldCallJsFunctionArray = ArrayList<String>()
 
@@ -124,5 +127,17 @@ class EChartsView @JvmOverloads constructor(
 
     interface OnAddEChartActionHandlerResponseResultListener {
         fun actionHandlerResponseResult(result: String?)
+    }
+
+    private fun isAppDebug(): Boolean {
+        if (context.packageName.isBlank()) return false
+        return try {
+            val ai = context.getSystemService<PackageManager>()!!
+                .getApplicationInfo(context.packageName, 0)
+            ai.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            false
+        }
     }
 }
