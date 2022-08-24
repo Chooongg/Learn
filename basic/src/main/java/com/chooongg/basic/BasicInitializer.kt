@@ -3,6 +3,7 @@ package com.chooongg.basic
 import android.app.Application
 import android.content.Context
 import androidx.annotation.Keep
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.startup.Initializer
 import com.chooongg.basic.ext.logDClass
 import com.chooongg.basic.ext.setNightMode
@@ -15,7 +16,10 @@ class BasicInitializer : Initializer<Unit> {
         Stetho.initializeWithDefaults(context)
         ApplicationManager.initialize(context as Application)
         MMKV.initialize(context)
-        setNightMode(LearnMMKV.DayNightMode.get())
+        setNightMode(
+            context.getSharedPreferences("chooongg-learn", Context.MODE_PRIVATE)
+                .getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO)
+        )
         logDClass(BasicInitializer::class.java, "created")
     }
 

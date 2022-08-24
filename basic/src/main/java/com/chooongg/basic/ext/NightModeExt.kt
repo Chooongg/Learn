@@ -3,6 +3,7 @@ package com.chooongg.basic.ext
 import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import com.chooongg.basic.APPLICATION
 import com.chooongg.basic.LearnMMKV
 
 /**
@@ -25,5 +26,7 @@ fun getNightMode() = AppCompatDelegate.getDefaultNightMode()
  */
 fun setNightMode(@AppCompatDelegate.NightMode mode: Int) {
     LearnMMKV.DayNightMode.set(mode)
+    APPLICATION.getSharedPreferences("chooongg-learn", Context.MODE_PRIVATE).edit()
+        .putInt("night_mode", mode).apply()
     AppCompatDelegate.setDefaultNightMode(mode)
 }
