@@ -277,8 +277,8 @@ class EChartsActivity : BasicBindingActivity<ActivityEchartsBinding>() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         binding.echartsView.removeAllViews()
         binding.echartsView.destroy()
+        super.onDestroy()
     }
 }
