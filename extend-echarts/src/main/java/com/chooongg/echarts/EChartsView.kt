@@ -8,8 +8,6 @@ import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.webkit.WebSettingsCompat
-import androidx.webkit.WebViewFeature
 import org.json.JSONObject
 
 @Suppress("DEPRECATION")
@@ -20,7 +18,7 @@ class EChartsView @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : WebView(context, attrs, defStyleAttr, defStyleRes) {
 
-    private var debug: Boolean = true
+    private var debug: Boolean = false
 
     private val shouldCallJsFunctionArray = ArrayList<String>()
 
@@ -33,13 +31,6 @@ class EChartsView @JvmOverloads constructor(
             it.javaScriptCanOpenWindowsAutomatically = true
             it.displayZoomControls = false
             it.setSupportZoom(false)
-            if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-                if (isNightMode()) {
-                    WebSettingsCompat.setForceDark(it, WebSettingsCompat.FORCE_DARK_ON)
-                } else {
-                    WebSettingsCompat.setForceDark(it, WebSettingsCompat.FORCE_DARK_OFF)
-                }
-            }
             this.setBackgroundColor(0)
         }
         addJavascriptInterface(EChartInterface(context), "Android")
