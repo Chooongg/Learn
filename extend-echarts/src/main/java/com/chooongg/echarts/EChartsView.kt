@@ -8,9 +8,11 @@ import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.Keep
 import org.json.JSONObject
 
 @Suppress("DEPRECATION")
+@SuppressLint("SetJavaScriptEnabled")
 class EChartsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -28,6 +30,7 @@ class EChartsView @JvmOverloads constructor(
         setWebContentsDebuggingEnabled(true)
         overScrollMode = OVER_SCROLL_NEVER
         settings.let {
+            it.javaScriptEnabled = true
             it.javaScriptCanOpenWindowsAutomatically = true
             it.displayZoomControls = false
             it.setSupportZoom(false)
@@ -35,19 +38,11 @@ class EChartsView @JvmOverloads constructor(
         }
         addJavascriptInterface(EChartInterface(context), "Android")
         initWebViewClient()
-    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        settings.javaScriptEnabled = true
-        if (url.isNullOrEmpty()) {
-            if (isNightMode()) {
-                loadUrl("file:///android_asset/echartsNight.html")
-            } else {
-                loadUrl("file:///android_asset/echartsDay.html")
-            }
-        } else reload()
+        if (isNightMode()) {
+            loadUrl("file:///android_asset/echartsNight.html")
+        } else {
+            loadUrl("file:///android_asset/echartsDay.html")
+        }
     }
 
     fun setDebug(debug: Boolean) {
@@ -81,6 +76,7 @@ class EChartsView @JvmOverloads constructor(
         return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 
+    @Keep
     inner class EChartInterface(val context: Context) {
 
         @JavascriptInterface
@@ -128,10 +124,5 @@ class EChartsView @JvmOverloads constructor(
 
     interface OnAddEChartActionHandlerResponseResultListener {
         fun actionHandlerResponseResult(result: String?)
-    }
-
-    override fun onDetachedFromWindow() {
-        settings.javaScriptEnabled = false
-        super.onDetachedFromWindow()
     }
 }
