@@ -1,21 +1,5 @@
-var charts;
-
-$(function () {
-    getECharts();
-});
-
-function getECharts(){
-    if (charts != undefined){
-        return charts;
-    }
-    document.create
-    var container = document.getElementById('container');
-    var height = window.innerHeight;
-    Android.showDebugMessage("height" + height.toString());
-    $(container).css('height', height);
-    charts = echarts.init(container, 'dark');
-    return charts;
-}
+var container = document.getElementById('container');
+var charts = echarts.init(container,"dark");
 
 /**
  * 构建动态图表
@@ -24,7 +8,7 @@ function setOption(eChartJson) {
     Android.showDebugMessage(eChartJson);
     var option = JSON.parse(eChartJson);
     option = preTask(option);
-    getECharts().setOption(option, true);
+    charts.setOption(option, true);
 }
 
 /*
@@ -32,7 +16,7 @@ function setOption(eChartJson) {
  */
 function addEChartActionHandler(eventName) {
     showDebugMessage("removeEChartActionHandler:" + eventName);
-    getECharts().on(eventName, addEChartViewAction);
+    charts.on(eventName, addEChartViewAction);
 }
 function addEChartViewAction(param) {
     Android.addEChartActionHandlerResponseResult(JSON.stringify(param));
@@ -43,7 +27,7 @@ function addEChartViewAction(param) {
  */
 function removeEChartActionHandler(eventName) {
     showDebugMessage("removeEChartActionHandler:" + eventName);
-    getECharts().un(name, removeEChartViewAction);
+    charts.un(name, removeEChartViewAction);
 }
 function removeEChartViewAction(param) {
     showDebugMessage("removeEChartViewAction:" + param);
@@ -51,8 +35,8 @@ function removeEChartViewAction(param) {
 }
 
 function showChartsLoading() {
-    getECharts().showLoading();
+    charts.showLoading();
 }
 function hideChartsLoading() {
-    getECharts().hideLoading();
+    charts.hideLoading();
 }

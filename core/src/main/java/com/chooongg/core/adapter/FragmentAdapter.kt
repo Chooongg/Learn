@@ -9,6 +9,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.chooongg.core.fragment.BasicFragment
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 fun ViewPager2.bindAppBarLayout(appBarLayout: AppBarLayout) {
     val liftOnScrollSwitchTargetIdCallback = object : ViewPager2.OnPageChangeCallback() {
@@ -31,6 +33,19 @@ fun ViewPager2.bindAppBarLayout(appBarLayout: AppBarLayout) {
             unregisterOnPageChangeCallback(liftOnScrollSwitchTargetIdCallback)
         }
     })
+}
+
+fun TabLayout.setupWithViewPager(
+    viewPager: ViewPager2,
+    autoRefresh: Boolean = true,
+    tabConfigurationStrategy: TabLayoutMediator.TabConfigurationStrategy? = null
+) {
+    TabLayoutMediator(this,
+        viewPager,
+        autoRefresh,
+        tabConfigurationStrategy ?: TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+            // TODO: tab.text = "Tab $position"
+        })
 }
 
 class FragmentAdapter<T : BasicFragment> : FragmentStateAdapter {
