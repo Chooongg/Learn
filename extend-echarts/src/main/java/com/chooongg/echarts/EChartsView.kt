@@ -10,6 +10,7 @@ import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.annotation.Keep
 import androidx.core.content.getSystemService
 import org.json.JSONObject
@@ -19,9 +20,10 @@ import org.json.JSONObject
 class EChartsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : WebView(context, attrs, defStyleAttr, defStyleRes) {
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr) {
+
+    private val webView = WebView(context.applicationContext)
 
     private var debug: Boolean = isAppDebug()
 
@@ -30,21 +32,21 @@ class EChartsView @JvmOverloads constructor(
     private var isFinished = false
 
     init {
-        setWebContentsDebuggingEnabled(true)
-        overScrollMode = OVER_SCROLL_NEVER
-        settings.let {
+        webView.overScrollMode = OVER_SCROLL_NEVER
+        webView.settings.let {
             it.javaScriptEnabled = true
             it.javaScriptCanOpenWindowsAutomatically = true
             it.displayZoomControls = false
             it.setSupportZoom(false)
             this.setBackgroundColor(0)
         }
-        addJavascriptInterface(EChartInterface(context), "Android")
+        webView.addJavascriptInterface(EChartInterface(context), "Android")
         initWebViewClient()
+        addView(webView)
         if (isNightMode()) {
-            loadUrl("file:///android_asset/echartsNight.html")
+            webView.loadUrl("file:///android_asset/echartsNight.html")
         } else {
-            loadUrl("file:///android_asset/echartsDay.html")
+            webView.loadUrl("file:///android_asset/echartsDay.html")
         }
     }
 
@@ -61,15 +63,15 @@ class EChartsView @JvmOverloads constructor(
             shouldCallJsFunctionArray.add(function)
             return
         }
-        evaluateJavascript(function, null)
+        webView.evaluateJavascript(function, null)
     }
 
     private fun initWebViewClient() {
-        webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 isFinished = true
-                shouldCallJsFunctionArray.forEach { evaluateJavascript(it, null) }
+                shouldCallJsFunctionArray.forEach { webView.evaluateJavascript(it, null) }
                 shouldCallJsFunctionArray.clear()
             }
         }
@@ -127,6 +129,12 @@ class EChartsView @JvmOverloads constructor(
 
     interface OnAddEChartActionHandlerResponseResultListener {
         fun actionHandlerResponseResult(result: String?)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        webView.removeAllViews()
+        webView.destroy()
     }
 
     private fun isAppDebug(): Boolean {

@@ -12,9 +12,7 @@ abstract class BasicBindingActivity<BINDING : ViewBinding> : BasicActivity() {
     override fun initLayout() = ResourcesCompat.ID_NULL
 
     override fun setContentViewInternal() {
-        setContentView(getBindingT<BINDING>(getBindingTIndex()).apply {
-            binding = this
-        }.root)
+        setContentView(getBindingT<BINDING>(getBindingTIndex()).apply { binding = this }.root)
     }
 
     protected open fun getBindingTIndex() = 0

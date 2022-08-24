@@ -275,10 +275,4 @@ class EChartsActivity : BasicBindingActivity<ActivityEchartsBinding>() {
             "data" to jsonArray(484, 751, 914, 534, 200, 483, 184)
         }
     }
-
-    override fun onDestroy() {
-        binding.echartsView.removeAllViews()
-        binding.echartsView.destroy()
-        super.onDestroy()
-    }
 }
