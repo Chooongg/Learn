@@ -2,17 +2,13 @@ package com.chooongg.echarts
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.util.AttributeSet
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.FrameLayout
 import androidx.annotation.Keep
-import androidx.core.content.getSystemService
 import org.json.JSONObject
 
 @Suppress("DEPRECATION")
@@ -21,33 +17,24 @@ class EChartsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : WebView(context, attrs, defStyleAttr) {
 
-    private val webView = WebView(context.applicationContext)
-
-    private var debug: Boolean = isAppDebug()
+    private var debug: Boolean = true
 
     private val shouldCallJsFunctionArray = ArrayList<String>()
 
     private var isFinished = false
 
     init {
-        webView.overScrollMode = OVER_SCROLL_NEVER
-        webView.settings.let {
-            it.javaScriptEnabled = true
+        overScrollMode = OVER_SCROLL_NEVER
+        settings.let {
             it.javaScriptCanOpenWindowsAutomatically = true
             it.displayZoomControls = false
             it.setSupportZoom(false)
             this.setBackgroundColor(0)
         }
-        webView.addJavascriptInterface(EChartInterface(context), "Android")
+        addJavascriptInterface(EChartInterface(context), "Android")
         initWebViewClient()
-        addView(webView)
-        if (isNightMode()) {
-            webView.loadUrl("file:///android_asset/echartsNight.html")
-        } else {
-            webView.loadUrl("file:///android_asset/echartsDay.html")
-        }
     }
 
     fun setDebug(debug: Boolean) {
@@ -63,17 +50,27 @@ class EChartsView @JvmOverloads constructor(
             shouldCallJsFunctionArray.add(function)
             return
         }
-        webView.evaluateJavascript(function, null)
+        evaluateJavascript(function, null)
     }
 
     private fun initWebViewClient() {
-        webView.webViewClient = object : WebViewClient() {
+        webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 isFinished = true
-                shouldCallJsFunctionArray.forEach { webView.evaluateJavascript(it, null) }
+                shouldCallJsFunctionArray.forEach { evaluateJavascript(it, null) }
                 shouldCallJsFunctionArray.clear()
             }
+        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        settings.javaScriptEnabled = true
+        if (isNightMode()) {
+            loadUrl("file:///android_asset/echartsNight.html")
+        } else {
+            loadUrl("file:///android_asset/echartsDay.html")
         }
     }
 
@@ -132,20 +129,10 @@ class EChartsView @JvmOverloads constructor(
     }
 
     override fun onDetachedFromWindow() {
+        isFinished = false
+        settings.javaScriptEnabled = false
+        removeAllViews()
+        destroy()
         super.onDetachedFromWindow()
-        webView.removeAllViews()
-        webView.destroy()
-    }
-
-    private fun isAppDebug(): Boolean {
-        if (context.packageName.isBlank()) return false
-        return try {
-            val ai = context.getSystemService<PackageManager>()!!
-                .getApplicationInfo(context.packageName, 0)
-            ai.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-            false
-        }
     }
 }
