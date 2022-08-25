@@ -18,9 +18,12 @@ open class BasicApplication : Application() {
     }
 
     /**
-     * 只在
+     * 主线程初始化的
      */
     open fun onCreateMainProcess() = Unit
 
+    /**
+     * 其他线程初始化方法
+     */
     open fun onCreateOtherProcess(processName: String) = Unit
 }

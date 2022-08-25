@@ -12,7 +12,7 @@ import com.hjq.permissions.XXPermissions
 class CoreInitializer : Initializer<Unit> {
     override fun create(context: Context) {
         XXPermissions.setInterceptor(PermissionInterceptor())
-        logDClass(CoreInitializer::class.java, "created")
+        logDClass(CoreInitializer::class.java, "chooongg.learn.core is created")
     }
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> =
