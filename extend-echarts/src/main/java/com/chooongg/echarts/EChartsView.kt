@@ -3,6 +3,7 @@ package com.chooongg.echarts
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.util.ArrayMap
 import android.util.AttributeSet
 import android.util.Log
 import android.webkit.JavascriptInterface
