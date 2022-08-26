@@ -3,7 +3,9 @@ package com.chooongg.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-interface AdapterItem<T, HOLDER : RecyclerView.ViewHolder> {
+typealias AdapterItem = Item<*, *>
+
+interface Item<T, HOLDER : RecyclerView.ViewHolder> {
 
     fun isWithinViewType(item: T, position: Int) = true
 

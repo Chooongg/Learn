@@ -29,7 +29,7 @@
 
     <!--______________________________分割线规范______________________________-->
     <dimen name="divider">1dp</dimen>
-    <dimen name="dividerBig">8dp</dimen>
+    <dimen name="dividerHeavy">8dp</dimen>
 
     <!--______________________________常用距离单位______________________________-->
     <dimen name="contentSmall">8dp</dimen>
