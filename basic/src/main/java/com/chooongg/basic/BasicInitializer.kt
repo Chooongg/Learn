@@ -16,11 +16,9 @@ class BasicInitializer : Initializer<Unit> {
         Stetho.initializeWithDefaults(context)
         ApplicationManager.initialize(context as Application)
         MMKV.initialize(context)
-        setNightMode(
-            context.getSharedPreferences("chooongg-learn", Context.MODE_PRIVATE)
-                .getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO)
-        )
-        logDClass(BasicInitializer::class.java, "created")
+        val sp = context.getSharedPreferences("chooongg-learn", Context.MODE_PRIVATE)
+        setNightMode(sp.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO))
+        logDClass(BasicInitializer::class.java, "chooongg.learn.basic is created")
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()
