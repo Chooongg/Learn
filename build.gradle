@@ -17,8 +17,8 @@ ext {
             targetSdk : 32,
     ]
     dependenciesVersion = [
-            appcompatVersion: '1.5.0',
-            materialVersion : '1.7.0-beta01',
+            appcompatVersion: '1.6.0-beta01',
+            materialVersion : '1.8.0-alpha01',
             lifecycleVersion: "2.5.1"
     ]
 }
