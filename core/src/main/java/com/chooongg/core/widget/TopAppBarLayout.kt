@@ -1,5 +1,6 @@
 package com.chooongg.core.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils.TruncateAt
 import android.util.AttributeSet
@@ -179,6 +180,7 @@ class TopAppBarLayout @JvmOverloads constructor(
         a.recycle()
     }
 
+    @SuppressLint("CustomViewStyleable")
     override fun generateLayoutParams(attrs: AttributeSet?): CoordinatorLayout.LayoutParams {
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBarLayout_Layout)
         if (a.hasValue(R.styleable.TopAppBarLayout_Layout_isTopAppBarChild)) {

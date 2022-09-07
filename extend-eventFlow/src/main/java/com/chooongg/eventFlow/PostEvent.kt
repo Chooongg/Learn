@@ -1,4 +1,4 @@
-package com.chooongg.eventflow
+package com.chooongg.eventFlow
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner

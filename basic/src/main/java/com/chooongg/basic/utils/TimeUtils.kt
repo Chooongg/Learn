@@ -75,20 +75,15 @@ object TimeUtils {
         return null
     }
 
-    fun date2String(date: Date) =
-        date2String(date, getDefaultFormat())
+    fun date2String(date: Date): String = date2String(date, getDefaultFormat())
 
-    fun date2String(date: Date, pattern: String) =
-        getSafeDateFormat(pattern).format(date)
+    fun date2String(date: Date, pattern: String): String = getSafeDateFormat(pattern).format(date)
 
-    fun date2String(date: Date, format: DateFormat) =
-        format.format(date)
+    fun date2String(date: Date, format: DateFormat): String = format.format(date)
 
-    fun date2Millis(date: Date) =
-        date.time
+    fun date2Millis(date: Date): Long = date.time
 
-    fun millis2Date(millis: Long) =
-        Date(millis)
+    fun millis2Date(millis: Long) = Date(millis)
 
     /**
      * 根据单位返回时间跨度

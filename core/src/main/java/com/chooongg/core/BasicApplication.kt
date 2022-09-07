@@ -1,8 +1,6 @@
 package com.chooongg.core
 
 import android.app.Application
-import androidx.lifecycle.ProcessLifecycleInitializer
-import androidx.lifecycle.ProcessLifecycleOwner
 import com.chooongg.basic.utils.AppUtils
 
 open class BasicApplication : Application() {

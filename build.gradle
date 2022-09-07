@@ -12,9 +12,9 @@ ext {
     versionCode = 1
     versionName = "1.0.0"
     sdkConfig = [
-            compileSdk: 32,
+            compileSdk: 33,
             minSdk    : 21,
-            targetSdk : 32,
+            targetSdk : 33,
     ]
     dependenciesVersion = [
             appcompatVersion: '1.6.0-beta01',
