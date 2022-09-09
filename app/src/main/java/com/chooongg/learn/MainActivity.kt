@@ -40,7 +40,7 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
         adapter.setNewInstance(
             mutableListOf(
                 MainItem(R.drawable.ic_main_echarts, "ECharts") {
-                    startActivity(EChartsActivity::class, it)
+                    startActivity(EChartsActivity::class)
                 }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
                     startActivity(EventFlowActivity::class, it)
                 }, MainItem(R.drawable.ic_main_loading, "Loading") {
