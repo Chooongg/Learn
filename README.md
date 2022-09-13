@@ -6,7 +6,6 @@ learnVersion : [![](https://jitpack.io/v/Chooongg/Learn.svg)](https://jitpack.io
 ```Groovy
 allprojects {
     repositories {
-        ...
         maven { url 'https://jitpack.io' }
     }
 }

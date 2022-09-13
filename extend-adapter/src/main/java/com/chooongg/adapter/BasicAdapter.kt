@@ -1,7 +1,6 @@
 package com.chooongg.adapter
 
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 class BasicAdapter<ITEM : AdapterItem> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

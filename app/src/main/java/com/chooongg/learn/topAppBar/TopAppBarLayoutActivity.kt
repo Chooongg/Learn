@@ -3,7 +3,6 @@ package com.chooongg.learn.topAppBar
 import android.os.Bundle
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.isNightMode
 import com.chooongg.core.activity.BasicActivity
 import com.chooongg.core.widget.NestedScrollWebView

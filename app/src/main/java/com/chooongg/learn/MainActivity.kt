@@ -8,13 +8,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
-import com.chooongg.core.activity.BasicBindingModelActivity
+import com.chooongg.core.activity.BasicBindingActivity
 import com.chooongg.core.adapter.BindingAdapter
 import com.chooongg.core.annotation.HomeButton
 import com.chooongg.core.ext.divider
 import com.chooongg.core.ext.showAllDivider
 import com.chooongg.core.ext.startActivity
-import com.chooongg.core.viewModel.BasicModel
 import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
 import com.chooongg.learn.echarts.EChartsActivity
@@ -25,7 +24,7 @@ import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
 
 @HomeButton(false)
-class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>() {
+class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
 
     private val adapter = Adapter()
 
@@ -41,7 +40,7 @@ class MainActivity : BasicBindingModelActivity<ActivityMainBinding, BasicModel>(
         adapter.setNewInstance(
             mutableListOf(
                 MainItem(R.drawable.ic_main_echarts, "ECharts") {
-                    startActivity(EChartsActivity::class, it)
+                    startActivity(EChartsActivity::class)
                 }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
                     startActivity(EventFlowActivity::class, it)
                 }, MainItem(R.drawable.ic_main_loading, "Loading") {

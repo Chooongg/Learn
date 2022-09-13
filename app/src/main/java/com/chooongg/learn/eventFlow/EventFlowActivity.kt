@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.chooongg.basic.ext.doOnClick
 import com.chooongg.core.activity.BasicBindingActivity
-import com.chooongg.eventflow.observeEventTag
-import com.chooongg.eventflow.postEventTag
+import com.chooongg.eventFlow.observeEventTag
+import com.chooongg.eventFlow.postEventTag
 import com.chooongg.learn.databinding.ActivityEventFlowBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

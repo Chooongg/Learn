@@ -5,7 +5,6 @@ import java.lang.reflect.ParameterizedType
 /**
  * 获取类的第 N 项泛型
  * @param index 泛型指数
- * @param targetClass 目标类
  */
 fun Class<*>.getTClass(index: Int = 0): Class<*> {
     var genericSuperclass = genericSuperclass

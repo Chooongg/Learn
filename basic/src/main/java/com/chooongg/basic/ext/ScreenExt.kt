@@ -1,5 +1,6 @@
 package com.chooongg.basic.ext
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
@@ -35,6 +36,7 @@ fun Context.isPortrait() =
 /**
  * 获取状态栏高度
  */
+@SuppressLint("DiscouragedApi")
 fun getStatusBarHeight(): Int {
     val resources = Resources.getSystem()
     val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")

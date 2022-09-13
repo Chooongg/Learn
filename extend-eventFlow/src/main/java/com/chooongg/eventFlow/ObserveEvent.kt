@@ -1,4 +1,4 @@
-package com.chooongg.eventflow
+package com.chooongg.eventFlow
 
 import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
