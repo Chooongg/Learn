@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace 'com.chooongg.learn'
     signingConfigs {
         debug {
             storeFile file("../test.jks")

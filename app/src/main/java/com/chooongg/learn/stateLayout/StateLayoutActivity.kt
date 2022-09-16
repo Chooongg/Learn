@@ -19,7 +19,7 @@ class StateLayoutActivity : BasicBindingActivity<ActivityStateLayoutBinding>() {
 
         binding.btnProgressLine.doOnClick {
             binding.stateLayout.show(LineProgressState::class)
-        }.tooltipText
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

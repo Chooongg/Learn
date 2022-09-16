@@ -12,12 +12,10 @@ abstract class BindingSectionAdapter<T : SectionEntity, HEADER : ViewBinding, BI
 
     init {
         addItemType(
-            SectionEntity.HEADER_TYPE,
-            this.javaClass.getTClass(1).kotlin as KClass<out ViewBinding>
+            SectionEntity.HEADER_TYPE, this.javaClass.getTClass(1).kotlin as KClass<out ViewBinding>
         )
         addItemType(
-            SectionEntity.NORMAL_TYPE,
-            this.javaClass.getTClass(2).kotlin as KClass<out ViewBinding>
+            SectionEntity.NORMAL_TYPE, this.javaClass.getTClass(2).kotlin as KClass<out ViewBinding>
         )
     }
 
@@ -34,12 +32,8 @@ abstract class BindingSectionAdapter<T : SectionEntity, HEADER : ViewBinding, BI
      * @param payloads MutableList<Any>
      */
     protected open fun convertHeader(
-        helper: BaseViewHolder,
-        binding: ViewBinding,
-        item: T,
-        payloads: MutableList<Any>
-    ) {
-    }
+        helper: BaseViewHolder, binding: ViewBinding, item: T, payloads: MutableList<Any>
+    ) = Unit
 
     override fun onBindViewHolder(holder: BindingHolder<*>, position: Int) {
         if (holder.itemViewType == SectionEntity.HEADER_TYPE) {
@@ -51,9 +45,7 @@ abstract class BindingSectionAdapter<T : SectionEntity, HEADER : ViewBinding, BI
     }
 
     override fun onBindViewHolder(
-        holder: BindingHolder<*>,
-        position: Int,
-        payloads: MutableList<Any>
+        holder: BindingHolder<*>, position: Int, payloads: MutableList<Any>
     ) {
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position)

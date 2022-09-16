@@ -235,7 +235,7 @@ object RomUtils {
             @SuppressLint("PrivateApi") val clz = Class.forName("android.os.SystemProperties")
             val getMethod: Method = clz.getMethod("get", String::class.java, String::class.java)
             return getMethod.invoke(clz, key, "") as String
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         return ""
     }

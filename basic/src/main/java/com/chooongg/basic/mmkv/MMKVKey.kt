@@ -30,7 +30,7 @@ open class MMKVKey<T> {
         mmkv.removeValueForKey(key)
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "KotlinConstantConditions")
     open fun set(value: T?) {
         if (mmkv == null) return
         if (value == null) mmkv.removeValueForKey(key)
@@ -52,7 +52,7 @@ open class MMKVKey<T> {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "KotlinConstantConditions")
     open fun get(): T {
         if (mmkv == null) return default
         return if (mmkv.containsKey(key)) {

@@ -5,14 +5,13 @@ plugins {
 }
 
 android {
+    namespace 'com.chooongg.stateLayout'
     compileSdk sdkConfig.compileSdk
-
     defaultConfig {
         minSdk sdkConfig.minSdk
         targetSdk sdkConfig.targetSdk
         consumerProguardFiles "consumer-rules.pro"
     }
-
     buildTypes {
         release {
             minifyEnabled false

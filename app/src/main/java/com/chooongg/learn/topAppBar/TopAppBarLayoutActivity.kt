@@ -1,5 +1,6 @@
 package com.chooongg.learn.topAppBar
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
@@ -16,6 +17,7 @@ class TopAppBarLayoutActivity : BasicActivity() {
         else -> R.layout.activity_top_app_bar_layout_small
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Suppress("DEPRECATION")
     override fun initView(savedInstanceState: Bundle?) {
         title = when (intent.getStringExtra("type")) {

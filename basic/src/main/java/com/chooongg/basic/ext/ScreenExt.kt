@@ -5,8 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.annotation.RequiresPermission
 import com.chooongg.basic.APPLICATION
@@ -30,17 +32,25 @@ fun getScreenScaledDensity() = Resources.getSystem().displayMetrics.scaledDensit
 fun Context.isLandscape() =
     resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-fun Context.isPortrait() =
-    resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+fun Context.isPortrait() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
 /**
  * 获取状态栏高度
  */
-@SuppressLint("DiscouragedApi")
-fun getStatusBarHeight(): Int {
-    val resources = Resources.getSystem()
-    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-    return resources.getDimensionPixelSize(resourceId)
+@SuppressLint("DiscouragedApi", "InternalInsetResource")
+fun Context.getStatusBarHeight(): Int {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        val manager = getSystemService(WindowManager::class.java)
+        val metrics = manager.currentWindowMetrics
+        val windowInsets = metrics.windowInsets
+        val insets =
+            windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars() or WindowInsets.Type.displayCutout())
+        insets.top
+    } else {
+        val resources = Resources.getSystem()
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        resources.getDimensionPixelSize(resourceId)
+    }
 }
 
 /**
@@ -102,8 +112,7 @@ fun Activity.setNonKeepScreenOn() {
  */
 fun getScreenAutoLockTime() = try {
     Settings.System.getInt(
-        APPLICATION.contentResolver,
-        Settings.System.SCREEN_OFF_TIMEOUT
+        APPLICATION.contentResolver, Settings.System.SCREEN_OFF_TIMEOUT
     )
 } catch (e: Settings.SettingNotFoundException) {
     e.printStackTrace()
@@ -115,12 +124,9 @@ fun getScreenAutoLockTime() = try {
  * @return 设置成功返回true
  */
 @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
-fun setScreenAutoLockTime(time: Int): Boolean =
-    Settings.System.putInt(
-        APPLICATION.contentResolver,
-        Settings.System.SCREEN_OFF_TIMEOUT,
-        time
-    )
+fun setScreenAutoLockTime(time: Int): Boolean = Settings.System.putInt(
+    APPLICATION.contentResolver, Settings.System.SCREEN_OFF_TIMEOUT, time
+)
 
 /**
  * 设置永不自动锁屏，即自动锁屏时间为Int.MAX_VALUE

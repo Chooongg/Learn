@@ -518,12 +518,10 @@ class GravitySnapHelper @JvmOverloads constructor(
             val currentView: View? = layoutManager.getChildAt(i)
             var currentViewDistance: Int
             if (snapToStart) {
-                if (!snapToPadding) {
-                    currentViewDistance = abs(helper.getDecoratedStart(currentView))
+                currentViewDistance = if (!snapToPadding) {
+                    abs(helper.getDecoratedStart(currentView))
                 } else {
-                    currentViewDistance = abs(
-                        helper.startAfterPadding - helper.getDecoratedStart(currentView)
-                    )
+                    abs(helper.startAfterPadding - helper.getDecoratedStart(currentView))
                 }
             } else if (snapToEnd) {
                 currentViewDistance = if (!snapToPadding) {

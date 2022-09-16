@@ -18,6 +18,6 @@ class MarqueeTextView @JvmOverloads constructor(
 
     override fun isFocused() = true
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
-        if (hasWindowFocus) super.onWindowFocusChanged(hasWindowFocus)
+        if (hasWindowFocus) super.onWindowFocusChanged(true)
     }
 }

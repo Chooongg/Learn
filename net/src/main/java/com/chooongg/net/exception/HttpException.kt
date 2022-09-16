@@ -61,13 +61,12 @@ class HttpException : RuntimeException {
             this.code = e.code
             this.mMessage = e.mMessage
         } else {
-            this.type = when {
-                e is NullPointerException -> Type.EMPTY
-                !NetworkUtils.isNetworkConnected() -> Type.NETWORK
-                e is ConnectException || e is UnknownHostException -> Type.CONNECT
-                e is SocketTimeoutException -> Type.TIMEOUT
-                e is SSLHandshakeException -> Type.SSL
-                e is retrofit2.HttpException -> {
+            this.type = when (e) {
+                is NullPointerException -> Type.EMPTY
+                is ConnectException, is UnknownHostException -> Type.CONNECT
+                is SocketTimeoutException -> Type.TIMEOUT
+                is SSLHandshakeException -> Type.SSL
+                is retrofit2.HttpException -> {
                     var tempType = Type.HTTP
                     val values = Type.values()
                     for (i in values.indices) {
@@ -80,54 +79,25 @@ class HttpException : RuntimeException {
                     this.mMessage = e.message()
                     tempType
                 }
-                e is JSONException
-                        || e is JsonIOException
-                        || e is JsonParseException
-                        || e is JsonSyntaxException
-                        || e is java.text.ParseException
-                        || e is android.net.ParseException
-                        || e is androidx.core.net.ParseException
-                        || e is org.apache.commons.cli.ParseException
-                        || e is android.util.MalformedJsonException
-                        || e is com.google.gson.stream.MalformedJsonException -> Type.PARSE
-                else -> Type.UNKNOWN
+                is JSONException, is JsonIOException, is JsonParseException, is JsonSyntaxException, is java.text.ParseException, is android.net.ParseException, is androidx.core.net.ParseException, is android.util.MalformedJsonException, is com.google.gson.stream.MalformedJsonException -> Type.PARSE
+                else -> if (NetworkUtils.isNetworkConnected()) Type.UNKNOWN else Type.NETWORK
             }
         }
     }
 
     enum class Type(val value: Int) {
-        CUSTOM(-1),
-        UNKNOWN(-2),
-        NETWORK(-3),
-        TIMEOUT(-4),
-        CONNECT(-5),
-        SSL(-6),
-        EMPTY(-7),
-        PARSE(-8),
-        HTTP(-9),
-        HTTP302(302),
-        HTTP400(400),
-        HTTP401(401),
-        HTTP403(403),
-        HTTP404(404),
-        HTTP405(405),
-        HTTP406(406),
-        HTTP407(407),
-        HTTP408(408),
-        HTTP409(409),
-        HTTP410(410),
-        HTTP411(411),
-        HTTP412(412),
-        HTTP413(413),
-        HTTP414(414),
-        HTTP415(415),
-        HTTP416(416),
-        HTTP417(417),
-        HTTP500(500),
-        HTTP501(501),
-        HTTP502(502),
-        HTTP503(503),
-        HTTP504(504),
-        HTTP505(505);
+        CUSTOM(-1), UNKNOWN(-2), NETWORK(-3), TIMEOUT(-4), CONNECT(-5), SSL(-6), EMPTY(-7), PARSE(-8), HTTP(
+            -9
+        ),
+        HTTP302(302), HTTP400(400), HTTP401(401), HTTP403(403), HTTP404(404), HTTP405(405), HTTP406(
+            406
+        ),
+        HTTP407(407), HTTP408(408), HTTP409(409), HTTP410(410), HTTP411(411), HTTP412(412), HTTP413(
+            413
+        ),
+        HTTP414(414), HTTP415(415), HTTP416(416), HTTP417(417), HTTP500(500), HTTP501(501), HTTP502(
+            502
+        ),
+        HTTP503(503), HTTP504(504), HTTP505(505);
     }
 }

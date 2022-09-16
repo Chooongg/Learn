@@ -13,4 +13,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Test">
+        <item name="backgroundColor">@color/black</item>
+    </style>
+
 </resources>
