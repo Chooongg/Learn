@@ -6,6 +6,9 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorRes
 
 val View?.localVisibleRect: Rect get() = Rect().also { this?.getLocalVisibleRect(it) }
 val View?.globalVisibleRect: Rect get() = Rect().also { this?.getGlobalVisibleRect(it) }
@@ -85,3 +88,8 @@ fun View?.isTouchView(event: MotionEvent?): Boolean {
     )
     return x >= rectF.left && x <= rectF.right && y >= rectF.top && y <= rectF.bottom
 }
+
+fun TextView.setTextColorRes(@ColorRes resId: Int) = setTextColor(resColor(resId))
+fun TextView.setTextColorAttr(@AttrRes resId: Int) = setTextColor(attrColor(resId))
+fun TextView.setHintTextColorRes(@ColorRes resId: Int) = setHintTextColor(resColor(resId))
+fun TextView.setHintTextColorAttr(@AttrRes resId: Int) = setHintTextColor(attrColor(resId))

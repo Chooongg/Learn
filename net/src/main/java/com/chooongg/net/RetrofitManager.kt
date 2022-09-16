@@ -1,7 +1,9 @@
 package com.chooongg.net
 
 import com.chooongg.basic.APPLICATION
+import com.chooongg.basic.ext.isAppDebug
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -25,15 +27,14 @@ object RetrofitManager {
 
     class Builder<T : Any>(private val clazz: KClass<T>) {
 
-        private var retrofitBuilder = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .addConverterFactory(ScalarsConverterFactory.create())
-        private var okhttpBuilder = OkHttpClient.Builder()
-            .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(true)
-            .cache(Cache(File(APPLICATION.cacheDir, "okHttpCache"), DEFAULT_HTTP_CACHE_SIZE))
+        private var retrofitBuilder =
+            Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
+        private var okhttpBuilder =
+            OkHttpClient.Builder().connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS).retryOnConnectionFailure(true)
+                .cache(Cache(File(APPLICATION.cacheDir, "okHttpCache"), DEFAULT_HTTP_CACHE_SIZE))
 
         private var baseUrl: HttpUrl? = null
 
@@ -46,26 +47,21 @@ object RetrofitManager {
         private var retrofitBlock: (Retrofit.Builder.() -> Unit)? = null
         private var okHttpClientBlock: (OkHttpClient.Builder.() -> Unit)? = null
 
-        fun baseUrl(baseUrl: URL) =
-            apply { retrofitBuilder.baseUrl(baseUrl) }
+        fun baseUrl(baseUrl: URL) = apply { retrofitBuilder.baseUrl(baseUrl) }
 
-        fun baseUrl(baseUrl: String) =
-            apply { retrofitBuilder.baseUrl(baseUrl) }
+        fun baseUrl(baseUrl: String) = apply { retrofitBuilder.baseUrl(baseUrl) }
 
-        fun baseUrl(baseUrl: HttpUrl) =
-            apply { retrofitBuilder.baseUrl(baseUrl) }
+        fun baseUrl(baseUrl: HttpUrl) = apply { retrofitBuilder.baseUrl(baseUrl) }
 
         fun addConverterFactory(factory: Converter.Factory) =
             apply { retrofitBuilder.addConverterFactory(factory) }
 
-        fun clearConverterFactory() =
-            apply { retrofitBuilder.converterFactories().clear() }
+        fun clearConverterFactory() = apply { retrofitBuilder.converterFactories().clear() }
 
         fun addCallAdapterFactory(factory: CallAdapter.Factory) =
             apply { retrofitBuilder.addCallAdapterFactory(factory) }
 
-        fun clearCallAdapterFactory() =
-            apply { retrofitBuilder.callAdapterFactories().clear() }
+        fun clearCallAdapterFactory() = apply { retrofitBuilder.callAdapterFactories().clear() }
 
 
         fun connectTimeout(timeout: Long, unit: TimeUnit) =
@@ -86,18 +82,15 @@ object RetrofitManager {
         fun addInterceptor(interceptor: Interceptor) =
             apply { okhttpBuilder.addInterceptor(interceptor) }
 
-        fun clearInterceptor() =
-            apply { okhttpBuilder.interceptors().clear() }
+        fun clearInterceptor() = apply { okhttpBuilder.interceptors().clear() }
 
         fun addNetworkInterceptor(interceptor: Interceptor) =
             apply { okhttpBuilder.addNetworkInterceptor(interceptor) }
 
-        fun clearNetworkInterceptor() =
-            apply { okhttpBuilder.networkInterceptors().clear() }
+        fun clearNetworkInterceptor() = apply { okhttpBuilder.networkInterceptors().clear() }
 
 
-        fun retrofitExtend(value: Retrofit.Builder.() -> Unit) =
-            apply { retrofitBlock = value }
+        fun retrofitExtend(value: Retrofit.Builder.() -> Unit) = apply { retrofitBlock = value }
 
         fun okHttpExtend(value: OkHttpClient.Builder.() -> Unit) =
             apply { okHttpClientBlock = value }
@@ -110,6 +103,9 @@ object RetrofitManager {
         @Suppress("UNCHECKED_CAST")
         fun build(): T {
             okHttpClientBlock?.invoke(okhttpBuilder)
+            if (isAppDebug()) {
+                okhttpBuilder.addInterceptor(OkHttpProfilerInterceptor())
+            }
             okhttpBuilder.addNetworkInterceptor(StethoInterceptor())
             retrofitBuilder.client(okhttpBuilder.build())
             if (baseUrl != null) retrofitBuilder.baseUrl(baseUrl!!)
