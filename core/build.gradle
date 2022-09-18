@@ -44,11 +44,12 @@ dependencies {
     api "androidx.lifecycle:lifecycle-livedata-ktx:$dependenciesVersion.lifecycleVersion"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependenciesVersion.lifecycleVersion"
     api 'androidx.constraintlayout:constraintlayout:2.2.0-alpha03'
+    api "androidx.draganddrop:draganddrop:1.0.0"
     api 'androidx.navigation:navigation-fragment-ktx:2.5.1'
     api 'androidx.navigation:navigation-ui-ktx:2.5.1'
     api 'androidx.viewpager2:viewpager2:1.1.0-beta01'
-    api 'androidx.work:work-runtime-ktx:2.7.1'
     api 'androidx.webkit:webkit:1.6.0-alpha01'
+    api 'androidx.work:work-runtime-ktx:2.7.1'
     api 'com.google.android.flexbox:flexbox:3.0.0'
     api 'com.github.getActivity:XXPermissions:16.0'
     api 'com.github.fondesa:recycler-view-divider:3.5.0'
