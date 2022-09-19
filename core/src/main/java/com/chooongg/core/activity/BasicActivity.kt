@@ -14,7 +14,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.chooongg.basic.ACTIVITY_TASK
-import com.chooongg.basic.ext.*
+import com.chooongg.basic.ext.attrColor
+import com.chooongg.basic.ext.contentView
+import com.chooongg.basic.ext.hideIME
+import com.chooongg.basic.ext.logDClass
 import com.chooongg.core.R
 import com.chooongg.core.annotation.*
 import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
@@ -105,11 +108,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         transform.addTarget(android.R.id.content)
         transform.containerColor = attrColor(com.google.android.material.R.attr.colorSurface)
         transform.fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
-        transform.duration = if (entering) {
-            attrInteger(com.google.android.material.R.attr.motionDurationLong4, 200).toLong()
-        } else {
-            attrInteger(com.google.android.material.R.attr.motionDurationMedium4, 200).toLong()
-        }
         return transform
     }
 
@@ -124,8 +122,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
             val bottom = it.fitsSide and ActivityEdgeToEdge.BOTTOM != 0
             if (left || top || right || bottom) {
                 ViewCompat.setOnApplyWindowInsetsListener(contentView) { view, insets ->
-                    val systemBarInsets =
-                        insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                    val systemBarInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
                     view.setPadding(
                         if (left) systemBarInsets.left else 0,
                         if (top) systemBarInsets.top else 0,
