@@ -42,6 +42,19 @@ class TopAppBar @JvmOverloads constructor(
             }
         }
 
+    /**
+     * onBackPressed logic goes here. For instance:
+     * Prevents closing the app to go home screen when in the
+     * middle of entering data to a form
+     * or from accidentally leaving a fragment with a WebView in it
+     *
+     * Unregistering the callback to stop intercepting the back gesture:
+     * When the user transitions to the topmost screen (activity, fragment)
+     * in the BackStack, unregister the callback by using
+     * OnBackInvokeDispatcher.unregisterOnBackInvokedCallback
+     * (https://developer.android.com/reference/kotlin/android/view/OnBackInvokedDispatcher#unregisteronbackinvokedcallback)
+     */
+
     private var mTitleTextColor: ColorStateList? = null
 
     init {

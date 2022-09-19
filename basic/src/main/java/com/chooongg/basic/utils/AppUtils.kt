@@ -3,6 +3,7 @@ package com.chooongg.basic.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -11,8 +12,15 @@ import com.chooongg.basic.ext.activityManager
 
 object AppUtils {
 
+    @Suppress("DEPRECATION")
     fun getAppVersionName(): String {
-        return APPLICATION.packageManager.getPackageInfo(APPLICATION.packageName, 0).versionName
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            APPLICATION.packageManager.getPackageInfo(
+                APPLICATION.packageName, PackageManager.PackageInfoFlags.of(0)
+            )
+        } else {
+            APPLICATION.packageManager.getPackageInfo(APPLICATION.packageName, 0)
+        }.versionName
     }
 
     @Suppress("DEPRECATION")
@@ -29,9 +37,7 @@ object AppUtils {
      * 打开应用的详细信息设置
      */
     fun gotoAppDetailsSettings(
-        context: Context,
-        requestCode: Int,
-        packageName: String = context.packageName
+        context: Context, requestCode: Int, packageName: String = context.packageName
     ) {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         intent.data = Uri.fromParts("package", packageName, null)

@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.chooongg.basic.ext.resString
+import com.chooongg.core.R
 import com.chooongg.core.fragment.BasicFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
@@ -15,8 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 fun ViewPager2.bindAppBarLayout(appBarLayout: AppBarLayout) {
     val liftOnScrollSwitchTargetIdCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            (adapter as? FragmentAdapter<out BasicFragment>)
-                ?.getLiftOnScrollTargetId(position)
+            (adapter as? FragmentAdapter<out BasicFragment>)?.getLiftOnScrollTargetId(position)
                 ?.let { appBarLayout.liftOnScrollTargetViewId = it }
         }
     }
@@ -44,7 +45,8 @@ fun TabLayout.setupWithViewPager(
         viewPager,
         autoRefresh,
         tabConfigurationStrategy ?: TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-            // TODO: tab.text = "Tab $position"
+            tab.text = (viewPager.adapter as? FragmentAdapter<*>)?.getTitle(position)
+                ?: viewPager.resString(R.string.undefined)
         })
 }
 
@@ -63,9 +65,7 @@ class FragmentAdapter<T : BasicFragment> : FragmentStateAdapter {
     }
 
     constructor(
-        fragmentManager: FragmentManager,
-        lifecycle: Lifecycle,
-        fragments: MutableList<T>
+        fragmentManager: FragmentManager, lifecycle: Lifecycle, fragments: MutableList<T>
     ) : super(fragmentManager, lifecycle) {
         this.fragments = fragments
     }

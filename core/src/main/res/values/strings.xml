@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="undefined">未定义</string>
+
     <string name="common_permission_hint">授权提示</string>
     <string name="common_permission_message">使用此功能需要先授予权限</string>
     <string name="common_permission_granted">授予</string>

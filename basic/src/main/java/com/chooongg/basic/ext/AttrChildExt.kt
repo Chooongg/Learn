@@ -11,66 +11,68 @@ import androidx.fragment.app.Fragment
 
 fun Context.attrChildText(@AttrRes id: Int, @AttrRes childId: Int) = with(TypedValue()) {
     theme.resolveAttribute(id, this, true)
-    obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getText(0) }
+    obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getText(0) }
 }
 
 fun Context.attrChildString(@AttrRes id: Int, @AttrRes childId: Int) = with(TypedValue()) {
     theme.resolveAttribute(id, this, true)
-    obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getString(0) }
+    obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getString(0) }
 }
 
 fun Context.attrChildString(@AttrRes id: Int, @AttrRes childId: Int, vararg format: Any?) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getString(0)?.format(*format) }
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use {
+            it.getString(0)?.format(*format)
+        }
     }
 
 fun Context.attrChildBoolean(@AttrRes id: Int, @AttrRes childId: Int, defValue: Boolean) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getBoolean(0, defValue) }
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getBoolean(0, defValue) }
     }
 
 fun Context.attrChildInt(@AttrRes id: Int, @AttrRes childId: Int, defValue: Int) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getInt(0, defValue) }
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getInt(0, defValue) }
     }
 
 fun Context.attrChildFloat(@AttrRes id: Int, @AttrRes childId: Int, defValue: Float) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getFloat(0, defValue) }
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getFloat(0, defValue) }
     }
 
 fun Context.attrChildColor(
     @AttrRes id: Int, @AttrRes childId: Int, @ColorInt defValue: Int = Color.GRAY
 ) = with(TypedValue()) {
     theme.resolveAttribute(id, this, true)
-    obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getColor(0, defValue) }
+    obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getColor(0, defValue) }
 }
 
 fun Context.attrChildColorStateList(@AttrRes id: Int, @AttrRes childId: Int) = with(TypedValue()) {
     theme.resolveAttribute(id, this, true)
-    obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getColorStateList(0) }
+    obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getColorStateList(0) }
 }
 
 fun Context.attrChildInteger(@AttrRes id: Int, @AttrRes childId: Int, defValue: Int) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getInteger(0, defValue) }
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getInteger(0, defValue) }
     }
 
 fun Context.attrChildDimension(@AttrRes id: Int, @AttrRes childId: Int, defValue: Float) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getDimension(0, defValue) }
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getDimension(0, defValue) }
     }
 
 fun Context.attrChildDimensionPixelOffset(@AttrRes id: Int, @AttrRes childId: Int, defValue: Int) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use {
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use {
             it.getDimensionPixelOffset(0, defValue)
         }
     }
@@ -78,7 +80,7 @@ fun Context.attrChildDimensionPixelOffset(@AttrRes id: Int, @AttrRes childId: In
 fun Context.attrChildDimensionPixelSize(@AttrRes id: Int, @AttrRes childId: Int, defValue: Int) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use {
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use {
             it.getDimensionPixelSize(0, defValue)
         }
     }
@@ -86,12 +88,14 @@ fun Context.attrChildDimensionPixelSize(@AttrRes id: Int, @AttrRes childId: Int,
 fun Context.attrChildResourcesId(@AttrRes id: Int, @AttrRes childId: Int, defValue: Int) =
     with(TypedValue()) {
         theme.resolveAttribute(id, this, true)
-        obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getResourceId(0, defValue) }
+        obtainStyledAttributes(resourceId, intArrayOf(childId)).use {
+            it.getResourceId(0, defValue)
+        }
     }
 
 fun Context.attrChildDrawable(@AttrRes id: Int, @AttrRes childId: Int) = with(TypedValue()) {
     theme.resolveAttribute(id, this, true)
-    obtainStyledAttributes(resourceId, intArrayOf(id)).use { it.getDrawable(0) }
+    obtainStyledAttributes(resourceId, intArrayOf(childId)).use { it.getDrawable(0) }
 }
 
 
