@@ -157,7 +157,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressedDispatcher.onBackPressed()
+            onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -167,19 +167,9 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         contentView.transitionName = null
     }
 
-    private var firstTime: Long = 0
-
     override fun onBackPressed() {
         supportFragmentManager.fragments.forEach {
             if (it is BasicFragment && !it.isHidden && it.isResumed && it.onBackPressedIntercept()) {
-                return
-            }
-        }
-        if (javaClass.getAnnotation(AutoBackPressed::class.java)?.value == true && ACTIVITY_TASK.size <= 1) {
-            val secondTime = System.currentTimeMillis()
-            if (secondTime - firstTime > 2000) {
-                Snackbar.make(contentView, "再按一次退出应用", Snackbar.LENGTH_SHORT).show()
-                firstTime = secondTime
                 return
             }
         }
