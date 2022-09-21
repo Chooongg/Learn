@@ -69,11 +69,6 @@
         <attr name="shimmer_reverse_animation" />
     </declare-styleable>
 
-    <!-- 顶部应用栏 -->
-    <declare-styleable name="TopAppBar">
-        <attr name="autoNavigation" />
-        <attr name="navigationType" />
-    </declare-styleable>
     <!-- 顶部应用栏布局子项配置 -->
     <declare-styleable name="TopAppBarLayout_Layout">
         <attr name="isTopAppBarChild" format="boolean" />
@@ -86,7 +81,6 @@
             <enum name="medium" value="1" />
             <enum name="large" value="2" />
         </attr>
-        <attr name="navigationType" />
         <attr name="title" />
         <attr name="titleCentered" />
         <attr name="titleTextAppearance" />
@@ -100,7 +94,7 @@
         <attr name="titleMarginBottom" format="dimension" />
         <attr name="titleBackground" format="reference" />
         <attr name="titleCollapseEnabled" format="boolean" />
-        <attr name="titleCollapseMode" />
+        <attr name="titleCollapseMode"/>
         <attr name="collapsedTitleGravity" />
         <attr name="expandedTitleGravity" />
         <attr name="expandedTitleMargin" format="dimension" />
@@ -115,8 +109,7 @@
         <attr name="collapsedTitleTextColor" format="color|reference" />
     </declare-styleable>
 
-    <attr name="sizeRatio" format="string" />
-    <!-- 宽高比布局 -->
+    <attr name="sizeRatio" format="string" /><!-- 宽高比布局 -->
     <declare-styleable name="RatioView">
         <!-- 宽高比例 -->
         <attr name="sizeRatio" />

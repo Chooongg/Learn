@@ -5,7 +5,6 @@
     android:id="@+id/appbar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/Widget.Learn.AppBarLayout.Primary"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout

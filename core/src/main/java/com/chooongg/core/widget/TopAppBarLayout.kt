@@ -29,6 +29,7 @@ class TopAppBarLayout @JvmOverloads constructor(
     val topAppBar: TopAppBar by lazy { findViewById(R.id.top_app_bar) }
 
     init {
+        fitsSystemWindows = true
         setBackgroundColor(attrColor(com.google.android.material.R.attr.colorSurface))
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBarLayout, defStyleAttr, 0)
         when (a.getInt(R.styleable.TopAppBarLayout_appBarType, 0)) {
@@ -69,10 +70,6 @@ class TopAppBarLayout @JvmOverloads constructor(
                 context,
                 a.getResourceId(R.styleable.TopAppBarLayout_subtitleTextAppearance, 0)
             )
-        }
-        if (a.hasValue(R.styleable.TopAppBarLayout_navigationType)) {
-            topAppBar.navigationType =
-                a.getInt(R.styleable.TopAppBarLayout_navigationType, TopAppBar.TYPE_NAVIGATION_NONE)
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleMargin)) {
             val margin =

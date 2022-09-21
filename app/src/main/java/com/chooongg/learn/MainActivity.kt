@@ -10,7 +10,7 @@ import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingActivity
 import com.chooongg.core.adapter.BindingAdapter
-import com.chooongg.core.annotation.HomeButton
+import com.chooongg.core.annotation.NavigationButton
 import com.chooongg.core.ext.divider
 import com.chooongg.core.ext.showAllDivider
 import com.chooongg.core.ext.startActivity
@@ -23,7 +23,7 @@ import com.chooongg.learn.network.NetworkActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
 
-@HomeButton(false)
+@NavigationButton(false)
 class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
 
     private val adapter = Adapter()

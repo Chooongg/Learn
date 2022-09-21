@@ -13,28 +13,27 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import com.chooongg.basic.ACTIVITY_TASK
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.contentView
 import com.chooongg.basic.ext.hideIME
 import com.chooongg.basic.ext.logDClass
 import com.chooongg.core.R
-import com.chooongg.core.annotation.*
+import com.chooongg.core.annotation.ActivityEdgeToEdge
+import com.chooongg.core.annotation.ActivityTransitions
+import com.chooongg.core.annotation.NavigationButton
+import com.chooongg.core.annotation.Theme
 import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
-import com.chooongg.core.widget.TopAppBar
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
-@HomeButton
-@AutoBackPressed
-@ActivityEdgeToEdge
+@NavigationButton
 @ActivityTransitions
+@ActivityEdgeToEdge(false)
 abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     inline val context: Context get() = this
@@ -138,18 +137,14 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     override fun setSupportActionBar(toolbar: Toolbar?) {
         super.setSupportActionBar(toolbar)
         if (toolbar == null) return
-        if (javaClass.getAnnotation(HomeButton::class.java)?.isShow == true) {
+        val navigationButton = javaClass.getAnnotation(NavigationButton::class.java) ?: return
+        if (navigationButton.isShow) {
             supportActionBar?.let {
                 it.setHomeButtonEnabled(true)
                 it.setDisplayHomeAsUpEnabled(true)
-                if (toolbar is TopAppBar) {
-                    when (toolbar.navigationType) {
-                        TopAppBar.TYPE_NAVIGATION_CLOSE -> it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_close)
-                        else -> it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_back)
-                    }
-                    return
-                } else {
-                    it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_back)
+                when (navigationButton.iconType) {
+                    NavigationButton.ICON_TYPE_BACK -> it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_back)
+                    NavigationButton.ICON_TYPE_CLOSE -> it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_close)
                 }
             }
         }
@@ -157,7 +152,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)

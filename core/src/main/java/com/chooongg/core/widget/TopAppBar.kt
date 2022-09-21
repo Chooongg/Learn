@@ -6,10 +6,6 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.DrawableRes
-import androidx.annotation.IntDef
-import com.chooongg.basic.ext.getActivity
-import com.chooongg.basic.ext.multipleValid
-import com.chooongg.core.R
 import com.google.android.material.appbar.MaterialToolbar
 
 class TopAppBar @JvmOverloads constructor(
@@ -17,30 +13,6 @@ class TopAppBar @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = androidx.appcompat.R.attr.toolbarStyle
 ) : MaterialToolbar(context, attrs, defStyleAttr) {
-
-    companion object {
-        const val TYPE_NAVIGATION_NONE = 0
-        const val TYPE_NAVIGATION_BACK = 1
-        const val TYPE_NAVIGATION_CLOSE = 2
-    }
-
-    @IntDef(TYPE_NAVIGATION_NONE, TYPE_NAVIGATION_BACK, TYPE_NAVIGATION_CLOSE)
-    annotation class NavigationType
-
-    @NavigationType
-    var navigationType = TYPE_NAVIGATION_NONE
-        set(value) {
-            field = value
-            when (field) {
-                TYPE_NAVIGATION_BACK -> setNavigation(R.drawable.ic_top_app_bar_back) {
-                    if (multipleValid()) context.getActivity()?.onBackPressed()
-                }
-                TYPE_NAVIGATION_CLOSE -> setNavigation(R.drawable.ic_top_app_bar_close) {
-                    if (multipleValid()) context.getActivity()?.onBackPressed()
-                }
-                else -> setNavigation(null, null)
-            }
-        }
 
     /**
      * onBackPressed logic goes here. For instance:
@@ -56,12 +28,6 @@ class TopAppBar @JvmOverloads constructor(
      */
 
     private var mTitleTextColor: ColorStateList? = null
-
-    init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBar, defStyleAttr, 0)
-        navigationType = a.getInt(R.styleable.TopAppBar_navigationType, TYPE_NAVIGATION_NONE)
-        a.recycle()
-    }
 
     fun setNavigation(@DrawableRes resId: Int, listener: ((View) -> Unit)?) {
         setNavigationIcon(resId)
