@@ -18,6 +18,7 @@ import com.chooongg.core.R
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
+@SuppressLint("RestrictedApi")
 class TopAppBarLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -54,8 +55,7 @@ class TopAppBarLayout @JvmOverloads constructor(
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleTextAppearance)) {
             topAppBar.setTitleTextAppearance(
-                context,
-                a.getResourceId(R.styleable.TopAppBarLayout_titleTextAppearance, 0)
+                context, a.getResourceId(R.styleable.TopAppBarLayout_titleTextAppearance, 0)
             )
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_subtitle)) {
@@ -67,13 +67,11 @@ class TopAppBarLayout @JvmOverloads constructor(
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_subtitleTextAppearance)) {
             topAppBar.setSubtitleTextAppearance(
-                context,
-                a.getResourceId(R.styleable.TopAppBarLayout_subtitleTextAppearance, 0)
+                context, a.getResourceId(R.styleable.TopAppBarLayout_subtitleTextAppearance, 0)
             )
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleMargin)) {
-            val margin =
-                a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMargin, 0)
+            val margin = a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMargin, 0)
             topAppBar.setTitleMargin(margin, margin, margin, margin)
         } else {
             val marginStart =
@@ -104,6 +102,9 @@ class TopAppBarLayout @JvmOverloads constructor(
             if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseMode)) {
                 it.titleCollapseMode = a.getInt(R.styleable.TopAppBarLayout_titleCollapseMode, 0)
             }
+            if (a.hasValue(R.styleable.TopAppBarLayout_maxLines)) {
+                it.maxLines = a.getInteger(R.styleable.TopAppBarLayout_maxLines, 1)
+            }
             if (a.hasValue(R.styleable.TopAppBarLayout_collapsedTitleGravity)) {
                 it.collapsedTitleGravity = a.getInt(
                     R.styleable.TopAppBarLayout_collapsedTitleGravity,
@@ -121,22 +122,18 @@ class TopAppBarLayout @JvmOverloads constructor(
                     a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_expandedTitleMargin, 0)
                 it.setExpandedTitleMargin(margin, margin, margin, margin)
             } else {
-                val marginStart =
-                    a.getDimensionPixelOffset(
-                        R.styleable.TopAppBarLayout_expandedTitleMarginStart, -1
-                    )
-                val marginEnd =
-                    a.getDimensionPixelOffset(
-                        R.styleable.TopAppBarLayout_expandedTitleMarginEnd, -1
-                    )
-                val marginTop =
-                    a.getDimensionPixelOffset(
-                        R.styleable.TopAppBarLayout_expandedTitleMarginTop, -1
-                    )
-                val marginBottom =
-                    a.getDimensionPixelOffset(
-                        R.styleable.TopAppBarLayout_expandedTitleMarginBottom, -1
-                    )
+                val marginStart = a.getDimensionPixelOffset(
+                    R.styleable.TopAppBarLayout_expandedTitleMarginStart, -1
+                )
+                val marginEnd = a.getDimensionPixelOffset(
+                    R.styleable.TopAppBarLayout_expandedTitleMarginEnd, -1
+                )
+                val marginTop = a.getDimensionPixelOffset(
+                    R.styleable.TopAppBarLayout_expandedTitleMarginTop, -1
+                )
+                val marginBottom = a.getDimensionPixelOffset(
+                    R.styleable.TopAppBarLayout_expandedTitleMarginBottom, -1
+                )
                 if (marginStart != -1 || marginEnd != -1 || marginTop != -1 || marginBottom != -1) {
                     it.setExpandedTitleMargin(
                         if (marginStart >= 0) marginStart else it.expandedTitleMarginStart,
@@ -211,9 +208,7 @@ class TopAppBarLayout @JvmOverloads constructor(
             }
             return
         }
-        if (child !is AppBarLayout && params is CoordinatorLayout.LayoutParams
-            && params.height == ViewGroup.LayoutParams.MATCH_PARENT
-        ) {
+        if (child !is AppBarLayout && params is CoordinatorLayout.LayoutParams && params.height == ViewGroup.LayoutParams.MATCH_PARENT) {
             params.behavior = AppBarLayout.ScrollingViewBehavior()
         }
         super.addView(child, index, params)

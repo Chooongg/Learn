@@ -84,6 +84,7 @@
         <attr name="title" />
         <attr name="titleCentered" />
         <attr name="titleTextAppearance" />
+        <attr name="maxLines" format="integer" />
         <attr name="subtitle" />
         <attr name="subtitleCentered" />
         <attr name="subtitleTextAppearance" />
@@ -94,7 +95,7 @@
         <attr name="titleMarginBottom" format="dimension" />
         <attr name="titleBackground" format="reference" />
         <attr name="titleCollapseEnabled" format="boolean" />
-        <attr name="titleCollapseMode"/>
+        <attr name="titleCollapseMode" />
         <attr name="collapsedTitleGravity" />
         <attr name="expandedTitleGravity" />
         <attr name="expandedTitleMargin" format="dimension" />
