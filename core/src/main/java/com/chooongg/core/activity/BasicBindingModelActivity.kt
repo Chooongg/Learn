@@ -1,5 +1,6 @@
 package com.chooongg.core.activity
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelLazy
 import androidx.viewbinding.ViewBinding
@@ -15,6 +16,12 @@ abstract class BasicBindingModelActivity<BINDING : ViewBinding, MODEL : ViewMode
         { defaultViewModelProviderFactory },
         { defaultViewModelCreationExtras }
     )
+
+    override fun initContent(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) initViewModelContent()
+    }
+
+    open fun initViewModelContent() {}
 
     protected open fun getViewModelTIndex() = 1
 }

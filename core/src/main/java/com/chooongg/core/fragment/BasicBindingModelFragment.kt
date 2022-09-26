@@ -1,5 +1,7 @@
 package com.chooongg.core.fragment
 
+import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelLazy
 import androidx.viewbinding.ViewBinding
@@ -16,6 +18,26 @@ abstract class BasicBindingModelFragment<BINDING : ViewBinding, MODEL : ViewMode
         { defaultViewModelCreationExtras }
     )
 
-    protected open fun getViewModelTIndex() = 1
+    var isHasLoadViewModel = false
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState == null){
+            isHasLoadViewModel = true
+        }
+    }
+
+    override fun initContent(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) initViewModelContent()
+    }
+
+    override fun initContentByLazy() {
+        if (isHasLoadViewModel) initViewModelContentByLazy()
+    }
+
+    open fun initViewModelContent() {}
+
+    open fun initViewModelContentByLazy() {}
+
+    protected open fun getViewModelTIndex() = 1
 }

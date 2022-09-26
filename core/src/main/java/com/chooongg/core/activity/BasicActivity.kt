@@ -42,9 +42,9 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     @LayoutRes
     protected abstract fun initLayout(): Int
 
-    protected open fun initView(savedInstanceState: Bundle?) = Unit
+    protected open fun initView(savedInstanceState: Bundle?) {}
 
-    protected open fun initContent(savedInstanceState: Bundle?) = Unit
+    protected open fun initContent(savedInstanceState: Bundle?) {}
 
     open fun onRefresh(any: Any? = null) = Unit
 
