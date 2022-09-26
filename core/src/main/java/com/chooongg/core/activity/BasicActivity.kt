@@ -25,6 +25,7 @@ import com.chooongg.core.annotation.Theme
 import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
+import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -50,7 +51,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         javaClass.getAnnotation(Theme::class.java)?.value?.let { setTheme(it) }
-        window.setBackgroundDrawable(null)
         configContainerTransform()
         super.onCreate(savedInstanceState)
         configEdgeToEdge()
@@ -60,8 +60,8 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
-        logDClass(javaClass, buildString {
-            if (title != null) append('(').append(title).append(") ")
+        logDClass("Activity", javaClass, buildString {
+            if (title != null) append('[').append(title).append("] ")
             append("onCreated")
         })
         super.onPostCreate(savedInstanceState)
@@ -105,8 +105,9 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     protected open fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
         val transform = MaterialContainerTransform(this, entering)
         transform.addTarget(android.R.id.content)
-        transform.containerColor = attrColor(com.google.android.material.R.attr.colorSurface)
+        transform.containerColor = attrColor(android.R.attr.colorBackground)
         transform.fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
+        transform.pathMotion = MaterialArcMotion()
         return transform
     }
 
@@ -114,7 +115,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         javaClass.getAnnotation(ActivityEdgeToEdge::class.java)?.let {
             if (it.isEdgeToEdge.not()) return
             WindowCompat.setDecorFitsSystemWindows(window, false)
-            window.statusBarColor = it.statusBarColor
             val left = it.fitsSide and ActivityEdgeToEdge.LEFT != 0
             val top = it.fitsSide and ActivityEdgeToEdge.TOP != 0
             val right = it.fitsSide and ActivityEdgeToEdge.RIGHT != 0
@@ -177,8 +177,8 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     override fun onDestroy() {
         super.onDestroy()
-        logDClass(javaClass, buildString {
-            if (title != null) append('(').append(title).append(") ")
+        logDClass("Activity", javaClass, buildString {
+            if (title != null) append('[').append(title).append("] ")
             append("onDestroy")
         })
     }

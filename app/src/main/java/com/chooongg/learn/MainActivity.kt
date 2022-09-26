@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.chooongg.basic.ext.logD
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingActivity
@@ -40,7 +41,7 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
         adapter.setNewInstance(mutableListOf(MainItem(R.drawable.ic_main_echarts, "ECharts") {
             startActivity(EChartsActivity::class)
         }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
-            startActivity(EventFlowActivity::class, it)
+            startActivity(EventFlowActivity::class)
         }, MainItem(R.drawable.ic_main_loading, "Loading") {
             startActivity(LoadingActivity::class, it)
         }, MainItem(R.drawable.ic_main_state_layout, "StateLayout") {

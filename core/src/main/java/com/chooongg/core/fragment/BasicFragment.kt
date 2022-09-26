@@ -47,8 +47,8 @@ abstract class BasicFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        logDClass(javaClass, buildString {
-            if (title != null) append('(').append(title).append(") ")
+        logDClass("Fragment", javaClass, buildString {
+            if (title != null) append('[').append(title).append("] ")
             append("onViewCreated")
         })
         super.onViewCreated(view, savedInstanceState)
@@ -79,8 +79,8 @@ abstract class BasicFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        logDClass(javaClass, buildString {
-            if (title != null) append('(').append(title).append(") ")
+        logDClass("Fragment", javaClass, buildString {
+            if (title != null) append('[').append(title).append("] ")
             append("onDestroyView")
         })
         isLoaded = false

@@ -15,7 +15,7 @@ class CoreInitializer : Initializer<Unit> {
     override fun create(context: Context) {
         XXPermissions.setInterceptor(PermissionInterceptor())
         LoadMoreModuleConfig.defLoadMoreView = BasicLoadMoreView()
-        logDClass(CoreInitializer::class.java, "chooongg.learn.core is created")
+        logDClass("Learn", CoreInitializer::class.java, "Created")
     }
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> =

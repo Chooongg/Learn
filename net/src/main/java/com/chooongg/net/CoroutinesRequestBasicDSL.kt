@@ -45,7 +45,7 @@ open class CoroutinesRequestBasicDSL<RESPONSE> {
 
     internal suspend fun executeRequest() {
         if (api == null) {
-            logE("HttpRequest not implemented api method, cancel operation.")
+            logE("Http", "HttpRequest not implemented api method, cancel operation.")
             return
         }
         withMain { onStart?.invoke() }

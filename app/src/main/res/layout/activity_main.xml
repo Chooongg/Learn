@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:titleCollapseMode="scale"
-    app:appBarType="medium">
+    app:expandedTitleGravity="center_horizontal|bottom"
+    app:appBarType="large">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

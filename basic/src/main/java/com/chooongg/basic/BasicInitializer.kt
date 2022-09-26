@@ -18,7 +18,7 @@ class BasicInitializer : Initializer<Unit> {
         MMKV.initialize(context)
         val sp = context.getSharedPreferences("chooongg-learn", Context.MODE_PRIVATE)
         setNightMode(sp.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO))
-        logDClass(BasicInitializer::class.java, "chooongg.learn.basic is created")
+        logDClass("Learn", BasicInitializer::class.java, "Created")
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()

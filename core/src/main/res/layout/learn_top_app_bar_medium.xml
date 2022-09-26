@@ -12,8 +12,7 @@
         style="?attr/collapsingToolbarLayoutMediumStyle"
         android:layout_width="match_parent"
         android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-        app:maxLines="3">
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
         <com.chooongg.core.widget.TopAppBar
             android:id="@+id/top_app_bar"

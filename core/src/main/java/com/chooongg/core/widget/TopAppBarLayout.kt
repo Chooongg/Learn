@@ -31,7 +31,7 @@ class TopAppBarLayout @JvmOverloads constructor(
 
     init {
         fitsSystemWindows = true
-        setBackgroundColor(attrColor(com.google.android.material.R.attr.colorSurface))
+        setBackgroundColor(attrColor(android.R.attr.colorBackground))
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBarLayout, defStyleAttr, 0)
         when (a.getInt(R.styleable.TopAppBarLayout_appBarType, 0)) {
             0 -> inflate(context, R.layout.learn_top_app_bar_small, this)

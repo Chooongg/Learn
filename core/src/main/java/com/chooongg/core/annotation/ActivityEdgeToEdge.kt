@@ -10,8 +10,7 @@ import java.lang.annotation.Inherited
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ActivityEdgeToEdge(
     val isEdgeToEdge: Boolean = true,
-    @InsetsSide val fitsSide: Int = BOTTOM,
-    @ColorInt val statusBarColor: Int = Color.TRANSPARENT
+    @InsetsSide val fitsSide: Int = BOTTOM
 ) {
     companion object {
         const val LEFT = 1 shl 0
