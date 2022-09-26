@@ -72,6 +72,8 @@
     <!-- 顶部应用栏布局子项配置 -->
     <declare-styleable name="TopAppBarLayout_Layout">
         <attr name="isTopAppBarChild" format="boolean" />
+        <attr name="isAppBarLayoutChild" format="boolean"/>
+        <attr name="layout_scrollFlags"/>
     </declare-styleable>
     <!-- 顶部应用栏布局 -->
     <declare-styleable name="TopAppBarLayout">

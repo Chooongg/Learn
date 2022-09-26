@@ -2,10 +2,12 @@ package com.chooongg.core.activity
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.Fade
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.animation.DecelerateInterpolator
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,7 +17,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.contentView
-import com.chooongg.basic.ext.hideIME
 import com.chooongg.basic.ext.logDClass
 import com.chooongg.core.R
 import com.chooongg.core.annotation.ActivityEdgeToEdge
@@ -25,16 +26,18 @@ import com.chooongg.core.annotation.Theme
 import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
+import com.google.android.material.motion.MotionUtils
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
+import com.google.android.material.transition.platform.MaterialFade
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
 @NavigationButton
 @ActivityTransitions
-@ActivityEdgeToEdge(false)
+@ActivityEdgeToEdge(true)
 abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     inline val context: Context get() = this
@@ -56,6 +59,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         configEdgeToEdge()
         javaClass.getAnnotationTitle(context)?.let { title = it }
         setContentViewInternal()
+        window.setBackgroundDrawable(null)
         initView(savedInstanceState)
     }
 
@@ -65,10 +69,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
             append("onCreated")
         })
         super.onPostCreate(savedInstanceState)
-        contentView.setOnClickListener {
-            it.clearFocus()
-            hideIME()
-        }
         initContent(savedInstanceState)
     }
 
@@ -90,6 +90,9 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
             exitTransition = null
             returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
             reenterTransition = null
+            transitionBackgroundFadeDuration = MotionUtils.resolveThemeDuration(
+                context, com.google.android.material.R.attr.motionDurationLong1, -1
+            ).toLong()
         }
         window.sharedElementsUseOverlay = false
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())

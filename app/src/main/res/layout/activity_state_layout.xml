@@ -6,6 +6,7 @@
     <com.chooongg.stateLayout.StateLayout
         android:id="@+id/state_layout"
         android:layout_width="match_parent"
+        android:background="?android:colorBackground"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat

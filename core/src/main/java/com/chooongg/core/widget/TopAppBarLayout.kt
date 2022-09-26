@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils.TruncateAt
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
-import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.getActivity
 import com.chooongg.core.R
 import com.google.android.material.appbar.AppBarLayout
@@ -20,9 +18,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 
 @SuppressLint("RestrictedApi")
 class TopAppBarLayout @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : CoordinatorLayout(context, attrs, defStyleAttr) {
 
     val appBarLayout: AppBarLayout by lazy { findViewById(R.id.appbar_layout) }
@@ -30,8 +26,6 @@ class TopAppBarLayout @JvmOverloads constructor(
     val topAppBar: TopAppBar by lazy { findViewById(R.id.top_app_bar) }
 
     init {
-        fitsSystemWindows = true
-        setBackgroundColor(attrColor(android.R.attr.colorBackground))
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBarLayout, defStyleAttr, 0)
         when (a.getInt(R.styleable.TopAppBarLayout_appBarType, 0)) {
             0 -> inflate(context, R.layout.learn_top_app_bar_small, this)
@@ -177,14 +171,22 @@ class TopAppBarLayout @JvmOverloads constructor(
     @SuppressLint("CustomViewStyleable")
     override fun generateLayoutParams(attrs: AttributeSet?): CoordinatorLayout.LayoutParams {
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBarLayout_Layout)
-        if (a.hasValue(R.styleable.TopAppBarLayout_Layout_isTopAppBarChild)) {
+        if (a.hasValue(R.styleable.TopAppBarLayout_Layout_isTopAppBarChild)
+            || a.hasValue(R.styleable.TopAppBarLayout_Layout_isAppBarLayoutChild)
+        ) {
             val parentParams = super.generateLayoutParams(attrs)
             val params = LayoutParams(parentParams).apply {
-                Log.e("SDFSDFSDFSDFSDF", parentParams.gravity.toString())
                 gravity = parentParams.gravity
-                Log.e("SDFSDFSDFSDFSDF", gravity.toString())
-                isTopAppBarChild =
-                    a.getBoolean(R.styleable.TopAppBarLayout_Layout_isTopAppBarChild, false)
+                isTopAppBarChild = a.getBoolean(
+                    R.styleable.TopAppBarLayout_Layout_isTopAppBarChild, false
+                )
+                isAppBarLayoutChild = a.getBoolean(
+                    R.styleable.TopAppBarLayout_Layout_isAppBarLayoutChild, false
+                )
+                scrollFlags = a.getInt(
+                    R.styleable.TopAppBarLayout_Layout_layout_scrollFlags,
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                )
             }
             a.recycle()
             return params
@@ -196,17 +198,25 @@ class TopAppBarLayout @JvmOverloads constructor(
     private var isHavTopAppBarContent = false
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams) {
-        if (params is LayoutParams && params.isTopAppBarChild) {
-            val contentParams = Toolbar.LayoutParams(params)
-            contentParams.gravity = params.gravity
-            topAppBar.addView(child, contentParams)
-            if (!isHavTopAppBarContent) {
-                isHavTopAppBarContent = true
-                collapsingToolbarLayout?.isTitleEnabled = false
-                context.getActivity()?.title = null
-                topAppBar.title = null
+        if (params is LayoutParams) {
+            if (params.isTopAppBarChild) {
+                val contentParams = Toolbar.LayoutParams(params)
+                contentParams.gravity = params.gravity
+                topAppBar.addView(child, contentParams)
+                if (!isHavTopAppBarContent) {
+                    isHavTopAppBarContent = true
+                    collapsingToolbarLayout?.isTitleEnabled = false
+                    context.getActivity()?.title = null
+                    topAppBar.title = null
+                }
+                return
+            } else if (params.isAppBarLayoutChild) {
+                val contentParams = AppBarLayout.LayoutParams(params)
+                contentParams.gravity = params.gravity
+                contentParams.scrollFlags = params.scrollFlags
+                appBarLayout.addView(child, contentParams)
+                return
             }
-            return
         }
         if (child !is AppBarLayout && params is CoordinatorLayout.LayoutParams && params.height == ViewGroup.LayoutParams.MATCH_PARENT) {
             params.behavior = AppBarLayout.ScrollingViewBehavior()
@@ -227,6 +237,11 @@ class TopAppBarLayout @JvmOverloads constructor(
     class LayoutParams : CoordinatorLayout.LayoutParams {
         var isTopAppBarChild = false
             internal set
+        var isAppBarLayoutChild = false
+            internal set
+
+        @AppBarLayout.LayoutParams.ScrollFlags
+        var scrollFlags: Int = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
 
         constructor(width: Int, height: Int) : super(width, height)
         constructor(p: MarginLayoutParams?) : super(p)
