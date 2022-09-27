@@ -1,0 +1,60 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
+}
+
+android {
+    namespace 'com.chooongg.filePicker'
+    compileSdk sdkConfig.compileSdk
+    defaultConfig {
+        minSdk sdkConfig.minSdk
+        targetSdk sdkConfig.targetSdk
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: ':core')
+    implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$dependenciesVersion.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependenciesVersion.lifecycleVersion"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.chooongg.learn"
+                artifactId = "filePicker"
+                version = rootProject.ext.versionName
+            }
+        }
+    }
+}
+
+//
+//ext {
+//    PUBLISH_ARTIFACT_ID = "eventFlow"
+//}
+//
+//apply from: '../publish.gradle'
