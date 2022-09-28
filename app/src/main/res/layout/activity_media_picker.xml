@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chooongg.core.widget.TopAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:colorBackground">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_image"
+                android:layout_width="@dimen/d72"
+                android:layout_height="@dimen/d72"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginTop="@dimen/contentMedium"
+                app:shapeAppearance="?shapeAppearanceCornerMedium"
+                app:strokeColor="?colorOutline"
+                app:strokeWidth="@dimen/divider" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</com.chooongg.core.widget.TopAppBarLayout>

@@ -1,33 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chooongg.core.widget.TopAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
-
-        <com.chooongg.core.widget.TopAppBar
-            android:id="@+id/top_app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="0dp"
-            tools:title="标题" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        android:background="?android:colorBackground">
 
-    <!--    <com.google.android.material.bottomappbar.BottomAppBar-->
-    <!--        android:id="@+id/bottom_app_bar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content" />-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2000dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        style="@style/Widget.Material3.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:contentInsetStart="@dimen/contentSmall"
+        app:fabAlignmentMode="end"
+        app:fabAnchorMode="cradle"
+        app:fabAnimationMode="slide"
+        app:hideOnScroll="true"
+        app:menuAlignmentMode="auto"
+        app:paddingBottomSystemWindowInsets="false"
+        tools:ignore="BottomAppBar">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_album"
+                style="@style/Widget.Material3.CardView.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:strokeWidth="0dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="@dimen/d48"
+                    android:layout_height="@dimen/d48"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/d8"
+                    android:layout_marginTop="@dimen/d8"
+                    android:layout_marginBottom="@dimen/d8"
+                    android:background="?colorSurface"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/album_kristopher_roller_unsplash"
+                    app:shapeAppearance="?shapeAppearanceCornerSmall" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/d64"
+                    android:layout_marginTop="@dimen/d8"
+                    android:layout_marginEnd="@dimen/d8"
+                    android:layout_marginBottom="@dimen/d8"
+                    android:singleLine="true"
+                    android:text="全部图片⮝"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/d76"
+                android:hint="未选择" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="选择图片"
+        android:src="@drawable/ic_permission_location"
+        android:visibility="gone"
+        app:layout_anchor="@id/bottom_app_bar" />
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </com.google.android.material.bottomsheet.BottomSheetDragHandleView>
+
+</com.chooongg.core.widget.TopAppBarLayout>

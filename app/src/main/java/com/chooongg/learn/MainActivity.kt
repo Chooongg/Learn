@@ -14,11 +14,13 @@ import com.chooongg.core.annotation.NavigationButton
 import com.chooongg.core.ext.divider
 import com.chooongg.core.ext.showAllDivider
 import com.chooongg.core.ext.startActivity
+import com.chooongg.filePicker.LearnFilePickerActivity
 import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
 import com.chooongg.learn.echarts.EChartsActivity
 import com.chooongg.learn.eventFlow.EventFlowActivity
 import com.chooongg.learn.loading.LoadingActivity
+import com.chooongg.learn.mediaPicker.MediaPickerDemoActivity
 import com.chooongg.learn.network.NetworkActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
@@ -43,10 +45,14 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
                     startActivity(EChartsActivity::class)
                 }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
                     startActivity(EventFlowActivity::class, it)
+                }, MainItem(R.drawable.ic_main_file_picker, "FilePicker") {
+                    startActivity(LearnFilePickerActivity::class, it)
                 }, MainItem(R.drawable.ic_main_loading, "Loading") {
                     startActivity(LoadingActivity::class, it)
                 }, MainItem(R.drawable.ic_main_state_layout, "StateLayout") {
                     startActivity(StateLayoutActivity::class, it)
+                }, MainItem(R.drawable.ic_main_media_picker, "MediaPicker") {
+                    startActivity(MediaPickerDemoActivity::class, it)
                 }, MainItem(R.drawable.ic_main_network, "Network") {
                     startActivity(NetworkActivity::class, it)
                 }, MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar") {

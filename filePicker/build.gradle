@@ -25,6 +25,9 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    buildFeatures {
+        viewBinding true
+    }
     publishing {
         singleVariant("release") {
             withSourcesJar()
@@ -35,22 +38,21 @@ android {
 dependencies {
     implementation project(path: ':core')
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$dependenciesVersion.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependenciesVersion.lifecycleVersion"
+    implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = "com.chooongg.learn"
-                artifactId = "filePicker"
-                version = rootProject.ext.versionName
-            }
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            release(MavenPublication) {
+//                from components.release
+//                groupId = "com.chooongg.learn"
+//                artifactId = "filePicker"
+//                version = rootProject.ext.versionName
+//            }
+//        }
+//    }
+//}
 
 //
 //ext {

@@ -67,6 +67,11 @@
             android:launchMode="singleTop" />
 
         <activity
+            android:name="com.chooongg.learn.mediaPicker.MediaPickerDemoActivity"
+            android:label="MediaPicker"
+            android:launchMode="singleTop" />
+
+        <activity
             android:name=".network.NetworkActivity"
             android:label="Network"
             android:launchMode="singleTop" />

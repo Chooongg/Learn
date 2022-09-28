@@ -176,7 +176,6 @@ class TopAppBarLayout @JvmOverloads constructor(
         ) {
             val parentParams = super.generateLayoutParams(attrs)
             val params = LayoutParams(parentParams).apply {
-                gravity = parentParams.gravity
                 isTopAppBarChild = a.getBoolean(
                     R.styleable.TopAppBarLayout_Layout_isTopAppBarChild, false
                 )
@@ -234,7 +233,7 @@ class TopAppBarLayout @JvmOverloads constructor(
         }
     }
 
-    class LayoutParams : CoordinatorLayout.LayoutParams {
+    class LayoutParams(p: CoordinatorLayout.LayoutParams) : CoordinatorLayout.LayoutParams(p) {
         var isTopAppBarChild = false
             internal set
         var isAppBarLayoutChild = false
@@ -243,10 +242,8 @@ class TopAppBarLayout @JvmOverloads constructor(
         @AppBarLayout.LayoutParams.ScrollFlags
         var scrollFlags: Int = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
 
-        constructor(width: Int, height: Int) : super(width, height)
-        constructor(p: MarginLayoutParams?) : super(p)
-        constructor(p: ViewGroup.LayoutParams?) : super(p)
-        constructor(p: CoordinatorLayout.LayoutParams) : super(p)
-
+        init {
+            gravity = p.gravity
+        }
     }
 }
