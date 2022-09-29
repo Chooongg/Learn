@@ -9,7 +9,7 @@ import com.chooongg.core.R
 
 class BasicLoadMoreView : BaseLoadMoreView() {
     override fun getRootView(parent: ViewGroup): View =
-        parent.getItemView(R.layout.box_load_more)
+        parent.getItemView(R.layout.learn_load_more)
 
     override fun getLoadingView(holder: BaseViewHolder): View =
         holder.getView(R.id.load_more_loading_view)

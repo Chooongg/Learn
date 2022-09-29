@@ -23,17 +23,14 @@
             </intent-filter>
         </activity>
 
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask" />
-
 
         <activity
             android:name=".echarts.EChartsActivity"
             android:label="ECharts"
             android:launchMode="singleTop" />
-
 
         <activity
             android:name=".eventFlow.EventFlowActivity"
@@ -44,26 +41,9 @@
             android:label="EventFlowSecond"
             android:launchMode="singleTop" />
 
-
         <activity
             android:name=".loading.LoadingActivity"
             android:label="Loading"
-            android:launchMode="singleTop" />
-
-
-        <activity
-            android:name=".stateLayout.StateLayoutActivity"
-            android:label="StateLayout"
-            android:launchMode="singleTop" />
-
-
-        <activity
-            android:name=".topAppBar.TopAppBarActivity"
-            android:label="TopAppBar"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".topAppBar.TopAppBarLayoutActivity"
-            android:label="TopAppBarLayout"
             android:launchMode="singleTop" />
 
         <activity
@@ -74,6 +54,25 @@
         <activity
             android:name=".network.NetworkActivity"
             android:label="Network"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name="com.chooongg.learn.popupMenu.PopupMenuActivity"
+            android:label="PopupMenu"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".stateLayout.StateLayoutActivity"
+            android:label="StateLayout"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".topAppBar.TopAppBarActivity"
+            android:label="TopAppBar"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".topAppBar.TopAppBarLayoutActivity"
+            android:label="TopAppBarLayout"
             android:launchMode="singleTop" />
 
     </application>

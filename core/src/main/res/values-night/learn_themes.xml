@@ -4,6 +4,8 @@
     <style name="Theme.Learn.Surface" parent="Base.Theme.Learn">
         <item name="appBarLayoutStyle">@style/Widget.Learn.AppBarLayout.Surface</item>
         <item name="toolbarStyle">@style/Widget.Learn.TopAppBar.OnSurface</item>
+        <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.TopAppBar.Navigation.Surface
+        </item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 

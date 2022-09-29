@@ -67,7 +67,7 @@ private fun Activity.showLoadingForActivity(message: CharSequence?) {
         loadingView.animate().setListener(null).cancel()
     } else {
         loadingView =
-            LayoutInflater.from(this).inflate(R.layout.box_activity_loading, null)
+            LayoutInflater.from(this).inflate(R.layout.learn_activity_loading, null)
         decorView.addView(loadingView)
     }
     val textView = loadingView.findViewById<TextView>(R.id.tv_message)

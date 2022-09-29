@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chooongg.core.widget.TopAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:colorBackground"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/contentMedium"
+            android:paddingBottom="@dimen/contentMedium">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_default"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="PopupMenu" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_full_width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="PopupMenu-FullWidth" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_overlap_anchor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="PopupMenu-OverlapAnchor" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</com.chooongg.core.widget.TopAppBarLayout>

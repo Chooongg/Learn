@@ -12,7 +12,7 @@ class EChartsActivity : BasicBindingActivity<ActivityEchartsBinding>() {
     private var change = false
 
     override fun initView(savedInstanceState: Bundle?) {
-//        binding.echartsView.setOption(option1())
+        binding.echartsView.setOption(option1())
         binding.btnChange.doOnClick {
             if (change) {
                 binding.echartsView.setOption(option3())

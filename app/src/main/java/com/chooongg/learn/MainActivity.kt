@@ -22,6 +22,7 @@ import com.chooongg.learn.eventFlow.EventFlowActivity
 import com.chooongg.learn.loading.LoadingActivity
 import com.chooongg.learn.mediaPicker.MediaPickerDemoActivity
 import com.chooongg.learn.network.NetworkActivity
+import com.chooongg.learn.popupMenu.PopupMenuActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
 
@@ -43,19 +44,29 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
             mutableListOf(
                 MainItem(R.drawable.ic_main_echarts, "ECharts") {
                     startActivity(EChartsActivity::class)
-                }, MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
+                },
+                MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
                     startActivity(EventFlowActivity::class, it)
-                }, MainItem(R.drawable.ic_main_file_picker, "FilePicker") {
+                },
+                MainItem(R.drawable.ic_main_file_picker, "FilePicker") {
                     startActivity(LearnFilePickerActivity::class, it)
-                }, MainItem(R.drawable.ic_main_loading, "Loading") {
+                },
+                MainItem(R.drawable.ic_main_loading, "Loading") {
                     startActivity(LoadingActivity::class, it)
-                }, MainItem(R.drawable.ic_main_state_layout, "StateLayout") {
-                    startActivity(StateLayoutActivity::class, it)
-                }, MainItem(R.drawable.ic_main_media_picker, "MediaPicker") {
+                },
+                MainItem(R.drawable.ic_main_media_picker, "MediaPicker") {
                     startActivity(MediaPickerDemoActivity::class, it)
-                }, MainItem(R.drawable.ic_main_network, "Network") {
+                },
+                MainItem(R.drawable.ic_main_network, "Network") {
                     startActivity(NetworkActivity::class, it)
-                }, MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar") {
+                },
+                MainItem(R.drawable.ic_main_popup_menu, "PopupMenu") {
+                    startActivity(PopupMenuActivity::class, it)
+                },
+                MainItem(R.drawable.ic_main_state_layout, "StateLayout") {
+                    startActivity(StateLayoutActivity::class, it)
+                },
+                MainItem(R.drawable.ic_main_top_app_bar, "TopAppBar") {
                     startActivity(TopAppBarActivity::class, it)
                 }
             )

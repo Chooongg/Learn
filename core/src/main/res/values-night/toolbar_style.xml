@@ -7,6 +7,8 @@
 
     <style name="Widget.Learn.TopAppBar.OnPrimarySurface" parent="Widget.Learn.TopAppBar.OnSurface" />
 
+    <style name="Widget.Learn.TopAppBar.Navigation.PrimarySurface" parent="Widget.Learn.TopAppBar.Navigation.Surface" />
+
     <!-- AppBarLayout -->
 
     <style name="Widget.Learn.AppBarLayout.PrimarySurface" parent="Widget.Learn.AppBarLayout.Surface" />

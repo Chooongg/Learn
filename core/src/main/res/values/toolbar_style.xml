@@ -20,6 +20,7 @@
         <item name="contentInsetStartWithNavigation">56dp</item>
         <item name="maxButtonHeight">?attr/actionBarSize</item>
         <item name="titleMargin">0dp</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Material3.Toolbar.Primary</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.OnPrimary" parent="Widget.Learn.TopAppBar.Primary">
@@ -31,9 +32,23 @@
 
     <style name="Widget.Learn.TopAppBar.OnPrimarySurface" parent="Widget.Learn.TopAppBar.OnPrimary" />
 
-    <style name="Widget.Learn.Button.Navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+    <style name="Widget.Learn.TopAppBar.Navigation.Surface" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">?attr/colorOnSurface</item>
         <item name="android:scaleType">centerInside</item>
         <item name="android:adjustViewBounds">true</item>
+    </style>
+
+    <style name="Widget.Learn.TopAppBar.Navigation.Primary" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">?attr/colorOnPrimary</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+
+    <style name="Widget.Learn.TopAppBar.Navigation.PrimarySurface" parent="Widget.Learn.TopAppBar.Navigation.Primary" />
+
+    <style name="ThemeOverlay.Material3.Toolbar.Primary" parent="">
+        <item name="actionMenuTextColor">?attr/colorOnPrimary</item>
+        <item name="colorControlNormal">?attr/colorOnPrimary</item>
     </style>
 
     <!-- AppBarLayout -->

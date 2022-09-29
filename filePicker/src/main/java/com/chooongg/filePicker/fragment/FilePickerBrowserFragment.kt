@@ -1,6 +1,13 @@
 package com.chooongg.filePicker.fragment
 
-import com.chooongg.core.fragment.BasicBindingModelFragment
+import androidx.fragment.app.activityViewModels
+import com.chooongg.core.fragment.BasicBindingFragment
+import com.chooongg.filePicker.FilePickerViewModel
+import com.chooongg.filePicker.databinding.LearnFragmentFilePickerBrowserBinding
 
-class FilePickerBrowserFragment:BasicBindingModelFragment<> {
+class FilePickerBrowserFragment : BasicBindingFragment<LearnFragmentFilePickerBrowserBinding>() {
+
+    val model by activityViewModels<FilePickerViewModel>()
+
+
 }

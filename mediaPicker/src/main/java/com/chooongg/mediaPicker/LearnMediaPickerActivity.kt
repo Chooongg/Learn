@@ -28,4 +28,9 @@ class LearnMediaPickerActivity : BasicBindingActivity<LearnActivityMediaPickerBi
             val dialog = BottomSheetDialog(context)
         }
     }
+
+    override fun onBackPressed() {
+        clearTransition()
+        super.onBackPressed()
+    }
 }

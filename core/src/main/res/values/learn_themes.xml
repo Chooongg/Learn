@@ -4,6 +4,8 @@
     <style name="Theme.Learn.Surface" parent="Base.Theme.Learn">
         <item name="appBarLayoutStyle">@style/Widget.Learn.AppBarLayout.Surface</item>
         <item name="toolbarStyle">@style/Widget.Learn.TopAppBar.OnSurface</item>
+        <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.TopAppBar.Navigation.Surface
+        </item>
         <item name="android:statusBarColor">#22000000</item>
     </style>
 
@@ -19,6 +21,8 @@
             @style/Widget.Learn.CollapsingToolbar.Primary
         </item>
         <item name="toolbarStyle">@style/Widget.Learn.TopAppBar.OnPrimary</item>
+        <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.TopAppBar.Navigation.Primary
+        </item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
@@ -30,7 +34,6 @@
         <item name="android:configChanges">orientation|keyboardHidden|screenSize</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/LearnWindowAnimation</item>
-        <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.Button.Navigation</item>
         <item name="materialDividerHeavyStyle">@style/Widget.Learn.MaterialDivider.Heavy</item>
         <item name="snackbarStyle">@style/Widget.Learn.Snackbar</item>
     </style>

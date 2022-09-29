@@ -161,10 +161,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         return super.onOptionsItemSelected(item)
     }
 
-    fun clearTransitionAnimation() {
-        contentView.transitionName = null
-    }
-
     override fun onBackPressed() {
         supportFragmentManager.fragments.forEach {
             if (it is BasicFragment && !it.isHidden && it.isResumed && it.onBackPressedIntercept()) {
