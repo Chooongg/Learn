@@ -96,6 +96,8 @@ class MaterialPopupMenuBuilder {
          */
         var title: CharSequence? = null
 
+        var isForceShowIcon: Boolean = false
+
         private val itemsHolderList = arrayListOf<AbstractItemHolder>()
 
         /**

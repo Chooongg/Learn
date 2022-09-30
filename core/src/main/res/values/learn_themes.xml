@@ -61,4 +61,8 @@
         <item name="shapeAppearance">?attr/shapeAppearanceCornerExtraSmall</item>
     </style>
 
+    <style name="Widget.Material3.PopupMenu.OverlapAnchor" parent="Widget.Material3.PopupMenu">
+        <item name="overlapAnchor">true</item>
+    </style>
+
 </resources>
