@@ -12,6 +12,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.annotation.RequiresPermission
 import com.chooongg.basic.APPLICATION
+import kotlin.math.abs
 
 fun Context.getScreenWidth() = resources.displayMetrics.widthPixels
 
@@ -43,9 +44,8 @@ fun Context.getStatusBarHeight(): Int {
         val manager = getSystemService(WindowManager::class.java)
         val metrics = manager.currentWindowMetrics
         val windowInsets = metrics.windowInsets
-        val insets =
-            windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars() or WindowInsets.Type.displayCutout())
-        insets.top
+        val insets = windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.statusBars())
+        abs(insets.bottom - insets.top)
     } else {
         val resources = Resources.getSystem()
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")

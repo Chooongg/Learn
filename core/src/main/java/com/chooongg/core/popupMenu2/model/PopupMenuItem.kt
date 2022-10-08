@@ -1,4 +1,4 @@
 package com.chooongg.core.popupMenu2.model
 
-internal class PopupMenuItem {
+internal class PopupMenuItem : BasePopupMenuItem() {
 }

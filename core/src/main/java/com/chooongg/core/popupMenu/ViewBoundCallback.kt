@@ -25,7 +25,6 @@ class ViewBoundCallback(
      */
     fun dismissPopup() {
         dismissPopupAction()
-        com.google.android.material.R.layout.abc_list_menu_item_icon
     }
 
     override fun invoke(view: View) {
