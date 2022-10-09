@@ -1,5 +1,6 @@
 package com.chooongg.core.popupMenu
 
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
@@ -197,8 +198,7 @@ class MaterialPopupMenuBuilder {
          * This must be a valid color Int if set.
          * *0* Means that default tinting will be applied.
          */
-        @ColorInt
-        var iconColor: Int = 0
+        var iconTint: ColorStateList? = null
 
         /**
          * Optional. If set to *true* this will show a "menu-end" icon, which indicates that there might be a submenu shown.
@@ -207,7 +207,7 @@ class MaterialPopupMenuBuilder {
         var hasNestedItems: Boolean = false
 
         override fun toString(): String {
-            return "ItemHolder(label=$label, labelRes=$labelRes, labelColor=$labelColor, icon=$icon, iconDrawable=$iconDrawable, iconColor=$iconColor, hasNestedItems=$hasNestedItems, viewBoundCallback=$viewBoundCallback, callback=$callback, dismissOnSelect=$dismissOnSelect)"
+            return "ItemHolder(label=$label, labelRes=$labelRes, labelColor=$labelColor, icon=$icon, iconDrawable=$iconDrawable, iconTint=$iconTint, hasNestedItems=$hasNestedItems, viewBoundCallback=$viewBoundCallback, callback=$callback, dismissOnSelect=$dismissOnSelect)"
         }
 
         override fun convertToPopupMenuItem(): LearnPopupMenu.PopupMenuItem {
@@ -218,7 +218,7 @@ class MaterialPopupMenuBuilder {
                 labelColor = labelColor,
                 icon = icon,
                 iconDrawable = iconDrawable,
-                iconColor = iconColor,
+                iconTint = iconTint,
                 hasNestedItems = hasNestedItems,
                 viewBoundCallback = resolveViewBoundCallback(),
                 callback = callback,

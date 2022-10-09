@@ -1,6 +1,7 @@
 package com.chooongg.core.popupMenu
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
@@ -92,7 +93,7 @@ class LearnPopupMenu internal constructor(
         @ColorInt val labelColor: Int,
         @DrawableRes val icon: Int,
         val iconDrawable: Drawable?,
-        @ColorInt val iconColor: Int,
+        val iconTint: ColorStateList?,
         val hasNestedItems: Boolean,
         override val viewBoundCallback: ViewBoundCallback,
         override val callback: () -> Unit,

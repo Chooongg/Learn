@@ -1,5 +1,9 @@
 package com.chooongg.core.popupMenu2
 
+import android.content.Context
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup.LayoutParams
 import androidx.annotation.GravityInt
 import androidx.annotation.StyleRes
 import androidx.core.content.res.ResourcesCompat
@@ -10,21 +14,14 @@ class PopupMenuBuilder {
     @StyleRes
     var style: Int = ResourcesCompat.ID_NULL
 
+    var overlapAnchor: Boolean = false
+    var isForceShowIcon: Boolean = false
+
     @GravityInt
-    var dropdownGravity: Int? = null
-
-    var overlapAnchor: Boolean? = null
-
-    @androidx.annotation.IntRange(from = -2)
-    var dropDownWidth: Int? = null
-
+    var dropdownGravity: Int = Gravity.NO_GRAVITY
+    var dropDownWidth: Int = LayoutParams.WRAP_CONTENT
     var dropDownVerticalOffset: Int = 0
     var dropDownHorizontalOffset: Int = 0
-
-    var dropdownPaddingStart: Int = 0
-    var dropdownPaddingTop: Int = 0
-    var dropdownPaddingEnd: Int = 0
-    var dropdownPaddingBottom: Int = 0
 
     private val sectionList: ArrayList<PopupMenuSection> = arrayListOf()
 
@@ -32,18 +29,16 @@ class PopupMenuBuilder {
         sectionList.add(PopupMenuSection().apply(block))
     }
 
-    fun build(): PopupMenu {
-        val popupMenu = PopupMenu(sectionList)
-        popupMenu.style = style
-        popupMenu.dropdownGravity = dropdownGravity
-        popupMenu.overlapAnchor = overlapAnchor
-        popupMenu.dropDownWidth = dropDownWidth
-        popupMenu.dropDownVerticalOffset = dropDownVerticalOffset
-        popupMenu.dropDownHorizontalOffset = dropDownHorizontalOffset
-        popupMenu.dropdownPaddingStart = dropdownPaddingStart
-        popupMenu.dropdownPaddingTop = dropdownPaddingTop
-        popupMenu.dropdownPaddingEnd = dropdownPaddingEnd
-        popupMenu.dropdownPaddingBottom = dropdownPaddingBottom
-        return popupMenu
-    }
+    fun build() = PopupMenu(
+        style,
+        overlapAnchor,
+        isForceShowIcon,
+        dropdownGravity,
+        dropDownWidth,
+        dropDownVerticalOffset,
+        dropDownHorizontalOffset,
+        sectionList
+    )
+
+    fun show(context: Context, anchor: View) = build().show(context, anchor)
 }

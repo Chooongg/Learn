@@ -1,13 +1,13 @@
 package com.chooongg.core.popupMenu
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.core.R
 
@@ -113,11 +113,12 @@ internal class PopupMenuAdapter(
             if (castedPopupMenuItem.icon != 0 || castedPopupMenuItem.iconDrawable != null) {
                 icon.apply {
                     visibility = View.VISIBLE
-                    setImageResource(castedPopupMenuItem.icon)
-                    castedPopupMenuItem.iconDrawable?.let { setImageDrawable(it) }
-                    if (castedPopupMenuItem.iconColor != 0) {
-                        supportImageTintList = ColorStateList.valueOf(castedPopupMenuItem.iconColor)
-                    }
+                    if (castedPopupMenuItem.iconDrawable != null) {
+                        setImageDrawable(castedPopupMenuItem.iconDrawable)
+                    } else if (castedPopupMenuItem.icon >= ResourcesCompat.ID_NULL) {
+                        setImageResource(castedPopupMenuItem.icon)
+                    } else setImageDrawable(null)
+                    supportImageTintList = castedPopupMenuItem.iconTint
                 }
             } else {
                 icon.visibility = View.GONE
