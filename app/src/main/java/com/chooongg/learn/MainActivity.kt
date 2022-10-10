@@ -22,6 +22,7 @@ import com.chooongg.learn.eventFlow.EventFlowActivity
 import com.chooongg.learn.loading.LoadingActivity
 import com.chooongg.learn.mediaPicker.MediaPickerDemoActivity
 import com.chooongg.learn.network.NetworkActivity
+import com.chooongg.learn.platte.PlatteActivity
 import com.chooongg.learn.popupMenu.PopupMenuActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
@@ -59,6 +60,9 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
                 },
                 MainItem(R.drawable.ic_main_network, "Network") {
                     startActivity(NetworkActivity::class, it)
+                },
+                MainItem(R.drawable.ic_main_platte, "Platte") {
+                    startActivity(PlatteActivity::class, it)
                 },
                 MainItem(R.drawable.ic_main_popup_menu, "PopupMenu") {
                     startActivity(PopupMenuActivity::class, it)

@@ -1,4 +1,4 @@
-package com.chooongg.core.popupMenu2.model
+package com.chooongg.core.popupMenu.model
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
@@ -19,5 +19,11 @@ class PopupMenuItem : BasePopupMenuItem() {
     var icon: Int? = null
     var iconDrawable: Drawable? = null
     var iconTint: ColorStateList? = null
+        set(value) {
+            field = value
+            isDefaultTint = false
+        }
     var hasNestedItems: Boolean = false
+
+    internal var isDefaultTint: Boolean = true
 }

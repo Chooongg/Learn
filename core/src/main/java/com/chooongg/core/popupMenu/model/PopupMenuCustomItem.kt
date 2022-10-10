@@ -1,4 +1,4 @@
-package com.chooongg.core.popupMenu2.model
+package com.chooongg.core.popupMenu.model
 
 import androidx.annotation.LayoutRes
 import androidx.core.content.res.ResourcesCompat

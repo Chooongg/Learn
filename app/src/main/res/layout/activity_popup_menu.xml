@@ -26,6 +26,22 @@
                 android:text="PopupMenu" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_gravity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="PopupMenu-Gravity" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_force_show_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="PopupMenu-ForceShowIcon" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_full_width"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,6 +56,14 @@
                 android:layout_marginStart="@dimen/contentMedium"
                 android:layout_marginEnd="@dimen/contentMedium"
                 android:text="PopupMenu-OverlapAnchor" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_multiple_menus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/contentMedium"
+                android:layout_marginEnd="@dimen/contentMedium"
+                android:text="PopupMenu-MultipleMenus" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

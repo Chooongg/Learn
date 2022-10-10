@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     app:appBarType="medium">
 
-    <com.chooongg.core.widget.NestedScrollWebView
+    <com.chooongg.core.widget.NestedWebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground" />
+        android:layout_height="match_parent"/>
 
 </com.chooongg.core.widget.TopAppBarLayout>

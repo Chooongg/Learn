@@ -1,4 +1,4 @@
-package com.chooongg.core.popupMenu2
+package com.chooongg.core.popupMenu
 
 import android.content.Context
 import android.view.Gravity
@@ -7,7 +7,7 @@ import android.view.ViewGroup.LayoutParams
 import androidx.annotation.GravityInt
 import androidx.annotation.StyleRes
 import androidx.core.content.res.ResourcesCompat
-import com.chooongg.core.popupMenu2.model.PopupMenuSection
+import com.chooongg.core.popupMenu.model.PopupMenuSection
 
 class PopupMenuBuilder {
 

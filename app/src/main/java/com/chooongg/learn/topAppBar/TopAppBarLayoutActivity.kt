@@ -6,7 +6,7 @@ import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.chooongg.basic.ext.isNightMode
 import com.chooongg.core.activity.BasicActivity
-import com.chooongg.core.widget.NestedScrollWebView
+import com.chooongg.core.widget.NestedWebView
 import com.chooongg.learn.R
 
 class TopAppBarLayoutActivity : BasicActivity() {
@@ -18,14 +18,13 @@ class TopAppBarLayoutActivity : BasicActivity() {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    @Suppress("DEPRECATION")
     override fun initView(savedInstanceState: Bundle?) {
         title = when (intent.getStringExtra("type")) {
             "medium" -> "TopAppBarLayout-Medium"
             "large" -> "TopAppBarLayout-Large"
             else -> "TopAppBarLayout-Small"
         }
-        findViewById<NestedScrollWebView>(R.id.web_view).apply {
+        findViewById<NestedWebView>(R.id.web_view).apply {
             settings.javaScriptEnabled = true
             if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
                 WebSettingsCompat.setForceDark(
@@ -34,7 +33,6 @@ class TopAppBarLayoutActivity : BasicActivity() {
                 )
                 this.setBackgroundColor(0)
             }
-//            loadUrl("https://www.baidu.com")
-        }
+        }.loadUrl("https://www.baidu.com")
     }
 }

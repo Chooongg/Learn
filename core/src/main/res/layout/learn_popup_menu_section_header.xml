@@ -14,17 +14,16 @@
         android:layout_marginBottom="@dimen/contentSmall"
         app:dividerColor="?colorOutline" />
 
-    <TextView
-        android:id="@+id/title"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/contentMedium"
         android:layout_marginEnd="@dimen/contentMedium"
         android:layout_marginBottom="@dimen/contentSmall"
         android:alpha="0.7"
-        android:ellipsize="end"
-        android:lines="1"
-        tools:text="Header"
-        tools:visibility="visible" />
+        android:singleLine="true"
+        android:textAppearance="?textAppearanceCaption"
+        tools:text="Header"/>
 
 </LinearLayout>

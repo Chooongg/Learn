@@ -57,6 +57,11 @@
             android:launchMode="singleTop" />
 
         <activity
+            android:name="com.chooongg.learn.platte.PlatteActivity"
+            android:label="Platte"
+            android:launchMode="singleTop" />
+
+        <activity
             android:name="com.chooongg.learn.popupMenu.PopupMenuActivity"
             android:label="PopupMenu"
             android:launchMode="singleTop" />

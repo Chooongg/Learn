@@ -3,10 +3,13 @@ package com.chooongg.mediaPicker
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
 import com.chooongg.basic.ext.doOnClick
+import com.chooongg.basic.ext.withMain
 import com.chooongg.core.activity.BasicBindingActivity
 import com.chooongg.mediaPicker.databinding.LearnActivityMediaPickerBinding
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,15 +25,12 @@ class LearnMediaPickerActivity : BasicBindingActivity<LearnActivityMediaPickerBi
 //        }
         lifecycleScope.launch {
             delay(2000)
-            binding.fabSelect.show()
+            withMain {
+                binding.fabSelect.show()
+            }
         }
         binding.btnAlbum.doOnClick {
             val dialog = BottomSheetDialog(context)
         }
-    }
-
-    override fun onBackPressed() {
-        clearTransition()
-        super.onBackPressed()
     }
 }

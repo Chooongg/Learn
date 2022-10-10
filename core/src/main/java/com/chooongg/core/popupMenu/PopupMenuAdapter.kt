@@ -1,144 +1,135 @@
 package com.chooongg.core.popupMenu
 
-import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.CallSuper
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.chooongg.basic.ext.attrColor
+import com.chooongg.basic.ext.gone
+import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.basic.ext.visible
 import com.chooongg.core.R
+import com.chooongg.core.popupMenu.model.PopupMenuCustomItem
+import com.chooongg.core.popupMenu.model.PopupMenuItem
+import com.chooongg.core.popupMenu.model.PopupMenuSection
+import com.google.android.material.divider.MaterialDivider
 
-/**
- * RecyclerView adapter used for displaying popup menu items grouped in sections.
- */
-@SuppressLint("RestrictedApi")
 internal class PopupMenuAdapter(
-    private val sections: List<LearnPopupMenu.PopupMenuSection>,
+    private val isForceShowIcon: Boolean,
+    private val sections: List<PopupMenuSection>,
     private val dismissPopupCallback: () -> Unit
-) : SectionedRecyclerViewAdapter<PopupMenuAdapter.SectionHeaderViewHolder, PopupMenuAdapter.AbstractItemViewHolder>() {
+) : RecyclerView.Adapter<BaseViewHolder>() {
 
-    init {
-        setHasStableIds(false)
+    override fun getItemViewType(position: Int) = when (val any = getItem(position)) {
+        is PopupMenuSection -> R.layout.learn_popup_menu_section_header
+        is PopupMenuItem -> R.layout.learn_popup_menu_item
+        is PopupMenuCustomItem -> any.layoutResId
+        else -> -1
     }
 
-    override fun getItemCountForSection(section: Int): Int {
-        return sections[section].items.size
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BaseViewHolder(
+        LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+    )
 
-    override val sectionCount: Int
-        get() = sections.size
-
-    override fun onCreateSectionHeaderViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): SectionHeaderViewHolder {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.learn_popup_menu_section_header, parent, false)
-        return SectionHeaderViewHolder(v)
-    }
-
-    override fun getSectionItemViewType(section: Int, position: Int): Int {
-        return when (val popupMenuItem = sections[section].items[position]) {
-            is LearnPopupMenu.PopupMenuCustomItem -> popupMenuItem.layoutResId
-            else -> super.getSectionItemViewType(section, position)
-        }
-    }
-
-    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): AbstractItemViewHolder {
-        return if (viewType == TYPE_ITEM) {
-            val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.learn_popup_menu_item, parent, false)
-            ItemViewHolder(v, dismissPopupCallback)
-        } else {
-            val v = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-            CustomItemViewHolder(v, dismissPopupCallback)
-        }
-    }
-
-    override fun onBindSectionHeaderViewHolder(
-        holder: SectionHeaderViewHolder,
-        sectionPosition: Int
-    ) {
-        val title = sections[sectionPosition].title
-        if (title != null) {
-            holder.label.visibility = View.VISIBLE
-            holder.label.text = title
-        } else {
-            holder.label.visibility = View.GONE
-        }
-
-        holder.separator.visibility = if (sectionPosition == 0) View.GONE else View.VISIBLE
-    }
-
-    override fun onBindItemViewHolder(holder: AbstractItemViewHolder, section: Int, position: Int) {
-        val popupMenuItem = sections[section].items[position]
-        holder.bindItem(popupMenuItem)
-        holder.itemView.setOnClickListener {
-            popupMenuItem.callback()
-            if (popupMenuItem.dismissOnSelect) {
-                dismissPopupCallback()
-            }
-        }
-    }
-
-    internal abstract class AbstractItemViewHolder(
-        itemView: View,
-        private val dismissPopupCallback: () -> Unit
-    ) : RecyclerView.ViewHolder(itemView) {
-
-        @CallSuper
-        open fun bindItem(popupMenuItem: LearnPopupMenu.AbstractPopupMenuItem) {
-            popupMenuItem.viewBoundCallback.dismissPopupAction = dismissPopupCallback
-            popupMenuItem.viewBoundCallback.invoke(itemView)
-        }
-    }
-
-    internal class ItemViewHolder(itemView: View, dismissPopupCallback: () -> Unit) :
-        AbstractItemViewHolder(itemView, dismissPopupCallback) {
-
-        private var label: TextView = itemView.findViewById(R.id.title)
-        private var icon: AppCompatImageView = itemView.findViewById(R.id.icon)
-        private var nestedIcon: AppCompatImageView = itemView.findViewById(R.id.icon_nested)
-
-        override fun bindItem(popupMenuItem: LearnPopupMenu.AbstractPopupMenuItem) {
-            val castedPopupMenuItem = popupMenuItem as LearnPopupMenu.PopupMenuItem
-            if (castedPopupMenuItem.label != null) {
-                label.text = castedPopupMenuItem.label
-            } else {
-                label.setText(castedPopupMenuItem.labelRes)
-            }
-            if (castedPopupMenuItem.icon != 0 || castedPopupMenuItem.iconDrawable != null) {
-                icon.apply {
-                    visibility = View.VISIBLE
-                    if (castedPopupMenuItem.iconDrawable != null) {
-                        setImageDrawable(castedPopupMenuItem.iconDrawable)
-                    } else if (castedPopupMenuItem.icon >= ResourcesCompat.ID_NULL) {
-                        setImageResource(castedPopupMenuItem.icon)
-                    } else setImageDrawable(null)
-                    supportImageTintList = castedPopupMenuItem.iconTint
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        val any = getItem(position)
+        when (holder.itemViewType) {
+            R.layout.learn_popup_menu_section_header -> {
+                val item = any as PopupMenuSection
+                with(holder.getView<TextView>(R.id.tv_title)) {
+                    text = item.title
+                    if (item.title.isNullOrEmpty()) gone() else visible()
                 }
-            } else {
-                icon.visibility = View.GONE
+                with(holder.getView<MaterialDivider>(R.id.divider)) {
+                    if (position == 0) gone() else visible()
+                }
             }
-            if (castedPopupMenuItem.labelColor != 0) {
-                label.setTextColor(castedPopupMenuItem.labelColor)
+            R.layout.learn_popup_menu_item -> {
+                val item = any as PopupMenuItem
+                with(holder.getView<TextView>(R.id.tv_label)) {
+                    if (item.label != null) {
+                        text = item.label
+                    } else if (item.labelRes != null) {
+                        setText(item.labelRes!!)
+                    } else text = null
+                    if (item.labelColor != null) {
+                        setTextColor(item.labelColor!!)
+                    } else setTextColor(attrColor(com.google.android.material.R.attr.colorOnSurface))
+                    updateLayoutParams<LinearLayoutCompat.LayoutParams> {
+                        marginStart = if (item.iconDrawable != null
+                            || item.icon != null
+                            || isForceShowIcon
+                        ) 0 else resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium)
+                        marginEnd = if (!item.hasNestedItems) {
+                            resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium)
+                        } else 0
+                    }
+                }
+                with(holder.getView<AppCompatImageView>(R.id.iv_icon)) {
+                    imageTintList = if (item.isDefaultTint) {
+                        ColorStateList.valueOf(attrColor(androidx.appcompat.R.attr.colorControlNormal))
+                    } else item.iconTint
+                    if (item.iconDrawable != null) {
+                        setImageDrawable(item.iconDrawable)
+                        visible()
+                    } else if (item.icon != null) {
+                        setImageResource(item.icon!!)
+                        visible()
+                    } else if (isForceShowIcon) {
+                        setImageDrawable(null)
+                        visible()
+                    } else {
+                        gone()
+                    }
+                }
+                with(holder.getView<AppCompatImageView>(R.id.iv_nested)) {
+                    if (item.hasNestedItems) visible() else gone()
+                }
+                item.onViewBindCallback?.invoke(holder.itemView)
+                holder.itemView.setOnClickListener {
+                    item.onSelectedCallback?.invoke()
+                    if (item.selectedAutoDismiss) dismissPopupCallback()
+                }
             }
-            nestedIcon.visibility =
-                if (castedPopupMenuItem.hasNestedItems) View.VISIBLE else View.GONE
-            super.bindItem(popupMenuItem)
+            else -> {
+                val item = any as PopupMenuCustomItem
+                item.onViewBindCallback?.invoke(holder.itemView)
+                holder.itemView.setOnClickListener {
+                    item.onSelectedCallback?.invoke()
+                    if (item.selectedAutoDismiss) dismissPopupCallback()
+                }
+            }
         }
     }
 
-    internal class CustomItemViewHolder(itemView: View, dismissPopupCallback: () -> Unit) :
-        AbstractItemViewHolder(itemView, dismissPopupCallback)
+    private fun getItem(position: Int): Any {
+        var index = 0
+        for (section in sections) {
+            if (index == position) {
+                return section
+            }
+            index++
+            for (item in section.items) {
+                if (index == position) {
+                    return item
+                }
+                index++
+            }
+        }
+        throw IllegalArgumentException("Invalid position")
+    }
 
-    internal class SectionHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var label: TextView = itemView.findViewById(R.id.title)
-
-        var separator: View = itemView.findViewById(R.id.divider)
+    override fun getItemCount(): Int {
+        var count = 0
+        for (section in sections) {
+            count++
+            count += section.items.size
+        }
+        return count
     }
 }
