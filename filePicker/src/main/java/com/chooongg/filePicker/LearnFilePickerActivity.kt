@@ -9,7 +9,7 @@ import com.google.android.material.tabs.TabLayout
 class LearnFilePickerActivity : BasicBindingActivity<LearnActivityFilePickerBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
-        setSupportActionBar(binding.topAppBar)
+//        setSupportActionBar(binding.topAppBar)
         title = null
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(

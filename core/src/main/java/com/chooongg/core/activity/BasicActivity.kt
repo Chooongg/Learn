@@ -2,12 +2,10 @@ package com.chooongg.core.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.transition.Fade
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.view.animation.DecelerateInterpolator
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import com.chooongg.basic.ext.attrBoolean
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.contentView
 import com.chooongg.basic.ext.logDClass
@@ -30,7 +29,6 @@ import com.google.android.material.motion.MotionUtils
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
-import com.google.android.material.transition.platform.MaterialFade
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -115,6 +113,9 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     private fun configEdgeToEdge() {
+        if (attrBoolean(androidx.appcompat.R.attr.windowActionBar, false)){
+            return
+        }
         javaClass.getAnnotation(ActivityEdgeToEdge::class.java)?.let {
             if (it.isEdgeToEdge.not()) return
             WindowCompat.setDecorFitsSystemWindows(window, false)

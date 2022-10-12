@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/light"
-        android:title="日间模式" />
-    <item
-        android:id="@+id/dark"
-        android:title="夜间模式" />
-    <item
-        android:id="@+id/system"
-        android:title="跟随系统" />
+    <group>
+        <item
+            android:id="@+id/light"
+            android:icon="@drawable/ic_night_mode_day"
+            android:title="日间模式" />
+        <item
+            android:id="@+id/dark"
+            android:icon="@drawable/ic_night_mode_night"
+            android:title="夜间模式" />
+        <item
+            android:id="@+id/system"
+            android:icon="@drawable/ic_night_mode_system"
+            android:title="跟随系统" />
+    </group>
 </menu>

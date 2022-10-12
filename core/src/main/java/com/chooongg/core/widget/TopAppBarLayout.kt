@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import com.chooongg.basic.ext.attrBoolean
 import com.chooongg.basic.ext.getActivity
 import com.chooongg.core.R
 import com.google.android.material.appbar.AppBarLayout
@@ -22,7 +23,6 @@ class TopAppBarLayout @JvmOverloads constructor(
 ) : CoordinatorLayout(context, attrs, defStyleAttr) {
 
     val appBarLayout: AppBarLayout by lazy { findViewById(R.id.appbar_layout) }
-    val collapsingToolbarLayout: CollapsingToolbarLayout? by lazy { findViewById(R.id.collapsing_toolbar_layout) }
     val topAppBar: TopAppBar by lazy { findViewById(R.id.top_app_bar) }
 
     init {
@@ -32,7 +32,11 @@ class TopAppBarLayout @JvmOverloads constructor(
             1 -> inflate(context, R.layout.learn_top_app_bar_medium, this)
             2 -> inflate(context, R.layout.learn_top_app_bar_large, this)
         }
-        if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
+        if (context.attrBoolean(androidx.appcompat.R.attr.windowActionBar, false)) {
+            val collapsing = findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar_layout)
+            if (collapsing != null) appBarLayout.removeView(collapsing)
+            else appBarLayout.removeView(topAppBar)
+        } else if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
             (context.getActivity() as? AppCompatActivity)?.setSupportActionBar(topAppBar)
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_title)) {
@@ -88,7 +92,7 @@ class TopAppBarLayout @JvmOverloads constructor(
         if (a.hasValue(R.styleable.TopAppBarLayout_titleBackground)) {
             appBarLayout.background = a.getDrawable(R.styleable.TopAppBarLayout_titleBackground)
         }
-        collapsingToolbarLayout?.let {
+        findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar_layout)?.let {
             if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseEnabled)) {
                 it.isTitleEnabled =
                     a.getBoolean(R.styleable.TopAppBarLayout_titleCollapseEnabled, true)
@@ -204,7 +208,8 @@ class TopAppBarLayout @JvmOverloads constructor(
                 topAppBar.addView(child, contentParams)
                 if (!isHavTopAppBarContent) {
                     isHavTopAppBarContent = true
-                    collapsingToolbarLayout?.isTitleEnabled = false
+                    findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar_layout)
+                        ?.isTitleEnabled = false
                     context.getActivity()?.title = null
                     topAppBar.title = null
                 }
