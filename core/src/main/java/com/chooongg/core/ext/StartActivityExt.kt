@@ -12,7 +12,8 @@ import com.chooongg.basic.APPLICATION
 import com.chooongg.basic.ext.getActivity
 import kotlin.reflect.KClass
 
-internal const val EXTRA_TRANSITION_NAME = "EXTRA_TRANSITION_NAME"
+const val EXTRA_TRANSITION_NAME = "extra_transition_name"
+const val TRANSITION_NAME_CONTAINER_TRANSFORM = "transition_name_container_transform"
 
 private fun Activity?.startActivity(
     clazz: KClass<out Activity>,
@@ -49,11 +50,13 @@ fun Context?.startActivity(
     view: View,
     block: (Intent.() -> Unit)? = null
 ) {
+
     val activity = this?.getActivity()
     activity.startActivity(
-        clazz, getActivityOption(activity, Pair.create(view, "transitions_to_content"))?.toBundle()
+        clazz,
+        getActivityOption(activity, Pair.create(view, TRANSITION_NAME_CONTAINER_TRANSFORM))?.toBundle()
     ) {
-        putExtra(EXTRA_TRANSITION_NAME, "transitions_to_content")
+        putExtra(EXTRA_TRANSITION_NAME, TRANSITION_NAME_CONTAINER_TRANSFORM)
         block?.invoke(this)
     }
 }
@@ -85,9 +88,13 @@ fun Fragment.startActivity(
     block: (Intent.() -> Unit)? = null
 ) {
     startActivity(
-        clazz, getActivityOption(activity, Pair.create(view, "transitions_to_content"))?.toBundle()
+        clazz,
+        getActivityOption(
+            activity,
+            Pair.create(view, TRANSITION_NAME_CONTAINER_TRANSFORM)
+        )?.toBundle()
     ) {
-        putExtra(EXTRA_TRANSITION_NAME, "transitions_to_content")
+        putExtra(TRANSITION_NAME_CONTAINER_TRANSFORM, TRANSITION_NAME_CONTAINER_TRANSFORM)
         block?.invoke(this)
     }
 }

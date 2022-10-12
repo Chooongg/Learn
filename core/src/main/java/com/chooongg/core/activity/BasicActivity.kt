@@ -23,6 +23,7 @@ import com.chooongg.core.annotation.ActivityTransitions
 import com.chooongg.core.annotation.NavigationButton
 import com.chooongg.core.annotation.Theme
 import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
+import com.chooongg.core.ext.TRANSITION_NAME_CONTAINER_TRANSFORM
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
 import com.google.android.material.motion.MotionUtils
@@ -80,10 +81,18 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     override fun setContentView(view: View?, params: ViewGroup.LayoutParams?) = Unit
 
+    /**
+     * 配置过渡动画
+     * @return true: 使用配置, false: 使用默认
+     */
+    protected open fun configTransition() = false
+
     private fun configContainerTransform() {
         if (javaClass.getAnnotation(ActivityTransitions::class.java)?.enable != true) return
-        window.apply {
+        with(window) {
+            sharedElementsUseOverlay = false
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+            if (configTransition()) return@with
             enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
             exitTransition = null
             returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
@@ -92,10 +101,9 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
                 context, com.google.android.material.R.attr.motionDurationLong1, -1
             ).toLong()
         }
-        window.sharedElementsUseOverlay = false
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         val transitionName = intent.getStringExtra(EXTRA_TRANSITION_NAME)
-        if (transitionName != null) {
+        if (transitionName == TRANSITION_NAME_CONTAINER_TRANSFORM) {
             contentView.transitionName = transitionName
             setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
             window.sharedElementEnterTransition = buildContainerTransform(true)
@@ -113,7 +121,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     }
 
     private fun configEdgeToEdge() {
-        if (attrBoolean(androidx.appcompat.R.attr.windowActionBar, false)){
+        if (attrBoolean(androidx.appcompat.R.attr.windowActionBar, false)) {
             return
         }
         javaClass.getAnnotation(ActivityEdgeToEdge::class.java)?.let {
