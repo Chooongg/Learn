@@ -74,7 +74,7 @@
                     android:layout_marginEnd="@dimen/d8"
                     android:layout_marginBottom="@dimen/d8"
                     android:singleLine="true"
-                    android:text="全部图片⮝"
+                    android:text="所有照片"
                     android:textStyle="bold" />
 
             </com.google.android.material.card.MaterialCardView>
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="选择图片"
-        android:src="@drawable/ic_permission_location"
+        android:src="@drawable/ic_learn_media_picker_select"
         android:visibility="gone"
         app:layout_anchor="@id/bottom_app_bar" />
 

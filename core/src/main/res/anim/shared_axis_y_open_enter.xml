@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="450"
+    android:interpolator="@interpolator/m3_sys_motion_easing_emphasized">
     <alpha
-        android:duration="100"
         android:fromAlpha="0.0"
         android:toAlpha="1.0" />
     <translate
-        android:duration="200"
         android:fromYDelta="5%p"
-        android:interpolator="?motionEasingStandardInterpolator"
         android:toYDelta="0" />
 </set>

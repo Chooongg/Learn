@@ -11,7 +11,7 @@ class MediaPickerDemoActivity : BasicBindingActivity<ActivityMediaPickerBinding>
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.ivImage.doOnClick {
-            startActivity(LearnMediaPickerActivity::class,it)
+            startActivity(LearnMediaPickerActivity::class, it)
         }
     }
 
