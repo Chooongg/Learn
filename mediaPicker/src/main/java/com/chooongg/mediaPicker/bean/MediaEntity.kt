@@ -35,7 +35,13 @@ data class MediaEntity internal constructor(
     internal var isChecked: Boolean = false,
     internal var checkedNum: Int = 0,
     internal var isOriginal: Boolean = false,
+    // 列表相关
+    internal var isAdd: Boolean = false
 ) : Parcelable {
+
+    internal constructor(isAdd: Boolean) : this() {
+        this.isAdd = isAdd
+    }
 
     /**
      * 网络图片
