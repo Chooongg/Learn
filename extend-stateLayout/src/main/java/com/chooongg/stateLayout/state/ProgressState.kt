@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.setMargins
 import com.chooongg.basic.ext.dp2px
 import com.google.android.material.progressindicator.BaseProgressIndicator
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -30,7 +31,9 @@ class ProgressState : AbstractState() {
     }
 
     override fun getLayoutParams(): FrameLayout.LayoutParams =
-        FrameLayout.LayoutParams(-1, -1, Gravity.CENTER)
+        FrameLayout.LayoutParams(-1, -1, Gravity.CENTER).apply {
+            setMargins(dp2px(16f))
+        }
 
     override fun isEnableShowAnimation() = false
 
