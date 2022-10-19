@@ -19,7 +19,7 @@ abstract class AbstractBindingStatus<BINDING : ViewBinding> : AbstractState() {
     abstract fun onAttach(binding: BINDING, message: CharSequence?)
     abstract fun onChangeMessage(binding: BINDING, message: CharSequence?)
     abstract fun getReloadEventView(binding: BINDING): View?
-    abstract fun onDetach(binding: BINDING)
+    open fun onDetach(binding: BINDING) = Unit
 
     override fun onAttach(view: View, message: CharSequence?) =
         onAttach(binding, message)
