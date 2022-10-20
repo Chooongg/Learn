@@ -3,6 +3,7 @@ package com.chooongg.stateLayout.state
 import android.content.Context
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.chooongg.stateLayout.StateLayout
 
@@ -52,7 +53,11 @@ abstract class AbstractState {
      * 获取状态View布局参数
      */
     open fun getLayoutParams(): FrameLayout.LayoutParams =
-        FrameLayout.LayoutParams(-2, -2, Gravity.CENTER)
+        FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            Gravity.CENTER
+        )
 
     /**
      * 是否同时显示成功状态
