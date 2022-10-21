@@ -40,10 +40,10 @@ class StateLayout @JvmOverloads constructor(
     private val existingOtherState = HashMap<KClass<out AbstractState>, AbstractState>()
 
     // 重试操作监听
-    private var onRetryEventListener: OnRetryEventListener? = null
+    private var onRetryEventListener: (() -> Unit)? = null
 
     // 状态变化监听
-    private var onStateChangeListener: OnStateChangeListener? = null
+    private var onStatedChangeListener: ((KClass<out AbstractState>) -> Unit)? = null
 
     init {
         val a = context.obtainStyledAttributes(
@@ -55,6 +55,20 @@ class StateLayout @JvmOverloads constructor(
             show(StateLayoutManager.defaultState)
         }
         enableAnimation = StateLayoutManager.enableAnimation
+    }
+
+    /**
+     * 重试操作监听
+     */
+    fun setOnRetryEventListener(block: (() -> Unit)?) {
+        onRetryEventListener = block
+    }
+
+    /**
+     * 状态变化监听
+     */
+    fun setOnStatedChangeListener(block: ((currentState: KClass<out AbstractState>) -> Unit)?) {
+        onStatedChangeListener = block
     }
 
     /**
@@ -92,7 +106,7 @@ class StateLayout @JvmOverloads constructor(
                 }
             }
             currentState = state
-            onStateChangeListener?.onStateChange(state)
+            onStatedChangeListener?.invoke(state)
         }
     }
 
@@ -103,7 +117,7 @@ class StateLayout @JvmOverloads constructor(
         val preState = existingOtherState[state] ?: state.java.newInstance().also {
             it.obtainTargetView(context)
             if (canUseAnimation() && it.isEnableShowAnimation()) animation.createAnimation(it.targetView)
-            it.getReloadEventView(it.targetView)?.doOnClick { onRetryEventListener?.onRetry() }
+            it.getReloadEventView(it.targetView)?.doOnClick { onRetryEventListener?.invoke() }
         }
         preState.onAttach(preState.targetView, message)
         if (preState.targetView.parent == null) {
