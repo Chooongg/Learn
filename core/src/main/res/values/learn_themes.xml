@@ -36,6 +36,9 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/LearnWindowAnimation</item>
         <item name="materialDividerHeavyStyle">@style/Widget.Learn.MaterialDivider.Heavy</item>
+        <item name="materialAlertDialogTheme">
+            @style/ThemeOverlay.Material3.MaterialAlertDialog.Centered.FullWidthButtons
+        </item>
         <item name="snackbarStyle">@style/Widget.Learn.Snackbar</item>
     </style>
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Widget.Learn.Button.TextButton.Dialog.FullWidth" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:maxWidth">@null</item>
+    </style>
+
+    <style name="Widget.Learn.Button.TextButton.Dialog.Positive" parent="Widget.Learn.Button.TextButton.Dialog.FullWidth">
+        <item name="android:textColor">?colorPrimary</item>
+    </style>
+
+    <style name="Widget.Learn.Button.TextButton.Dialog.Negative" parent="Widget.Learn.Button.TextButton.Dialog.FullWidth">
+        <item name="android:textColor">?colorSecondary</item>
+    </style>
+
+    <style name="Widget.Learn.Button.TextButton.Dialog.Neutral" parent="Widget.Learn.Button.TextButton.Dialog.FullWidth">
+        <item name="android:textColor">?colorOutline</item>
+    </style>
+
+    <style name="ThemeOverlay.Material3.MaterialAlertDialog.FullWidthButtons" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="materialAlertDialogButtonSpacerVisibility" tools:ignore="PrivateResource">
+            @integer/mtrl_view_gone
+        </item>
+        <item name="buttonBarPositiveButtonStyle">
+            @style/Widget.Learn.Button.TextButton.Dialog.Positive
+        </item>
+        <item name="buttonBarNegativeButtonStyle">
+            @style/Widget.Learn.Button.TextButton.Dialog.Negative
+        </item>
+        <item name="buttonBarNeutralButtonStyle">
+            @style/Widget.Learn.Button.TextButton.Dialog.Neutral
+        </item>
+    </style>
+
+    <style name="ThemeOverlay.Material3.MaterialAlertDialog.Centered.FullWidthButtons" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
+        <item name="materialAlertDialogButtonSpacerVisibility" tools:ignore="PrivateResource">
+            @integer/mtrl_view_gone
+        </item>
+        <item name="buttonBarPositiveButtonStyle">
+            @style/Widget.Learn.Button.TextButton.Dialog.Positive
+        </item>
+        <item name="buttonBarNegativeButtonStyle">
+            @style/Widget.Learn.Button.TextButton.Dialog.Negative
+        </item>
+        <item name="buttonBarNeutralButtonStyle">
+            @style/Widget.Learn.Button.TextButton.Dialog.Neutral
+        </item>
+    </style>
+</resources>
