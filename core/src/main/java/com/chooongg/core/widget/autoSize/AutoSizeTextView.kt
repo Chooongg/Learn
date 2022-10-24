@@ -10,5 +10,10 @@ open class AutoSizeTextView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : MaterialTextView(context, attrs, defStyleAttr) {
+
     val autoSizeHelper = AutoSizeTextHelper.create(this, attrs, defStyleAttr)
+
+    fun requestAutoSize() {
+        if (autoSizeHelper.isEnabled) autoSizeHelper.autoSize()
+    }
 }

@@ -94,7 +94,7 @@ class AutoSizeTextHelper private constructor(private val textView: TextView) {
         rawTextSize = TypedValue.applyDimension(unit, size, getScreenDisplayMetrics())
     }
 
-    private fun autoSize() {
+    internal fun autoSize() {
         val oldTextSize = textView.textSize
 
         isInAutoSize = true
