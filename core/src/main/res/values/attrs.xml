@@ -72,8 +72,8 @@
     <!-- 顶部应用栏布局子项配置 -->
     <declare-styleable name="TopAppBarLayout_Layout">
         <attr name="isTopAppBarChild" format="boolean" />
-        <attr name="isAppBarLayoutChild" format="boolean"/>
-        <attr name="layout_scrollFlags"/>
+        <attr name="isAppBarLayoutChild" format="boolean" />
+        <attr name="layout_scrollFlags" />
     </declare-styleable>
     <!-- 顶部应用栏布局 -->
     <declare-styleable name="TopAppBarLayout">
@@ -83,6 +83,9 @@
             <enum name="medium" value="1" />
             <enum name="large" value="2" />
         </attr>
+        <attr name="liftOnScroll" format="boolean" />
+        <attr name="liftOnScrollTargetViewId" format="reference" />
+        <attr name="liftOnScrollColor" format="color" />
         <attr name="title" />
         <attr name="titleCentered" />
         <attr name="titleTextAppearance" />
@@ -97,7 +100,7 @@
         <attr name="titleMarginBottom" format="dimension" />
         <attr name="titleBackground" format="reference" />
         <attr name="titleCollapseEnabled" format="boolean" />
-        <attr name="titleCollapseMode" />
+        <attr name="titleCollapseMode" format="enum"/>
         <attr name="collapsedTitleGravity" />
         <attr name="expandedTitleGravity" />
         <attr name="expandedTitleMargin" format="dimension" />

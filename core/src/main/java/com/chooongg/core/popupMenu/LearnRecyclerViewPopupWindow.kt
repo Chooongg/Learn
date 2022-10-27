@@ -56,7 +56,7 @@ internal class LearnRecyclerViewPopupWindow(
             popup,
             WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL
         )
-        val widthSpec = width ?: ViewGroup.LayoutParams.WRAP_CONTENT
+        val widthSpec = width
         if (popup.isShowing) {
             popup.isOutsideTouchable = true
             popup.update(
@@ -74,8 +74,7 @@ internal class LearnRecyclerViewPopupWindow(
             // only set this if the dropdown is not always visible
             popup.isOutsideTouchable = true
             PopupWindowCompat.showAsDropDown(
-                popup, anchorView, horizontalOffset,
-                verticalOffset, gravity ?: Gravity.NO_GRAVITY
+                popup, anchorView, horizontalOffset, verticalOffset, gravity
             )
         }
     }
@@ -129,10 +128,7 @@ internal class LearnRecyclerViewPopupWindow(
 
     private fun measureHeightOfChildrenCompat(maxHeight: Int): Int {
         val parent = FrameLayout(context)
-        val widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(
-            width ?: ViewGroup.LayoutParams.WRAP_CONTENT,
-            View.MeasureSpec.EXACTLY
-        )
+        val widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY)
         // Include the padding of the list
         var returnedHeight = 0
         val count = adapter?.itemCount ?: 0

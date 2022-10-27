@@ -39,6 +39,14 @@ class TopAppBarLayout @JvmOverloads constructor(
         } else if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
             (context.getActivity() as? AppCompatActivity)?.setSupportActionBar(topAppBar)
         }
+        if (a.hasValue(R.styleable.TopAppBarLayout_liftOnScroll)) {
+            appBarLayout.isLiftOnScroll =
+                a.getBoolean(R.styleable.TopAppBarLayout_liftOnScroll, true)
+        }
+        if (a.hasValue(R.styleable.TopAppBarLayout_liftOnScrollTargetViewId)) {
+            appBarLayout.liftOnScrollTargetViewId =
+                a.getResourceId(R.styleable.TopAppBarLayout_liftOnScrollTargetViewId, 0)
+        }
         if (a.hasValue(R.styleable.TopAppBarLayout_title)) {
             val title = a.getString(R.styleable.TopAppBarLayout_title)
             if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
