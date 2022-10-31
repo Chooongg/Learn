@@ -267,4 +267,19 @@ class SpanUtils(val content: CharSequence) {
             canvas.restore()
         }
     }
+
+    fun toSpannableString(): CharSequence {
+        val builder = StringBuilder()
+        textConstructor.forEach { builder.append(it) }
+        val spanStr = SpannableString(builder.toString())
+        var index = 0
+        textConstructor.forEachIndexed { position, str ->
+            val end = index + str.length
+            styles[position].forEach {
+                spanStr.setSpan(it, index, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+            index += str.length
+        }
+        return spanStr
+    }
 }

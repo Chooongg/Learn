@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.chooongg.echarts'
+    namespace 'com.chooongg.form'
     compileSdk sdkConfig.compileSdk
     defaultConfig {
         minSdk sdkConfig.minSdk
@@ -25,6 +25,9 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    buildFeatures {
+        viewBinding true
+    }
     publishing {
         singleVariant("release") {
             withSourcesJar()
@@ -33,26 +36,27 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':core')
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
-    implementation 'androidx.webkit:webkit:1.6.0-alpha02'
+    implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = "com.chooongg.learn"
-                artifactId = "echarts"
-                version = rootProject.ext.versionName
-            }
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            release(MavenPublication) {
+//                from components.release
+//                groupId = "com.chooongg.learn"
+//                artifactId = "form"
+//                version = rootProject.ext.versionName
+//            }
+//        }
+//    }
+//}
 
 //
 //ext {
-//    PUBLISH_ARTIFACT_ID = "basic"
+//    PUBLISH_ARTIFACT_ID = "form"
 //}
 //
 //apply from: '../publish.gradle'
