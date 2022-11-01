@@ -1,6 +1,9 @@
-package com.chooongg.form
+package com.chooongg.form.enum
 
-enum class VisibleMode {
+/**
+ * 可见模式
+ */
+enum class FormVisibilityMode {
     /**
      * 总是可见
      */
@@ -15,9 +18,4 @@ enum class VisibleMode {
      * 仅编辑时可见
      */
     ONLY_EDIT,
-
-    /**
-     * 自定义
-     */
-    CUSTOM
 }

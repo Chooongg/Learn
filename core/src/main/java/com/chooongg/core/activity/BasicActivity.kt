@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -55,6 +56,17 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         javaClass.getAnnotation(Theme::class.java)?.value?.let { setTheme(it) }
         configContainerTransform()
         super.onCreate(savedInstanceState)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                supportFragmentManager.fragments.forEach {
+                    if (it is BasicFragment
+                        && !it.isHidden && it.isResumed
+                        && it.onBackPressedIntercept()
+                    ) return
+                }
+                finish()
+            }
+        })
         configEdgeToEdge()
         javaClass.getAnnotationTitle(context)?.let { title = it }
         setContentViewInternal()
@@ -168,15 +180,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        supportFragmentManager.fragments.forEach {
-            if (it is BasicFragment && !it.isHidden && it.isResumed && it.onBackPressedIntercept()) {
-                return
-            }
-        }
-        super.onBackPressed()
     }
 
     fun clearTransition() {

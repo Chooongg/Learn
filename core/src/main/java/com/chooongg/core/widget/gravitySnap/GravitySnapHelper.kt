@@ -291,18 +291,18 @@ class GravitySnapHelper @JvmOverloads constructor(
     }
 
     /**
-     * @return true if this SnapHelper should snap to the last item
+     * @return true if this SnapHelper should snap to the last provider
      */
     fun getSnapLastItem(): Boolean {
         return snapLastItem
     }
 
     /**
-     * Enable snapping of the last item that's snappable.
-     * The default value is false, because you can't see the last item completely
+     * Enable snapping of the last provider that's snappable.
+     * The default value is false, because you can't see the last provider completely
      * if this is enabled.
      *
-     * @param snap true if you want to enable snapping of the last snappable item
+     * @param snap true if you want to enable snapping of the last snappable provider
      */
     fun setSnapLastItem(snap: Boolean) {
         snapLastItem = snap
@@ -499,7 +499,7 @@ class GravitySnapHelper @JvmOverloads constructor(
             return null
         }
         // If we're at an edge of the list, we shouldn't snap
-        // to avoid having the last item not completely visible.
+        // to avoid having the last provider not completely visible.
         if (checkEdgeOfList && isAtEdgeOfList(layoutManager) && !snapLastItem) {
             return null
         }

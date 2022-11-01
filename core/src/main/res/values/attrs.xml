@@ -100,7 +100,7 @@
         <attr name="titleMarginBottom" format="dimension" />
         <attr name="titleBackground" format="reference" />
         <attr name="titleCollapseEnabled" format="boolean" />
-        <attr name="titleCollapseMode" format="enum"/>
+        <attr name="titleCollapseMode" />
         <attr name="collapsedTitleGravity" />
         <attr name="expandedTitleGravity" />
         <attr name="expandedTitleMargin" format="dimension" />

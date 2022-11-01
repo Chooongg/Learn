@@ -1,3 +1,3 @@
 package com.chooongg.form
 
-class FormDataVerificationException(val name: String?, info: String?) : RuntimeException(info)
+class FormDataVerificationException(val field: String?, info: String) : RuntimeException(info)

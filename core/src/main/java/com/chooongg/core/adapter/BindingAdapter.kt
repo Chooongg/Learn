@@ -29,12 +29,12 @@ abstract class BindingAdapter<T, BINDING : ViewBinding> :
 
     open fun convert(holder: BaseViewHolder, binding: BINDING, item: T, payloads: List<Any>) = Unit
 
-    @Deprecated("弃用", ReplaceWith("convert(binding, holder, item)"))
+    @Deprecated("弃用", ReplaceWith("convert(binding, holder, provider)"))
     override fun convert(holder: BindingHolder<BINDING>, item: T) {
         convert(holder, holder.binding, item)
     }
 
-    @Deprecated("弃用", ReplaceWith("convert(binding, holder, item, payloads)"))
+    @Deprecated("弃用", ReplaceWith("convert(binding, holder, provider, payloads)"))
     override fun convert(holder: BindingHolder<BINDING>, item: T, payloads: List<Any>) {
         convert(holder, holder.binding, item, payloads)
     }
