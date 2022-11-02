@@ -1,4 +1,7 @@
 package com.chooongg.form.bean
 
-class FormText {
+import com.chooongg.form.FormManager
+
+class FormText(name: CharSequence) : BaseForm(FormManager.TYPE_TEXT, name) {
+
 }

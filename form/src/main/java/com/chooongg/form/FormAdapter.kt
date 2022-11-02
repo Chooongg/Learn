@@ -11,12 +11,15 @@ import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormColorStyle
 import com.chooongg.form.provider.BaseFormProvider
+import com.chooongg.form.provider.FormTextProvider
+import com.chooongg.form.style.FormBoundary
+import com.chooongg.form.style.FormStyle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
-class FormAdapter internal constructor(private val manager: FormManager, style: Int) :
+class FormAdapter internal constructor(private val manager: FormManager, val style: FormStyle) :
     RecyclerView.Adapter<FormViewHolder>() {
 
     private val adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -48,6 +51,10 @@ class FormAdapter internal constructor(private val manager: FormManager, style: 
 
     val hasGroupName get() = groupName != null
 
+    init {
+        addItemProvider(FormTextProvider(manager))
+    }
+
     fun addItemProvider(provider: BaseFormProvider<out BaseForm>) {
         provider.setAdapter(this)
         itemProviders.put(provider.itemViewType, provider)
@@ -66,13 +73,20 @@ class FormAdapter internal constructor(private val manager: FormManager, style: 
 
     fun update() {
         val list = ArrayList<BaseForm>()
-        data.forEach { group -> group.forEach { if (it.isRealVisible(manager)) list.add(it) } }
+        data.forEach { group ->
+            group.forEach {
+                if (hasGroupName) {
+
+                }
+                if (it.isRealVisible(manager)) list.add(it)
+            }
+        }
         asyncDiffer.submitList(list)
     }
 
     fun getItem(position: Int) = asyncDiffer.currentList[position]
 
-    fun getBoundary(position: Int) {
+    fun getBoundary(position: Int): FormBoundary {
         val adapterIndex = manager.adapter.adapters.indexOf(this)
         var index = 0
         var top = FormBoundaryType.NONE
@@ -83,11 +97,18 @@ class FormAdapter internal constructor(private val manager: FormManager, style: 
 
         }
         // 底部边界
+
+        return FormBoundary(top, bottom)
     }
 
     override fun getItemCount(): Int {
         var count = 0
-        data.forEach { group -> group.forEach { if (it.isRealVisible(manager)) count++ } }
+        data.forEach { group ->
+            group.forEach {
+                if (hasGroupName) count++
+                if (it.isRealVisible(manager)) count++
+            }
+        }
         return count
     }
 
@@ -117,6 +138,10 @@ class FormAdapter internal constructor(private val manager: FormManager, style: 
 
     private fun getItemProvider(viewType: Int): BaseFormProvider<out BaseForm>? =
         itemProviders.get(viewType)
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        style.context = recyclerView.context
+    }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         adapterScope.cancel()

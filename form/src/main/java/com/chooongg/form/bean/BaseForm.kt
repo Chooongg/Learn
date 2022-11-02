@@ -1,6 +1,8 @@
 package com.chooongg.form.bean
 
+import android.content.res.ColorStateList
 import android.view.View
+import androidx.annotation.DrawableRes
 import com.chooongg.form.FormDataVerificationException
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormOutPutMode
@@ -48,6 +50,29 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      * 可见模式
      */
     var visibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
+
+    /**
+     * 是否启用
+     */
+    var isEnabled: Boolean = true
+
+    /**
+     * 菜单图标
+     */
+    @DrawableRes
+    internal var menuIcon: Int? = null
+
+    internal var menuIconClickBlock: ((View) -> Unit)? = null
+
+    /**
+     * 菜单图标着色
+     */
+    var menuIconTint: ColorStateList? = null
+
+    /**
+     * 菜单可见模式
+     */
+    var menuVisibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
 
     /**
      * 忽略名称长度限制
@@ -107,21 +132,48 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
         itemClickBlock = block
     }
 
+    /**
+     * 菜单图标
+     */
+    fun menuIcon(@DrawableRes icon: Int, block: ((View) -> Unit)?) {
+        menuIcon = icon
+        menuIconClickBlock = block
+    }
+
+    /**
+     * 清除菜单图标
+     */
+    fun clearMenuIcon() {
+        menuIcon = null
+        menuIconClickBlock = null
+    }
+
+    /**
+     * 转换内容
+     */
+    open fun transformContent(): CharSequence? = content
+
+    /**
+     * 检查数据正确性
+     */
     @Throws(FormDataVerificationException::class)
-    open fun checkDataIsCorrect(manager: FormManager) {
+    open fun checkDataCorrectness(manager: FormManager) {
         if (isMust && content.isNullOrEmpty()) {
             if (outPutMode == FormOutPutMode.ALWAYS) {
-                throw FormDataVerificationException(field, "${name}不可为空")
+                throw FormDataVerificationException(field, "你需要补充$name")
             } else if (outPutMode == FormOutPutMode.ONLY_VISIBLE) {
                 if (isVisible) {
                     if (visibilityMode == FormVisibilityMode.ALWAYS) {
-                        throw FormDataVerificationException(field, "${name}不可为空")
+                        throw FormDataVerificationException(field, "你需要补充$name")
                     }
                 }
             }
         }
     }
 
+    /**
+     * 输出数据
+     */
     open fun outputData(manager: FormManager, json: JSONObject) {
 
     }
