@@ -67,12 +67,12 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     /**
      * 菜单图标着色
      */
-    var menuIconTint: ColorStateList? = null
+    open var menuIconTint: ColorStateList? = null
 
     /**
      * 菜单可见模式
      */
-    var menuVisibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
+    open var menuVisibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
 
     /**
      * 忽略名称长度限制
@@ -135,7 +135,7 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     /**
      * 菜单图标
      */
-    fun menuIcon(@DrawableRes icon: Int, block: ((View) -> Unit)?) {
+    open fun menuIcon(@DrawableRes icon: Int, block: ((View) -> Unit)?) {
         menuIcon = icon
         menuIconClickBlock = block
     }
@@ -143,7 +143,7 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     /**
      * 清除菜单图标
      */
-    fun clearMenuIcon() {
+    open fun clearMenuIcon() {
         menuIcon = null
         menuIconClickBlock = null
     }
@@ -181,9 +181,20 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     /**
      * 获取真实的可见性
      */
-    fun isRealVisible(manager: FormManager): Boolean {
+    open fun isRealVisible(manager: FormManager): Boolean {
         if (!isVisible) return false
         return when (visibilityMode) {
+            FormVisibilityMode.ALWAYS -> true
+            FormVisibilityMode.ONLY_SEE -> !manager.isEditable
+            FormVisibilityMode.ONLY_EDIT -> manager.isEditable
+        }
+    }
+
+    /**
+     * 获取真实的菜单可见性
+     */
+    open fun isRealMenuVisible(manager: FormManager): Boolean {
+        return when (menuVisibilityMode) {
             FormVisibilityMode.ALWAYS -> true
             FormVisibilityMode.ONLY_SEE -> !manager.isEditable
             FormVisibilityMode.ONLY_EDIT -> manager.isEditable

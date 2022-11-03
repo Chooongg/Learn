@@ -2,6 +2,8 @@ package com.chooongg.form.style
 
 import android.content.Context
 import android.view.ViewGroup
+import android.widget.TextView
+import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 
 abstract class FormStyle {

@@ -3,10 +3,16 @@ package com.chooongg.form.provider
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import com.chooongg.basic.ext.attrColor
+import com.chooongg.basic.ext.setText
+import com.chooongg.basic.ext.style
 import com.chooongg.form.FormAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
+import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.style.FormBoundary
 import java.lang.ref.WeakReference
@@ -20,6 +26,8 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     abstract val itemViewType: Int
 
     abstract val layoutId: Int @LayoutRes get
+
+    open val nameTextViewId: Int @IdRes get() = R.id.form_tv_name
 
     abstract fun onBindViewHolder(holder: FormViewHolder, boundary: FormBoundary, item: T)
 
@@ -46,6 +54,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
         val item = getAdapter()?.getItem(position) as? T ?: return
         val boundary = getAdapter()!!.getBoundary(position)
         getStyle()!!.onBindParentViewHolder(holder, boundary)
+        configNameTextView(holder.getView(nameTextViewId), item)
         onBindViewHolder(holder, boundary, item)
     }
 
@@ -56,6 +65,19 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
         val boundary = getAdapter()!!.getBoundary(position)
         getStyle()!!.onBindParentViewHolder(holder, boundary, payloads)
         onBindViewHolder(holder, boundary, item, payloads)
+    }
+
+    protected fun configNameTextView(textView: TextView, item: T) {
+        if (item.keepNameEms) {
+            textView.minWidth = 0
+        } else {
+            textView.setEms(manager.nameEmsSize)
+        }
+        if (item.isMust) {
+            textView.setText(item.name.style {} + "*".style {
+                setForegroundColor(textView.attrColor(androidx.appcompat.R.attr.colorError))
+            })
+        } else textView.text = item.name
     }
 
     internal fun setAdapter(adapter: FormAdapter) {

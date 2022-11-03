@@ -26,7 +26,7 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
     private val itemProviders by lazy(LazyThreadSafetyMode.NONE) { SparseArray<BaseFormProvider<out BaseForm>>() }
 
-    private var data: MutableList<ArrayList<BaseForm>> = arrayListOf()
+    internal var data: MutableList<ArrayList<BaseForm>> = arrayListOf()
 
     private val asyncDiffer = AsyncListDiffer(this, object : DiffUtil.ItemCallback<BaseForm>() {
         override fun areItemsTheSame(oldItem: BaseForm, newItem: BaseForm): Boolean {
