@@ -1,4 +1,4 @@
 package com.chooongg.form.bean
 
-class FormGroupLabel {
+class FormGroupName {
 }

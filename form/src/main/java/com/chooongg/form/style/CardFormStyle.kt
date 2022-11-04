@@ -11,7 +11,7 @@ import com.chooongg.form.enum.FormBoundaryType
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.shape.ShapeAppearanceModel
 
-class CardFormStyle : FormStyle() {
+class CardFormStyle : FormStyle(100) {
 
     private val shapeAppearanceStyleId by lazy {
         context.attrResourcesId(

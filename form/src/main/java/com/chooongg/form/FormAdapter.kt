@@ -22,7 +22,7 @@ import kotlinx.coroutines.cancel
 class FormAdapter internal constructor(private val manager: FormManager, val style: FormStyle) :
     RecyclerView.Adapter<FormViewHolder>() {
 
-    private val adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     private val itemProviders by lazy(LazyThreadSafetyMode.NONE) { SparseArray<BaseFormProvider<out BaseForm>>() }
 
@@ -61,12 +61,16 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
     }
 
     fun setNewList(list: ArrayList<BaseForm>) {
+        adapterScope.cancel()
+        adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         data.clear()
         data.add(list)
         update()
     }
 
     fun setNewList(list: MutableList<ArrayList<BaseForm>>) {
+        adapterScope.cancel()
+        adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         data = list
         update()
     }
@@ -88,14 +92,34 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
     fun getBoundary(position: Int): FormBoundary {
         val adapterIndex = manager.adapter.adapters.indexOf(this)
+        val adapterIsLast = adapterIndex >= manager.adapter.adapters.lastIndex
         var index = 0
         var top = FormBoundaryType.NONE
         var bottom = FormBoundaryType.NONE
         // 顶部边界
-        var hasLocalBoundary = false
-        for (group in data) {
+        val adapterIsFirst = adapterIndex <= 0
+        group@ for (i in 0 until data.size) {
+            if (hasGroupName) {
+                if (index == position) {
+                    top = if (adapterIsFirst && i == 0) {
+                        FormBoundaryType.GLOBAL
+                    } else FormBoundaryType.LOCAL
+                    break@group
+                }
+                index++
+            }
+            val group = data[i]
+            if (index + group.size <= position) {
+                for (j in 0 until group.size) {
+                    if (index == position) {
 
+                        break@group
+                    }
+                    index++
+                }
+            } else index += group.size
         }
+
         // 底部边界
 
         return FormBoundary(top, bottom)
@@ -145,5 +169,6 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         adapterScope.cancel()
+        adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }
 }

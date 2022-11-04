@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.form.bean.BaseForm
+import com.chooongg.form.style.CardFormStyle
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
 
@@ -16,7 +17,7 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         const val TYPE_CHECKBOX = 3
         const val TYPE_DIVIDER = 4
         const val TYPE_FILE = 5
-        const val TYPE_GROUP_LABEL = 6
+        const val TYPE_GROUP_NAME = 6
         const val TYPE_INPUT = 7
         const val TYPE_INPUT_AUTO_COMPLETE = 8
         const val TYPE_LABEL = 9
@@ -31,7 +32,9 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         const val TYPE_TIP = 18
     }
 
-    internal val adapter = ConcatAdapter()
+    internal val adapter = ConcatAdapter(
+        ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
+    )
 
     var isEditable: Boolean = isEditable
         set(value) {
@@ -71,9 +74,9 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         var index = 0
         adapter.adapters.forEach { adapter ->
             if (adapter is FormAdapter) {
-                adapter.data.forEach { group ->
+                adapter.data.forEach { part ->
                     if (adapter.hasGroupName) index++
-                    group.forEach {
+                    part.forEach {
                         if (it.field == field) {
                             changeBlock(it)
                             if (it.isRealVisible(this)) {
@@ -92,9 +95,9 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         var index = 0
         adapter.adapters.forEach { adapter ->
             if (adapter is FormAdapter) {
-                adapter.data.forEach { group ->
+                adapter.data.forEach { part ->
                     if (adapter.hasGroupName) index++
-                    group.forEach {
+                    part.forEach {
                         if (it.name == name) {
                             changeBlock(it)
                             if (it.isRealVisible(this)) {
@@ -109,7 +112,11 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         }
     }
 
-    fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormAdapter.() -> Unit) {
+    fun addPart(style: FormStyle = DefaultFormStyle(), block: FormAdapter.() -> Unit) {
         adapter.addAdapter(FormAdapter(this, style).apply(block))
+    }
+
+    fun addCardPart(block: FormAdapter.() -> Unit) {
+        addPart(CardFormStyle(), block)
     }
 }

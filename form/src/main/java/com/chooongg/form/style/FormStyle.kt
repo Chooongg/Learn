@@ -2,11 +2,16 @@ package com.chooongg.form.style
 
 import android.content.Context
 import android.view.ViewGroup
-import android.widget.TextView
-import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 
-abstract class FormStyle {
+abstract class FormStyle(
+    /**
+     * item 类型增量
+     * 因为使用 ConcatAdapter 并且关闭了隔离类型
+     * 所以每个风格建议以 100 为单位向上增加 ItemViewType
+     */
+    val typeIncrement: Int
+) {
 
     lateinit var context: Context internal set
 
