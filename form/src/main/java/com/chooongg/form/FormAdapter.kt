@@ -11,6 +11,8 @@ import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormColorStyle
 import com.chooongg.form.provider.BaseFormProvider
+import com.chooongg.form.provider.FormButtonProvider
+import com.chooongg.form.provider.FormDividerProvider
 import com.chooongg.form.provider.FormTextProvider
 import com.chooongg.form.style.FormBoundary
 import com.chooongg.form.style.FormStyle
@@ -53,6 +55,8 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
     init {
         addItemProvider(FormTextProvider(manager))
+        addItemProvider(FormButtonProvider(manager))
+        addItemProvider(FormDividerProvider(manager))
     }
 
     fun addItemProvider(provider: BaseFormProvider<out BaseForm>) {

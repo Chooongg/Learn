@@ -62,6 +62,9 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     @DrawableRes
     internal var menuIcon: Int? = null
 
+    /**
+     * 菜单图标点击事件
+     */
     internal var menuIconClickBlock: ((View) -> Unit)? = null
 
     /**
