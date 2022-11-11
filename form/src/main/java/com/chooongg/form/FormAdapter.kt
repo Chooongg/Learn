@@ -156,9 +156,7 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
     @Suppress("DEPRECATION")
     override fun onBindViewHolder(
-        holder: FormViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
+        holder: FormViewHolder, position: Int, payloads: MutableList<Any>
     ) = getItemProvider(holder.itemViewType)!!.onBindViewHolder(holder, position, payloads)
 
     override fun getItemViewType(position: Int) =
