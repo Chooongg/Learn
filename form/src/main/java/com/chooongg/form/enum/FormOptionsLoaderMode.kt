@@ -1,7 +1,22 @@
 package com.chooongg.form.enum
 
+/**
+ * 选项加载模式
+ */
 enum class FormOptionsLoaderMode {
-    WHEN_BINDING,
-    WHEN_SELECT_IS_EMPTY,
-    WHEN_SELECT_IS_ALWAYS
+    /**
+     * 绑定时
+     */
+    BINDING,
+
+    /**
+     * 选择时
+     */
+    SELECT_ALWAYS,
+
+    /**
+     * 选择时
+     * 选项为空时
+     */
+    SELECT_EMPTY,
 }

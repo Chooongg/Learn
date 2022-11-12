@@ -1,4 +1,6 @@
 package com.chooongg.form.bean
 
-class FormRate {
+import com.chooongg.form.FormManager
+
+class FormRate(name: CharSequence) : BaseForm(FormManager.TYPE_RATE, name) {
 }

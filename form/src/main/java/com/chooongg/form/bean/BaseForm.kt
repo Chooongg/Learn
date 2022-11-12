@@ -14,7 +14,8 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     /**
      * 只读状态类型
      */
-    open val seeOnlyType: Int get() = type
+    open var seeType: Int = type
+        protected set
 
     /**
      * 扩展字段和内容
@@ -55,6 +56,10 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      * 是否启用
      */
     var isEnabled: Boolean = true
+
+    open fun seeOnlyType(type: Int) {
+        seeType = type
+    }
 
     /**
      * 菜单图标

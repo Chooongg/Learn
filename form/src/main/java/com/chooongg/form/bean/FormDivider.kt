@@ -2,6 +2,7 @@ package com.chooongg.form.bean
 
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
+import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager
 
 class FormDivider(name: CharSequence) : BaseForm(FormManager.TYPE_DIVIDER, name) {
@@ -29,4 +30,8 @@ class FormDivider(name: CharSequence) : BaseForm(FormManager.TYPE_DIVIDER, name)
      */
     @Px
     var insetStart:Int? = null
+
+    override fun seeOnlyType(type: Int) {
+        logE("Form", "无效的设置")
+    }
 }

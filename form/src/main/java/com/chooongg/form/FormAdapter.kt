@@ -160,7 +160,7 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
     ) = getItemProvider(holder.itemViewType)!!.onBindViewHolder(holder, position, payloads)
 
     override fun getItemViewType(position: Int) =
-        if (manager.isEditable) getItem(position).type else getItem(position).seeOnlyType
+        if (manager.isEditable) getItem(position).type else getItem(position).seeType
 
     private fun getItemProvider(viewType: Int): BaseFormProvider<out BaseForm>? =
         itemProviders.get(viewType)

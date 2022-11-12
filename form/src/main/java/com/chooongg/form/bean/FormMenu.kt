@@ -1,4 +1,6 @@
 package com.chooongg.form.bean
 
-class FormMenu {
+import com.chooongg.form.FormManager
+
+class FormMenu(name: CharSequence) : BaseForm(FormManager.TYPE_MENU, name) {
 }

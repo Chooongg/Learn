@@ -1,4 +1,6 @@
 package com.chooongg.form.bean
 
-class FormSlider {
+import com.chooongg.form.FormManager
+
+class FormSlider(name: CharSequence) : BaseForm(FormManager.TYPE_SLIDER, name) {
 }

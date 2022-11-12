@@ -1,4 +1,6 @@
 package com.chooongg.form.bean
 
-class FormSwitch {
+import com.chooongg.form.FormManager
+
+class FormSwitch(name: CharSequence) : BaseForm(FormManager.TYPE_SWITCH, name) {
 }

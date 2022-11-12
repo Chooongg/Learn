@@ -1,8 +1,6 @@
 package com.chooongg.form.bean
 
-import com.chooongg.form.enum.FormOptionsLoaderMode
-
-open class BaseOptionForm(type: Int, name: CharSequence) : BaseForm(type, name) {
+abstract class BaseOptionForm(type: Int, name: CharSequence) : BaseForm(type, name) {
 
     /**
      * 选项列表
@@ -13,8 +11,6 @@ open class BaseOptionForm(type: Int, name: CharSequence) : BaseForm(type, name) 
      * 选项加载事件
      */
     private var optionsLoaderBlock: (((List<Option>?) -> Unit) -> Unit)? = null
-
-    var optionsLoaderMode: FormOptionsLoaderMode = FormOptionsLoaderMode.WHEN_BINDING
 
     /**
      * 选项加载事件
