@@ -19,8 +19,8 @@ class CardFormStyle : FormStyle(100) {
         )
     }
 
-    private val marginSmall by lazy { context.resDimensionPixelSize(R.dimen.formMarginSmall) }
-    private val marginMedium by lazy { context.resDimensionPixelSize(R.dimen.formMarginMedium) }
+    private val marginSmall by lazy { context.resDimensionPixelSize(R.dimen.formContentSmall) }
+    private val marginMedium by lazy { context.resDimensionPixelSize(R.dimen.formContentMedium) }
 
     override fun createItemParentView(parent: ViewGroup) = MaterialCardView(
         parent.context, null, com.google.android.material.R.attr.materialCardViewElevatedStyle

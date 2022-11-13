@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="formMarginSmall">@dimen/contentSmall</dimen>
-    <dimen name="formMarginMedium">@dimen/contentMedium</dimen>
-    <dimen name="formMarginLarge">@dimen/contentLarge</dimen>
+    <dimen name="formContentSmall">@dimen/contentSmall</dimen>
+    <dimen name="formContentMedium">@dimen/contentMedium</dimen>
+    <dimen name="formContentLarge">@dimen/contentLarge</dimen>
+
+    <dimen name="formPartVertical">@dimen/contentSmall</dimen>
+    <dimen name="formPartHorizontal">@dimen/contentMedium</dimen>
 </resources>

@@ -85,7 +85,7 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     /**
      * 忽略名称长度限制
      */
-    var keepNameEms: Boolean = false
+    var ignoreNameEms: Boolean = false
 
     /**
      * 输出模式

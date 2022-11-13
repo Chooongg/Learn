@@ -2,40 +2,46 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="0dp"
-    android:paddingEnd="@dimen/contentSmall">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/form_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/contentMedium"
-        android:paddingStart="@dimen/contentMedium"
+        android:paddingVertical="@dimen/formContentSmall"
+        android:paddingStart="@dimen/formContentMedium"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="?colorSecondary"
         tools:ems="6"
-        tools:text="测试名称" />
+        tools:text="测试名称12121" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/form_tv_content"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingHorizontal="@dimen/contentSmall"
-        android:paddingVertical="@dimen/contentMedium"
+        android:gravity="center_vertical"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingHorizontal="@dimen/formContentSmall"
+        android:paddingVertical="@dimen/formContentSmall"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="@color/form_text"
         android:textIsSelectable="true"
-        tools:text="内容" />
+        tools:text="内容sdfsdfsdfasdfasdfasdfasdfas" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="@dimen/d36"
-        android:layout_height="@dimen/d36"
+        android:layout_width="@dimen/d40"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:adjustViewBounds="true"
         android:background="?actionBarItemBackground"
-        android:padding="@dimen/contentSmall"
+        android:paddingStart="@dimen/d8"
+        android:paddingTop="@dimen/d8"
+        android:paddingEnd="@dimen/formContentMedium"
+        android:paddingBottom="@dimen/d8"
         tools:src="@android:drawable/ic_lock_idle_alarm" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

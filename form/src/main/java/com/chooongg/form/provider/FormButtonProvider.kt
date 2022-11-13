@@ -30,10 +30,10 @@ class FormButtonProvider(manager: FormManager) : BaseFormProvider<FormButton>(ma
             iconPadding = item.iconPadding
             updateLayoutParams<ConstraintLayout.LayoutParams> {
                 topMargin = if (boundary.top != FormBoundaryType.NONE) {
-                    resDimensionPixelSize(R.dimen.formMarginMedium)
+                    resDimensionPixelSize(R.dimen.formContentMedium)
                 } else 0
                 bottomMargin = if (boundary.bottom != FormBoundaryType.NONE) {
-                    resDimensionPixelSize(R.dimen.formMarginMedium)
+                    resDimensionPixelSize(R.dimen.formContentMedium)
                 } else 0
             }
         }
