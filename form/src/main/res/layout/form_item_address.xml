@@ -24,6 +24,7 @@
         android:gravity="center_vertical"
         android:insetTop="0dp"
         android:insetBottom="0dp"
+        android:minHeight="0dp"
         android:paddingHorizontal="@dimen/formContentSmall"
         android:paddingVertical="@dimen/formContentSmall"
         android:textAppearance="?textAppearanceBodyMedium"
@@ -39,9 +40,9 @@
         android:adjustViewBounds="true"
         android:background="?actionBarItemBackground"
         android:paddingStart="@dimen/d8"
-        android:paddingTop="@dimen/d8"
+        android:paddingTop="@dimen/formContentSmall"
         android:paddingEnd="@dimen/formContentMedium"
-        android:paddingBottom="@dimen/d8"
+        android:paddingBottom="@dimen/formContentSmall"
         tools:src="@android:drawable/ic_lock_idle_alarm" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
