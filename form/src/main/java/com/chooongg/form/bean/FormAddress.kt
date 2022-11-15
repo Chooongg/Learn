@@ -10,63 +10,104 @@ class FormAddress(name: CharSequence) : BaseForm(FormManager.TYPE_ADDRESS, name)
     var areaMode: FormAreaMode = FormAreaMode.PROVINCE_CITY_AREA_ADDRESS
 
     /**
-     * 省份 Id
+     * 经度参数
      */
-    var provinceId: CharSequence?
-        get() = getExtensionContent("province_id")
-        set(value) = setExtensionContent("province_id", value)
+    var longitudeField: String? = null
+
+    /**
+     * 经度
+     */
+    var longitude: CharSequence?
+        get() = if (longitudeField != null) getExtensionContent(longitudeField!!) else null
+        set(value) {
+            if (longitudeField != null) setExtensionContent(longitudeField!!, value)
+        }
+
+    /**
+     * 纬度参数
+     */
+    var latitudeField: String? = null
+
+    /**
+     * 纬度
+     */
+    var latitude: CharSequence?
+        get() = if (latitudeField != null) getExtensionContent(latitudeField!!) else null
+        set(value) {
+            if (latitudeField != null) setExtensionContent(latitudeField!!, value)
+        }
+
+    /**
+     * 省份参数
+     */
+    var provinceField: String? = null
 
     /**
      * 省份名称
      */
-    var provinceText: CharSequence?
-        get() = getExtensionContent("province_text")
-        set(value) = setExtensionContent("province_text", value)
+    var province: CharSequence?
+        get() = if (provinceField != null) getExtensionContent(provinceField!!) else null
+        set(value) {
+            if (provinceField != null) setExtensionContent(provinceField!!, value)
+        }
 
     /**
-     * 城市 Id
+     * 城市参数
      */
-    var cityId: CharSequence?
-        get() = getExtensionContent("city_id")
-        set(value) = setExtensionContent("city_id", value)
+    var cityField: String? = null
 
     /**
      * 城市名称
      */
-    var cityText: CharSequence?
-        get() = getExtensionContent("city_text")
-        set(value) = setExtensionContent("city_text", value)
+    var city: CharSequence?
+        get() = if (cityField != null) getExtensionContent(cityField!!) else null
+        set(value) {
+            if (cityField != null) setExtensionContent(cityField!!, value)
+        }
 
     /**
-     * 地区 Id
+     * 地区参数
      */
-    var areaId: CharSequence?
-        get() = getExtensionContent("area_id")
-        set(value) = setExtensionContent("area_id", value)
+    var areaField: String? = null
 
     /**
      * 地区名称
      * @see areaMode == FormAreaMode.PROVINCE_CITY_AREA_ADDRESS : 单地区
      */
-    var areaText: CharSequence?
-        get() = getExtensionContent("area_text")
-        set(value) = setExtensionContent("area_text", value)
-
-    /**
-     * 详细地址 Id
-     */
-    var addressId: String?
-        get() = super.field
+    var area: CharSequence?
+        get() = if (areaField != null) getExtensionContent(areaField!!) else null
         set(value) {
-            super.field = value
+            if (areaField != null) setExtensionContent(areaField!!, value)
         }
 
-    /**
-     * 详细地址名称
-     */
-    var addressText: CharSequence?
-        get() = super.content
-        set(value) {
-            super.content = value
-        }
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        if (!super.equals(other)) return false
+
+        other as FormAddress
+
+        if (seeType != other.seeType) return false
+        if (areaMode != other.areaMode) return false
+        if (longitudeField != other.longitudeField) return false
+        if (latitudeField != other.latitudeField) return false
+        if (provinceField != other.provinceField) return false
+        if (cityField != other.cityField) return false
+        if (areaField != other.areaField) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = seeType
+        result = 31 * result + areaMode.hashCode()
+        result = 31 * result + (longitudeField?.hashCode() ?: 0)
+        result = 31 * result + (latitudeField?.hashCode() ?: 0)
+        result = 31 * result + (provinceField?.hashCode() ?: 0)
+        result = 31 * result + (cityField?.hashCode() ?: 0)
+        result = 31 * result + (areaField?.hashCode() ?: 0)
+        return result
+    }
+
+
 }

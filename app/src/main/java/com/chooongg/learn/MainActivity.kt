@@ -1,7 +1,6 @@
 package com.chooongg.learn
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -47,8 +46,7 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
         adapter.setNewInstance(
             mutableListOf(
                 MainItem(R.drawable.ic_main_echarts, "ECharts") {
-                    startActivity(Intent(context,EChartsActivity::class.java))
-//                    startActivity(EChartsActivity::class)
+                    startActivity(EChartsActivity::class, it)
                 },
                 MainItem(R.drawable.ic_main_event_flow, "EventFlow") {
                     startActivity(EventFlowActivity::class, it)
@@ -66,7 +64,7 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
                     startActivity(NetworkActivity::class, it)
                 },
                 MainItem(R.drawable.ic_main_platte, "Platte") {
-                    startActivity(PlatteActivity::class)
+                    startActivity(PlatteActivity::class, it)
                 },
                 MainItem(R.drawable.ic_main_popup_menu, "PopupMenu") {
                     startActivity(PopupMenuActivity::class, it)

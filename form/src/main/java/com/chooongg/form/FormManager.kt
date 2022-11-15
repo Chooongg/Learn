@@ -10,6 +10,8 @@ import com.chooongg.form.style.FormStyle
 
 class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) {
 
+
+
     companion object {
         const val TYPE_TEXT = 0
         const val TYPE_ADDRESS = 1

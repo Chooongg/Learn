@@ -68,7 +68,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     }
 
     protected fun configNameTextView(textView: TextView, item: T) {
-        if (item.keepNameEms) {
+        if (item.ignoreNameEms) {
             textView.minWidth = 0
         } else {
             textView.setEms(manager.nameEmsSize)

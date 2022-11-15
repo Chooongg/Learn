@@ -15,7 +15,6 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      * 只读状态类型
      */
     open var seeType: Int = type
-        protected set
 
     /**
      * 扩展字段和内容
