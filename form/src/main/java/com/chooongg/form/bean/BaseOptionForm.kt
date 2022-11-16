@@ -5,7 +5,7 @@ abstract class BaseOptionForm(type: Int, name: CharSequence) : BaseForm(type, na
     /**
      * 选项列表
      */
-    private var options: List<Option>? = null
+    var options: List<Option>? = null
 
     /**
      * 选项加载事件
@@ -15,7 +15,9 @@ abstract class BaseOptionForm(type: Int, name: CharSequence) : BaseForm(type, na
     /**
      * 选项加载事件
      */
-    fun optionsLoader(block: ((List<Option>?) -> Unit) -> Unit) {
+    fun optionsLoader(block: (((List<Option>?) -> Unit) -> Unit)?) {
         optionsLoaderBlock = block
     }
+
+    fun getOptionsLoaderBlock() = optionsLoaderBlock
 }

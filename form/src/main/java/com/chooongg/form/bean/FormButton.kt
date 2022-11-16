@@ -10,17 +10,32 @@ import com.google.android.material.button.MaterialButton
 
 class FormButton(name: CharSequence) : BaseForm(FormManager.TYPE_BUTTON, name) {
 
+    /**
+     * 图标资源
+     */
     @DrawableRes
     var icon: Int? = null
 
+    /**
+     * 图标着色
+     */
     var iconTint: ColorStateList? = null
 
+    /**
+     * 图标尺寸
+     */
     @androidx.annotation.IntRange(from = 0)
     var iconSize: Int = 0
 
+    /**
+     * 图标位置
+     */
     @MaterialButton.IconGravity
     var iconGravity: Int = MaterialButton.ICON_GRAVITY_START
 
+    /**
+     * 图标边距
+     */
     var iconPadding: Int = 0
 
     override fun seeOnlyType(type: Int) {

@@ -182,7 +182,14 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      * 输出数据
      */
     open fun outputData(manager: FormManager, json: JSONObject) {
-
+        if (field != null && content != null) {
+            json.putOpt(field, content)
+        }
+        extensionFieldAndContent?.forEach {
+            if (it.value != null) {
+                json.put(it.key, it.value)
+            }
+        }
     }
 
     /**
