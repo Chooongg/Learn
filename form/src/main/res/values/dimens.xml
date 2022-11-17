@@ -5,5 +5,6 @@
     <dimen name="formContentLarge">@dimen/contentLarge</dimen>
 
     <dimen name="formPartVertical">@dimen/contentSmall</dimen>
+    <dimen name="formPartVerticalGlobal">@dimen/contentMedium</dimen>
     <dimen name="formPartHorizontal">@dimen/contentMedium</dimen>
 </resources>

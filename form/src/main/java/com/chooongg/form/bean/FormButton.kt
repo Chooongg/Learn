@@ -60,4 +60,30 @@ class FormButton(name: CharSequence) : BaseForm(FormManager.TYPE_BUTTON, name) {
     override fun isRealMenuVisible(manager: FormManager): Boolean {
         return false
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FormButton) return false
+        if (!super.equals(other)) return false
+
+        if (icon != other.icon) return false
+        if (iconTint != other.iconTint) return false
+        if (iconSize != other.iconSize) return false
+        if (iconGravity != other.iconGravity) return false
+        if (iconPadding != other.iconPadding) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (icon ?: 0)
+        result = 31 * result + (iconTint?.hashCode() ?: 0)
+        result = 31 * result + iconSize
+        result = 31 * result + iconGravity
+        result = 31 * result + iconPadding
+        return result
+    }
+
+
 }

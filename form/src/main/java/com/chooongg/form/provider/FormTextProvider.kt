@@ -8,13 +8,12 @@ import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.FormText
-import com.chooongg.form.style.FormBoundary
 import com.google.android.material.textview.MaterialTextView
 
 internal class FormTextProvider(manager: FormManager) : BaseFormProvider<FormText>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_TEXT
     override val layoutId: Int get() = R.layout.form_item_text
-    override fun onBindViewHolder(holder: FormViewHolder, boundary: FormBoundary, item: FormText) {
+    override fun onBindViewHolder(holder: FormViewHolder, item: FormText) {
         with(holder.getView<MaterialTextView>(R.id.form_tv_content)) {
             isEnabled = item.isEnabled
             text = item.transformContent()

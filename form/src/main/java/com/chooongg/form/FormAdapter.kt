@@ -14,15 +14,19 @@ import com.chooongg.form.provider.BaseFormProvider
 import com.chooongg.form.provider.FormButtonProvider
 import com.chooongg.form.provider.FormDividerProvider
 import com.chooongg.form.provider.FormTextProvider
-import com.chooongg.form.style.FormBoundary
 import com.chooongg.form.style.FormStyle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import java.lang.ref.WeakReference
 
 class FormAdapter internal constructor(private val manager: FormManager, val style: FormStyle) :
     RecyclerView.Adapter<FormViewHolder>() {
+
+    private var _recyclerView: WeakReference<RecyclerView>? = null
+
+    val recyclerView get() = _recyclerView?.get()
 
     private var adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -32,7 +36,7 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
     private val asyncDiffer = AsyncListDiffer(this, object : DiffUtil.ItemCallback<BaseForm>() {
         override fun areItemsTheSame(oldItem: BaseForm, newItem: BaseForm): Boolean {
-            return oldItem.type == newItem.type && oldItem.name == newItem.name
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: BaseForm, newItem: BaseForm): Boolean {
@@ -80,54 +84,45 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
     }
 
     fun update() {
+        val partIndex = manager.adapter.adapters.indexOf(this)
+        val partIsFirst = partIndex <= 0
+        val partIsLast = partIndex >= manager.adapter.adapters.lastIndex
         val list = ArrayList<BaseForm>()
-        data.forEach { group ->
+        data.forEachIndexed { groupIndex, group ->
+            var index = 0
             group.forEach {
                 if (hasGroupName) {
-
+                    index++
                 }
-                if (it.isRealVisible(manager)) list.add(it)
+                if (it.isRealVisible(manager)) {
+                    it.adapterPosition = index
+                    it.adapterTopBoundary = if (index == 0) {
+                        if (groupIndex == 0 && partIsFirst) {
+                            FormBoundaryType.GLOBAL
+                        } else FormBoundaryType.LOCAL
+                    } else FormBoundaryType.NONE
+                    list.add(it)
+                    index++
+                }
             }
         }
-        asyncDiffer.submitList(list)
+        list@ for (index in list.lastIndex downTo 0) {
+            val item = list[index]
+            if (index == list.lastIndex) {
+                item.adapterBottomBoundary =
+                    if (partIsLast) FormBoundaryType.GLOBAL else FormBoundaryType.LOCAL
+                continue@list
+            }
+            val nextItem = list[index + 1]
+            item.adapterBottomBoundary = if (nextItem.adapterPosition == 0) FormBoundaryType.LOCAL
+            else FormBoundaryType.NONE
+        }
+        asyncDiffer.submitList(list) {
+            notifyItemRangeChanged(0, list.size, "update")
+        }
     }
 
     fun getItem(position: Int) = asyncDiffer.currentList[position]
-
-    fun getBoundary(position: Int): FormBoundary {
-        val adapterIndex = manager.adapter.adapters.indexOf(this)
-        val adapterIsLast = adapterIndex >= manager.adapter.adapters.lastIndex
-        var index = 0
-        var top = FormBoundaryType.NONE
-        var bottom = FormBoundaryType.NONE
-        // 顶部边界
-        val adapterIsFirst = adapterIndex <= 0
-        group@ for (i in 0 until data.size) {
-            if (hasGroupName) {
-                if (index == position) {
-                    top = if (adapterIsFirst && i == 0) {
-                        FormBoundaryType.GLOBAL
-                    } else FormBoundaryType.LOCAL
-                    break@group
-                }
-                index++
-            }
-            val group = data[i]
-            if (index + group.size <= position) {
-                for (j in 0 until group.size) {
-                    if (index == position) {
-
-                        break@group
-                    }
-                    index++
-                }
-            } else index += group.size
-        }
-
-        // 底部边界
-
-        return FormBoundary(top, bottom)
-    }
 
     override fun getItemCount(): Int {
         var count = 0
@@ -150,26 +145,29 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
     }
 
     @Suppress("DEPRECATION")
-    override fun onBindViewHolder(holder: FormViewHolder, position: Int) {
-        getItemProvider(holder.itemViewType)!!.onBindViewHolder(holder, position)
-    }
+    override fun onBindViewHolder(
+        holder: FormViewHolder, position: Int
+    ) = getItemProvider(holder.itemViewType)!!
+        .onBindViewHolder(holder, position)
 
     @Suppress("DEPRECATION")
     override fun onBindViewHolder(
         holder: FormViewHolder, position: Int, payloads: MutableList<Any>
-    ) = getItemProvider(holder.itemViewType)!!.onBindViewHolder(holder, position, payloads)
+    ) = getItemProvider(holder.itemViewType)!!
+        .onBindViewHolder(holder, position, payloads)
 
     override fun getItemViewType(position: Int) =
-        if (manager.isEditable) getItem(position).type else getItem(position).seeType
+        if (manager.isEditable) getItem(position).type + style.typeIncrement else getItem(position).seeType + style.typeIncrement
 
     private fun getItemProvider(viewType: Int): BaseFormProvider<out BaseForm>? =
-        itemProviders.get(viewType)
+        itemProviders.get(viewType - style.typeIncrement)
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        style.context = recyclerView.context
+        _recyclerView = WeakReference(recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        this._recyclerView = null
         adapterScope.cancel()
         adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }

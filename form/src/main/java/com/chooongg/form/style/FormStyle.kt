@@ -1,8 +1,13 @@
 package com.chooongg.form.style
 
-import android.content.Context
 import android.view.ViewGroup
+import android.widget.TextView
+import com.chooongg.basic.ext.attrColor
+import com.chooongg.basic.ext.setText
+import com.chooongg.basic.ext.style
+import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
+import com.chooongg.form.bean.BaseForm
 
 abstract class FormStyle(
     /**
@@ -13,8 +18,6 @@ abstract class FormStyle(
     val typeIncrement: Int
 ) {
 
-    lateinit var context: Context internal set
-
     /**
      * 创建 Item 外层布局
      * @return 返回外层布局
@@ -24,15 +27,32 @@ abstract class FormStyle(
     /**
      * 绑定外层布局
      */
-    abstract fun onBindParentViewHolder(holder: FormViewHolder, boundary: FormBoundary)
+    abstract fun onBindParentViewHolder(holder: FormViewHolder, item: BaseForm)
 
     /**
      * 绑定外层布局
      */
     open fun onBindParentViewHolder(
         holder: FormViewHolder,
-        boundary: FormBoundary,
+        item: BaseForm,
         payloads: MutableList<Any>
-    ) = onBindParentViewHolder(holder, boundary)
+    ) = onBindParentViewHolder(holder, item)
 
+    open fun configNameTextView(manager: FormManager, textView: TextView?, item: BaseForm) {
+        if (textView == null) return
+        if (item.ignoreNameEms || item.name.isEmpty()) {
+            textView.minWidth = 0
+        } else {
+            textView.setEms(manager.nameEmsSize)
+        }
+        if (item.name.isEmpty()) {
+            textView.text = null
+            return
+        }
+        if (item.isMust) {
+            textView.setText(item.name.style {} + "*".style {
+                setForegroundColor(textView.attrColor(androidx.appcompat.R.attr.colorError))
+            })
+        } else textView.text = item.name
+    }
 }

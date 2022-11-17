@@ -5,11 +5,19 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import com.chooongg.form.FormDataVerificationException
 import com.chooongg.form.FormManager
+import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormOutPutMode
 import com.chooongg.form.enum.FormVisibilityMode
 import org.json.JSONObject
 
 abstract class BaseForm(val type: Int, var name: CharSequence) {
+
+    var adapterPosition: Int = -1
+        internal set
+    var adapterTopBoundary: FormBoundaryType = FormBoundaryType.NONE
+        internal set
+    var adapterBottomBoundary: FormBoundaryType = FormBoundaryType.NONE
+        internal set
 
     /**
      * 只读状态类型
@@ -95,6 +103,11 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      * ItemView点击事件
      */
     internal var itemClickBlock: ((View) -> Unit)? = null
+
+    /**
+     * 初始化完成后配置数据
+     */
+    open fun configData() = Unit
 
     /**
      * 设置扩展内容
@@ -216,6 +229,51 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     }
 
     override fun equals(other: Any?): Boolean {
-        return super.equals(other)
+        if (this === other) return true
+        if (other !is BaseForm) return false
+
+        if (type != other.type) return false
+        if (name != other.name) return false
+        if (adapterPosition != other.adapterPosition) return false
+        if (adapterTopBoundary != other.adapterTopBoundary) return false
+        if (seeType != other.seeType) return false
+        if (extensionFieldAndContent != other.extensionFieldAndContent) return false
+        if (hint != other.hint) return false
+        if (field != other.field) return false
+        if (content != other.content) return false
+        if (isMust != other.isMust) return false
+        if (isVisible != other.isVisible) return false
+        if (visibilityMode != other.visibilityMode) return false
+        if (isEnabled != other.isEnabled) return false
+        if (menuIcon != other.menuIcon) return false
+        if (menuIconTint != other.menuIconTint) return false
+        if (menuVisibilityMode != other.menuVisibilityMode) return false
+        if (ignoreNameEms != other.ignoreNameEms) return false
+        if (outPutMode != other.outPutMode) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = type
+        result = 31 * result + name.hashCode()
+        result = 31 * result + adapterPosition
+        result = 31 * result + adapterTopBoundary.hashCode()
+        result = 31 * result + adapterBottomBoundary.hashCode()
+        result = 31 * result + seeType
+        result = 31 * result + (extensionFieldAndContent?.hashCode() ?: 0)
+        result = 31 * result + (hint?.hashCode() ?: 0)
+        result = 31 * result + (field?.hashCode() ?: 0)
+        result = 31 * result + (content?.hashCode() ?: 0)
+        result = 31 * result + isMust.hashCode()
+        result = 31 * result + isVisible.hashCode()
+        result = 31 * result + visibilityMode.hashCode()
+        result = 31 * result + isEnabled.hashCode()
+        result = 31 * result + (menuIcon ?: 0)
+        result = 31 * result + (menuIconTint?.hashCode() ?: 0)
+        result = 31 * result + menuVisibilityMode.hashCode()
+        result = 31 * result + ignoreNameEms.hashCode()
+        result = 31 * result + outPutMode.hashCode()
+        return result
     }
 }

@@ -3,7 +3,6 @@ package com.chooongg.core.popupMenu
 import android.content.Context
 import android.graphics.Rect
 import android.os.Build
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -14,7 +13,6 @@ import androidx.core.widget.PopupWindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.dp2px
-import com.google.android.material.R
 import kotlin.math.ceil
 
 internal class LearnRecyclerViewPopupWindow(
@@ -30,9 +28,10 @@ internal class LearnRecyclerViewPopupWindow(
     private val popupMinWidth: Int = dp2px(112f)
     private val popupWidthUnit: Int = dp2px(56f)
 
-    private val popup: PopupWindow = PopupWindow(context, null, R.attr.popupMenuStyle)
+    private val popup: PopupWindow =
+        PopupWindow(context, null, androidx.appcompat.R.attr.popupMenuStyle)
 
-    private  val tempRect = Rect()
+    private val tempRect = Rect()
 
     internal var adapter: PopupMenuAdapter? = null
         set(value) {

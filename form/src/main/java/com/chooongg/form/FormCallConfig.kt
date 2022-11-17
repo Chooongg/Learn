@@ -13,17 +13,26 @@ import com.chooongg.form.bean.FormTimeRange
 import com.chooongg.form.enum.FormTimeMode
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import java.util.*
 
 abstract class FormCallConfig {
 
     open fun openFilePicker(
-        part: FormAdapter, holder: FormViewHolder, parent: View, contentView: View, item: FormFile
+        part: FormAdapter,
+        holder: FormViewHolder,
+        parent: View,
+        contentView: View,
+        item: FormFile
     ) {
 
     }
 
     open fun openSelect(
-        part: FormAdapter, holder: FormViewHolder, parent: View, contentView: View, item: FormSelect
+        part: FormAdapter,
+        holder: FormViewHolder,
+        parent: View,
+        contentView: View,
+        item: FormSelect
     ) {
         if (item.options == null) {
             item.getOptionsLoaderBlock()?.invoke {
@@ -51,27 +60,38 @@ abstract class FormCallConfig {
     }
 
     open fun openTime(
-        part: FormAdapter, holder: FormViewHolder, parent: View, contentView: View, item: FormTime
+        part: FormAdapter,
+        holder: FormViewHolder,
+        parent: View,
+        contentView: View,
+        item: FormTime
     ) {
         val activity = parent.context.getActivity() as? AppCompatActivity ?: return
         activity.hideIME()
         activity.currentFocus?.clearFocus()
-        when(item.mode){
-            FormTimeMode.TIME->{
-//                val timePicker =
-//                    MaterialTimePicker.Builder().setTitleText(item.name).setTimeFormat(TimeFormat.CLOCK_24H)
-//                        .build()
-//                timePicker.addOnPositiveButtonClickListener {
-//                    item.hour = timePicker.hour
-//                    item.minute = timePicker.minute
-//                    getAdapter()?.notifyItemChanged(helper.bindingAdapterPosition)
-//                }
-//                timePicker.show(activity.supportFragmentManager, "timePicker")
+        when (item.mode) {
+            FormTimeMode.TIME -> {
+                val calendar = Calendar.getInstance()
+                if (item.timeStamp != null) {
+                    calendar.timeInMillis = item.timeStamp!!
+                }
+                MaterialTimePicker.Builder().setTitleText(item.name)
+                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setHour(calendar.get(Calendar.HOUR_OF_DAY))
+                    .setMinute(calendar.get(Calendar.MINUTE))
+                    .build().apply {
+                        addOnPositiveButtonClickListener {
+                            calendar.set(Calendar.HOUR_OF_DAY, hour)
+                            calendar.set(Calendar.MINUTE, minute)
+                            item.timeStamp = calendar.timeInMillis
+                            part.notifyItemChanged(holder.bindingAdapterPosition, "update")
+                        }
+                    }.show(activity.supportFragmentManager, "timePicker")
             }
-            FormTimeMode.DATE->{
+            FormTimeMode.DATE -> {
 
             }
-            FormTimeMode.DATE_TIME->{
+            FormTimeMode.DATE_TIME -> {
 
             }
         }
@@ -87,5 +107,4 @@ abstract class FormCallConfig {
 
 
     }
-
 }

@@ -6,9 +6,9 @@ package com.chooongg.form.enum
 enum class FormTimeMode {
 
     /**
-     * 时间和日期
+     * 单时间
      */
-    DATE_TIME,
+    TIME,
 
     /**
      * 单日期
@@ -16,7 +16,7 @@ enum class FormTimeMode {
     DATE,
 
     /**
-     * 单时间
+     * 时间和日期
      */
-    TIME
+    DATE_TIME
 }

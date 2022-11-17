@@ -3,25 +3,26 @@ package com.chooongg.form.provider
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import com.chooongg.basic.ext.attrColor
-import com.chooongg.basic.ext.setText
-import com.chooongg.basic.ext.style
 import com.chooongg.form.FormAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
-import com.chooongg.form.style.FormBoundary
 import java.lang.ref.WeakReference
 
 abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager) {
 
-    private var weakAdapter: WeakReference<FormAdapter>? = null
-
     lateinit var context: Context internal set
+
+    private var _adapter: WeakReference<FormAdapter>? = null
+
+    protected val adapter get() = _adapter?.get()
+
+    protected val recyclerView get() = adapter?.recyclerView
+
+    protected val style get() = adapter?.style
 
     abstract val itemViewType: Int
 
@@ -29,17 +30,16 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
 
     open val nameTextViewId: Int @IdRes get() = R.id.form_tv_name
 
-    abstract fun onBindViewHolder(holder: FormViewHolder, boundary: FormBoundary, item: T)
+    abstract fun onBindViewHolder(holder: FormViewHolder, item: T)
 
     open fun onBindViewHolder(
         holder: FormViewHolder,
-        boundary: FormBoundary,
         item: T,
         payloads: MutableList<Any>
-    ) = onBindViewHolder(holder, boundary, item)
+    ) = onBindViewHolder(holder, item)
 
     open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FormViewHolder {
-        val parentView = getStyle()?.createItemParentView(parent)
+        val parentView = style?.createItemParentView(parent)
         return if (parentView != null) {
             LayoutInflater.from(parentView.context).inflate(layoutId, parentView, true)
             FormViewHolder(parentView)
@@ -49,42 +49,26 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     open fun onViewHolderCreated(holder: FormViewHolder) = Unit
 
     @Suppress("UNCHECKED_CAST")
-    @Deprecated("Please use onBindViewHolder(holder, item)")
-    open fun onBindViewHolder(holder: FormViewHolder, position: Int) {
-        val item = getAdapter()?.getItem(position) as? T ?: return
-        val boundary = getAdapter()!!.getBoundary(position)
-        getStyle()!!.onBindParentViewHolder(holder, boundary)
-        configNameTextView(holder.getView(nameTextViewId), item)
-        onBindViewHolder(holder, boundary, item)
+    fun onBindViewHolder(holder: FormViewHolder, position: Int) {
+        val item = adapter?.getItem(position) as? T ?: return
+        style?.apply {
+            configNameTextView(manager, holder.getView(nameTextViewId), item)
+            onBindParentViewHolder(holder, item)
+        }
+        onBindViewHolder(holder, item)
     }
 
     @Suppress("UNCHECKED_CAST")
-    @Deprecated("Please use onBindViewHolder(holder, item, payloads)")
-    open fun onBindViewHolder(holder: FormViewHolder, position: Int, payloads: MutableList<Any>) {
-        val item = getAdapter()?.getItem(position) as? T ?: return
-        val boundary = getAdapter()!!.getBoundary(position)
-        getStyle()!!.onBindParentViewHolder(holder, boundary, payloads)
-        onBindViewHolder(holder, boundary, item, payloads)
-    }
-
-    protected fun configNameTextView(textView: TextView, item: T) {
-        if (item.ignoreNameEms) {
-            textView.minWidth = 0
-        } else {
-            textView.setEms(manager.nameEmsSize)
+    fun onBindViewHolder(holder: FormViewHolder, position: Int, payloads: MutableList<Any>) {
+        val item = adapter?.getItem(position) as? T ?: return
+        style?.apply {
+            configNameTextView(manager, holder.getViewOrNull(nameTextViewId), item)
+            onBindParentViewHolder(holder, item, payloads)
         }
-        if (item.isMust) {
-            textView.setText(item.name.style {} + "*".style {
-                setForegroundColor(textView.attrColor(androidx.appcompat.R.attr.colorError))
-            })
-        } else textView.text = item.name
+        onBindViewHolder(holder, item, payloads)
     }
 
     internal fun setAdapter(adapter: FormAdapter) {
-        weakAdapter = WeakReference(adapter)
+        _adapter = WeakReference(adapter)
     }
-
-    protected fun getAdapter() = weakAdapter?.get()
-
-    protected fun getStyle() = getAdapter()?.style
 }

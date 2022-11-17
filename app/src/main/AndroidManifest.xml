@@ -42,6 +42,11 @@
             android:launchMode="singleTop" />
 
         <activity
+            android:name="com.chooongg.learn.form.FormActivity"
+            android:label="Form"
+            android:launchMode="singleTop" />
+
+        <activity
             android:name=".loading.LoadingActivity"
             android:label="Loading"
             android:launchMode="singleTop" />

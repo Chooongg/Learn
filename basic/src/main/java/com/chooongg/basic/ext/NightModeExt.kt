@@ -10,10 +10,11 @@ import com.chooongg.basic.LearnMMKV
  * 判断当前是否深色模式
  */
 fun Context.isNightMode(): Boolean {
-    return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+    val isNight = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
         Configuration.UI_MODE_NIGHT_YES -> true
         else -> false
     }
+    return isNight
 }
 
 /**

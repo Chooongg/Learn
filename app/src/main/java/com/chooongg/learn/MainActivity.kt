@@ -21,6 +21,7 @@ import com.chooongg.learn.databinding.ActivityMainBinding
 import com.chooongg.learn.databinding.ItemMainBinding
 import com.chooongg.learn.echarts.EChartsActivity
 import com.chooongg.learn.eventFlow.EventFlowActivity
+import com.chooongg.learn.form.FormActivity
 import com.chooongg.learn.loading.LoadingActivity
 import com.chooongg.learn.mediaPicker.MediaPickerDemoActivity
 import com.chooongg.learn.network.NetworkActivity
@@ -53,6 +54,9 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
                 },
                 MainItem(R.drawable.ic_main_file_picker, "FilePicker") {
                     startActivity(LearnFilePickerActivity::class, it)
+                },
+                MainItem(R.drawable.ic_main_form, "Form") {
+                    startActivity(FormActivity::class, it)
                 },
                 MainItem(R.drawable.ic_main_loading, "Loading") {
                     startActivity(LoadingActivity::class, it)

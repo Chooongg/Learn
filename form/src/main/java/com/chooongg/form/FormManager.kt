@@ -1,5 +1,8 @@
 package com.chooongg.form
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,16 +13,14 @@ import com.chooongg.form.style.FormStyle
 
 class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) {
 
-
-
     companion object {
-        const val TYPE_TEXT = 0
-        const val TYPE_ADDRESS = 1
-        const val TYPE_BUTTON = 2
-        const val TYPE_CHECKBOX = 3
-        const val TYPE_DIVIDER = 4
-        const val TYPE_FILE = 5
-        const val TYPE_GROUP_NAME = 6
+        const val TYPE_GROUP_NAME = 0
+        const val TYPE_TEXT = 1
+        const val TYPE_ADDRESS = 2
+        const val TYPE_BUTTON = 3
+        const val TYPE_CHECKBOX = 4
+        const val TYPE_DIVIDER = 5
+        const val TYPE_FILE = 6
         const val TYPE_INPUT = 7
         const val TYPE_INPUT_AUTO_COMPLETE = 8
         const val TYPE_LABEL = 9
@@ -42,34 +43,49 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         set(value) {
             if (field == value) return
             field = value
-            update("update")
+            updateAll()
         }
 
-    var nameEmsSize: Int = 7
+    var nameEmsSize: Int = 6
         set(value) {
             if (field == value) return
             field = value
-            update("update")
+            updateAll()
         }
 
     var nameMustHasHint: Boolean = true
         set(value) {
             if (field == value) return
             field = value
-            update("update")
+            updateAll()
         }
 
     init {
         block?.invoke(this)
     }
 
-    fun attach(recyclerView: RecyclerView) {
-        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+    fun attach(owner: LifecycleOwner, recyclerView: RecyclerView) {
+        if (owner.lifecycle.currentState < Lifecycle.State.INITIALIZED) return
+        if (recyclerView.layoutManager == null) {
+            recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+        }
         recyclerView.adapter = adapter
+        owner.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) {
+                    owner.lifecycle.removeObserver(this)
+                    recyclerView.adapter = null
+                }
+            }
+        })
     }
 
-    fun update(payload: Any? = null) {
-        if (adapter.itemCount > 0) adapter.notifyItemRangeChanged(0, adapter.itemCount, payload)
+    fun updateAll() {
+        adapter.adapters.forEach {
+            if (it is FormAdapter) {
+                it.update()
+            }
+        }
     }
 
     fun findItemForField(field: String, changeBlock: BaseForm.() -> Unit) {
@@ -114,8 +130,26 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         }
     }
 
+    fun getItemCount(): Int {
+        var count = 0
+        adapter.adapters.forEach { part ->
+            if (part is FormAdapter) {
+                part.data.forEach { group ->
+                    count += group.size
+                }
+            }
+        }
+        return count
+    }
+
     fun addPart(style: FormStyle = DefaultFormStyle(), block: FormAdapter.() -> Unit) {
-        adapter.addAdapter(FormAdapter(this, style).apply(block))
+        val part = FormAdapter(this, style).apply(block)
+        adapter.addAdapter(part)
+        adapter.adapters.forEach {
+            if (it != part && it is FormAdapter) {
+                it.update()
+            }
+        }
     }
 
     fun addCardPart(block: FormAdapter.() -> Unit) {

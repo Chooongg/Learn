@@ -60,8 +60,10 @@ android {
 dependencies {
     implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
     implementation project(path: ':core')
     implementation project(path: ':net')
+    implementation project(path: ':form')
     implementation project(path: ':filePicker')
     implementation project(path: ':mediaPicker')
     implementation project(path: ':extend-echarts')

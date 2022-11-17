@@ -64,7 +64,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
                         && it.onBackPressedIntercept()
                     ) return
                 }
-                finish()
+                finishAfterTransition()
             }
         })
         configEdgeToEdge()
@@ -128,7 +128,8 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         transform.addTarget(android.R.id.content)
         transform.containerColor = attrColor(android.R.attr.colorBackground)
         transform.fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
-        transform.pathMotion = MaterialArcMotion()
+//        transform.pathMotion = MaterialArcMotion()
+        transform.duration
         return transform
     }
 
