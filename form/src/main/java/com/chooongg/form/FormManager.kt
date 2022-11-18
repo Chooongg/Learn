@@ -60,20 +60,34 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
             updateAll()
         }
 
+    internal var formEventListener: FormEventListener? = null
+        set(value) {
+            field = value
+            adapter.adapters.forEach {
+                if (it is FormAdapter) it.formEventListener = formEventListener
+            }
+        }
+
     init {
         block?.invoke(this)
     }
 
-    fun attach(owner: LifecycleOwner, recyclerView: RecyclerView) {
+    fun attach(
+        owner: LifecycleOwner,
+        recyclerView: RecyclerView,
+        listener: FormEventListener? = null
+    ) {
         if (owner.lifecycle.currentState < Lifecycle.State.INITIALIZED) return
         if (recyclerView.layoutManager == null) {
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         }
         recyclerView.adapter = adapter
+        formEventListener = listener
         owner.lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) {
                     owner.lifecycle.removeObserver(this)
+                    formEventListener = null
                     recyclerView.adapter = null
                 }
             }
@@ -88,17 +102,40 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         }
     }
 
+    fun getItemCount(): Int {
+        var count = 0
+        adapter.adapters.forEach { group ->
+            if (group is FormAdapter) {
+                group.data.forEach { part ->
+                    count += part.size
+                }
+            }
+        }
+        return count
+    }
+
+    fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormAdapter.() -> Unit) {
+        val group = FormAdapter(this, style)
+        group.formEventListener = formEventListener
+        adapter.addAdapter(group)
+        group.block()
+    }
+
+    fun addCardGroup(block: FormAdapter.() -> Unit) {
+        addGroup(CardFormStyle(), block)
+    }
+
     fun findItemForField(field: String, changeBlock: BaseForm.() -> Unit) {
         var index = 0
-        adapter.adapters.forEach { adapter ->
-            if (adapter is FormAdapter) {
-                adapter.data.forEach { part ->
-                    if (adapter.hasGroupName) index++
+        adapter.adapters.forEach { group ->
+            if (group is FormAdapter) {
+                group.data.forEach { part ->
+                    if (group.hasGroupTitle) index++
                     part.forEach {
                         if (it.field == field) {
                             changeBlock(it)
                             if (it.isRealVisible(this)) {
-                                adapter.notifyItemChanged(index, "update")
+                                group.notifyItemChanged(index, "update")
                             }
                             return
                         }
@@ -111,15 +148,15 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
 
     fun findItemForName(name: CharSequence, changeBlock: BaseForm.() -> Unit) {
         var index = 0
-        adapter.adapters.forEach { adapter ->
-            if (adapter is FormAdapter) {
-                adapter.data.forEach { part ->
-                    if (adapter.hasGroupName) index++
+        adapter.adapters.forEach { group ->
+            if (group is FormAdapter) {
+                group.data.forEach { part ->
+                    if (group.hasGroupTitle) index++
                     part.forEach {
                         if (it.name == name) {
                             changeBlock(it)
                             if (it.isRealVisible(this)) {
-                                adapter.notifyItemChanged(index, "update")
+                                group.notifyItemChanged(index, "update")
                             }
                             return
                         }
@@ -130,29 +167,11 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         }
     }
 
-    fun getItemCount(): Int {
-        var count = 0
-        adapter.adapters.forEach { part ->
-            if (part is FormAdapter) {
-                part.data.forEach { group ->
-                    count += group.size
-                }
-            }
-        }
-        return count
+    fun setOnFormEventListener(listener: FormEventListener? = null) {
+        formEventListener = listener
     }
 
-    fun addPart(style: FormStyle = DefaultFormStyle(), block: FormAdapter.() -> Unit) {
-        val part = FormAdapter(this, style).apply(block)
-        adapter.addAdapter(part)
-        adapter.adapters.forEach {
-            if (it != part && it is FormAdapter) {
-                it.update()
-            }
-        }
-    }
-
-    fun addCardPart(block: FormAdapter.() -> Unit) {
-        addPart(CardFormStyle(), block)
+    fun notifyItemChanged(position: Int) {
+        adapter.notifyItemChanged(position, "update")
     }
 }

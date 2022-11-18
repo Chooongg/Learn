@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import com.chooongg.basic.ext.doOnClick
 import com.chooongg.form.FormAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
@@ -51,6 +52,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     @Suppress("UNCHECKED_CAST")
     fun onBindViewHolder(holder: FormViewHolder, position: Int) {
         val item = adapter?.getItem(position) as? T ?: return
+        configItemClick(holder, item)
         style?.apply {
             configNameTextView(manager, holder.getView(nameTextViewId), item)
             onBindParentViewHolder(holder, item)
@@ -61,11 +63,24 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     @Suppress("UNCHECKED_CAST")
     fun onBindViewHolder(holder: FormViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = adapter?.getItem(position) as? T ?: return
+        configItemClick(holder, item)
         style?.apply {
             configNameTextView(manager, holder.getViewOrNull(nameTextViewId), item)
             onBindParentViewHolder(holder, item, payloads)
         }
         onBindViewHolder(holder, item, payloads)
+    }
+
+    /**
+     * 配置点击事件
+     */
+    open fun configItemClick(holder: FormViewHolder, item: T) {
+        holder.itemView.doOnClick {
+            recyclerView?.clearFocus()
+            adapter?.formEventListener?.onFormClick(
+                manager, item, it, holder.absoluteAdapterPosition
+            )
+        }
     }
 
     internal fun setAdapter(adapter: FormAdapter) {

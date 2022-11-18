@@ -4,16 +4,12 @@ import android.content.res.ColorStateList
 import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.chooongg.form.bean.BaseForm
+import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormColorStyle
-import com.chooongg.form.provider.BaseFormProvider
-import com.chooongg.form.provider.FormButtonProvider
-import com.chooongg.form.provider.FormDividerProvider
-import com.chooongg.form.provider.FormTextProvider
+import com.chooongg.form.provider.*
 import com.chooongg.form.style.FormStyle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,37 +24,51 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
     val recyclerView get() = _recyclerView?.get()
 
-    private var adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    var adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     private val itemProviders by lazy(LazyThreadSafetyMode.NONE) { SparseArray<BaseFormProvider<out BaseForm>>() }
 
     internal var data: MutableList<ArrayList<BaseForm>> = arrayListOf()
 
-    private val asyncDiffer = AsyncListDiffer(this, object : DiffUtil.ItemCallback<BaseForm>() {
-        override fun areItemsTheSame(oldItem: BaseForm, newItem: BaseForm): Boolean {
-            return oldItem == newItem
-        }
+    private val asyncDiffer = AsyncListDiffer(object : ListUpdateCallback {
+        override fun onChanged(position: Int, count: Int, payload: Any?) = Unit
 
-        override fun areContentsTheSame(oldItem: BaseForm, newItem: BaseForm): Boolean {
-            return oldItem == newItem
-        }
-    })
+        override fun onInserted(position: Int, count: Int) =
+            notifyItemRangeInserted(position, count)
 
-    var groupName: CharSequence? = null
+        override fun onRemoved(position: Int, count: Int) =
+            notifyItemRangeRemoved(position, count)
 
-    var groupNameColorStyle: FormColorStyle = FormColorStyle.DEFAULT
+        override fun onMoved(fromPosition: Int, toPosition: Int) =
+            notifyItemMoved(fromPosition, toPosition)
+    }, AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<BaseForm>() {
+        override fun areItemsTheSame(oldItem: BaseForm, newItem: BaseForm) =
+            oldItem.type == newItem.type && oldItem.name == newItem.name && oldItem.field == newItem.field
 
-    var groupField: String? = null
+        override fun areContentsTheSame(oldItem: BaseForm, newItem: BaseForm) = oldItem == newItem
+    }).build())
+
+    var name: CharSequence? = null
+
+    var nameColorStyle: FormColorStyle = FormColorStyle.DEFAULT
+
+    var field: String? = null
 
     @DrawableRes
-    var groupIcon: Int? = null
+    var icon: Int? = null
 
-    var groupIconTint: ColorStateList? = null
+    var iconTint: ColorStateList? = null
 
-    val hasGroupName get() = groupName != null
+    val hasGroupTitle get() = name != null
+
+    var formEventListener: FormEventListener? = null
+        internal set
 
     init {
+        // 必备组件
+        addItemProvider(FormGroupTitleProvider(manager))
         addItemProvider(FormTextProvider(manager))
+
         addItemProvider(FormButtonProvider(manager))
         addItemProvider(FormDividerProvider(manager))
     }
@@ -68,49 +78,61 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
         itemProviders.put(provider.itemViewType, provider)
     }
 
-    fun setNewList(list: ArrayList<BaseForm>) {
-        adapterScope.cancel()
-        adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-        data.clear()
-        data.add(list)
-        update()
+    fun setNewList(block: FormCreateGroup.() -> Unit) {
+        setNewList(FormCreateGroup().apply(block))
     }
 
-    fun setNewList(list: MutableList<ArrayList<BaseForm>>) {
+    fun setNewList(createGroup: FormCreateGroup) {
+        name = createGroup.groupName
+        nameColorStyle = createGroup.groupNameColorStyle
+        field = createGroup.groupField
+        icon = createGroup.groupIcon
+        iconTint = createGroup.groupIconTint
         adapterScope.cancel()
         adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-        data = list
+        data = createGroup.createdFormPartList
+        data.forEach { it.forEach { item -> item.configData() } }
         update()
     }
 
     fun update() {
-        val partIndex = manager.adapter.adapters.indexOf(this)
-        val partIsFirst = partIndex <= 0
-        val partIsLast = partIndex >= manager.adapter.adapters.lastIndex
+        val groupIndex = manager.adapter.adapters.indexOf(this)
+        val groupIsFirst = groupIndex <= 0
+        val groupIsLast = groupIndex >= manager.adapter.adapters.lastIndex
         val list = ArrayList<BaseForm>()
-        data.forEachIndexed { groupIndex, group ->
+        data.forEachIndexed { partIndex, part ->
             var index = 0
-            group.forEach {
-                if (hasGroupName) {
-                    index++
-                }
-                if (it.isRealVisible(manager)) {
-                    it.adapterPosition = index
-                    it.adapterTopBoundary = if (index == 0) {
-                        if (groupIndex == 0 && partIsFirst) {
-                            FormBoundaryType.GLOBAL
-                        } else FormBoundaryType.LOCAL
-                    } else FormBoundaryType.NONE
-                    list.add(it)
-                    index++
-                }
+            if (hasGroupTitle) {
+                list.add(FormGroupTitle(name!!, field).apply {
+                    icon = this@FormAdapter.icon
+                    iconTint = this@FormAdapter.iconTint
+                    nameColorStyle = this@FormAdapter.nameColorStyle
+                    adapterPosition = 0
+                    adapterTopBoundary = if (partIndex == 0 && groupIsFirst) {
+                        FormBoundaryType.GLOBAL
+                    } else FormBoundaryType.LOCAL
+                })
+                index++
+            }
+            part@ for (j in 0 until part.size) {
+                val item = part[j]
+                if (!item.isRealVisible(manager)) continue@part
+
+                item.adapterPosition = index
+                item.adapterTopBoundary = if (index == 0) {
+                    if (partIndex == 0 && groupIsFirst) {
+                        FormBoundaryType.GLOBAL
+                    } else FormBoundaryType.LOCAL
+                } else FormBoundaryType.NONE
+                list.add(item)
+                index++
             }
         }
         list@ for (index in list.lastIndex downTo 0) {
             val item = list[index]
             if (index == list.lastIndex) {
                 item.adapterBottomBoundary =
-                    if (partIsLast) FormBoundaryType.GLOBAL else FormBoundaryType.LOCAL
+                    if (groupIsLast) FormBoundaryType.GLOBAL else FormBoundaryType.LOCAL
                 continue@list
             }
             val nextItem = list[index + 1]
@@ -124,16 +146,7 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
     fun getItem(position: Int) = asyncDiffer.currentList[position]
 
-    override fun getItemCount(): Int {
-        var count = 0
-        data.forEach { group ->
-            group.forEach {
-                if (hasGroupName) count++
-                if (it.isRealVisible(manager)) count++
-            }
-        }
-        return count
-    }
+    override fun getItemCount() = asyncDiffer.currentList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FormViewHolder {
         val provider = getItemProvider(viewType)

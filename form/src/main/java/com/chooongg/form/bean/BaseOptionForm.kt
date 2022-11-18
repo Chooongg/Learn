@@ -1,6 +1,7 @@
 package com.chooongg.form.bean
 
-abstract class BaseOptionForm(type: Int, name: CharSequence) : BaseForm(type, name) {
+abstract class BaseOptionForm(type: Int, name: CharSequence, field: String?) :
+    BaseForm(type, name, field) {
 
     /**
      * 选项列表

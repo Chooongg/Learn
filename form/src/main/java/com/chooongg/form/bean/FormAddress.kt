@@ -3,7 +3,8 @@ package com.chooongg.form.bean
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormAreaMode
 
-class FormAddress(name: CharSequence) : BaseForm(FormManager.TYPE_ADDRESS, name) {
+class FormAddress(name: CharSequence, field: String?) :
+    BaseForm(FormManager.TYPE_ADDRESS, name, field) {
 
     override var seeType: Int = FormManager.TYPE_TEXT
 
@@ -43,13 +44,20 @@ class FormAddress(name: CharSequence) : BaseForm(FormManager.TYPE_ADDRESS, name)
     var provinceField: String? = null
 
     /**
-     * 省份名称
+     * 省份 ID
      */
-    var province: CharSequence?
+    var provinceId: CharSequence?
         get() = if (provinceField != null) getExtensionContent(provinceField!!) else null
         set(value) {
             if (provinceField != null) setExtensionContent(provinceField!!, value)
         }
+
+    /**
+     * 省份名称
+     */
+    var provinceName: CharSequence?
+        get() = getExtensionContent("province_name")
+        set(value) = setExtensionContent("province_name", value)
 
     /**
      * 城市参数
@@ -59,11 +67,18 @@ class FormAddress(name: CharSequence) : BaseForm(FormManager.TYPE_ADDRESS, name)
     /**
      * 城市名称
      */
-    var city: CharSequence?
+    var cityId: CharSequence?
         get() = if (cityField != null) getExtensionContent(cityField!!) else null
         set(value) {
             if (cityField != null) setExtensionContent(cityField!!, value)
         }
+
+    /**
+     * 省份名称
+     */
+    var cityName: CharSequence?
+        get() = getExtensionContent("city_name")
+        set(value) = setExtensionContent("city_name", value)
 
     /**
      * 地区参数

@@ -2,13 +2,14 @@ package com.chooongg.form.provider
 
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
-import com.chooongg.basic.ext.multipleValid
+import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.FormButton
 import com.chooongg.form.enum.FormBoundaryType
+import com.chooongg.form.enum.FormButtonGravity
 import com.google.android.material.button.MaterialButton
 
 class FormButtonProvider(manager: FormManager) : BaseFormProvider<FormButton>(manager) {
@@ -21,23 +22,39 @@ class FormButtonProvider(manager: FormManager) : BaseFormProvider<FormButton>(ma
                 setIconResource(item.icon!!)
             } else icon = null
             iconTint = item.iconTint
-            iconSize = item.iconSize
+            iconSize =
+                item.iconSize ?: context.resDimensionPixelSize(com.chooongg.basic.R.dimen.d48)
             iconGravity = item.iconGravity
             iconPadding = item.iconPadding
             updateLayoutParams<ConstraintLayout.LayoutParams> {
+                width = item.width
                 topMargin = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0
-                else resDimensionPixelSize(R.dimen.formContentMedium)
+                else resDimensionPixelSize(R.dimen.formPartVertical)
                 bottomMargin = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0
-                else resDimensionPixelSize(R.dimen.formContentMedium)
-            }
-//            if (item.itemClickBlock != null) doOnClick(item.itemClickBlock!!)
-//            else setOnClickListener(null)
-            setOnClickListener {
-                recyclerView?.clearFocus()
-                if (multipleValid()) {
-                    item.itemClickBlock?.invoke(it)
+                else resDimensionPixelSize(R.dimen.formPartVertical)
+                when (item.gravity) {
+                    FormButtonGravity.START -> {
+                        startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                        endToEnd = ConstraintLayout.LayoutParams.UNSET
+                    }
+                    FormButtonGravity.CENTER -> {
+                        startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                        endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+                    }
+                    FormButtonGravity.END -> {
+                        startToStart = ConstraintLayout.LayoutParams.UNSET
+                        endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+                    }
                 }
+            }
+            doOnClick {
+                recyclerView?.clearFocus()
+                adapter?.formEventListener?.onFormClick(
+                    manager, item, it, holder.absoluteAdapterPosition
+                )
             }
         }
     }
+
+    override fun configItemClick(holder: FormViewHolder, item: FormButton) = Unit
 }

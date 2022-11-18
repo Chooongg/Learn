@@ -24,7 +24,12 @@ internal class FormTextProvider(manager: FormManager) : BaseFormProvider<FormTex
                 isEnabled = item.isEnabled
                 imageTintList = item.menuIconTint
                 setImageResource(item.menuIcon!!)
-                doOnClick { item.menuIconClickBlock?.invoke(it) }
+                doOnClick {
+                    recyclerView?.clearFocus()
+                    adapter?.formEventListener?.onFormMenuClick(
+                        manager, item, it, holder.absoluteAdapterPosition
+                    )
+                }
                 visible()
             } else gone()
         }

@@ -1,7 +1,6 @@
 package com.chooongg.form.bean
 
 import android.content.res.ColorStateList
-import android.view.View
 import androidx.annotation.DrawableRes
 import com.chooongg.form.FormDataVerificationException
 import com.chooongg.form.FormManager
@@ -10,7 +9,20 @@ import com.chooongg.form.enum.FormOutPutMode
 import com.chooongg.form.enum.FormVisibilityMode
 import org.json.JSONObject
 
-abstract class BaseForm(val type: Int, var name: CharSequence) {
+abstract class BaseForm(
+    /**
+     * 类型
+     */
+    val type: Int,
+    /**
+     * 名称
+     */
+    var name: CharSequence,
+    /**
+     * 字段名
+     */
+    var field: String?
+) {
 
     var adapterPosition: Int = -1
         internal set
@@ -33,11 +45,6 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      * 提示文字
      */
     var hint: CharSequence? = null
-
-    /**
-     * 字段名
-     */
-    var field: String? = null
 
     /**
      * 内容
@@ -72,12 +79,7 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      * 菜单图标
      */
     @DrawableRes
-    internal var menuIcon: Int? = null
-
-    /**
-     * 菜单图标点击事件
-     */
-    internal var menuIconClickBlock: ((View) -> Unit)? = null
+    open var menuIcon: Int? = null
 
     /**
      * 菜单图标着色
@@ -98,11 +100,6 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      * 输出模式
      */
     var outPutMode: FormOutPutMode = FormOutPutMode.ONLY_VISIBLE
-
-    /**
-     * ItemView点击事件
-     */
-    internal var itemClickBlock: ((View) -> Unit)? = null
 
     /**
      * 初始化完成后配置数据
@@ -144,29 +141,6 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
      */
     fun snapshotExtensionFieldAndContent(): Map<String, CharSequence?> =
         extensionFieldAndContent?.toMap() ?: emptyMap()
-
-    /**
-     * Item 点击事件
-     */
-    fun doOnClick(block: ((View) -> Unit)?) {
-        itemClickBlock = block
-    }
-
-    /**
-     * 菜单图标
-     */
-    open fun menuIcon(@DrawableRes icon: Int, block: ((View) -> Unit)?) {
-        menuIcon = icon
-        menuIconClickBlock = block
-    }
-
-    /**
-     * 清除菜单图标
-     */
-    open fun clearMenuIcon() {
-        menuIcon = null
-        menuIconClickBlock = null
-    }
 
     /**
      * 转换内容
@@ -234,12 +208,12 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
 
         if (type != other.type) return false
         if (name != other.name) return false
+        if (field != other.field) return false
         if (adapterPosition != other.adapterPosition) return false
         if (adapterTopBoundary != other.adapterTopBoundary) return false
         if (seeType != other.seeType) return false
         if (extensionFieldAndContent != other.extensionFieldAndContent) return false
         if (hint != other.hint) return false
-        if (field != other.field) return false
         if (content != other.content) return false
         if (isMust != other.isMust) return false
         if (isVisible != other.isVisible) return false
@@ -257,13 +231,13 @@ abstract class BaseForm(val type: Int, var name: CharSequence) {
     override fun hashCode(): Int {
         var result = type
         result = 31 * result + name.hashCode()
+        result = 31 * result + (field?.hashCode() ?: 0)
         result = 31 * result + adapterPosition
         result = 31 * result + adapterTopBoundary.hashCode()
         result = 31 * result + adapterBottomBoundary.hashCode()
         result = 31 * result + seeType
         result = 31 * result + (extensionFieldAndContent?.hashCode() ?: 0)
         result = 31 * result + (hint?.hashCode() ?: 0)
-        result = 31 * result + (field?.hashCode() ?: 0)
         result = 31 * result + (content?.hashCode() ?: 0)
         result = 31 * result + isMust.hashCode()
         result = 31 * result + isVisible.hashCode()

@@ -4,7 +4,8 @@ import com.chooongg.basic.utils.TimeUtils
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormTimeMode
 
-class FormTime(name: CharSequence, val mode: FormTimeMode) : BaseForm(FormManager.TYPE_TIME, name) {
+class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
+    BaseForm(FormManager.TYPE_TIME, name, field) {
 
     var timeStamp: Long? = null
         set(value) {

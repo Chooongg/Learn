@@ -2,6 +2,7 @@ package com.chooongg.form.provider
 
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.basic.ext.visible
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -16,6 +17,9 @@ class FormDividerProvider(manager: FormManager) : BaseFormProvider<FormDivider>(
         holder: FormViewHolder,
         item: FormDivider
     ) {
+        if (item.isOnEdgeVisible){
+            holder.itemView.visible()
+        }
         with(holder.getView<MaterialDivider>(R.id.form_divider)) {
             dividerColor = item.color
                 ?: attrColor(com.google.android.material.R.attr.colorOutline)

@@ -8,6 +8,7 @@ import com.chooongg.basic.ext.style
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.bean.BaseForm
+import com.chooongg.form.bean.FormGroupTitle
 
 abstract class FormStyle(
     /**
@@ -28,6 +29,14 @@ abstract class FormStyle(
      * 绑定外层布局
      */
     abstract fun onBindParentViewHolder(holder: FormViewHolder, item: BaseForm)
+
+    abstract fun getGroupTitleLayoutId(): Int
+
+    abstract fun onBindGroupTitleHolder(
+        manager: FormManager,
+        holder: FormViewHolder,
+        item: FormGroupTitle
+    )
 
     /**
      * 绑定外层布局

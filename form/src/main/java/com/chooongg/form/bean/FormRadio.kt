@@ -2,8 +2,9 @@ package com.chooongg.form.bean
 
 import com.chooongg.form.FormManager
 
-class FormRadio(name: CharSequence) : BaseOptionForm(FormManager.TYPE_RADIO, name) {
+class FormRadio(name: CharSequence, field: String?) :
+    BaseOptionForm(FormManager.TYPE_RADIO, name, field) {
 
-    override var seeType:Int = FormManager.TYPE_TEXT
+    override var seeType: Int = FormManager.TYPE_TEXT
 
 }

@@ -2,7 +2,8 @@ package com.chooongg.form.bean
 
 import com.chooongg.form.FormManager
 
-class FormInput(name: CharSequence) : BaseForm(FormManager.TYPE_INPUT, name) {
+class FormInput(name: CharSequence, field: String?) :
+    BaseForm(FormManager.TYPE_INPUT, name, field) {
 
     override var seeType: Int = FormManager.TYPE_TEXT
 

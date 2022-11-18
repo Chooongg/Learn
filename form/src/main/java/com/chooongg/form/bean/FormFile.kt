@@ -4,7 +4,8 @@ import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormChooseFileMode
 
-class FormFile(name: CharSequence) : BaseForm(FormManager.TYPE_FILE, name) {
+class FormFile(name: CharSequence, field: String?) :
+    BaseForm(FormManager.TYPE_FILE, name, field) {
 
     /**
      * 选择模式
