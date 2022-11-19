@@ -48,14 +48,13 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/form_tv_name_placeholder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/formItemVertical"
                 android:paddingStart="@dimen/formItemHorizontal"
                 android:textAppearance="?textAppearanceBodyMedium"
-                android:textColor="?colorSecondary"
-                tools:ems="6"
-                tools:text="测试名称" />
+                tools:ems="6" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/form_iv_menu"
