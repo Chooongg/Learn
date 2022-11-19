@@ -19,19 +19,5 @@ internal class FormTextProvider(manager: FormManager) : BaseFormProvider<FormTex
             text = item.transformContent()
             hint = item.hint ?: context.getString(R.string.form_none)
         }
-        with(holder.getView<AppCompatImageView>(R.id.form_iv_menu)) {
-            if (item.isRealMenuVisible(manager) && item.menuIcon != null) {
-                isEnabled = item.isEnabled
-                imageTintList = item.menuIconTint
-                setImageResource(item.menuIcon!!)
-                doOnClick {
-                    recyclerView?.clearFocus()
-                    adapter?.formEventListener?.onFormMenuClick(
-                        manager, item, it, holder.absoluteAdapterPosition
-                    )
-                }
-                visible()
-            } else gone()
-        }
     }
 }

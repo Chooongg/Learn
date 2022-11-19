@@ -2,16 +2,14 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="0dp"
-    android:paddingEnd="@dimen/contentSmall">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/form_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/contentMedium"
-        android:paddingStart="@dimen/contentMedium"
+        android:paddingVertical="@dimen/formItemVertical"
+        android:paddingStart="@dimen/formItemHorizontal"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="?colorSecondary"
         tools:ems="6"
@@ -22,8 +20,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingHorizontal="@dimen/contentSmall"
-        android:paddingVertical="@dimen/contentMedium"
+        android:paddingHorizontal="@dimen/formItemContentHorizontal"
+        android:paddingVertical="@dimen/formItemVertical"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="@color/form_text"
         android:textIsSelectable="true"
@@ -31,11 +29,13 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="@dimen/d36"
-        android:layout_height="@dimen/d36"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:background="?actionBarItemBackground"
-        android:padding="@dimen/contentSmall"
+        android:paddingStart="@dimen/formItemIconPadding"
+        android:paddingEnd="@dimen/formItemHorizontal"
+        android:scaleType="centerInside"
         tools:src="@android:drawable/ic_lock_idle_alarm" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

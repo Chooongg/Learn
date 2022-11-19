@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="formContentSmall">@dimen/contentSmall</dimen>
-    <dimen name="formContentMedium">@dimen/contentMedium</dimen>
-    <dimen name="formContentLarge">@dimen/contentLarge</dimen>
-
     <dimen name="formPartVertical">@dimen/contentSmall</dimen>
     <dimen name="formPartVerticalGlobal">@dimen/contentMedium</dimen>
     <dimen name="formPartHorizontal">@dimen/contentMedium</dimen>
+
+    <dimen name="formItemHorizontal">@dimen/contentMedium</dimen>
+    <dimen name="formItemVertical">@dimen/contentSmall</dimen>
+    <dimen name="formItemVerticalEdge">@dimen/contentMedium</dimen>
+    <dimen name="formItemContentHorizontal">@dimen/contentSmall</dimen>
+    <dimen name="formItemIconPadding">8dp</dimen>
+    <dimen name="formItemIconSize">20dp</dimen>
 </resources>

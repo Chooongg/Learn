@@ -11,7 +11,7 @@ import com.chooongg.form.style.CardFormStyle
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
 
-class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) {
+class FormManager(isEditable: Boolean) {
 
     companion object {
         const val TYPE_GROUP_NAME = 0
@@ -39,6 +39,9 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
         ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
     )
 
+    /**
+     * 是否可编辑
+     */
     var isEditable: Boolean = isEditable
         set(value) {
             if (field == value) return
@@ -46,6 +49,9 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
             updateAll()
         }
 
+    /**
+     * 名称占位符长度
+     */
     var nameEmsSize: Int = 6
         set(value) {
             if (field == value) return
@@ -53,7 +59,11 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
             updateAll()
         }
 
-    var nameMustHasHint: Boolean = true
+    /**
+     * 必填时有星号
+     *
+     */
+    var whenMustHasAsterisk: Boolean = true
         set(value) {
             if (field == value) return
             field = value
@@ -68,14 +78,8 @@ class FormManager(isEditable: Boolean, block: (FormManager.() -> Unit)? = null) 
             }
         }
 
-    init {
-        block?.invoke(this)
-    }
-
     fun attach(
-        owner: LifecycleOwner,
-        recyclerView: RecyclerView,
-        listener: FormEventListener? = null
+        owner: LifecycleOwner, recyclerView: RecyclerView, listener: FormEventListener? = null
     ) {
         if (owner.lifecycle.currentState < Lifecycle.State.INITIALIZED) return
         if (recyclerView.layoutManager == null) {

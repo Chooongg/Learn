@@ -95,6 +95,13 @@ class FormAddress(name: CharSequence, field: String?) :
             if (areaField != null) setExtensionContent(areaField!!, value)
         }
 
+    /**
+     * 地区名称
+     */
+    var areaName: CharSequence?
+        get() = getExtensionContent("area_name")
+        set(value) = setExtensionContent("area_name", value)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

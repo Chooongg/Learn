@@ -5,7 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.updateLayoutParams
 import com.chooongg.basic.ext.doOnClick
+import com.chooongg.basic.ext.gone
+import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.basic.ext.visible
 import com.chooongg.form.FormAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
@@ -34,9 +39,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     abstract fun onBindViewHolder(holder: FormViewHolder, item: T)
 
     open fun onBindViewHolder(
-        holder: FormViewHolder,
-        item: T,
-        payloads: MutableList<Any>
+        holder: FormViewHolder, item: T, payloads: MutableList<Any>
     ) = onBindViewHolder(holder, item)
 
     open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FormViewHolder {
@@ -53,6 +56,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     fun onBindViewHolder(holder: FormViewHolder, position: Int) {
         val item = adapter?.getItem(position) as? T ?: return
         configItemClick(holder, item)
+        configMenuIcon(holder, item)
         style?.apply {
             configNameTextView(manager, holder.getView(nameTextViewId), item)
             onBindParentViewHolder(holder, item)
@@ -64,6 +68,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     fun onBindViewHolder(holder: FormViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = adapter?.getItem(position) as? T ?: return
         configItemClick(holder, item)
+        configMenuIcon(holder, item)
         style?.apply {
             configNameTextView(manager, holder.getViewOrNull(nameTextViewId), item)
             onBindParentViewHolder(holder, item, payloads)
@@ -80,6 +85,29 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
             adapter?.formEventListener?.onFormClick(
                 manager, item, it, holder.absoluteAdapterPosition
             )
+        }
+    }
+
+    /**
+     * 配置菜单图标
+     */
+    open fun configMenuIcon(holder: FormViewHolder, item: T) {
+        holder.getViewOrNull<AppCompatImageView>(R.id.form_iv_menu)?.apply {
+            if (item.menuIcon != null && item.isRealMenuVisible(manager)) {
+                setImageResource(item.menuIcon!!)
+                imageTintList = item.menuIconTint
+                updateLayoutParams<ViewGroup.LayoutParams> {
+                    width =
+                        resDimensionPixelSize(R.dimen.formItemIconSize) + paddingStart + paddingEnd
+                }
+                doOnClick {
+                    recyclerView?.clearFocus()
+                    adapter?.formEventListener?.onFormMenuClick(
+                        manager, item, this, holder.absoluteAdapterPosition
+                    )
+                }
+                visible()
+            } else gone()
         }
     }
 
