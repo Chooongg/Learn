@@ -18,19 +18,18 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_input_content"
         android:layout_width="0dp"
+        android:paddingHorizontal="@dimen/formItemHorizontalIgnoreIcon"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingHorizontal="@dimen/formItemContentHorizontal"
-        android:paddingVertical="@dimen/formItemVertical"
-        android:textAppearance="?textAppearanceBodyMedium"
-        android:textColor="@color/form_text"
-        android:textIsSelectable="true"
-        tools:text="内容">
+        android:layout_weight="1">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/form_edit_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/formItemContentHorizontal"
+            android:paddingVertical="@dimen/formItemVertical"
+            android:textAppearance="?textAppearanceBodyMedium"
+            tools:text="内容" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
