@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -12,6 +13,8 @@
         android:paddingStart="@dimen/formItemHorizontal"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="?colorSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ems="6"
         tools:text="测试名称" />
 
@@ -25,17 +28,25 @@
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="@color/form_text"
         android:textIsSelectable="true"
+        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintStart_toEndOf="@id/form_tv_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="@dimen/formItemHorizontal"
         tools:text="内容" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/formItemHorizontalIgnoreIcon"
         android:background="?actionBarItemBackground"
-        android:paddingStart="@dimen/formItemIconPadding"
-        android:paddingEnd="@dimen/formItemHorizontal"
+        android:paddingHorizontal="@dimen/formItemIconPadding"
         android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="@dimen/formItemIconSize"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@android:drawable/ic_lock_idle_alarm" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

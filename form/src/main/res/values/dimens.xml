@@ -10,5 +10,5 @@
     <dimen name="formItemVerticalEdge">16dp</dimen>
     <dimen name="formItemContentHorizontal">8dp</dimen>
     <dimen name="formItemIconPadding">8dp</dimen>
-    <dimen name="formItemIconSize">20dp</dimen>
+    <dimen name="formItemIconSize">48dp</dimen>
 </resources>
