@@ -5,10 +5,15 @@
     <dimen name="formPartHorizontal">16dp</dimen>
 
     <dimen name="formItemHorizontal">16dp</dimen>
-    <dimen name="formItemHorizontalIgnoreIcon">8dp</dimen>
+    <dimen name="formItemHorizontalContent">8dp</dimen>
     <dimen name="formItemVertical">8dp</dimen>
     <dimen name="formItemVerticalEdge">16dp</dimen>
-    <dimen name="formItemContentHorizontal">8dp</dimen>
+
+    <dimen name="formItemIconSize">20dp</dimen>
     <dimen name="formItemIconPadding">8dp</dimen>
-    <dimen name="formItemIconSize">48dp</dimen>
+    <dimen name="formItemIconRippleRadius">16dp</dimen>
+
+    <dimen name="formItemMenuIconSize">20dp</dimen>
+    <dimen name="formItemMenuIconPadding">8dp</dimen>
+    <dimen name="formItemMenuIconRippleRadius">16dp</dimen>
 </resources>

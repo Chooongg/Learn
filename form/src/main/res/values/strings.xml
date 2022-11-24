@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="form_none">无</string>
+
+    <string name="form_input_hint">请输入</string>
+    <string name="form_select_hint">请选择</string>
 </resources>

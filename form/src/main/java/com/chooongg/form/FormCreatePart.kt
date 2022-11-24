@@ -1,9 +1,6 @@
 package com.chooongg.form
 
-import com.chooongg.form.bean.BaseForm
-import com.chooongg.form.bean.FormButton
-import com.chooongg.form.bean.FormDivider
-import com.chooongg.form.bean.FormText
+import com.chooongg.form.bean.*
 
 open class FormCreatePart internal constructor() {
     internal val createdFormGroupList = ArrayList<BaseForm>()
@@ -22,6 +19,12 @@ open class FormCreatePart internal constructor() {
 
     fun addDivider(block: (FormDivider.() -> Unit)? = null) {
         createdFormGroupList.add(FormDivider().apply {
+            block?.invoke(this)
+        })
+    }
+
+    fun addInput(name: CharSequence, field: String?, block: (FormInput.() -> Unit)? = null){
+        createdFormGroupList.add(FormInput(name, field).apply {
             block?.invoke(this)
         })
     }

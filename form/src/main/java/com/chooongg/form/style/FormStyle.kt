@@ -28,24 +28,22 @@ abstract class FormStyle(
     /**
      * 绑定外层布局
      */
-    abstract fun onBindParentViewHolder(holder: FormViewHolder, item: BaseForm)
+    abstract fun onBindParentViewHolder(
+        manager: FormManager, holder: FormViewHolder, item: BaseForm
+    )
 
     abstract fun getGroupTitleLayoutId(): Int
 
     abstract fun onBindGroupTitleHolder(
-        manager: FormManager,
-        holder: FormViewHolder,
-        item: FormGroupTitle
+        manager: FormManager, holder: FormViewHolder, item: FormGroupTitle
     )
 
     /**
      * 绑定外层布局
      */
     open fun onBindParentViewHolder(
-        holder: FormViewHolder,
-        item: BaseForm,
-        payloads: MutableList<Any>
-    ) = onBindParentViewHolder(holder, item)
+        manager: FormManager, holder: FormViewHolder, item: BaseForm, payloads: MutableList<Any>
+    ) = onBindParentViewHolder(manager, holder, item)
 
     open fun configNameTextView(manager: FormManager, textView: TextView?, item: BaseForm) {
         if (textView == null) return

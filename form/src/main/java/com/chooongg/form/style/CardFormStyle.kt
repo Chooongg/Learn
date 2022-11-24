@@ -6,7 +6,10 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
-import com.chooongg.basic.ext.*
+import com.chooongg.basic.ext.attrResourcesId
+import com.chooongg.basic.ext.gone
+import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.basic.ext.visible
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -20,51 +23,69 @@ import com.google.android.material.textview.MaterialTextView
 
 class CardFormStyle : FormStyle(100) {
 
+    private var partHorizontal = -1
+    private var partVertical = -1
+    private var partVerticalGlobal = -1
+
     override fun createItemParentView(parent: ViewGroup) = MaterialCardView(
         parent.context, null, com.google.android.material.R.attr.materialCardViewElevatedStyle
     ).apply {
+        if (partHorizontal == -1) partHorizontal = resDimensionPixelSize(R.dimen.formPartHorizontal)
+        if (partVertical == -1) partVertical = resDimensionPixelSize(R.dimen.formPartVertical)
+        if (partVerticalGlobal == -1) partVerticalGlobal =
+            resDimensionPixelSize(R.dimen.formPartVerticalGlobal)
+        preventCornerOverlap = false
         rippleColor = ColorStateList.valueOf(Color.TRANSPARENT)
         layoutParams = RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
 
-    override fun onBindParentViewHolder(holder: FormViewHolder, item: BaseForm) {
-        val cardView = holder.itemView as MaterialCardView
-        val shapeAppearance = ShapeAppearanceModel.builder(
-            holder.itemView.context, holder.itemView.attrResourcesId(
-                com.google.android.material.R.attr.shapeAppearanceCornerMedium, 0
-            ), 0
-        )
-        if (item.adapterTopBoundary == FormBoundaryType.NONE) {
-            shapeAppearance.setTopLeftCornerSize(0f).setTopRightCornerSize(0f)
-        }
-        if (item.adapterBottomBoundary == FormBoundaryType.NONE) {
-            shapeAppearance.setBottomLeftCornerSize(0f).setBottomRightCornerSize(0f)
-        }
-        cardView.shapeAppearanceModel = shapeAppearance.build()
-        cardView.updateLayoutParams<RecyclerView.LayoutParams> {
-            marginStart = holder.itemView.resDimensionPixelSize(R.dimen.formPartHorizontal)
-            marginEnd = holder.itemView.resDimensionPixelSize(R.dimen.formPartHorizontal)
-            topMargin = when (item.adapterTopBoundary) {
-                FormBoundaryType.NONE -> 0
-                FormBoundaryType.LOCAL -> holder.itemView.resDimensionPixelSize(R.dimen.formPartVertical)
-                FormBoundaryType.GLOBAL -> holder.itemView.resDimensionPixelSize(R.dimen.formPartVerticalGlobal)
+    override fun onBindParentViewHolder(
+        manager: FormManager, holder: FormViewHolder, item: BaseForm
+    ) {
+        with(holder.itemView as MaterialCardView) {
+            val shapeAppearance = ShapeAppearanceModel.builder(
+                holder.itemView.context, attrResourcesId(
+                    com.google.android.material.R.attr.shapeAppearanceCornerMedium, 0
+                ), 0
+            )
+            if (item.adapterTopBoundary == FormBoundaryType.NONE) {
+                shapeAppearance.setTopLeftCornerSize(0f).setTopRightCornerSize(0f)
             }
-            bottomMargin = when (item.adapterBottomBoundary) {
-                FormBoundaryType.NONE -> 0
-                FormBoundaryType.LOCAL -> holder.itemView.resDimensionPixelSize(R.dimen.formPartVertical)
-                FormBoundaryType.GLOBAL -> holder.itemView.resDimensionPixelSize(R.dimen.formPartVerticalGlobal)
+            if (item.adapterBottomBoundary == FormBoundaryType.NONE) {
+                shapeAppearance.setBottomLeftCornerSize(0f).setBottomRightCornerSize(0f)
             }
+            shapeAppearanceModel = shapeAppearance.build()
+            updateLayoutParams<RecyclerView.LayoutParams> {
+                marginStart = partHorizontal
+                marginEnd = partHorizontal
+                topMargin = when (item.adapterTopBoundary) {
+                    FormBoundaryType.NONE -> 0
+                    FormBoundaryType.LOCAL -> partVertical
+                    FormBoundaryType.GLOBAL -> partVerticalGlobal
+                }
+                bottomMargin = when (item.adapterBottomBoundary) {
+                    FormBoundaryType.NONE -> 0
+                    FormBoundaryType.LOCAL -> partVertical
+                    FormBoundaryType.GLOBAL -> partVerticalGlobal
+                }
+            }
+        }
+        holder.getViewOrNull<ViewGroup>(R.id.form_item_layout)?.apply {
+            setPaddingRelative(
+                0,
+                if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
+                0,
+                if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
+            )
         }
     }
 
     override fun getGroupTitleLayoutId() = R.layout.form_item_group_name_card
 
     override fun onBindGroupTitleHolder(
-        manager: FormManager,
-        holder: FormViewHolder,
-        item: FormGroupTitle
+        manager: FormManager, holder: FormViewHolder, item: FormGroupTitle
     ) {
         with(holder.getView<ShapeableImageView>(R.id.form_iv_background)) {
             shapeAppearanceModel = (holder.itemView as MaterialCardView).shapeAppearanceModel

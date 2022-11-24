@@ -1,8 +1,8 @@
 package com.chooongg.form.provider
 
-import com.chooongg.form.FormAdapter
+import com.chooongg.form.FormGroupAdapter
 
-class OptionsLoader(adapter: FormAdapter) {
+class OptionsLoader(adapter: FormGroupAdapter) {
     init {
     }
 }

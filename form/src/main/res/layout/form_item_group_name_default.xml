@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/form_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_icon"
-        android:layout_width="@dimen/d36"
-        android:layout_height="@dimen/d36"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/d12"
-        android:layout_marginTop="@dimen/d4"
-        android:layout_marginBottom="@dimen/d4"
-        android:padding="@dimen/d4" />
+        android:background="@drawable/form_ripple_menu_selected_background"
+        android:paddingStart="@dimen/formItemIconPadding"
+        android:paddingEnd="@dimen/formItemIconPadding"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@android:drawable/ic_lock_idle_alarm" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/form_tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/contentSmall"
-        android:layout_marginBottom="@dimen/contentSmall"
-        android:layout_weight="1"
-        android:textAppearance="?textAppearanceTitleMedium"
-        tools:text="测试内容" />
+        android:paddingTop="@dimen/formItemVertical"
+        android:paddingBottom="@dimen/formItemVertical"
+        android:textAppearance="?textAppearanceBodyMedium"
+        android:textColor="@color/form_text"
+        android:textIsSelectable="true"
+        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintStart_toEndOf="@id/form_iv_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="@dimen/formItemHorizontal"
+        app:layout_goneMarginStart="@dimen/formItemHorizontal"
+        tools:text="内容" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="?actionBarItemBackground"
-        android:paddingStart="@dimen/formItemIconPadding"
-        android:paddingEnd="@dimen/formItemHorizontal"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/form_ripple_menu_selected_background"
+        android:paddingStart="@dimen/formItemMenuIconPadding"
+        android:paddingEnd="@dimen/formItemMenuIconPadding"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@android:drawable/ic_lock_idle_alarm" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

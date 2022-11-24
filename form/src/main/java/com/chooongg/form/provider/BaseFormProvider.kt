@@ -6,23 +6,25 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.gone
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.visible
-import com.chooongg.form.FormAdapter
+import com.chooongg.form.FormGroupAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
 import java.lang.ref.WeakReference
+import kotlin.math.max
 
 abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager) {
 
     lateinit var context: Context internal set
 
-    private var _adapter: WeakReference<FormAdapter>? = null
+    private var _adapter: WeakReference<FormGroupAdapter>? = null
 
     protected val adapter get() = _adapter?.get()
 
@@ -59,7 +61,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
         configMenuIcon(holder, item)
         style?.apply {
             configNameTextView(manager, holder.getView(nameTextViewId), item)
-            onBindParentViewHolder(holder, item)
+            onBindParentViewHolder(manager, holder, item)
         }
         onBindViewHolder(holder, item)
     }
@@ -71,7 +73,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
         configMenuIcon(holder, item)
         style?.apply {
             configNameTextView(manager, holder.getViewOrNull(nameTextViewId), item)
-            onBindParentViewHolder(holder, item, payloads)
+            onBindParentViewHolder(manager, holder, item, payloads)
         }
         onBindViewHolder(holder, item, payloads)
     }
@@ -94,12 +96,13 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     open fun configMenuIcon(holder: FormViewHolder, item: T) {
         holder.getViewOrNull<AppCompatImageView>(R.id.form_iv_menu)?.apply {
             if (item.menuIcon != null && item.isRealMenuVisible(manager)) {
+                updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
+                    width =
+                        resDimensionPixelSize(R.dimen.formItemMenuIconSize) + paddingStart + paddingEnd
+                }
                 setImageResource(item.menuIcon!!)
                 imageTintList = item.menuIconTint
-                updateLayoutParams<ViewGroup.LayoutParams> {
-                    width =
-                        resDimensionPixelSize(R.dimen.formItemIconSize) + paddingStart + paddingEnd
-                }
                 doOnClick {
                     recyclerView?.clearFocus()
                     adapter?.formEventListener?.onFormMenuClick(
@@ -111,7 +114,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
         }
     }
 
-    internal fun setAdapter(adapter: FormAdapter) {
+    internal fun setAdapter(adapter: FormGroupAdapter) {
         _adapter = WeakReference(adapter)
     }
 }

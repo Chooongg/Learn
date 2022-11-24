@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/form_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -8,40 +10,54 @@
         android:id="@+id/form_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/formItemVertical"
-        android:paddingStart="@dimen/formItemHorizontal"
+        android:layout_marginStart="@dimen/formItemHorizontal"
+        android:paddingTop="@dimen/formItemVertical"
+        android:paddingBottom="@dimen/formItemVertical"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="?colorSecondary"
-        tools:ems="6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ems="4"
         tools:text="测试名称" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_input_content"
         android:layout_width="0dp"
-        android:paddingHorizontal="@dimen/formItemHorizontalIgnoreIcon"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        app:boxBackgroundMode="none"
+        app:endIconDrawable="@drawable/form_ic_edit_clear"
+        app:endIconMode="clear_text"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintStart_toEndOf="@id/form_tv_name"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/form_edit_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/formItemContentHorizontal"
-            android:paddingVertical="@dimen/formItemVertical"
+            android:paddingStart="@dimen/formItemHorizontalContent"
+            android:paddingTop="@dimen/formItemVertical"
+            android:paddingEnd="@dimen/formItemHorizontalContent"
+            android:paddingBottom="@dimen/formItemVertical"
             android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@color/form_text"
             tools:text="内容" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center_vertical"
-        android:background="?actionBarItemBackground"
-        android:paddingStart="@dimen/formItemIconPadding"
-        android:paddingEnd="@dimen/formItemHorizontal"
+        android:background="@drawable/form_ripple_menu_selected_background"
+        android:paddingStart="@dimen/formItemMenuIconPadding"
+        android:paddingEnd="@dimen/formItemMenuIconPadding"
         android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@id/form_tv_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/form_tv_name"
         tools:src="@android:drawable/ic_lock_idle_alarm" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -97,6 +97,11 @@ abstract class BaseForm(
     var ignoreNameEms: Boolean = false
 
     /**
+     * 是否在 Part 边缘可见
+     */
+    open var isOnEdgeVisible = true
+
+    /**
      * 输出模式
      */
     var outPutMode: FormOutPutMode = FormOutPutMode.ONLY_VISIBLE
@@ -223,6 +228,7 @@ abstract class BaseForm(
         if (menuIconTint != other.menuIconTint) return false
         if (menuVisibilityMode != other.menuVisibilityMode) return false
         if (ignoreNameEms != other.ignoreNameEms) return false
+        if (isOnEdgeVisible != other.isOnEdgeVisible) return false
         if (outPutMode != other.outPutMode) return false
 
         return true
@@ -247,6 +253,7 @@ abstract class BaseForm(
         result = 31 * result + (menuIconTint?.hashCode() ?: 0)
         result = 31 * result + menuVisibilityMode.hashCode()
         result = 31 * result + ignoreNameEms.hashCode()
+        result = 31 * result + isOnEdgeVisible.hashCode()
         result = 31 * result + outPutMode.hashCode()
         return result
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.style.CardFormStyle
 import com.chooongg.form.style.DefaultFormStyle
@@ -74,17 +75,25 @@ class FormManager(isEditable: Boolean) {
         set(value) {
             field = value
             adapter.adapters.forEach {
-                if (it is FormAdapter) it.formEventListener = formEventListener
+                if (it is FormGroupAdapter) it.formEventListener = formEventListener
             }
         }
+
+    var itemHorizontalSize = 0
+        private set
+    var itemVerticalSize = 0
+        private set
+    var itemVerticalEdgeSize = 0
+        private set
 
     fun attach(
         owner: LifecycleOwner, recyclerView: RecyclerView, listener: FormEventListener? = null
     ) {
         if (owner.lifecycle.currentState < Lifecycle.State.INITIALIZED) return
-        if (recyclerView.layoutManager == null) {
-            recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-        }
+        itemHorizontalSize = recyclerView.resDimensionPixelSize(R.dimen.formItemHorizontal)
+        itemVerticalSize = recyclerView.resDimensionPixelSize(R.dimen.formItemVertical)
+        itemVerticalEdgeSize = recyclerView.resDimensionPixelSize(R.dimen.formItemVerticalEdge)
+        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
         formEventListener = listener
         owner.lifecycle.addObserver(object : LifecycleEventObserver {
@@ -100,7 +109,7 @@ class FormManager(isEditable: Boolean) {
 
     fun updateAll() {
         adapter.adapters.forEach {
-            if (it is FormAdapter) {
+            if (it is FormGroupAdapter) {
                 it.update()
             }
         }
@@ -109,7 +118,7 @@ class FormManager(isEditable: Boolean) {
     fun getItemCount(): Int {
         var count = 0
         adapter.adapters.forEach { group ->
-            if (group is FormAdapter) {
+            if (group is FormGroupAdapter) {
                 group.data.forEach { part ->
                     count += part.size
                 }
@@ -118,21 +127,21 @@ class FormManager(isEditable: Boolean) {
         return count
     }
 
-    fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormAdapter.() -> Unit) {
-        val group = FormAdapter(this, style)
+    fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormCreateGroup.() -> Unit) {
+        val group = FormGroupAdapter(this, style)
         group.formEventListener = formEventListener
         adapter.addAdapter(group)
-        group.block()
+        group.setNewList(block)
     }
 
-    fun addCardGroup(block: FormAdapter.() -> Unit) {
+    fun addCardGroup(block: FormCreateGroup.() -> Unit) {
         addGroup(CardFormStyle(), block)
     }
 
     fun findItemForField(field: String, changeBlock: BaseForm.() -> Unit) {
         var index = 0
         adapter.adapters.forEach { group ->
-            if (group is FormAdapter) {
+            if (group is FormGroupAdapter) {
                 group.data.forEach { part ->
                     if (group.hasGroupTitle) index++
                     part.forEach {
@@ -153,7 +162,7 @@ class FormManager(isEditable: Boolean) {
     fun findItemForName(name: CharSequence, changeBlock: BaseForm.() -> Unit) {
         var index = 0
         adapter.adapters.forEach { group ->
-            if (group is FormAdapter) {
+            if (group is FormGroupAdapter) {
                 group.data.forEach { part ->
                     if (group.hasGroupTitle) index++
                     part.forEach {

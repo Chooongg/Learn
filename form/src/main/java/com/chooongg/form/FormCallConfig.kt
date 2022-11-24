@@ -18,7 +18,7 @@ import java.util.*
 abstract class FormCallConfig {
 
     open fun openFilePicker(
-        part: FormAdapter,
+        part: FormGroupAdapter,
         holder: FormViewHolder,
         parent: View,
         contentView: View,
@@ -28,7 +28,7 @@ abstract class FormCallConfig {
     }
 
     open fun openSelect(
-        part: FormAdapter,
+        part: FormGroupAdapter,
         holder: FormViewHolder,
         parent: View,
         contentView: View,
@@ -60,7 +60,7 @@ abstract class FormCallConfig {
     }
 
     open fun openTime(
-        part: FormAdapter,
+        part: FormGroupAdapter,
         holder: FormViewHolder,
         parent: View,
         contentView: View,
@@ -98,7 +98,7 @@ abstract class FormCallConfig {
     }
 
     open fun openTimeRange(
-        part: FormAdapter,
+        part: FormGroupAdapter,
         holder: FormViewHolder,
         parent: View,
         contentView: View,

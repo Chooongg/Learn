@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.*
 import com.chooongg.form.bean.BaseForm
+import com.chooongg.form.bean.FormDivider
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormColorStyle
@@ -17,8 +18,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import java.lang.ref.WeakReference
 
-class FormAdapter internal constructor(private val manager: FormManager, val style: FormStyle) :
-    RecyclerView.Adapter<FormViewHolder>() {
+class FormGroupAdapter internal constructor(
+    private val manager: FormManager, val style: FormStyle
+) : RecyclerView.Adapter<FormViewHolder>() {
 
     private var _recyclerView: WeakReference<RecyclerView>? = null
 
@@ -36,14 +38,13 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
         override fun onInserted(position: Int, count: Int) =
             notifyItemRangeInserted(position, count)
 
-        override fun onRemoved(position: Int, count: Int) =
-            notifyItemRangeRemoved(position, count)
+        override fun onRemoved(position: Int, count: Int) = notifyItemRangeRemoved(position, count)
 
         override fun onMoved(fromPosition: Int, toPosition: Int) =
             notifyItemMoved(fromPosition, toPosition)
     }, AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<BaseForm>() {
         override fun areItemsTheSame(oldItem: BaseForm, newItem: BaseForm) =
-            oldItem.type == newItem.type && oldItem.name == newItem.name && oldItem.field == newItem.field
+            oldItem.name == newItem.name && oldItem.field == newItem.field
 
         override fun areContentsTheSame(oldItem: BaseForm, newItem: BaseForm) = oldItem == newItem
     }).build())
@@ -71,6 +72,7 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
 
         addItemProvider(FormButtonProvider(manager))
         addItemProvider(FormDividerProvider(manager))
+        addItemProvider(FormInputProvider(manager))
     }
 
     fun addItemProvider(provider: BaseFormProvider<out BaseForm>) {
@@ -104,9 +106,9 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
             var index = 0
             if (hasGroupTitle) {
                 list.add(FormGroupTitle(name!!, field).apply {
-                    icon = this@FormAdapter.icon
-                    iconTint = this@FormAdapter.iconTint
-                    nameColorStyle = this@FormAdapter.nameColorStyle
+                    icon = this@FormGroupAdapter.icon
+                    iconTint = this@FormGroupAdapter.iconTint
+                    nameColorStyle = this@FormGroupAdapter.nameColorStyle
                     adapterPosition = 0
                     adapterTopBoundary = if (partIndex == 0 && groupIsFirst) {
                         FormBoundaryType.GLOBAL
@@ -117,7 +119,11 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
             part@ for (j in 0 until part.size) {
                 val item = part[j]
                 if (!item.isRealVisible(manager)) continue@part
-
+                if (!item.isOnEdgeVisible) {
+                    if (hasGroupTitle && index <= 1) continue@part
+                    if (index == 0) continue@part
+                    if (index == part.lastIndex) continue@part
+                }
                 item.adapterPosition = index
                 item.adapterTopBoundary = if (index == 0) {
                     if (partIndex == 0 && groupIsFirst) {
@@ -130,6 +136,10 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
         }
         list@ for (index in list.lastIndex downTo 0) {
             val item = list[index]
+            if (!item.isOnEdgeVisible && index == list.lastIndex) {
+                list.removeAt(index)
+                continue@list
+            }
             if (index == list.lastIndex) {
                 item.adapterBottomBoundary =
                     if (groupIsLast) FormBoundaryType.GLOBAL else FormBoundaryType.LOCAL
@@ -140,7 +150,7 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
             else FormBoundaryType.NONE
         }
         asyncDiffer.submitList(list) {
-            notifyItemRangeChanged(0, list.size, "update")
+            notifyItemRangeChanged(0, list.size)
         }
     }
 
@@ -160,14 +170,12 @@ class FormAdapter internal constructor(private val manager: FormManager, val sty
     @Suppress("DEPRECATION")
     override fun onBindViewHolder(
         holder: FormViewHolder, position: Int
-    ) = getItemProvider(holder.itemViewType)!!
-        .onBindViewHolder(holder, position)
+    ) = getItemProvider(holder.itemViewType)!!.onBindViewHolder(holder, position)
 
     @Suppress("DEPRECATION")
     override fun onBindViewHolder(
         holder: FormViewHolder, position: Int, payloads: MutableList<Any>
-    ) = getItemProvider(holder.itemViewType)!!
-        .onBindViewHolder(holder, position, payloads)
+    ) = getItemProvider(holder.itemViewType)!!.onBindViewHolder(holder, position, payloads)
 
     override fun getItemViewType(position: Int) =
         if (manager.isEditable) getItem(position).type + style.typeIncrement else getItem(position).seeType + style.typeIncrement
