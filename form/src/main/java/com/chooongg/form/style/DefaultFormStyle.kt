@@ -2,17 +2,24 @@ package com.chooongg.form.style
 
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
+import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.gone
+import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.visible
+import com.chooongg.form.FormGroupAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
+import com.chooongg.form.enum.FormGroupTitleMode
 import com.google.android.material.textview.MaterialTextView
+import kotlin.math.max
 
-class DefaultFormStyle : FormStyle(0) {
+open class DefaultFormStyle : FormStyle() {
 
     override fun createItemParentView(parent: ViewGroup): ViewGroup? = null
 
@@ -32,10 +39,17 @@ class DefaultFormStyle : FormStyle(0) {
     override fun getGroupTitleLayoutId() = R.layout.form_item_group_name_default
 
     override fun onBindGroupTitleHolder(
-        manager: FormManager, holder: FormViewHolder, item: FormGroupTitle
+        manager: FormManager,
+        adapter: FormGroupAdapter?,
+        holder: FormViewHolder,
+        item: FormGroupTitle
     ) {
         with(holder.getView<AppCompatImageView>(R.id.form_iv_icon)) {
-            if (item.icon != null) {
+            updateLayoutParams<ConstraintLayout.LayoutParams> {
+                marginStart = max(0, manager.itemHorizontalSize - paddingStart)
+                width = resDimensionPixelSize(R.dimen.formItemIconSize) + paddingStart + paddingEnd
+            }
+            if (item.isRealMenuVisible(manager) && item.icon != null) {
                 isEnabled = item.isEnabled
                 imageTintList = item.iconTint
                 setImageResource(item.icon!!)
@@ -47,13 +61,27 @@ class DefaultFormStyle : FormStyle(0) {
             text = item.name
         }
         with(holder.getView<AppCompatImageView>(R.id.form_iv_menu)) {
-            if (item.isRealMenuVisible(manager) && item.menuIcon != null) {
-                isEnabled = item.isEnabled
-                imageTintList = item.menuIconTint
+            updateLayoutParams<ConstraintLayout.LayoutParams> {
+                marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
+                width =
+                    resDimensionPixelSize(R.dimen.formItemMenuIconSize) + paddingStart + paddingEnd
+            }
+            isEnabled = item.isEnabled
+            if (item.mode == FormGroupTitleMode.ADD) {
+                setImageResource(R.drawable.form_ic_add)
+                visible()
+            } else if (item.mode == FormGroupTitleMode.DELETE) {
+                setImageResource(R.drawable.form_ic_remove)
+                visible()
+            } else if (item.menuIcon != null) {
+                imageTintList = item.iconTint
                 setImageResource(item.menuIcon!!)
-//                doOnClick { item.menuIconClickBlock?.invoke(it) }
                 visible()
             } else gone()
+            doOnClick {
+                adapter?.recyclerView?.clearFocus()
+                adapter?.onFormMenuClick(manager, item, this, holder.absoluteAdapterPosition)
+            }
         }
     }
 }

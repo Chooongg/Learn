@@ -2,14 +2,15 @@ package com.chooongg.form
 
 import android.content.res.ColorStateList
 import android.util.SparseArray
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.*
 import com.chooongg.form.bean.BaseForm
-import com.chooongg.form.bean.FormDivider
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormColorStyle
+import com.chooongg.form.enum.FormGroupTitleMode
 import com.chooongg.form.provider.*
 import com.chooongg.form.style.FormStyle
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +20,7 @@ import kotlinx.coroutines.cancel
 import java.lang.ref.WeakReference
 
 class FormGroupAdapter internal constructor(
-    private val manager: FormManager, val style: FormStyle
+    private val manager: FormManager, val style: FormStyle, val typeIncrement: Int
 ) : RecyclerView.Adapter<FormViewHolder>() {
 
     private var _recyclerView: WeakReference<RecyclerView>? = null
@@ -44,7 +45,9 @@ class FormGroupAdapter internal constructor(
             notifyItemMoved(fromPosition, toPosition)
     }, AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<BaseForm>() {
         override fun areItemsTheSame(oldItem: BaseForm, newItem: BaseForm) =
-            oldItem.name == newItem.name && oldItem.field == newItem.field
+            if (oldItem.type != FormManager.TYPE_GROUP_NAME || newItem.type != FormManager.TYPE_GROUP_NAME) {
+                oldItem.antiRepeatCode == newItem.antiRepeatCode && oldItem.name == newItem.name && oldItem.field == newItem.field
+            } else true
 
         override fun areContentsTheSame(oldItem: BaseForm, newItem: BaseForm) = oldItem == newItem
     }).build())
@@ -60,10 +63,17 @@ class FormGroupAdapter internal constructor(
 
     var iconTint: ColorStateList? = null
 
-    val hasGroupTitle get() = name != null
+    var dynamicGroup: Boolean = false
 
-    var formEventListener: FormEventListener? = null
-        internal set
+    var dynamicMaxPartCount: Int = Int.MAX_VALUE
+
+    var dynamicGroupAddPartBlock: (FormCreatePart.() -> Unit)? = null
+
+    var dynamicGroupNameFormatBlock: ((name: CharSequence?, index: Int) -> CharSequence)? = null
+
+    val hasGroupTitle get() = name != null || dynamicGroup
+
+    private var formEventListener: FormEventListener? = null
 
     init {
         // 必备组件
@@ -90,6 +100,10 @@ class FormGroupAdapter internal constructor(
         field = createGroup.groupField
         icon = createGroup.groupIcon
         iconTint = createGroup.groupIconTint
+        dynamicGroup = createGroup.dynamicGroup
+        dynamicMaxPartCount = createGroup.dynamicMaxPartCount
+        dynamicGroupAddPartBlock = createGroup.dynamicGroupAddPartBlock
+
         adapterScope.cancel()
         adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         data = createGroup.createdFormPartList
@@ -97,7 +111,7 @@ class FormGroupAdapter internal constructor(
         update()
     }
 
-    fun update() {
+    fun update(isHasPayloads: Boolean = false) {
         val groupIndex = manager.adapter.adapters.indexOf(this)
         val groupIsFirst = groupIndex <= 0
         val groupIsLast = groupIndex >= manager.adapter.adapters.lastIndex
@@ -105,7 +119,28 @@ class FormGroupAdapter internal constructor(
         data.forEachIndexed { partIndex, part ->
             var index = 0
             if (hasGroupTitle) {
-                list.add(FormGroupTitle(name!!, field).apply {
+                val groupName = if (dynamicGroup) {
+                    if (dynamicGroupNameFormatBlock != null) {
+                        dynamicGroupNameFormatBlock!!.invoke(name, partIndex)
+                    } else {
+                        "${name ?: "表"}${partIndex + 1}"
+                    }
+                } else name!!
+                list.add(FormGroupTitle(groupName, field).apply {
+                    mode = if (dynamicGroup) {
+                        if (partIndex == 0) {
+                            if (data.size < dynamicMaxPartCount) {
+                                FormGroupTitleMode.ADD
+                            } else {
+                                FormGroupTitleMode.NORMAL
+                            }
+                        } else {
+                            FormGroupTitleMode.DELETE
+                        }
+                    } else {
+                        FormGroupTitleMode.NORMAL
+                    }
+                    partPosition = partIndex
                     icon = this@FormGroupAdapter.icon
                     iconTint = this@FormGroupAdapter.iconTint
                     nameColorStyle = this@FormGroupAdapter.nameColorStyle
@@ -150,8 +185,39 @@ class FormGroupAdapter internal constructor(
             else FormBoundaryType.NONE
         }
         asyncDiffer.submitList(list) {
-            notifyItemRangeChanged(0, list.size)
+            notifyItemRangeChanged(0, list.size, if (isHasPayloads) "update" else null)
         }
+    }
+
+    fun setFormEventListener(listener: FormEventListener?) {
+        formEventListener = listener
+    }
+
+    fun onFormMenuClick(manager: FormManager, item: BaseForm, view: View, position: Int) {
+        if (item is FormGroupTitle) {
+            if (item.mode == FormGroupTitleMode.ADD) {
+                if (dynamicGroupAddPartBlock != null) {
+                    val createPart = FormCreatePart()
+                    dynamicGroupAddPartBlock!!.invoke(createPart)
+                    data.add(createPart.createdFormGroupList)
+                    update(true)
+                    return
+                }
+            } else if (item.mode == FormGroupTitleMode.DELETE) {
+                data.removeAt(item.partPosition)
+                update(true)
+                return
+            }
+        }
+        formEventListener?.onFormMenuClick(manager, item, view, position)
+    }
+
+    fun onFormClick(manager: FormManager, item: BaseForm, view: View, position: Int) {
+        formEventListener?.onFormClick(manager, item, view, position)
+    }
+
+    fun onFormContentChanged(manager: FormManager, item: BaseForm, position: Int) {
+        formEventListener?.onFormContentChanged(manager, item, position)
     }
 
     fun getItem(position: Int) = asyncDiffer.currentList[position]
@@ -178,10 +244,10 @@ class FormGroupAdapter internal constructor(
     ) = getItemProvider(holder.itemViewType)!!.onBindViewHolder(holder, position, payloads)
 
     override fun getItemViewType(position: Int) =
-        if (manager.isEditable) getItem(position).type + style.typeIncrement else getItem(position).seeType + style.typeIncrement
+        if (manager.isEditable) getItem(position).type + typeIncrement else getItem(position).seeType + typeIncrement
 
     private fun getItemProvider(viewType: Int): BaseFormProvider<out BaseForm>? =
-        itemProviders.get(viewType - style.typeIncrement)
+        itemProviders.get(viewType - typeIncrement)
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         _recyclerView = WeakReference(recyclerView)

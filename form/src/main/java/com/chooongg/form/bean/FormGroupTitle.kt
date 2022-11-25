@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormColorStyle
+import com.chooongg.form.enum.FormGroupTitleMode
 
 class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
     BaseForm(FormManager.TYPE_GROUP_NAME, name, field) {
@@ -30,6 +31,11 @@ class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
      */
     @androidx.annotation.IntRange(from = 0)
     var iconSize: Int? = null
+
+    /**
+     * 模式
+     */
+    var mode = FormGroupTitleMode.NORMAL
 
     override fun seeOnlyType(type: Int) {
         logE("Form", "无效的设置")

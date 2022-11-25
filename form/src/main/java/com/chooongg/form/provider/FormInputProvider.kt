@@ -4,6 +4,7 @@ import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
 import com.chooongg.basic.ext.multipleValid
+import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -18,13 +19,15 @@ class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(mana
         with(holder.getView<TextInputLayout>(R.id.form_input_content)) {
             suffixText = item.suffixText
             prefixText = item.prefixText
+            endIconMinSize =
+                resDimensionPixelSize(R.dimen.formItemMenuIconSize) + resDimensionPixelSize(R.dimen.formItemMenuIconPadding) * 2
             if (item.menuIcon != null) {
                 endIconMode = TextInputLayout.END_ICON_CUSTOM
                 setEndIconDrawable(item.menuIcon!!)
                 setEndIconOnClickListener {
                     if (multipleValid()) {
                         recyclerView?.clearFocus()
-                        adapter?.formEventListener?.onFormMenuClick(
+                        adapter?.onFormMenuClick(
                             manager, item, this, holder.absoluteAdapterPosition
                         )
                     }
@@ -33,7 +36,6 @@ class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(mana
                 endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT
                 setEndIconDrawable(R.drawable.form_ic_edit_clear)
             }
-            endIconMinSize
         }
         with(holder.getView<TextInputEditText>(R.id.form_edit_content)) {
             if (tag is TextWatcher) removeTextChangedListener(tag as TextWatcher)
@@ -42,9 +44,7 @@ class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(mana
             setText(item.transformContent())
             val watcher = doAfterTextChanged {
                 item.content = it?.toString()
-                adapter?.formEventListener?.onFormContentChanged(
-                    manager, item, holder.absoluteAdapterPosition
-                )
+                adapter?.onFormContentChanged(manager, item, holder.absoluteAdapterPosition)
             }
             tag = watcher
             setOnEditorActionListener { _, actionId, _ ->

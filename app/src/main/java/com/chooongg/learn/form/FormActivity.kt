@@ -25,7 +25,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
 
     override fun initView(savedInstanceState: Bundle?) {
         model.formManager.apply {
-            attach(this@FormActivity, binding.recyclerView, this@FormActivity)
+            init(this@FormActivity, binding.recyclerView, this@FormActivity)
             if (getItemCount() <= 0) {
                 addGroup {
                     groupName = "选项菜单"
@@ -67,6 +67,28 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                             content = "仅编辑时显示的文本"
                             visibilityMode = FormVisibilityMode.ONLY_EDIT
                         }
+                    }
+                }
+                addCardGroup {
+                    groupName = "动态表单"
+                    dynamicGroup = true
+                    addPart {
+                        addText("文本", "text") {
+                            content = "基本文本"
+                        }
+                        addText("文本", "text") {
+                            content = "基本文本"
+                        }
+                        addInput("输入框","input")
+                    }
+                    dynamicGroupAddPartListener {
+                        addText("文本", "text") {
+                            content = "基本文本"
+                        }
+                        addText("文本", "text") {
+                            content = "基本文本"
+                        }
+                        addInput("输入框","input")
                     }
                 }
             }

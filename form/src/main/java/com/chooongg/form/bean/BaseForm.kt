@@ -8,6 +8,7 @@ import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormOutPutMode
 import com.chooongg.form.enum.FormVisibilityMode
 import org.json.JSONObject
+import kotlin.random.Random
 
 abstract class BaseForm(
     /**
@@ -105,6 +106,13 @@ abstract class BaseForm(
      * 输出模式
      */
     var outPutMode: FormOutPutMode = FormOutPutMode.ONLY_VISIBLE
+
+    /**
+     * 片段坐标
+     */
+    var partPosition: Int = -1
+
+    val antiRepeatCode = System.currentTimeMillis() + Random.nextLong(3000)
 
     /**
      * 初始化完成后配置数据

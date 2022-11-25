@@ -1,6 +1,5 @@
 package com.chooongg.form.provider
 
-import android.text.TextWatcher
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import com.chooongg.form.FormManager

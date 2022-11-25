@@ -8,10 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
-import com.chooongg.basic.ext.doOnClick
-import com.chooongg.basic.ext.gone
-import com.chooongg.basic.ext.resDimensionPixelSize
-import com.chooongg.basic.ext.visible
+import com.chooongg.basic.ext.*
 import com.chooongg.form.FormGroupAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
@@ -57,6 +54,8 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     @Suppress("UNCHECKED_CAST")
     fun onBindViewHolder(holder: FormViewHolder, position: Int) {
         val item = adapter?.getItem(position) as? T ?: return
+        val groupIndex = manager.adapter.adapters.indexOf(adapter)
+        logE("Form","onBindViewHolder(${groupIndex}|${position})")
         configItemClick(holder, item)
         configMenuIcon(holder, item)
         style?.apply {
@@ -69,6 +68,8 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     @Suppress("UNCHECKED_CAST")
     fun onBindViewHolder(holder: FormViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = adapter?.getItem(position) as? T ?: return
+        val groupIndex = manager.adapter.adapters.indexOf(adapter)
+        logE("Form","onBindViewHolder(${groupIndex}|${position}) payloads")
         configItemClick(holder, item)
         configMenuIcon(holder, item)
         style?.apply {
@@ -84,9 +85,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     open fun configItemClick(holder: FormViewHolder, item: T) {
         holder.itemView.doOnClick {
             recyclerView?.clearFocus()
-            adapter?.formEventListener?.onFormClick(
-                manager, item, it, holder.absoluteAdapterPosition
-            )
+            adapter?.onFormClick(manager, item, it, holder.absoluteAdapterPosition)
         }
     }
 
@@ -105,9 +104,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
                 imageTintList = item.menuIconTint
                 doOnClick {
                     recyclerView?.clearFocus()
-                    adapter?.formEventListener?.onFormMenuClick(
-                        manager, item, this, holder.absoluteAdapterPosition
-                    )
+                    adapter?.onFormMenuClick(manager, item, this, holder.absoluteAdapterPosition)
                 }
                 visible()
             } else gone()

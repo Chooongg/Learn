@@ -5,19 +5,13 @@ import android.widget.TextView
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.setText
 import com.chooongg.basic.ext.style
+import com.chooongg.form.FormGroupAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 
-abstract class FormStyle(
-    /**
-     * item 类型增量
-     * 因为使用 ConcatAdapter 并且关闭了隔离类型
-     * 所以每个风格建议以 100 为单位向上增加 ItemViewType
-     */
-    val typeIncrement: Int
-) {
+abstract class FormStyle {
 
     /**
      * 创建 Item 外层布局
@@ -35,7 +29,10 @@ abstract class FormStyle(
     abstract fun getGroupTitleLayoutId(): Int
 
     abstract fun onBindGroupTitleHolder(
-        manager: FormManager, holder: FormViewHolder, item: FormGroupTitle
+        manager: FormManager,
+        adapter: FormGroupAdapter?,
+        holder: FormViewHolder,
+        item: FormGroupTitle
     )
 
     /**

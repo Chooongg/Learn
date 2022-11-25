@@ -8,6 +8,6 @@ class FormGroupTitleProvider(manager: FormManager) : BaseFormProvider<FormGroupT
     override val itemViewType: Int get() = FormManager.TYPE_GROUP_NAME
     override val layoutId: Int get() = style!!.getGroupTitleLayoutId()
     override fun onBindViewHolder(holder: FormViewHolder, item: FormGroupTitle) {
-        style!!.onBindGroupTitleHolder(manager, holder, item)
+        style!!.onBindGroupTitleHolder(manager, adapter, holder, item)
     }
 }

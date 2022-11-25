@@ -1,5 +1,6 @@
 package com.chooongg.form
 
+import android.graphics.Color
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.core.ext.divider
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.style.CardFormStyle
 import com.chooongg.form.style.DefaultFormStyle
@@ -57,7 +59,7 @@ class FormManager(isEditable: Boolean) {
         set(value) {
             if (field == value) return
             field = value
-            updateAll()
+            updateAll(true)
         }
 
     /**
@@ -68,16 +70,18 @@ class FormManager(isEditable: Boolean) {
         set(value) {
             if (field == value) return
             field = value
-            updateAll()
+            updateAll(true)
         }
 
     internal var formEventListener: FormEventListener? = null
         set(value) {
             field = value
             adapter.adapters.forEach {
-                if (it is FormGroupAdapter) it.formEventListener = formEventListener
+                if (it is FormGroupAdapter) it.setFormEventListener(formEventListener)
             }
         }
+
+    private var groupHistoryCount = 0
 
     var itemHorizontalSize = 0
         private set
@@ -86,7 +90,7 @@ class FormManager(isEditable: Boolean) {
     var itemVerticalEdgeSize = 0
         private set
 
-    fun attach(
+    fun init(
         owner: LifecycleOwner, recyclerView: RecyclerView, listener: FormEventListener? = null
     ) {
         if (owner.lifecycle.currentState < Lifecycle.State.INITIALIZED) return
@@ -107,10 +111,10 @@ class FormManager(isEditable: Boolean) {
         })
     }
 
-    fun updateAll() {
+    fun updateAll(isHasPayloads: Boolean = false) {
         adapter.adapters.forEach {
             if (it is FormGroupAdapter) {
-                it.update()
+                it.update(isHasPayloads)
             }
         }
     }
@@ -128,10 +132,16 @@ class FormManager(isEditable: Boolean) {
     }
 
     fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormCreateGroup.() -> Unit) {
-        val group = FormGroupAdapter(this, style)
-        group.formEventListener = formEventListener
+        val group = FormGroupAdapter(this, style, groupHistoryCount)
+        groupHistoryCount += 100
+        group.setFormEventListener(formEventListener)
+        val count = adapter.adapters.size
         adapter.addAdapter(group)
         group.setNewList(block)
+        if (count > 0) {
+            val previousGroup = adapter.adapters[count - 1] as? FormGroupAdapter
+            previousGroup?.update(true)
+        }
     }
 
     fun addCardGroup(block: FormCreateGroup.() -> Unit) {
