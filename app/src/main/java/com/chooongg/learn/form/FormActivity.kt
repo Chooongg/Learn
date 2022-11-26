@@ -9,6 +9,7 @@ import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingModelActivity
 import com.chooongg.core.popupMenu.popupMenu
+import com.chooongg.core.widget.TopAppBarLayout
 import com.chooongg.form.FormEventListener
 import com.chooongg.form.FormManager
 import com.chooongg.form.bean.BaseForm
@@ -20,10 +21,11 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
     FormEventListener {
 
     class FormModel : ViewModel() {
-        val formManager = FormManager(true)
+        val formManager = FormManager(true, 4)
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+
         model.formManager.apply {
             init(this@FormActivity, binding.recyclerView, this@FormActivity)
             if (getItemCount() <= 0) {
@@ -47,7 +49,6 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                             content = "仅查看时显示的文本"
                             visibilityMode = FormVisibilityMode.ONLY_SEE
                         }
-                        addDivider()
                         addText("仅编辑", "only_edit") {
                             content = "仅编辑时显示的文本"
                             visibilityMode = FormVisibilityMode.ONLY_EDIT
@@ -58,20 +59,23 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addText("文本", "text_menu") {
                             content = "带菜单按钮的文本"
                             menuIcon = R.drawable.ic_night_mode_day
-                        }
-                        addInput("输入框", "edit") {
-                            hint = "基本输入框"
+                            menuIconTint =
+                                ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorSecondary))
                         }
                         addDivider()
-                        addText("仅编辑", "only_edit") {
-                            content = "仅编辑时显示的文本"
-                            visibilityMode = FormVisibilityMode.ONLY_EDIT
+                        addAddress("地址选择", "address") {
+
+                        }
+                        addInput("输入框", "edit") {
+                            prefixText = "￥"
+                            suffixText = "米"
                         }
                     }
                 }
                 addCardGroup {
                     groupName = "动态表单"
                     dynamicGroup = true
+                    dynamicMaxPartCount = 4
                     addPart {
                         addText("文本", "text") {
                             content = "基本文本"
@@ -79,7 +83,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addText("文本", "text") {
                             content = "基本文本"
                         }
-                        addInput("输入框","input")
+                        addInput("输入框", "input")
                     }
                     dynamicGroupAddPartListener {
                         addText("文本", "text") {
@@ -88,12 +92,13 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addText("文本", "text") {
                             content = "基本文本"
                         }
-                        addInput("输入框","input")
+                        addInput("输入框", "input")
                     }
                 }
             }
         }
     }
+
 
     override fun onFormClick(manager: FormManager, item: BaseForm, view: View, position: Int) {
         when (item.field) {
@@ -117,6 +122,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                     }
                 }.show(context, view)
             }
+            else -> binding.recyclerView.smoothScrollToPosition(0)
         }
     }
 }

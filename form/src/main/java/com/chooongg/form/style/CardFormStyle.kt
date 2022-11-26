@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePaddingRelative
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.*
 import com.chooongg.form.FormGroupAdapter
@@ -74,11 +75,9 @@ open class CardFormStyle : DefaultFormStyle() {
             }
         }
         holder.getViewOrNull<ViewGroup>(R.id.form_item_layout)?.apply {
-            setPaddingRelative(
-                0,
-                if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
-                0,
-                if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
+            updatePaddingRelative(
+                top = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
+                bottom = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
             )
         }
     }

@@ -2,6 +2,8 @@
 <resources>
     <string name="form_none">无</string>
 
+    <string name="form_address_area_hint">请选择地区</string>
+    <string name="form_address_hint">请输入详细地址</string>
     <string name="form_input_hint">请输入</string>
     <string name="form_select_hint">请选择</string>
 </resources>

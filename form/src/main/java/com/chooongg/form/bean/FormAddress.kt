@@ -1,5 +1,6 @@
 package com.chooongg.form.bean
 
+import android.content.Context
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormAreaMode
 
@@ -8,7 +9,12 @@ class FormAddress(name: CharSequence, field: String?) :
 
     override var seeType: Int = FormManager.TYPE_TEXT
 
+    /**
+     * 地区模式
+     */
     var areaMode: FormAreaMode = FormAreaMode.PROVINCE_CITY_AREA_ADDRESS
+
+    var areaHint: CharSequence? = null
 
     /**
      * 经度参数
@@ -89,7 +95,7 @@ class FormAddress(name: CharSequence, field: String?) :
      * 地区名称
      * @see areaMode == FormAreaMode.PROVINCE_CITY_AREA_ADDRESS : 单地区
      */
-    var area: CharSequence?
+    var areaId: CharSequence?
         get() = if (areaField != null) getExtensionContent(areaField!!) else null
         set(value) {
             if (areaField != null) setExtensionContent(areaField!!, value)
@@ -101,6 +107,26 @@ class FormAddress(name: CharSequence, field: String?) :
     var areaName: CharSequence?
         get() = getExtensionContent("area_name")
         set(value) = setExtensionContent("area_name", value)
+
+    override fun transformContent(context: Context): CharSequence? {
+        return buildString {
+            when (areaMode) {
+                FormAreaMode.PROVINCE_CITY_AREA_ADDRESS -> {
+                    if (provinceName != null) append(provinceName)
+                    if (cityName != null) append(cityName)
+                    if (areaName != null) append(areaName)
+                    if (content != null) append(content)
+                }
+                FormAreaMode.AREA_ADDRESS -> {
+                    if (areaName != null) append(areaName)
+                    if (content != null) append(content)
+                }
+                FormAreaMode.ADDRESS -> {
+                    if (content != null) append(content)
+                }
+            }
+        }.ifEmpty { null }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

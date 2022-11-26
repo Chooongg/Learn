@@ -8,13 +8,14 @@ import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.FormInput
+import com.chooongg.form.bean.FormInputAutoComplete
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(manager) {
-    override val itemViewType: Int get() = FormManager.TYPE_INPUT
-    override val layoutId: Int get() = R.layout.form_item_input
-    override fun onBindViewHolder(holder: FormViewHolder, item: FormInput) {
+class FormInputAutoCompleteProvider(manager: FormManager) : BaseFormProvider<FormInputAutoComplete>(manager) {
+    override val itemViewType: Int get() = FormManager.TYPE_INPUT_AUTO_COMPLETE
+    override val layoutId: Int get() = R.layout.form_item_input_auto_complete
+    override fun onBindViewHolder(holder: FormViewHolder, item: FormInputAutoComplete) {
         with(holder.getView<TextInputLayout>(R.id.form_input_content)) {
             isEnabled = item.isEnabled
             prefixText = item.prefixText
@@ -38,6 +39,7 @@ class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(mana
         with(holder.getView<TextInputEditText>(R.id.form_edit_content)) {
             if (tag is TextWatcher) removeTextChangedListener(tag as TextWatcher)
             hint = item.hint ?: context.getString(R.string.form_input_hint)
+            text
             setText(item.content)
             val watcher = doAfterTextChanged {
                 item.content = if (it.isNullOrEmpty()) null else it

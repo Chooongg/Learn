@@ -19,7 +19,7 @@ internal class FormTextProvider(manager: FormManager) : BaseFormProvider<BaseFor
             }
             setTextIsSelectable(true)
             isEnabled = item.isEnabled
-            text = item.transformContent()
+            text = item.transformContent(context)
             hint = item.hint ?: context.getString(R.string.form_none)
         }
     }

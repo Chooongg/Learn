@@ -1,5 +1,6 @@
 package com.chooongg.form.bean
 
+import android.content.Context
 import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
 import com.chooongg.form.FormDataVerificationException
@@ -25,6 +26,11 @@ abstract class BaseForm(
     var field: String?
 ) {
 
+    /**
+     * 片段坐标
+     */
+    var partPosition: Int = -1
+        internal set
     var adapterPosition: Int = -1
         internal set
     var adapterTopBoundary: FormBoundaryType = FormBoundaryType.NONE
@@ -107,11 +113,6 @@ abstract class BaseForm(
      */
     var outPutMode: FormOutPutMode = FormOutPutMode.ONLY_VISIBLE
 
-    /**
-     * 片段坐标
-     */
-    var partPosition: Int = -1
-
     val antiRepeatCode = System.currentTimeMillis() + Random.nextLong(3000)
 
     /**
@@ -158,7 +159,7 @@ abstract class BaseForm(
     /**
      * 转换内容
      */
-    open fun transformContent(): CharSequence? = content
+    open fun transformContent(context: Context): CharSequence? = content
 
     /**
      * 检查数据正确性

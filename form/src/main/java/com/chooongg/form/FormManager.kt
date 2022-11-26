@@ -1,6 +1,5 @@
 package com.chooongg.form
 
-import android.graphics.Color
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -8,13 +7,12 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.resDimensionPixelSize
-import com.chooongg.core.ext.divider
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.style.CardFormStyle
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
 
-class FormManager(isEditable: Boolean) {
+class FormManager(isEditable: Boolean, nameEmsSize: Int = 6) {
 
     companion object {
         const val TYPE_GROUP_NAME = 0
@@ -55,7 +53,7 @@ class FormManager(isEditable: Boolean) {
     /**
      * 名称占位符长度
      */
-    var nameEmsSize: Int = 6
+    var nameEmsSize: Int = nameEmsSize
         set(value) {
             if (field == value) return
             field = value
@@ -169,6 +167,29 @@ class FormManager(isEditable: Boolean) {
         }
     }
 
+    fun findItemForFieldAndPartPosition(
+        field: String, partPosition: Int, changeBlock: BaseForm.() -> Unit
+    ) {
+        var index = 0
+        adapter.adapters.forEach { group ->
+            if (group is FormGroupAdapter) {
+                group.data.forEach { part ->
+                    if (group.hasGroupTitle) index++
+                    part.forEach {
+                        if (it.field == field && it.partPosition == partPosition) {
+                            changeBlock(it)
+                            if (it.isRealVisible(this)) {
+                                group.notifyItemChanged(index, "update")
+                            }
+                            return
+                        }
+                        index++
+                    }
+                }
+            }
+        }
+    }
+
     fun findItemForName(name: CharSequence, changeBlock: BaseForm.() -> Unit) {
         var index = 0
         adapter.adapters.forEach { group ->
@@ -177,6 +198,29 @@ class FormManager(isEditable: Boolean) {
                     if (group.hasGroupTitle) index++
                     part.forEach {
                         if (it.name == name) {
+                            changeBlock(it)
+                            if (it.isRealVisible(this)) {
+                                group.notifyItemChanged(index, "update")
+                            }
+                            return
+                        }
+                        index++
+                    }
+                }
+            }
+        }
+    }
+
+    fun findItemForNameAndPartPosition(
+        name: CharSequence, partPosition: Int, changeBlock: BaseForm.() -> Unit
+    ) {
+        var index = 0
+        adapter.adapters.forEach { group ->
+            if (group is FormGroupAdapter) {
+                group.data.forEach { part ->
+                    if (group.hasGroupTitle) index++
+                    part.forEach {
+                        if (it.name == name && it.partPosition == partPosition) {
                             changeBlock(it)
                             if (it.isRealVisible(this)) {
                                 group.notifyItemChanged(index, "update")

@@ -13,10 +13,7 @@ import com.chooongg.form.enum.FormColorStyle
 import com.chooongg.form.enum.FormGroupTitleMode
 import com.chooongg.form.provider.*
 import com.chooongg.form.style.FormStyle
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 
 class FormGroupAdapter internal constructor(
@@ -80,6 +77,7 @@ class FormGroupAdapter internal constructor(
         addItemProvider(FormGroupTitleProvider(manager))
         addItemProvider(FormTextProvider(manager))
 
+        addItemProvider(FormAddressProvider(manager))
         addItemProvider(FormButtonProvider(manager))
         addItemProvider(FormDividerProvider(manager))
         addItemProvider(FormInputProvider(manager))
@@ -111,7 +109,7 @@ class FormGroupAdapter internal constructor(
         update()
     }
 
-    fun update(isHasPayloads: Boolean = false) {
+    fun update(isHasPayloads: Boolean = false, block: (() -> Unit)? = null) {
         val groupIndex = manager.adapter.adapters.indexOf(this)
         val groupIsFirst = groupIndex <= 0
         val groupIsLast = groupIndex >= manager.adapter.adapters.lastIndex
@@ -140,10 +138,10 @@ class FormGroupAdapter internal constructor(
                     } else {
                         FormGroupTitleMode.NORMAL
                     }
-                    partPosition = partIndex
                     icon = this@FormGroupAdapter.icon
                     iconTint = this@FormGroupAdapter.iconTint
                     nameColorStyle = this@FormGroupAdapter.nameColorStyle
+                    partPosition = partIndex
                     adapterPosition = 0
                     adapterTopBoundary = if (partIndex == 0 && groupIsFirst) {
                         FormBoundaryType.GLOBAL
@@ -159,6 +157,7 @@ class FormGroupAdapter internal constructor(
                     if (index == 0) continue@part
                     if (index == part.lastIndex) continue@part
                 }
+                item.partPosition = partIndex
                 item.adapterPosition = index
                 item.adapterTopBoundary = if (index == 0) {
                     if (partIndex == 0 && groupIsFirst) {
@@ -186,6 +185,7 @@ class FormGroupAdapter internal constructor(
         }
         asyncDiffer.submitList(list) {
             notifyItemRangeChanged(0, list.size, if (isHasPayloads) "update" else null)
+            block?.invoke()
         }
     }
 
@@ -200,7 +200,19 @@ class FormGroupAdapter internal constructor(
                     val createPart = FormCreatePart()
                     dynamicGroupAddPartBlock!!.invoke(createPart)
                     data.add(createPart.createdFormGroupList)
-                    update(true)
+                    update(true){
+                        adapterScope.launch {
+                            var index = 0
+                            for (i in 0..manager.adapter.adapters.indexOf(this@FormGroupAdapter)) {
+                                index += manager.adapter.adapters[i].itemCount
+                            }
+                            delay(100)
+                            recyclerView?.post {
+                                recyclerView?.smoothScrollToPosition(index)
+                            }
+                        }
+
+                    }
                     return
                 }
             } else if (item.mode == FormGroupTitleMode.DELETE) {

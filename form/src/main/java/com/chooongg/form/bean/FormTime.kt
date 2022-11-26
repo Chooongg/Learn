@@ -1,5 +1,6 @@
 package com.chooongg.form.bean
 
+import android.content.Context
 import com.chooongg.basic.utils.TimeUtils
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormTimeMode
@@ -39,7 +40,7 @@ class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
         }
     }
 
-    override fun transformContent(): CharSequence? {
+    override fun transformContent(context: Context): CharSequence? {
         return if (timeStamp != null) {
             TimeUtils.millis2String(timeStamp!!, showFormat)
         } else null

@@ -13,6 +13,8 @@
     <dimen name="formItemIconPadding">8dp</dimen>
     <dimen name="formItemIconRippleRadius">16dp</dimen>
 
+    <dimen name="formItemInputEndIconMinSize">34dp</dimen>
+
     <dimen name="formItemMenuIconSize">20dp</dimen>
     <dimen name="formItemMenuIconPadding">8dp</dimen>
     <dimen name="formItemMenuIconRippleRadius">16dp</dimen>

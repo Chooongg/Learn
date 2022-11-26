@@ -21,6 +21,7 @@
         tools:text="测试名称" />
 
     <com.google.android.material.textview.MaterialTextView
+        style="@style/Widget.MaterialComponents.TextView"
         android:id="@+id/form_tv_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

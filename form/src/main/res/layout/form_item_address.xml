@@ -1,8 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/form_item_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/form_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/formItemHorizontal"
+        android:paddingTop="@dimen/formItemVertical"
+        android:paddingBottom="@dimen/formItemVertical"
+        android:textAppearance="?textAppearanceBodyMedium"
+        android:textColor="?colorSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ems="4"
+        tools:text="测试名称" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/form_btn_area"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="0dp"
+        android:paddingStart="@dimen/formItemHorizontalContent"
+        android:paddingEnd="@dimen/formItemHorizontalContent"
+        android:textAppearance="?textAppearanceBodyMedium"
+        android:textColor="?colorOnSurface"
+        app:icon="@drawable/ic_menu_end_right"
+        app:iconGravity="end"
+        app:iconSize="@dimen/formItemMenuIconSize"
+        app:iconTint="?colorOutline"
+        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintStart_toEndOf="@id/form_tv_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="@dimen/formItemHorizontalContent"
+        tools:text="内容" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/form_iv_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/form_ripple_menu_selected_background"
+        android:paddingStart="@dimen/formItemMenuIconPadding"
+        android:paddingEnd="@dimen/formItemMenuIconPadding"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@id/form_tv_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/form_tv_name"
+        tools:src="@android:drawable/ic_lock_idle_alarm" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/form_input_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/formItemHorizontalContent"
+        app:boxBackgroundMode="none"
+        app:endIconCheckable="true"
+        app:endIconDrawable="@drawable/form_ic_edit_clear"
+        app:endIconMinSize="@dimen/formItemInputEndIconMinSize"
+        app:endIconMode="clear_text"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/form_tv_name"
+        app:layout_constraintTop_toBottomOf="@id/form_btn_area"
+        app:prefixTextAppearance="?textAppearanceBodyMedium"
+        app:prefixTextColor="?colorOutline"
+        app:suffixTextAppearance="?textAppearanceBodyMedium"
+        app:suffixTextColor="?colorOutline">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/form_edit_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fadingEdgeLength="@dimen/formItemHorizontalContent"
+            android:paddingStart="@dimen/formItemHorizontalContent"
+            android:paddingTop="@dimen/formItemVertical"
+            android:paddingEnd="@dimen/formItemHorizontalContent"
+            android:paddingBottom="@dimen/formItemVertical"
+            android:requiresFadingEdge="horizontal"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="@color/form_text"
+            tools:text="内容" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePaddingRelative
 import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.gone
 import com.chooongg.basic.ext.resDimensionPixelSize
@@ -27,11 +28,9 @@ open class DefaultFormStyle : FormStyle() {
         manager: FormManager, holder: FormViewHolder, item: BaseForm
     ) {
         holder.getViewOrNull<ViewGroup>(R.id.form_item_layout)?.apply {
-            setPaddingRelative(
-                0,
-                if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
-                0,
-                if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
+            updatePaddingRelative(
+                top = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
+                bottom = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
             )
         }
     }
