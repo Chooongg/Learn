@@ -50,7 +50,7 @@ open class DefaultFormStyle : FormStyle() {
             }
             if (item.isRealMenuVisible(manager) && item.icon != null) {
                 isEnabled = item.isEnabled
-                imageTintList = item.iconTint
+                imageTintList = item.iconTint?.invoke(context)
                 setImageResource(item.icon!!)
                 visible()
             } else gone()
@@ -73,7 +73,7 @@ open class DefaultFormStyle : FormStyle() {
                 setImageResource(R.drawable.form_ic_remove)
                 visible()
             } else if (item.menuIcon != null) {
-                imageTintList = item.iconTint
+                imageTintList = item.iconTint?.invoke(context)
                 setImageResource(item.menuIcon!!)
                 visible()
             } else gone()

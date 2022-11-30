@@ -1,5 +1,6 @@
 package com.chooongg.form
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.util.SparseArray
 import android.view.View
@@ -58,7 +59,7 @@ class FormGroupAdapter internal constructor(
     @DrawableRes
     var icon: Int? = null
 
-    var iconTint: ColorStateList? = null
+    var iconTint: (Context.() -> ColorStateList)? = null
 
     var dynamicGroup: Boolean = false
 
@@ -200,19 +201,7 @@ class FormGroupAdapter internal constructor(
                     val createPart = FormCreatePart()
                     dynamicGroupAddPartBlock!!.invoke(createPart)
                     data.add(createPart.createdFormGroupList)
-                    update(true){
-                        adapterScope.launch {
-                            var index = 0
-                            for (i in 0..manager.adapter.adapters.indexOf(this@FormGroupAdapter)) {
-                                index += manager.adapter.adapters[i].itemCount
-                            }
-                            delay(100)
-                            recyclerView?.post {
-                                recyclerView?.smoothScrollToPosition(index)
-                            }
-                        }
-
-                    }
+                    update(true)
                     return
                 }
             } else if (item.mode == FormGroupTitleMode.DELETE) {

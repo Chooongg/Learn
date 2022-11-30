@@ -1,5 +1,6 @@
 package com.chooongg.form
 
+import android.content.Context
 import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
 import com.chooongg.form.bean.BaseForm
@@ -17,7 +18,7 @@ class FormCreateGroup {
     @DrawableRes
     var groupIcon: Int? = null
 
-    var groupIconTint: ColorStateList? = null
+    var groupIconTint: (Context.() -> ColorStateList)? = null
 
     var dynamicGroup: Boolean = false
 

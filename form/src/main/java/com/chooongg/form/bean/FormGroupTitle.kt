@@ -1,5 +1,6 @@
 package com.chooongg.form.bean
 
+import android.content.Context
 import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
 import com.chooongg.basic.ext.logE
@@ -24,7 +25,7 @@ class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
     /**
      * 图标着色
      */
-    var iconTint: ColorStateList? = null
+    var iconTint: (Context.() -> ColorStateList)? = null
 
     /**
      * 图标尺寸

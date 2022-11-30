@@ -1,5 +1,6 @@
 package com.chooongg.form.bean
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
@@ -21,7 +22,7 @@ class FormButton(name: CharSequence, field: String?) :
     /**
      * 图标着色
      */
-    var iconTint: ColorStateList? = null
+    var iconTint: (Context.() -> ColorStateList)? = null
 
     /**
      * 图标尺寸
@@ -60,7 +61,7 @@ class FormButton(name: CharSequence, field: String?) :
     override var menuIcon: Int? = null
 
     @Deprecated("无效")
-    override var menuIconTint: ColorStateList? = null
+    override var menuIconTint: (Context.() -> ColorStateList)? = null
 
     @Deprecated("无效")
     override var menuVisibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
@@ -76,7 +77,6 @@ class FormButton(name: CharSequence, field: String?) :
         if (!super.equals(other)) return false
 
         if (icon != other.icon) return false
-        if (iconTint != other.iconTint) return false
         if (iconSize != other.iconSize) return false
         if (iconGravity != other.iconGravity) return false
         if (iconPadding != other.iconPadding) return false
@@ -87,7 +87,6 @@ class FormButton(name: CharSequence, field: String?) :
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + (icon ?: 0)
-        result = 31 * result + (iconTint?.hashCode() ?: 0)
         result = 31 * result + (iconSize ?: 0)
         result = 31 * result + iconGravity
         result = 31 * result + iconPadding

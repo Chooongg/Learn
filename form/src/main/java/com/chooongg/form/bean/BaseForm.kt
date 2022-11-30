@@ -88,10 +88,7 @@ abstract class BaseForm(
     @DrawableRes
     open var menuIcon: Int? = null
 
-    /**
-     * 菜单图标着色
-     */
-    open var menuIconTint: ColorStateList? = null
+    open var menuIconTint: (Context.() -> ColorStateList)? = null
 
     /**
      * 菜单可见模式
@@ -234,7 +231,6 @@ abstract class BaseForm(
         if (visibilityMode != other.visibilityMode) return false
         if (isEnabled != other.isEnabled) return false
         if (menuIcon != other.menuIcon) return false
-        if (menuIconTint != other.menuIconTint) return false
         if (menuVisibilityMode != other.menuVisibilityMode) return false
         if (ignoreNameEms != other.ignoreNameEms) return false
         if (isOnEdgeVisible != other.isOnEdgeVisible) return false
@@ -259,7 +255,6 @@ abstract class BaseForm(
         result = 31 * result + visibilityMode.hashCode()
         result = 31 * result + isEnabled.hashCode()
         result = 31 * result + (menuIcon ?: 0)
-        result = 31 * result + (menuIconTint?.hashCode() ?: 0)
         result = 31 * result + menuVisibilityMode.hashCode()
         result = 31 * result + ignoreNameEms.hashCode()
         result = 31 * result + isOnEdgeVisible.hashCode()

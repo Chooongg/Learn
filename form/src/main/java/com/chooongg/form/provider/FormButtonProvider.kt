@@ -19,9 +19,9 @@ class FormButtonProvider(manager: FormManager) : BaseFormProvider<FormButton>(ma
         with(holder.getView<MaterialButton>(R.id.form_button)) {
             text = item.name
             if (item.icon != null) {
+                iconTint = item.iconTint?.invoke(context)
                 setIconResource(item.icon!!)
             } else icon = null
-            iconTint = item.iconTint
             iconSize =
                 item.iconSize ?: context.resDimensionPixelSize(com.chooongg.basic.R.dimen.d48)
             iconGravity = item.iconGravity

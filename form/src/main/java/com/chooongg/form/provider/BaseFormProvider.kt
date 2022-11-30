@@ -101,7 +101,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
                         resDimensionPixelSize(R.dimen.formItemMenuIconSize) + paddingStart + paddingEnd
                 }
                 setImageResource(item.menuIcon!!)
-                imageTintList = item.menuIconTint
+                imageTintList = item.menuIconTint?.invoke(context)
                 doOnClick {
                     recyclerView?.clearFocus()
                     adapter?.onFormMenuClick(manager, item, this, holder.absoluteAdapterPosition)

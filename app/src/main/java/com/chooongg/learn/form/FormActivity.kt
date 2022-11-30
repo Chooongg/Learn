@@ -9,7 +9,6 @@ import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingModelActivity
 import com.chooongg.core.popupMenu.popupMenu
-import com.chooongg.core.widget.TopAppBarLayout
 import com.chooongg.form.FormEventListener
 import com.chooongg.form.FormManager
 import com.chooongg.form.bean.BaseForm
@@ -32,8 +31,9 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                 addGroup {
                     groupName = "选项菜单"
                     groupIcon = R.drawable.ic_main_popup_menu
-                    groupIconTint =
+                    groupIconTint = {
                         ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorOnSurface))
+                    }
                     addPart {
                         addButton("可编辑", "isEditable")
                         addButton("夜间模式", "nightMode")
@@ -42,8 +42,9 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                 addCardGroup {
                     groupName = "Form表单"
                     groupIcon = R.drawable.ic_main_form
-                    groupIconTint =
+                    groupIconTint = {
                         ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorOnSecondaryContainer))
+                    }
                     addPart {
                         addText("仅查看", "only_see") {
                             content = "仅查看时显示的文本"
@@ -59,8 +60,9 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addText("文本", "text_menu") {
                             content = "带菜单按钮的文本"
                             menuIcon = R.drawable.ic_night_mode_day
-                            menuIconTint =
+                            menuIconTint = {
                                 ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorSecondary))
+                            }
                         }
                         addDivider()
                         addAddress("地址选择", "address") {

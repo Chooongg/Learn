@@ -41,5 +41,4 @@ class FormInput(name: CharSequence, field: String?) :
         }
         return span.toSpannableString()
     }
-
 }

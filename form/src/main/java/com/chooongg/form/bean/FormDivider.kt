@@ -1,5 +1,7 @@
 package com.chooongg.form.bean
 
+import android.content.Context
+import android.content.res.ColorStateList
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import com.chooongg.basic.ext.logE
@@ -10,8 +12,7 @@ class FormDivider : BaseForm(FormManager.TYPE_DIVIDER, "", null) {
     /**
      * 分割线颜色
      */
-    @ColorInt
-    var color: Int? = null
+    var color: (Context.() -> Int)? = null
 
     /**
      * 分割线厚度
@@ -47,7 +48,6 @@ class FormDivider : BaseForm(FormManager.TYPE_DIVIDER, "", null) {
         if (other !is FormDivider) return false
         if (!super.equals(other)) return false
 
-        if (color != other.color) return false
         if (thickness != other.thickness) return false
         if (insetEnd != other.insetEnd) return false
         if (insetStart != other.insetStart) return false
@@ -58,7 +58,6 @@ class FormDivider : BaseForm(FormManager.TYPE_DIVIDER, "", null) {
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + (color ?: 0)
         result = 31 * result + (thickness ?: 0)
         result = 31 * result + (insetEnd ?: 0)
         result = 31 * result + (insetStart ?: 0)

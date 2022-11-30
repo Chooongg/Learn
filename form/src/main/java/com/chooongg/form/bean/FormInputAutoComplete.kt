@@ -41,5 +41,4 @@ class FormInputAutoComplete(name: CharSequence, field: String?) :
         }
         return span.toSpannableString()
     }
-
 }
