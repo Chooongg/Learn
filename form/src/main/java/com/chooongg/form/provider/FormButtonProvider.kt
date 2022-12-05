@@ -48,8 +48,8 @@ class FormButtonProvider(manager: FormManager) : BaseFormProvider<FormButton>(ma
                 }
             }
             doOnClick {
-                recyclerView?.clearFocus()
-                adapter?.onFormClick(manager, item, it, holder.absoluteAdapterPosition)
+                groupAdapter?.clearFocus()
+                groupAdapter?.onFormClick(manager, item, it, holder.absoluteAdapterPosition)
             }
         }
     }

@@ -39,9 +39,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/formItemMenuIconSize"
         android:layout_height="0dp"
-        android:layout_gravity="center_vertical"
         android:background="@drawable/form_ripple_menu_selected_background"
         android:paddingStart="@dimen/formItemMenuIconPadding"
         android:paddingEnd="@dimen/formItemMenuIconPadding"

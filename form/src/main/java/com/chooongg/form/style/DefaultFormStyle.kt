@@ -78,7 +78,7 @@ open class DefaultFormStyle : FormStyle() {
                 visible()
             } else gone()
             doOnClick {
-                adapter?.recyclerView?.clearFocus()
+                adapter?.clearFocus()
                 adapter?.onFormMenuClick(manager, item, this, holder.absoluteAdapterPosition)
             }
         }

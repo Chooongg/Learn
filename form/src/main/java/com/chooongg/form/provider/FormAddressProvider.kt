@@ -52,12 +52,12 @@ class FormAddressProvider(manager: FormManager) : BaseFormProvider<FormAddress>(
             setText(item.content)
             val watcher = doAfterTextChanged {
                 item.content = if (it.isNullOrEmpty()) null else it
-                adapter?.onFormContentChanged(manager, item, holder.absoluteAdapterPosition)
+                groupAdapter?.onFormContentChanged(manager, item, holder.absoluteAdapterPosition)
             }
             tag = watcher
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    recyclerView?.clearFocus()
+                    groupAdapter?.clearFocus()
                     true
                 } else false
             }

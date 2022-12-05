@@ -1,6 +1,7 @@
 package com.chooongg.basic.ext
 
 import android.app.Activity
+import android.content.Context
 import android.view.View
 import android.view.Window
 import androidx.core.view.WindowCompat
@@ -12,7 +13,7 @@ fun Window.getWindowInsetsController() = WindowCompat.getInsetsController(this, 
 /**
  * 显示系统栏
  */
-fun Fragment.showSystemBars() = requireActivity().showSystemBars()
+fun Fragment.showSystemBars() = activity?.showSystemBars()
 fun Activity.showSystemBars() {
     window.getWindowInsetsController().show(WindowInsetsCompat.Type.systemBars())
 }
@@ -20,7 +21,7 @@ fun Activity.showSystemBars() {
 /**
  * 隐藏系统栏
  */
-fun Fragment.hideSystemBars() = requireActivity().hideSystemBars()
+fun Fragment.hideSystemBars() = activity?.hideSystemBars()
 fun Activity.hideSystemBars() {
     window.getWindowInsetsController().hide(WindowInsetsCompat.Type.systemBars())
 }
@@ -28,7 +29,7 @@ fun Activity.hideSystemBars() {
 /**
  * 显示状态栏
  */
-fun Fragment.showStatusBars() = requireActivity().showStatusBars()
+fun Fragment.showStatusBars() = activity?.showStatusBars()
 fun Activity.showStatusBars() {
     window.getWindowInsetsController().show(WindowInsetsCompat.Type.statusBars())
 }
@@ -36,7 +37,7 @@ fun Activity.showStatusBars() {
 /**
  * 隐藏状态栏
  */
-fun Fragment.hideStatusBars() = requireActivity().hideStatusBars()
+fun Fragment.hideStatusBars() = activity?.hideStatusBars()
 fun Activity.hideStatusBars() {
     window.getWindowInsetsController().hide(WindowInsetsCompat.Type.statusBars())
 }
@@ -44,7 +45,7 @@ fun Activity.hideStatusBars() {
 /**
  * 显示导航栏
  */
-fun Fragment.showNavigationBars() = requireActivity().showNavigationBars()
+fun Fragment.showNavigationBars() = activity?.showNavigationBars()
 fun Activity.showNavigationBars() {
     window.getWindowInsetsController().show(WindowInsetsCompat.Type.navigationBars())
 }
@@ -52,7 +53,7 @@ fun Activity.showNavigationBars() {
 /**
  * 隐藏导航栏
  */
-fun Fragment.hideNavigationBars() = requireActivity().hideNavigationBars()
+fun Fragment.hideNavigationBars() = activity?.hideNavigationBars()
 fun Activity.hideNavigationBars() {
     window.getWindowInsetsController().hide(WindowInsetsCompat.Type.navigationBars())
 }
@@ -60,18 +61,20 @@ fun Activity.hideNavigationBars() {
 /**
  * 显示输入法
  */
-fun Fragment.showIME(view: View? = null) = requireActivity().showIME(view)
-fun Activity.showIME(view: View? = null) {
+fun Fragment.showIME(view: View? = null) = activity?.showIME(view)
+fun View.showIME() = context.showIME(this)
+fun Context.showIME(view: View? = null) {
     view?.requestFocus()
-    window.getWindowInsetsController().show(WindowInsetsCompat.Type.ime())
+    getActivity()?.window?.getWindowInsetsController()?.show(WindowInsetsCompat.Type.ime())
 }
 
 /**
  * 隐藏输入法
  */
-fun Fragment.hideIME() = requireActivity().hideIME()
-fun Activity.hideIME() {
-    window.getWindowInsetsController().hide(WindowInsetsCompat.Type.ime())
+fun Fragment.hideIME() = activity?.hideIME()
+fun Context.hideIME() {
+    getActivity()?.window?.getWindowInsetsController()?.hide(WindowInsetsCompat.Type.ime())
+
 }
 
 /**
@@ -87,7 +90,7 @@ fun Activity.setLightStatusBars(isLightMode: Boolean) {
 /**
  * 是否是亮色状态栏
  */
-fun Fragment.isLightStatusBars() = requireActivity().isLightStatusBars()
+fun Fragment.isLightStatusBars() = activity?.isLightStatusBars()
 fun Activity.isLightStatusBars(): Boolean {
     return window.getWindowInsetsController().isAppearanceLightStatusBars
 }
@@ -105,7 +108,7 @@ fun Activity.setLightNavigationBars(isLightMode: Boolean) {
 /**
  * 是否是亮色导航栏
  */
-fun Fragment.isLightNavigationBars() = requireActivity().isLightNavigationBars()
+fun Fragment.isLightNavigationBars() = activity?.isLightNavigationBars()
 fun Activity.isLightNavigationBars(): Boolean {
     return window.getWindowInsetsController().isAppearanceLightNavigationBars
 }

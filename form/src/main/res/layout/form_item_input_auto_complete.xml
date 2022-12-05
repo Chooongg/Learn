@@ -22,15 +22,16 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_input_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/formItemHorizontalContent"
-        app:boxBackgroundMode="none"
+        app:boxStrokeColor="@android:color/transparent"
+        app:boxStrokeErrorColor="@android:color/transparent"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
         app:endIconCheckable="true"
-        app:endIconDrawable="@drawable/form_ic_edit_clear"
-        app:endIconMinSize="@dimen/formItemInputEndIconMinSize"
-        app:endIconMode="clear_text"
+        app:endIconMinSize="@dimen/formItemMenuIconSize"
         app:hintEnabled="false"
         app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
         app:layout_constraintStart_toEndOf="@id/form_tv_name"
@@ -40,7 +41,7 @@
         app:suffixTextAppearance="?textAppearanceBodyMedium"
         app:suffixTextColor="?colorOutline">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/form_edit_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,9 +59,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/formItemMenuIconSize"
         android:layout_height="0dp"
-        android:layout_gravity="center_vertical"
         android:background="@drawable/form_ripple_menu_selected_background"
         android:paddingStart="@dimen/formItemMenuIconPadding"
         android:paddingEnd="@dimen/formItemMenuIconPadding"

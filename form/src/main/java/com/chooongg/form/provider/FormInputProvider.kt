@@ -2,6 +2,8 @@ package com.chooongg.form.provider
 
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import com.chooongg.basic.ext.multipleValid
 import com.chooongg.form.FormManager
@@ -24,8 +26,8 @@ class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(mana
                 setEndIconDrawable(item.menuIcon!!)
                 setEndIconOnClickListener {
                     if (multipleValid()) {
-                        recyclerView?.clearFocus()
-                        adapter?.onFormMenuClick(
+                        groupAdapter?.clearFocus()
+                        groupAdapter?.onFormMenuClick(
                             manager, item, this, holder.absoluteAdapterPosition
                         )
                     }
@@ -41,12 +43,12 @@ class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(mana
             setText(item.content)
             val watcher = doAfterTextChanged {
                 item.content = if (it.isNullOrEmpty()) null else it
-                adapter?.onFormContentChanged(manager, item, holder.absoluteAdapterPosition)
+                groupAdapter?.onFormContentChanged(manager, item, holder.absoluteAdapterPosition)
             }
             tag = watcher
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    recyclerView?.clearFocus()
+                    groupAdapter?.clearFocus()
                     true
                 } else false
             }

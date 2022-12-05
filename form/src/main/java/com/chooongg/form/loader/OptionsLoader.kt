@@ -1,9 +1,31 @@
 package com.chooongg.form.loader
 
-import com.chooongg.form.FormGroupAdapter
+import com.chooongg.form.bean.BaseOptionForm
+import com.chooongg.form.bean.Option
+import com.chooongg.form.enum.FormOptionsLoadState
 
-class OptionsLoader(adapter: FormGroupAdapter) {
-    init {
+abstract class OptionsLoader<T : Option> {
 
+    var state: FormOptionsLoadState = FormOptionsLoadState.WAIT
+        private set
+
+    protected abstract suspend fun load(): OptionsLoadResult<T>
+
+    suspend fun loadOptions(item: BaseOptionForm) {
+        if (state == FormOptionsLoadState.LOADING) return
+        state = FormOptionsLoadState.LOADING
+        val load = load()
+        if (load is OptionsLoadResult.Error) {
+            state = FormOptionsLoadState.ERROR
+            item.options = null
+        } else if (load is OptionsLoadResult.Success) {
+            state = FormOptionsLoadState.WAIT
+            item.options = load.data
+        }
     }
+}
+
+sealed class OptionsLoadResult<T : Option> protected constructor() {
+    data class Success<T : Option>(val data: List<T>) : OptionsLoadResult<T>()
+    data class Error<T : Option>(val throwable: Throwable) : OptionsLoadResult<T>()
 }

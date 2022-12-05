@@ -16,8 +16,12 @@ open class FormCreatePart internal constructor() {
         createdFormGroupList.add(FormAddress(name, field).apply { block?.invoke(this) })
     }
 
-    fun addAddressMust(name: CharSequence, field: String?, block: (FormAddress.() -> Unit)? = null) {
-        addAddress(name,field){
+    fun addAddressMust(
+        name: CharSequence,
+        field: String?,
+        block: (FormAddress.() -> Unit)? = null
+    ) {
+        addAddress(name, field) {
             block?.invoke(this)
             isMust = true
         }
@@ -29,7 +33,7 @@ open class FormCreatePart internal constructor() {
     }
 
     fun addButtonMust(name: CharSequence, field: String?, block: (FormButton.() -> Unit)? = null) {
-        addButton(name,field){
+        addButton(name, field) {
             block?.invoke(this)
             isMust = true
         }
@@ -46,7 +50,27 @@ open class FormCreatePart internal constructor() {
     }
 
     fun addInputMust(name: CharSequence, field: String?, block: (FormInput.() -> Unit)? = null) {
-        addInput(name,field){
+        addInput(name, field) {
+            block?.invoke(this)
+            isMust = true
+        }
+    }
+
+
+    fun addInputAutoComplete(
+        name: CharSequence,
+        field: String?,
+        block: (FormInputAutoComplete.() -> Unit)? = null
+    ) {
+        createdFormGroupList.add(FormInputAutoComplete(name, field).apply { block?.invoke(this) })
+    }
+
+    fun addInputAutoCompleteMust(
+        name: CharSequence,
+        field: String?,
+        block: (FormInputAutoComplete.() -> Unit)? = null
+    ) {
+        addInputAutoComplete(name, field) {
             block?.invoke(this)
             isMust = true
         }

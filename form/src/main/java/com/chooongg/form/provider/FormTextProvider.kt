@@ -13,10 +13,6 @@ internal class FormTextProvider(manager: FormManager) : BaseFormProvider<BaseFor
     override val layoutId: Int get() = R.layout.form_item_text
     override fun onBindViewHolder(holder: FormViewHolder, item: BaseForm) {
         with(holder.getView<MaterialTextView>(R.id.form_tv_content)) {
-            updateLayoutParams<ConstraintLayout.LayoutParams> {
-                goneEndMargin = manager.itemHorizontalSize - paddingEnd
-                marginEnd = 0
-            }
             setTextIsSelectable(true)
             isEnabled = item.isEnabled
             text = item.transformContent(context)

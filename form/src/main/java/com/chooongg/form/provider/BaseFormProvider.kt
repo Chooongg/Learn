@@ -21,13 +21,13 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
 
     lateinit var context: Context internal set
 
-    private var _adapter: WeakReference<FormGroupAdapter>? = null
+    private var _groupAdapter: WeakReference<FormGroupAdapter>? = null
 
-    protected val adapter get() = _adapter?.get()
+    protected val groupAdapter get() = _groupAdapter?.get()
 
-    protected val recyclerView get() = adapter?.recyclerView
+    protected val recyclerView get() = groupAdapter?.recyclerView
 
-    protected val style get() = adapter?.style
+    protected val style get() = groupAdapter?.style
 
     abstract val itemViewType: Int
 
@@ -53,9 +53,9 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
 
     @Suppress("UNCHECKED_CAST")
     fun onBindViewHolder(holder: FormViewHolder, position: Int) {
-        val item = adapter?.getItem(position) as? T ?: return
-        val groupIndex = manager.adapter.adapters.indexOf(adapter)
-        logE("Form","onBindViewHolder(${groupIndex}|${position})")
+        val item = groupAdapter?.getItem(position) as? T ?: return
+        val groupIndex = manager.adapter.adapters.indexOf(groupAdapter)
+        logE("Form", "onBindViewHolder(${groupIndex}|${position})")
         configItemClick(holder, item)
         configMenuIcon(holder, item)
         style?.apply {
@@ -67,9 +67,9 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
 
     @Suppress("UNCHECKED_CAST")
     fun onBindViewHolder(holder: FormViewHolder, position: Int, payloads: MutableList<Any>) {
-        val item = adapter?.getItem(position) as? T ?: return
-        val groupIndex = manager.adapter.adapters.indexOf(adapter)
-        logE("Form","onBindViewHolder(${groupIndex}|${position}) payloads")
+        val item = groupAdapter?.getItem(position) as? T ?: return
+        val groupIndex = manager.adapter.adapters.indexOf(groupAdapter)
+        logE("Form", "onBindViewHolder(${groupIndex}|${position}) payloads")
         configItemClick(holder, item)
         configMenuIcon(holder, item)
         style?.apply {
@@ -84,8 +84,8 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
      */
     open fun configItemClick(holder: FormViewHolder, item: T) {
         holder.itemView.doOnClick {
-            recyclerView?.clearFocus()
-            adapter?.onFormClick(manager, item, it, holder.absoluteAdapterPosition)
+            groupAdapter?.clearFocus()
+            groupAdapter?.onFormClick(manager, item, it, holder.absoluteAdapterPosition)
         }
     }
 
@@ -97,14 +97,14 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
             if (item.menuIcon != null && item.isRealMenuVisible(manager)) {
                 updateLayoutParams<ConstraintLayout.LayoutParams> {
                     marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
-                    width =
-                        resDimensionPixelSize(R.dimen.formItemMenuIconSize) + paddingStart + paddingEnd
                 }
                 setImageResource(item.menuIcon!!)
                 imageTintList = item.menuIconTint?.invoke(context)
                 doOnClick {
-                    recyclerView?.clearFocus()
-                    adapter?.onFormMenuClick(manager, item, this, holder.absoluteAdapterPosition)
+                    groupAdapter?.clearFocus()
+                    groupAdapter?.onFormMenuClick(
+                        manager, item, this, holder.absoluteAdapterPosition
+                    )
                 }
                 visible()
             } else gone()
@@ -112,6 +112,6 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     }
 
     internal fun setAdapter(adapter: FormGroupAdapter) {
-        _adapter = WeakReference(adapter)
+        _groupAdapter = WeakReference(adapter)
     }
 }

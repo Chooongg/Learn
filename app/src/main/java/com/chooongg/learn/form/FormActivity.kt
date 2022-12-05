@@ -12,9 +12,13 @@ import com.chooongg.core.popupMenu.popupMenu
 import com.chooongg.form.FormEventListener
 import com.chooongg.form.FormManager
 import com.chooongg.form.bean.BaseForm
+import com.chooongg.form.bean.OptionItem
 import com.chooongg.form.enum.FormVisibilityMode
+import com.chooongg.form.loader.OptionsLoadResult
 import com.chooongg.learn.R
 import com.chooongg.learn.databinding.ActivityFormBinding
+import com.chooongg.net.ext.requestSync
+import kotlinx.coroutines.delay
 
 class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity.FormModel>(),
     FormEventListener {
@@ -47,11 +51,11 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                     }
                     addPart {
                         addText("仅查看", "only_see") {
-                            content = "仅查看时显示的文本"
+                            content = "仅查看时显示的文本仅查看时显示的文本"
                             visibilityMode = FormVisibilityMode.ONLY_SEE
                         }
                         addText("仅编辑", "only_edit") {
-                            content = "仅编辑时显示的文本"
+                            content = "仅编辑时显示的文本仅编辑时显示的文本"
                             visibilityMode = FormVisibilityMode.ONLY_EDIT
                         }
                         addText("文本", "text") {
@@ -65,12 +69,26 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                             }
                         }
                         addDivider()
-                        addAddress("地址选择", "address") {
-
-                        }
+                        addAddress("地址选择", "address")
                         addInput("输入框", "edit") {
                             prefixText = "￥"
                             suffixText = "米"
+                        }
+                        addInputAutoComplete("提示输入框", "inputAutoComplete") {
+                            optionsLoader {
+                                try {
+                                    delay(3000)
+                                    OptionsLoadResult.Success(
+                                        arrayListOf(
+                                            OptionItem("测试1"),
+                                            OptionItem("测试2"),
+                                            OptionItem("测试3")
+                                        )
+                                    )
+                                } catch (e: Exception) {
+                                    OptionsLoadResult.Error(e)
+                                }
+                            }
                         }
                     }
                 }

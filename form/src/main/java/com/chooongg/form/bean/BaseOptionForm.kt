@@ -1,5 +1,10 @@
 package com.chooongg.form.bean
 
+import com.chooongg.form.enum.FormOptionsLoadScene
+import com.chooongg.form.enum.FormOptionsLoaderMode
+import com.chooongg.form.loader.OptionsLoadResult
+import com.chooongg.form.loader.OptionsLoader
+
 abstract class BaseOptionForm(type: Int, name: CharSequence, field: String?) :
     BaseForm(type, name, field) {
 
@@ -9,16 +14,42 @@ abstract class BaseOptionForm(type: Int, name: CharSequence, field: String?) :
     var options: List<Option>? = null
 
     /**
-     * 选项加载事件
+     * 选项加载模式
      */
-    private var optionsLoaderBlock: (((List<Option>?) -> Unit) -> Unit)? = null
+    var optionsLoaderMode: FormOptionsLoaderMode = FormOptionsLoaderMode.IF_EMPTY
 
     /**
      * 选项加载事件
      */
-    fun optionsLoader(block: (((List<Option>?) -> Unit) -> Unit)?) {
-        optionsLoaderBlock = block
+    private var optionsLoader: OptionsLoader<out Option>? = null
+
+    /**
+     * 选项加载事件
+     */
+    fun optionsLoader(loader: OptionsLoader<out Option>?) {
+        optionsLoader = loader
     }
 
-    fun getOptionsLoaderBlock() = optionsLoaderBlock
+    fun optionsLoader(block: suspend () -> OptionsLoadResult<Option>) {
+        optionsLoader = object : OptionsLoader<Option>() {
+            override suspend fun load() = block()
+        }
+    }
+
+    fun getOptionsLoader() = optionsLoader
+
+    /**
+     * 是否需要加载选项
+     */
+    fun isNeedLoadOptions(scene: FormOptionsLoadScene): Boolean {
+        if (optionsLoader == null) return false
+        return when (optionsLoaderMode) {
+            FormOptionsLoaderMode.ALWAYS -> true
+            FormOptionsLoaderMode.IF_EMPTY -> options.isNullOrEmpty()
+            FormOptionsLoaderMode.BIND_ALWAYS -> scene == FormOptionsLoadScene.BIND
+            FormOptionsLoaderMode.BIND_IF_EMPTY -> scene == FormOptionsLoadScene.BIND && options.isNullOrEmpty()
+            FormOptionsLoaderMode.TRIGGER_ALWAYS -> scene == FormOptionsLoadScene.TRIGGER
+            FormOptionsLoaderMode.TRIGGER_IF_EMPTY -> scene == FormOptionsLoadScene.TRIGGER && options.isNullOrEmpty()
+        }
+    }
 }

@@ -28,22 +28,16 @@ abstract class FormCallConfig {
     }
 
     open fun openSelect(
-        part: FormGroupAdapter,
+        groupAdapter: FormGroupAdapter,
         holder: FormViewHolder,
         parent: View,
         contentView: View,
         item: FormSelect
     ) {
-        if (item.options == null) {
-            item.getOptionsLoaderBlock()?.invoke {
-                item.options = it
-                openSelect(part, holder, parent, contentView, item)
-            }
-            return
-        }
+        if (item.options.isNullOrEmpty()) return
         popupMenu {
             section {
-                item.options!!.forEach {
+                item.options?.forEach {
                     item {
                         label = it.getValue()
                         if (item.content == it.getKey()) {
@@ -51,7 +45,7 @@ abstract class FormCallConfig {
                         }
                         onSelectedCallback {
                             item.content = it.getKey()
-                            part.notifyItemChanged(holder.bindingAdapterPosition, "update")
+                            groupAdapter.notifyItemChanged(holder.bindingAdapterPosition, "update")
                         }
                     }
                 }

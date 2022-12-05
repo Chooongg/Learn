@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.*
+import com.chooongg.basic.ext.hideIME
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
@@ -82,6 +83,7 @@ class FormGroupAdapter internal constructor(
         addItemProvider(FormButtonProvider(manager))
         addItemProvider(FormDividerProvider(manager))
         addItemProvider(FormInputProvider(manager))
+        addItemProvider(FormInputAutoCompleteProvider(manager))
     }
 
     fun addItemProvider(provider: BaseFormProvider<out BaseForm>) {
@@ -258,5 +260,10 @@ class FormGroupAdapter internal constructor(
         this._recyclerView = null
         adapterScope.cancel()
         adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    }
+
+    fun clearFocus() {
+        recyclerView?.clearFocus()
+        recyclerView?.context?.hideIME()
     }
 }
