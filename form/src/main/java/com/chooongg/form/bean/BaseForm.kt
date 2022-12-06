@@ -42,6 +42,7 @@ abstract class BaseForm(
      * 只读状态类型
      */
     open var seeType: Int = type
+        protected set
 
     /**
      * 扩展字段和内容
@@ -56,7 +57,7 @@ abstract class BaseForm(
     /**
      * 内容
      */
-    var content: CharSequence? = null
+    open var content: CharSequence? = null
 
     /**
      * 是否是必填项
@@ -79,7 +80,9 @@ abstract class BaseForm(
     var isEnabled: Boolean = true
 
     open fun seeOnlyType(type: Int) {
-        seeType = type
+        if (type == this.type || type == FormManager.TYPE_TEXT) {
+            seeType = type
+        } else throw FormDataVerificationException(field, "不支持的格式")
     }
 
     /**
@@ -220,6 +223,7 @@ abstract class BaseForm(
         if (type != other.type) return false
         if (name != other.name) return false
         if (field != other.field) return false
+        if (partPosition != other.partPosition) return false
         if (adapterPosition != other.adapterPosition) return false
         if (adapterTopBoundary != other.adapterTopBoundary) return false
         if (seeType != other.seeType) return false
@@ -243,6 +247,7 @@ abstract class BaseForm(
         var result = type
         result = 31 * result + name.hashCode()
         result = 31 * result + (field?.hashCode() ?: 0)
+        result = 31 * result + partPosition
         result = 31 * result + adapterPosition
         result = 31 * result + adapterTopBoundary.hashCode()
         result = 31 * result + adapterBottomBoundary.hashCode()

@@ -44,7 +44,8 @@
         <activity
             android:name="com.chooongg.learn.form.FormActivity"
             android:label="Form"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".loading.LoadingActivity"

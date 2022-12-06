@@ -17,7 +17,7 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/formItemIconSize"
         android:layout_height="0dp"
         android:layout_gravity="center_vertical"
         android:background="@drawable/form_ripple_menu_selected_background"
@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@android:drawable/ic_lock_idle_alarm" />
+        tools:src="@android:drawable/sym_def_app_icon" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/form_tv_name"
@@ -37,7 +37,6 @@
         android:paddingBottom="@dimen/formItemVertical"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="@color/form_text"
-        android:textIsSelectable="true"
         app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
         app:layout_constraintStart_toEndOf="@id/form_iv_icon"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +46,7 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/formItemIconSize"
         android:layout_height="0dp"
         android:layout_gravity="center_vertical"
         android:background="@drawable/form_ripple_menu_selected_background"
@@ -57,6 +56,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@android:drawable/ic_lock_idle_alarm" />
+        tools:src="@android:drawable/sym_def_app_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

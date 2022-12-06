@@ -135,7 +135,6 @@ class FormAddress(name: CharSequence, field: String?) :
 
         other as FormAddress
 
-        if (seeType != other.seeType) return false
         if (areaMode != other.areaMode) return false
         if (longitudeField != other.longitudeField) return false
         if (latitudeField != other.latitudeField) return false
@@ -147,8 +146,7 @@ class FormAddress(name: CharSequence, field: String?) :
     }
 
     override fun hashCode(): Int {
-        var result = seeType
-        result = 31 * result + areaMode.hashCode()
+        var result = areaMode.hashCode()
         result = 31 * result + (longitudeField?.hashCode() ?: 0)
         result = 31 * result + (latitudeField?.hashCode() ?: 0)
         result = 31 * result + (provinceField?.hashCode() ?: 0)

@@ -17,7 +17,6 @@ import com.chooongg.form.enum.FormVisibilityMode
 import com.chooongg.form.loader.OptionsLoadResult
 import com.chooongg.learn.R
 import com.chooongg.learn.databinding.ActivityFormBinding
-import com.chooongg.net.ext.requestSync
 import kotlinx.coroutines.delay
 
 class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity.FormModel>(),
@@ -70,6 +69,13 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         }
                         addDivider()
                         addAddress("地址选择", "address")
+                        addCheckbox("多选", "checkbox") {
+                            options = listOf(
+                                OptionItem("选项1"),
+                                OptionItem("选项2"),
+                                OptionItem("选项3")
+                            )
+                        }
                         addInput("输入框", "edit") {
                             prefixText = "￥"
                             suffixText = "米"
@@ -89,6 +95,15 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                                     OptionsLoadResult.Error(e)
                                 }
                             }
+                        }
+                        addLabel("标签")
+                        addMenu("菜单项", "menu")
+                        addRadio("单选","radio"){
+                            options = listOf(
+                                OptionItem("选项1"),
+                                OptionItem("选项2"),
+                                OptionItem("选项3")
+                            )
                         }
                     }
                 }
@@ -142,7 +157,6 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                     }
                 }.show(context, view)
             }
-            else -> binding.recyclerView.smoothScrollToPosition(0)
         }
     }
 }

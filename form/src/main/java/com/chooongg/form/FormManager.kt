@@ -129,6 +129,13 @@ class FormManager(isEditable: Boolean, nameEmsSize: Int = 6) {
         return count
     }
 
+    fun clearAll() {
+        for (i in adapter.adapters.lastIndex downTo 0) {
+            adapter.removeAdapter(adapter.adapters[i])
+        }
+        groupHistoryCount = 0
+    }
+
     fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormCreateGroup.() -> Unit) {
         val group = FormGroupAdapter(this, style, groupHistoryCount)
         groupHistoryCount += 100

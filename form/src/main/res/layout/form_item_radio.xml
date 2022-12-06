@@ -20,42 +20,20 @@
         tools:ems="4"
         tools:text="测试名称" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/form_input_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/form_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/formItemHorizontalContent"
-        app:boxStrokeColor="@android:color/transparent"
-        app:boxStrokeErrorColor="@android:color/transparent"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:endIconCheckable="true"
-        app:endIconMinSize="@dimen/formItemMenuIconSize"
-        app:hintEnabled="false"
+        android:nestedScrollingEnabled="false"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
         app:layout_constraintStart_toEndOf="@id/form_tv_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:prefixTextAppearance="?textAppearanceBodyMedium"
-        app:prefixTextColor="?colorOutline"
-        app:suffixTextAppearance="?textAppearanceBodyMedium"
-        app:suffixTextColor="?colorOutline">
-
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/form_edit_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fadingEdgeLength="@dimen/formItemHorizontalContent"
-            android:paddingStart="@dimen/formItemHorizontalContent"
-            android:paddingTop="@dimen/formItemVertical"
-            android:paddingEnd="@dimen/formItemHorizontalContent"
-            android:paddingBottom="@dimen/formItemVertical"
-            android:requiresFadingEdge="horizontal"
-            android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="@color/form_text"
-            tools:text="内容" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_goneMarginEnd="@dimen/formItemHorizontalContent"
+        tools:listitem="@layout/form_item_radio_child" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"

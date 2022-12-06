@@ -6,48 +6,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/form_tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/formItemHorizontal"
-        android:paddingTop="@dimen/formItemVertical"
-        android:paddingBottom="@dimen/formItemVertical"
-        android:textAppearance="?textAppearanceBodyMedium"
-        android:textColor="?colorSecondary"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/form_iv_icon"
+        android:layout_width="@dimen/formItemIconSize"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/form_ripple_menu_selected_background"
+        android:paddingStart="@dimen/formItemIconPadding"
+        android:paddingEnd="@dimen/formItemIconPadding"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ems="4"
-        tools:text="测试名称" />
+        tools:src="@android:drawable/sym_def_app_icon" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/Widget.MaterialComponents.TextView"
-        android:id="@+id/form_tv_content"
+        android:id="@+id/form_tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/formItemHorizontalContent"
         android:paddingTop="@dimen/formItemVertical"
-        android:paddingEnd="@dimen/formItemHorizontalContent"
         android:paddingBottom="@dimen/formItemVertical"
-        android:textAppearance="?textAppearanceBodyMedium"
+        android:textAppearance="?textAppearanceTitleLarge"
         android:textColor="@color/form_text"
-        android:textIsSelectable="true"
         app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
-        app:layout_constraintStart_toEndOf="@id/form_tv_name"
+        app:layout_constraintStart_toEndOf="@id/form_iv_icon"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="@dimen/formItemHorizontal"
+        app:layout_goneMarginStart="@dimen/formItemHorizontal"
         tools:text="内容" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/form_iv_menu"
-        android:layout_width="@dimen/formItemMenuIconSize"
+        android:layout_width="@dimen/formItemIconSize"
         android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
         android:background="@drawable/form_ripple_menu_selected_background"
         android:paddingStart="@dimen/formItemMenuIconPadding"
         android:paddingEnd="@dimen/formItemMenuIconPadding"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@id/form_tv_name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/form_tv_name"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@android:drawable/sym_def_app_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

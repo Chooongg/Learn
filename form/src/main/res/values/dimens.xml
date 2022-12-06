@@ -9,11 +9,12 @@
     <dimen name="formItemVertical">8dp</dimen>
     <dimen name="formItemVerticalEdge">16dp</dimen>
 
-    <dimen name="formItemIconSize">20dp</dimen>
+    <dimen name="formItemIconSize">36dp</dimen>
     <dimen name="formItemIconPadding">8dp</dimen>
     <dimen name="formItemIconRippleRadius">16dp</dimen>
 
     <dimen name="formItemMenuIconSize">34dp</dimen>
+    <dimen name="formItemMenuIconSizeIgnorePadding">20dp</dimen>
     <dimen name="formItemMenuIconPadding">8dp</dimen>
     <dimen name="formItemMenuIconRippleRadius">16dp</dimen>
 </resources>

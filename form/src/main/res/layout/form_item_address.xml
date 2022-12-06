@@ -26,16 +26,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
         android:minHeight="0dp"
         android:paddingStart="@dimen/formItemHorizontalContent"
-        android:paddingEnd="@dimen/d4"
+        android:paddingEnd="@dimen/formItemHorizontalContent"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="?colorOnSurface"
         app:icon="@drawable/form_ic_more"
         app:iconGravity="end"
         app:iconPadding="@dimen/formItemMenuIconPadding"
+        app:iconSize="@dimen/formItemMenuIconSizeIgnorePadding"
         app:iconTint="?colorOnSurface"
-        app:iconSize="@dimen/formItemMenuIconSize"
         app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
         app:layout_constraintStart_toEndOf="@id/form_tv_name"
         app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="@id/form_tv_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/form_tv_name"
-        tools:src="@android:drawable/ic_lock_idle_alarm" />
+        tools:src="@android:drawable/sym_def_app_icon" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_input_content"

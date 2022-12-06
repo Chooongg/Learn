@@ -67,6 +67,6 @@
         app:layout_constraintBottom_toBottomOf="@id/form_tv_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/form_tv_name"
-        tools:src="@android:drawable/ic_lock_idle_alarm" />
+        tools:src="@android:drawable/sym_def_app_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

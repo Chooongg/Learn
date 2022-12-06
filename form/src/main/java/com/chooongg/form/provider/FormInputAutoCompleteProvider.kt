@@ -4,7 +4,6 @@ import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
 import com.chooongg.basic.ext.multipleValid
-import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.withMain
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder

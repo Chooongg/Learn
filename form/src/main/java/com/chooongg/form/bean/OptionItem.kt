@@ -17,4 +17,5 @@ class OptionItem : Option {
 
     override fun getKey() = key
     override fun getValue() = value
+    override fun isShow() = true
 }

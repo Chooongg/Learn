@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.radiobutton.MaterialRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/form_radio"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="0dp"
+    android:minHeight="0dp"
+    android:paddingTop="@dimen/formItemHorizontalContent"
+    android:paddingEnd="@dimen/formItemHorizontalContent"
+    android:paddingBottom="@dimen/formItemHorizontalContent"
+    tools:text="选项">
+
+</com.google.android.material.radiobutton.MaterialRadioButton>

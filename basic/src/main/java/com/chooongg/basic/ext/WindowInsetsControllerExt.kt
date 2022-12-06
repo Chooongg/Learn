@@ -74,7 +74,6 @@ fun Context.showIME(view: View? = null) {
 fun Fragment.hideIME() = activity?.hideIME()
 fun Context.hideIME() {
     getActivity()?.window?.getWindowInsetsController()?.hide(WindowInsetsCompat.Type.ime())
-
 }
 
 /**

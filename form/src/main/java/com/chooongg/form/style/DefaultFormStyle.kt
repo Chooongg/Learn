@@ -46,9 +46,9 @@ open class DefaultFormStyle : FormStyle() {
         with(holder.getView<AppCompatImageView>(R.id.form_iv_icon)) {
             updateLayoutParams<ConstraintLayout.LayoutParams> {
                 marginStart = max(0, manager.itemHorizontalSize - paddingStart)
-                width = resDimensionPixelSize(R.dimen.formItemIconSize) + paddingStart + paddingEnd
+                width = item.iconSize ?: resDimensionPixelSize(R.dimen.formItemIconSize)
             }
-            if (item.isRealMenuVisible(manager) && item.icon != null) {
+            if (item.icon != null) {
                 isEnabled = item.isEnabled
                 imageTintList = item.iconTint?.invoke(context)
                 setImageResource(item.icon!!)
@@ -62,8 +62,7 @@ open class DefaultFormStyle : FormStyle() {
         with(holder.getView<AppCompatImageView>(R.id.form_iv_menu)) {
             updateLayoutParams<ConstraintLayout.LayoutParams> {
                 marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
-                width =
-                    resDimensionPixelSize(R.dimen.formItemMenuIconSize) + paddingStart + paddingEnd
+                width = item.iconSize ?: resDimensionPixelSize(R.dimen.formItemMenuIconSize)
             }
             isEnabled = item.isEnabled
             if (item.mode == FormGroupTitleMode.ADD) {
@@ -72,8 +71,8 @@ open class DefaultFormStyle : FormStyle() {
             } else if (item.mode == FormGroupTitleMode.DELETE) {
                 setImageResource(R.drawable.form_ic_remove)
                 visible()
-            } else if (item.menuIcon != null) {
-                imageTintList = item.iconTint?.invoke(context)
+            } else if (item.isRealMenuVisible(manager) && item.menuIcon != null) {
+                imageTintList = item.menuIconTint?.invoke(context)
                 setImageResource(item.menuIcon!!)
                 visible()
             } else gone()

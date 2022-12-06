@@ -19,7 +19,7 @@ import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 
 class FormGroupAdapter internal constructor(
-    private val manager: FormManager, val style: FormStyle, val typeIncrement: Int
+    private val manager: FormManager, val style: FormStyle, private val typeIncrement: Int
 ) : RecyclerView.Adapter<FormViewHolder>() {
 
     private var _recyclerView: WeakReference<RecyclerView>? = null
@@ -81,9 +81,14 @@ class FormGroupAdapter internal constructor(
 
         addItemProvider(FormAddressProvider(manager))
         addItemProvider(FormButtonProvider(manager))
+        addItemProvider(FormCheckboxProvider(manager))
         addItemProvider(FormDividerProvider(manager))
         addItemProvider(FormInputProvider(manager))
         addItemProvider(FormInputAutoCompleteProvider(manager))
+        addItemProvider(FormLabelProvider(manager))
+        addItemProvider(FormMenuProvider(manager))
+        addItemProvider(FormRadioProvider(manager))
+        addItemProvider(FormRateProvider(manager))
     }
 
     fun addItemProvider(provider: BaseFormProvider<out BaseForm>) {
