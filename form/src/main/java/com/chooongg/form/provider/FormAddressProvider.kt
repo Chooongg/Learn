@@ -23,12 +23,7 @@ class FormAddressProvider(manager: FormManager) : BaseFormProvider<FormAddress>(
     override val itemViewType: Int get() = FormManager.TYPE_ADDRESS
     override val layoutId: Int get() = R.layout.form_item_address
     override fun onBindViewHolder(holder: FormViewHolder, item: FormAddress) {
-        val areaButton = holder.getView<MaterialButton>(R.id.form_btn_area).apply {
-            updatePaddingRelative(
-                top = resDimensionPixelSize(R.dimen.formItemVertical) - insetTop,
-                bottom = resDimensionPixelSize(R.dimen.formItemVertical) - insetBottom
-            )
-        }
+        val areaButton = holder.getView<MaterialButton>(R.id.form_btn_area)
         val inputContent = holder.getView<TextInputLayout>(R.id.form_input_content)
         val editContent = holder.getView<TextInputEditText>(R.id.form_edit_content)
         when (item.areaMode) {
@@ -71,8 +66,11 @@ class FormAddressProvider(manager: FormManager) : BaseFormProvider<FormAddress>(
 
     private fun configAreaButton(item: FormAddress, button: MaterialButton) {
         with(button) {
-            val paddingVertical = resDimensionPixelSize(R.dimen.formItemVertical)
-            updatePaddingRelative(top = paddingVertical, bottom = paddingVertical)
+            val verticalPadding = resDimensionPixelSize(R.dimen.formItemVertical)
+            updatePaddingRelative(
+                top = verticalPadding ,
+                bottom = verticalPadding
+            )
             hint = item.areaHint ?: resString(R.string.form_address_area_hint)
             visible()
         }

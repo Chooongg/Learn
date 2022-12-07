@@ -83,7 +83,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
      * 配置点击事件
      */
     open fun configItemClick(holder: FormViewHolder, item: T) {
-        holder.itemView.doOnClick {
+        holder.itemView.setOnClickListener {
             groupAdapter?.clearFocus()
             groupAdapter?.onFormClick(manager, item, it, holder.absoluteAdapterPosition)
         }

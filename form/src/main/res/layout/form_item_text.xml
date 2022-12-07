@@ -21,8 +21,8 @@
         tools:text="测试名称" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/Widget.MaterialComponents.TextView"
         android:id="@+id/form_tv_content"
+        style="@style/Widget.MaterialComponents.TextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/formItemHorizontalContent"
@@ -32,6 +32,7 @@
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="@color/form_text"
         android:textIsSelectable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
         app:layout_constraintStart_toEndOf="@id/form_tv_name"
         app:layout_constraintTop_toTopOf="parent"

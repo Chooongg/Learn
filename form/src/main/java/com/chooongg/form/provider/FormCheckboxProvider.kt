@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.chooongg.basic.ext.withMain
+import com.chooongg.basic.ext.showToast
 import com.chooongg.form.FormGroupAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
@@ -13,7 +13,7 @@ import com.chooongg.form.R
 import com.chooongg.form.bean.FormCheckbox
 import com.chooongg.form.bean.Option
 import com.chooongg.form.enum.FormOptionsLoadScene
-import com.chooongg.form.enum.FormOptionsLoadState
+import com.chooongg.form.loader.OptionsLoadResult
 import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.coroutines.launch
 
@@ -30,9 +30,11 @@ class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox
             if (item.isNeedLoadOptions(FormOptionsLoadScene.BIND)) {
                 item.getOptionsLoader()!!.let {
                     groupAdapter?.adapterScope?.launch {
-                        it.loadOptions(item)
-                        if (it.state == FormOptionsLoadState.WAIT) {
-                            withMain { childAdapter.update() }
+                        val result = it.loadOptions(item)
+                        if (result is OptionsLoadResult.Success) {
+                            groupAdapter?.notifyItemChanged(holder.bindingAdapterPosition, "update")
+                        } else if (result is OptionsLoadResult.Error) {
+                            showToast(result.throwable.message)
                         }
                     }
                 }
@@ -44,8 +46,9 @@ class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox
         val manager: FormManager,
         val adapter: FormGroupAdapter?,
         val form: FormCheckbox
-    ) :
-        RecyclerView.Adapter<FormViewHolder>() {
+    ) : RecyclerView.Adapter<FormViewHolder>() {
+
+        private var recyclerView: RecyclerView? = null
 
         val differ = AsyncListDiffer(this, object : DiffUtil.ItemCallback<Option>() {
             override fun areItemsTheSame(oldItem: Option, newItem: Option): Boolean {
@@ -66,6 +69,7 @@ class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox
             val list = ArrayList<Option>()
             form.options?.forEach { if (it.isShow()) list.add(it) }
             differ.submitList(list)
+            recyclerView?.requestLayout()
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -94,5 +98,13 @@ class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox
         }
 
         override fun getItemCount() = differ.currentList.size
+
+        override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+            this.recyclerView = recyclerView
+        }
+
+        override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+            this.recyclerView = null
+        }
     }
 }

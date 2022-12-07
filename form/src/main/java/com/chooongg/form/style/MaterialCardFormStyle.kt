@@ -3,8 +3,6 @@ package com.chooongg.form.style
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePaddingRelative
 import androidx.recyclerview.widget.RecyclerView
@@ -16,14 +14,11 @@ import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
-import com.chooongg.form.enum.FormGroupTitleMode
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
-import com.google.android.material.textview.MaterialTextView
-import kotlin.math.max
 
-open class CardFormStyle : DefaultFormStyle() {
+open class MaterialCardFormStyle : DefaultFormStyle() {
 
     private var partHorizontal = -1
     private var partVertical = -1

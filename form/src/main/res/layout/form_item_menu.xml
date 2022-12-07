@@ -10,7 +10,6 @@
         android:id="@+id/form_iv_icon"
         android:layout_width="@dimen/formItemIconSize"
         android:layout_height="0dp"
-        android:layout_gravity="center_vertical"
         android:background="@drawable/form_ripple_menu_selected_background"
         android:paddingStart="@dimen/formItemIconPadding"
         android:paddingEnd="@dimen/formItemIconPadding"
@@ -28,6 +27,7 @@
         android:paddingBottom="@dimen/formItemVertical"
         android:textAppearance="?textAppearanceBodyLarge"
         android:textColor="@color/form_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
         app:layout_constraintStart_toEndOf="@id/form_iv_icon"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +39,6 @@
         android:id="@+id/form_iv_menu"
         android:layout_width="@dimen/formItemIconSize"
         android:layout_height="0dp"
-        android:layout_gravity="center_vertical"
         android:background="@drawable/form_ripple_menu_selected_background"
         android:paddingStart="@dimen/formItemMenuIconPadding"
         android:paddingEnd="@dimen/formItemMenuIconPadding"
@@ -52,13 +51,12 @@
         android:id="@+id/form_iv_more"
         android:layout_width="@dimen/formItemIconSize"
         android:layout_height="0dp"
-        android:layout_gravity="center_vertical"
         android:paddingStart="@dimen/formItemMenuIconPadding"
         android:paddingEnd="@dimen/formItemMenuIconPadding"
         android:src="@drawable/form_ic_more"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?colorSecondary" />
+        app:tint="?colorOnSurface" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

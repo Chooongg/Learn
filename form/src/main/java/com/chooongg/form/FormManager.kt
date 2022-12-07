@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.form.bean.BaseForm
-import com.chooongg.form.style.CardFormStyle
+import com.chooongg.form.style.MaterialCardFormStyle
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
 
@@ -149,8 +149,8 @@ class FormManager(isEditable: Boolean, nameEmsSize: Int = 6) {
         }
     }
 
-    fun addCardGroup(block: FormCreateGroup.() -> Unit) {
-        addGroup(CardFormStyle(), block)
+    fun addMaterialCardGroup(block: FormCreateGroup.() -> Unit) {
+        addGroup(MaterialCardFormStyle(), block)
     }
 
     fun findItemForField(field: String, changeBlock: BaseForm.() -> Unit) {

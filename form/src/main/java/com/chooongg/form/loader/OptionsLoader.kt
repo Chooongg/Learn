@@ -11,8 +11,7 @@ abstract class OptionsLoader<T : Option> {
 
     protected abstract suspend fun load(): OptionsLoadResult<T>
 
-    suspend fun loadOptions(item: BaseOptionForm) {
-        if (state == FormOptionsLoadState.LOADING) return
+    suspend fun loadOptions(item: BaseOptionForm): OptionsLoadResult<T> {
         state = FormOptionsLoadState.LOADING
         val load = load()
         if (load is OptionsLoadResult.Error) {
@@ -22,6 +21,7 @@ abstract class OptionsLoader<T : Option> {
             state = FormOptionsLoadState.WAIT
             item.options = load.data
         }
+        return load
     }
 }
 

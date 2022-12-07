@@ -89,6 +89,7 @@ class FormGroupAdapter internal constructor(
         addItemProvider(FormMenuProvider(manager))
         addItemProvider(FormRadioProvider(manager))
         addItemProvider(FormRateProvider(manager))
+        addItemProvider(FormSelectProvider(manager))
     }
 
     fun addItemProvider(provider: BaseFormProvider<out BaseForm>) {

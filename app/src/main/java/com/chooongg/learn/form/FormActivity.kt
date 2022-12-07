@@ -12,6 +12,7 @@ import com.chooongg.core.popupMenu.popupMenu
 import com.chooongg.form.FormEventListener
 import com.chooongg.form.FormManager
 import com.chooongg.form.bean.BaseForm
+import com.chooongg.form.bean.Option
 import com.chooongg.form.bean.OptionItem
 import com.chooongg.form.enum.FormVisibilityMode
 import com.chooongg.form.loader.OptionsLoadResult
@@ -42,7 +43,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addButton("夜间模式", "nightMode")
                     }
                 }
-                addCardGroup {
+                addMaterialCardGroup {
                     groupName = "Form表单"
                     groupIcon = R.drawable.ic_main_form
                     groupIconTint = {
@@ -52,10 +53,6 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addText("仅查看", "only_see") {
                             content = "仅查看时显示的文本仅查看时显示的文本"
                             visibilityMode = FormVisibilityMode.ONLY_SEE
-                        }
-                        addText("仅编辑", "only_edit") {
-                            content = "仅编辑时显示的文本仅编辑时显示的文本"
-                            visibilityMode = FormVisibilityMode.ONLY_EDIT
                         }
                         addText("文本", "text") {
                             content = "基本文本"
@@ -67,14 +64,27 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                                 ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorSecondary))
                             }
                         }
+                        addText("仅编辑", "only_edit") {
+                            content = "仅编辑时显示的文本仅编辑时显示的文本"
+                            visibilityMode = FormVisibilityMode.ONLY_EDIT
+                        }
                         addDivider()
                         addAddress("地址选择", "address")
                         addCheckbox("多选", "checkbox") {
-                            options = listOf(
-                                OptionItem("选项1"),
-                                OptionItem("选项2"),
-                                OptionItem("选项3")
-                            )
+                            optionsLoader {
+                                try {
+                                    delay(3000)
+                                    OptionsLoadResult.Success(
+                                        arrayListOf(
+                                            OptionItem("选项1"),
+                                            OptionItem("选项2"),
+                                            OptionItem("选项3")
+                                        )
+                                    )
+                                } catch (e: Exception) {
+                                    OptionsLoadResult.Error(e)
+                                }
+                            }
                         }
                         addInput("输入框", "edit") {
                             prefixText = "￥"
@@ -85,11 +95,11 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                                 try {
                                     delay(3000)
                                     OptionsLoadResult.Success(
-                                        arrayListOf(
-                                            OptionItem("测试1"),
-                                            OptionItem("测试2"),
-                                            OptionItem("测试3")
-                                        )
+                                        ArrayList<Option>().apply {
+                                            for (i in 0 until 100) {
+                                                add(OptionItem("测试${i + 1}"))
+                                            }
+                                        }
                                     )
                                 } catch (e: Exception) {
                                     OptionsLoadResult.Error(e)
@@ -98,16 +108,41 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         }
                         addLabel("标签")
                         addMenu("菜单项", "menu")
-                        addRadio("单选","radio"){
-                            options = listOf(
-                                OptionItem("选项1"),
-                                OptionItem("选项2"),
-                                OptionItem("选项3")
-                            )
+                        addRadio("单选", "radio") {
+                            optionsLoader {
+                                try {
+                                    delay(3000)
+                                    OptionsLoadResult.Success(
+                                        arrayListOf(
+                                            OptionItem("男"),
+                                            OptionItem("女"),
+                                            OptionItem("未知")
+                                        )
+                                    )
+                                } catch (e: Exception) {
+                                    OptionsLoadResult.Error(e)
+                                }
+                            }
+                        }
+                        addSelect("选项", "select") {
+                            optionsLoader {
+                                try {
+                                    delay(3000)
+                                    OptionsLoadResult.Success(
+                                        ArrayList<Option>().apply {
+                                            for (i in 0 until 100) {
+                                                add(OptionItem("选项${i + 1}"))
+                                            }
+                                        }
+                                    )
+                                } catch (e: Exception) {
+                                    OptionsLoadResult.Error(e)
+                                }
+                            }
                         }
                     }
                 }
-                addCardGroup {
+                addMaterialCardGroup {
                     groupName = "动态表单"
                     dynamicGroup = true
                     dynamicMaxPartCount = 4

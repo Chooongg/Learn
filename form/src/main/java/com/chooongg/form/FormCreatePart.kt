@@ -135,4 +135,16 @@ open class FormCreatePart internal constructor() {
             isMust = true
         }
     }
+
+
+    fun addSelect(name: CharSequence, field: String?, block: (FormSelect.() -> Unit)? = null) {
+        add(FormSelect(name, field).apply { block?.invoke(this) })
+    }
+
+    fun addSelectMust(name: CharSequence, field: String?, block: (FormSelect.() -> Unit)? = null) {
+        addSelect(name, field) {
+            block?.invoke(this)
+            isMust = true
+        }
+    }
 }
