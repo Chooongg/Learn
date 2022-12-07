@@ -56,8 +56,7 @@ open class DefaultFormStyle : FormStyle() {
             } else gone()
         }
         with(holder.getView<MaterialTextView>(R.id.form_tv_name)) {
-            isEnabled = item.isEnabled
-            text = item.name
+            hint = item.hint
         }
         with(holder.getView<AppCompatImageView>(R.id.form_iv_menu)) {
             updateLayoutParams<ConstraintLayout.LayoutParams> {

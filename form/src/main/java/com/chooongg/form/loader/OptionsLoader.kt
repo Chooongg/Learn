@@ -14,12 +14,12 @@ abstract class OptionsLoader<T : Option> {
     suspend fun loadOptions(item: BaseOptionForm): OptionsLoadResult<T> {
         state = FormOptionsLoadState.LOADING
         val load = load()
-        if (load is OptionsLoadResult.Error) {
-            state = FormOptionsLoadState.ERROR
-            item.options = null
-        } else if (load is OptionsLoadResult.Success) {
+        if (load is OptionsLoadResult.Success) {
             state = FormOptionsLoadState.WAIT
             item.options = load.data
+        } else if (load is OptionsLoadResult.Error) {
+            state = FormOptionsLoadState.ERROR
+            item.options = null
         }
         return load
     }

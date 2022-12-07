@@ -44,6 +44,7 @@ abstract class FormStyle {
 
     open fun configNameTextView(manager: FormManager, textView: TextView?, item: BaseForm) {
         if (textView == null) return
+        textView.isEnabled = item.isEnabled
         if (item.ignoreNameEms || item.name.isEmpty()) {
             textView.minWidth = 0
         } else {

@@ -1,6 +1,7 @@
 package com.chooongg.form
 
 import com.chooongg.form.bean.*
+import com.chooongg.form.enum.FormTimeMode
 
 open class FormCreatePart internal constructor() {
 
@@ -143,6 +144,40 @@ open class FormCreatePart internal constructor() {
 
     fun addSelectMust(name: CharSequence, field: String?, block: (FormSelect.() -> Unit)? = null) {
         addSelect(name, field) {
+            block?.invoke(this)
+            isMust = true
+        }
+    }
+
+
+    fun addTime(
+        name: CharSequence,
+        field: String?,
+        mode: FormTimeMode,
+        block: (FormTime.() -> Unit)? = null
+    ) {
+        add(FormTime(name, field, mode).apply { block?.invoke(this) })
+    }
+
+    fun addTimeMust(
+        name: CharSequence,
+        field: String?,
+        mode: FormTimeMode,
+        block: (FormTime.() -> Unit)? = null
+    ) {
+        addTime(name, field, mode) {
+            block?.invoke(this)
+            isMust = true
+        }
+    }
+
+
+    fun addTip(name: CharSequence, block: (FormTip.() -> Unit)? = null) {
+        add(FormTip(name).apply { block?.invoke(this) })
+    }
+
+    fun addTipMust(name: CharSequence, block: (FormTip.() -> Unit)? = null) {
+        addTip(name) {
             block?.invoke(this)
             isMust = true
         }

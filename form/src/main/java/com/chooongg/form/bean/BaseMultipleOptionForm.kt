@@ -33,22 +33,18 @@ abstract class BaseMultipleOptionForm(type: Int, name: CharSequence, field: Stri
 
     override fun outputData(manager: FormManager, json: JSONObject) {
         if (field != null && selectedKey.isNotEmpty()) {
-            when(outPutStyle){
-                FormOutPutStyle.SEPARATOR->{
-                    val selected = selectedKey.toTypedArray()
-                    json.put(field!!,buildString {
-                        for (i in selected.indices) {
-                            if (i != 0) append(separator)
-                            append(selected[i])
-                        }
-                    })
-                }
-                FormOutPutStyle.ARRAY->{
-                    val jsonArray = JSONArray()
-                    selectedKey.forEach {
-                        jsonArray.put(it)
+            when (outPutStyle) {
+                FormOutPutStyle.SEPARATOR -> json.put(field!!, buildString {
+                    val array = selectedKey.toArray()
+                    for (i in array.indices) {
+                        if (i != 0) append(separator)
+                        append(array[i])
                     }
-                    json.putOpt(field,jsonArray)
+                })
+                FormOutPutStyle.ARRAY -> {
+                    val jsonArray = JSONArray()
+                    selectedKey.forEach { jsonArray.put(it) }
+                    json.put(field!!, jsonArray)
                 }
             }
         }

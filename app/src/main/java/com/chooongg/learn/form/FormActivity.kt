@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import com.chooongg.basic.ext.attrColor
+import com.chooongg.basic.ext.logE
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingModelActivity
 import com.chooongg.core.popupMenu.popupMenu
@@ -14,6 +15,7 @@ import com.chooongg.form.FormManager
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.Option
 import com.chooongg.form.bean.OptionItem
+import com.chooongg.form.enum.FormTimeMode
 import com.chooongg.form.enum.FormVisibilityMode
 import com.chooongg.form.loader.OptionsLoadResult
 import com.chooongg.learn.R
@@ -82,6 +84,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                                         )
                                     )
                                 } catch (e: Exception) {
+                                    logE("THROW",e.javaClass.simpleName)
                                     OptionsLoadResult.Error(e)
                                 }
                             }
@@ -140,6 +143,10 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                                 }
                             }
                         }
+                        addTip("这是一个提示文本，不受 Text EMS 限制")
+                        addTime("时间选择器", "time", FormTimeMode.TIME)
+                        addTime("时间选择器", "time", FormTimeMode.DATE)
+                        addTime("时间选择器", "time", FormTimeMode.DATE_TIME)
                     }
                 }
                 addMaterialCardGroup {

@@ -6,4 +6,7 @@
     <string name="form_address_hint">请输入详细地址</string>
     <string name="form_input_hint">请输入</string>
     <string name="form_select_hint">请选择</string>
+
+    <string name="form_time_start_error">选择器无法打开</string>
+    <string name="form_time_format_error">格式转换异常</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.chooongg.form.provider
 
-import android.view.View
 import androidx.core.view.updatePaddingRelative
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.doOnClick
@@ -12,9 +11,9 @@ import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.FormSelect
 import com.chooongg.form.enum.FormOptionsLoadScene
-import com.chooongg.form.enum.FormOptionsLoadState
 import com.chooongg.form.loader.OptionsLoadResult
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 class FormSelectProvider(manager: FormManager) : BaseFormProvider<FormSelect>(manager) {
@@ -28,14 +27,16 @@ class FormSelectProvider(manager: FormManager) : BaseFormProvider<FormSelect>(ma
                 bottom = verticalPadding
             )
             isEnabled = item.isEnabled
-            text = item.options?.find { item.content == it.getKey() }?.getValue()
+            text = item.transformContent(context)
             hint = item.hint ?: context.getString(R.string.form_select_hint)
             if (item.isNeedLoadOptions(FormOptionsLoadScene.BIND)) {
                 item.getOptionsLoader()!!.let {
                     groupAdapter?.adapterScope?.launch {
-                        it.loadOptions(item)
-                        if (it.state == FormOptionsLoadState.WAIT) {
-                            text = item.options?.find { item.content == it.getKey() }?.getValue()
+                        val result = it.loadOptions(item)
+                        if (result is OptionsLoadResult.Success) {
+                            text = item.transformContent(context)
+                        } else if (result is OptionsLoadResult.Error && result.throwable !is CancellationException) {
+                            showToast(result.throwable.message)
                         }
                     }
                 }
@@ -47,7 +48,7 @@ class FormSelectProvider(manager: FormManager) : BaseFormProvider<FormSelect>(ma
                             val result = it.loadOptions(item)
                             if (result is OptionsLoadResult.Success) {
                                 showPopup(holder, this@with, item)
-                            } else if (result is OptionsLoadResult.Error) {
+                            } else if (result is OptionsLoadResult.Error && result.throwable !is CancellationException) {
                                 showToast(result.throwable.message)
                             }
                         }
@@ -57,7 +58,7 @@ class FormSelectProvider(manager: FormManager) : BaseFormProvider<FormSelect>(ma
         }
     }
 
-    private fun showPopup(holder: FormViewHolder, anchor: View, item: FormSelect) {
+    private fun showPopup(holder: FormViewHolder, anchor: MaterialButton, item: FormSelect) {
         if (item.options.isNullOrEmpty()) {
             showToast("暂无可选项")
             return
@@ -75,7 +76,7 @@ class FormSelectProvider(manager: FormManager) : BaseFormProvider<FormSelect>(ma
                         }
                         onSelectedCallback {
                             item.content = it.getKey()
-                            groupAdapter?.notifyItemChanged(holder.bindingAdapterPosition, "update")
+                            anchor.text = item.transformContent(context)
                             groupAdapter?.onFormContentChanged(
                                 manager, item, holder.absoluteAdapterPosition
                             )

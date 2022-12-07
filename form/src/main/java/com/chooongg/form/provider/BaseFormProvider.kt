@@ -55,7 +55,6 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     fun onBindViewHolder(holder: FormViewHolder, position: Int) {
         val item = groupAdapter?.getItem(position) as? T ?: return
         val groupIndex = manager.adapter.adapters.indexOf(groupAdapter)
-        logE("Form", "onBindViewHolder(${groupIndex}|${position})")
         configItemClick(holder, item)
         configMenuIcon(holder, item)
         style?.apply {
@@ -69,7 +68,6 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
     fun onBindViewHolder(holder: FormViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = groupAdapter?.getItem(position) as? T ?: return
         val groupIndex = manager.adapter.adapters.indexOf(groupAdapter)
-        logE("Form", "onBindViewHolder(${groupIndex}|${position}) payloads")
         configItemClick(holder, item)
         configMenuIcon(holder, item)
         style?.apply {

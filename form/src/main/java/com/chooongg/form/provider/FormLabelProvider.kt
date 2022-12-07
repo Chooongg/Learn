@@ -3,7 +3,6 @@ package com.chooongg.form.provider
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
-import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.gone
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.visible
@@ -31,8 +30,7 @@ class FormLabelProvider(manager: FormManager) : BaseFormProvider<FormLabel>(mana
             } else gone()
         }
         with(holder.getView<MaterialTextView>(R.id.form_tv_name)) {
-            isEnabled = item.isEnabled
-            text = item.name
+            hint = item.hint
         }
     }
 }

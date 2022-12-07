@@ -101,7 +101,7 @@ abstract class BaseForm(
     /**
      * 忽略名称长度限制
      */
-    var ignoreNameEms: Boolean = false
+    open var ignoreNameEms: Boolean = false
 
     /**
      * 是否在 Part 边缘可见

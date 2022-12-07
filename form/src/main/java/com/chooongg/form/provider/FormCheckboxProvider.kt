@@ -15,6 +15,7 @@ import com.chooongg.form.bean.Option
 import com.chooongg.form.enum.FormOptionsLoadScene
 import com.chooongg.form.loader.OptionsLoadResult
 import com.google.android.material.checkbox.MaterialCheckBox
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox>(manager) {
@@ -33,7 +34,7 @@ class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox
                         val result = it.loadOptions(item)
                         if (result is OptionsLoadResult.Success) {
                             groupAdapter?.notifyItemChanged(holder.bindingAdapterPosition, "update")
-                        } else if (result is OptionsLoadResult.Error) {
+                        } else if (result is OptionsLoadResult.Error && result.throwable !is CancellationException) {
                             showToast(result.throwable.message)
                         }
                     }
