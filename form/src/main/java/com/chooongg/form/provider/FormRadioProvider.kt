@@ -84,7 +84,7 @@ class FormRadioProvider(manager: FormManager) : BaseFormProvider<FormRadio>(mana
                 setOnCheckedChangeListener(null)
                 text = item.getValue()
                 isChecked = form.content == item.getKey()
-                isEnabled = manager.isEditable && form.isEnabled
+                isEnabled = form.isRealEnable(manager)
                 setOnCheckedChangeListener { _, isChecked ->
                     adapter?.clearFocus()
                     if (isChecked) {

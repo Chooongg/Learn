@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.basic.ext.showToast
 import com.chooongg.form.bean.BaseForm
-import com.chooongg.form.style.MaterialCardFormStyle
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
+import com.chooongg.form.style.MaterialCardFormStyle
+import org.json.JSONObject
+import java.lang.ref.WeakReference
 
 class FormManager(isEditable: Boolean, nameEmsSize: Int = 6) {
 
@@ -35,6 +38,8 @@ class FormManager(isEditable: Boolean, nameEmsSize: Int = 6) {
         const val TYPE_TIME_RANGE = 17
         const val TYPE_TIP = 18
     }
+
+    private var _recyclerView: WeakReference<RecyclerView>? = null
 
     internal val adapter = ConcatAdapter(
         ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
@@ -95,6 +100,7 @@ class FormManager(isEditable: Boolean, nameEmsSize: Int = 6) {
         itemHorizontalSize = recyclerView.resDimensionPixelSize(R.dimen.formItemHorizontal)
         itemVerticalSize = recyclerView.resDimensionPixelSize(R.dimen.formItemVertical)
         itemVerticalEdgeSize = recyclerView.resDimensionPixelSize(R.dimen.formItemVerticalEdge)
+        _recyclerView = WeakReference(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
         formEventListener = listener
@@ -247,5 +253,46 @@ class FormManager(isEditable: Boolean, nameEmsSize: Int = 6) {
 
     fun notifyItemChanged(position: Int) {
         adapter.notifyItemChanged(position, "update")
+    }
+
+    /**
+     * 检查数据正确性
+     */
+    fun checkDataCorrectness(): Boolean {
+        try {
+            adapter.adapters.forEach { if (it is FormGroupAdapter) it.checkDataCorrectness() }
+            return true
+        } catch (e: FormDataVerificationException) {
+            showToast(e.message)
+            var globalPosition = 0
+            adapter@ for (i in 0 until adapter.adapters.size) {
+                if (adapter.adapters[i] !is FormGroupAdapter) {
+                    globalPosition += adapter.adapters[i].itemCount
+                    continue@adapter
+                }
+                val itemAdapter = adapter.adapters[i] as FormGroupAdapter
+                for (j in 0 until itemAdapter.itemCount) {
+                    val item = itemAdapter.getItem(j)
+                    if (item.field == e.field) {
+                        _recyclerView?.get()?.smoothScrollToPosition(globalPosition)
+                        break@adapter
+                    } else {
+                        globalPosition++
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            showToast(e.message)
+        }
+        return false
+    }
+
+    /**
+     * 执行输出
+     */
+    fun executeOutput(): JSONObject {
+        val json = JSONObject()
+        adapter.adapters.forEach { if (it is FormGroupAdapter) it.executeOutput(json) }
+        return json
     }
 }

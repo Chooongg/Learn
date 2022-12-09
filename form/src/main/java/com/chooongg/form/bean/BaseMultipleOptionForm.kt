@@ -1,8 +1,11 @@
 package com.chooongg.form.bean
 
 import android.content.Context
+import com.chooongg.form.FormDataVerificationException
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormOutPutStyle
+import com.chooongg.form.enum.FormOutputMode
+import com.chooongg.form.enum.FormVisibilityMode
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -31,6 +34,21 @@ abstract class BaseMultipleOptionForm(type: Int, name: CharSequence, field: Stri
         }
     }
 
+    @Throws(FormDataVerificationException::class)
+    override fun checkDataCorrectness(manager: FormManager) {
+        if (isMust && selectedKey.isEmpty()) {
+            if (outputMode == FormOutputMode.ALWAYS) {
+                throw FormDataVerificationException(field, "你需要补充“$name”")
+            } else if (outputMode == FormOutputMode.ONLY_VISIBLE) {
+                if (isVisible) {
+                    if (visibilityMode == FormVisibilityMode.ALWAYS) {
+                        throw FormDataVerificationException(field, "你需要补充“$name”")
+                    }
+                }
+            }
+        }
+    }
+
     override fun outputData(manager: FormManager, json: JSONObject) {
         if (field != null && selectedKey.isNotEmpty()) {
             when (outPutStyle) {
@@ -46,11 +64,6 @@ abstract class BaseMultipleOptionForm(type: Int, name: CharSequence, field: Stri
                     selectedKey.forEach { jsonArray.put(it) }
                     json.put(field!!, jsonArray)
                 }
-            }
-        }
-        snapshotExtensionFieldAndContent().forEach {
-            if (it.value != null) {
-                json.put(it.key, it.value)
             }
         }
     }

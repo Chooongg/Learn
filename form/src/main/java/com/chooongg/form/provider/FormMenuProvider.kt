@@ -16,6 +16,7 @@ class FormMenuProvider(manager: FormManager) : BaseFormProvider<FormMenu>(manage
     override val itemViewType: Int get() = FormManager.TYPE_MENU
     override val layoutId: Int get() = R.layout.form_item_menu
     override fun onBindViewHolder(holder: FormViewHolder, item: FormMenu) {
+        holder.itemView.isEnabled = item.isRealEnable(manager)
         when (val parent = holder.itemView) {
             is MaterialCardView -> {
                 parent.rippleColor = parent.attrChildColorStateList(
@@ -32,17 +33,16 @@ class FormMenuProvider(manager: FormManager) : BaseFormProvider<FormMenu>(manage
                 width = item.iconSize ?: resDimensionPixelSize(R.dimen.formItemIconSize)
             }
             if (item.icon != null) {
-                isEnabled = item.isEnabled
                 imageTintList = item.iconTint?.invoke(context)
                 setImageResource(item.icon!!)
                 visible()
             } else gone()
         }
         with(holder.getView<MaterialTextView>(R.id.form_tv_name)) {
-            isEnabled = item.isEnabled
             text = item.name
         }
         with(holder.getView<AppCompatImageView>(R.id.form_iv_menu)) {
+            isEnabled = item.isRealMenuEnable(manager)
             updateLayoutParams<ConstraintLayout.LayoutParams> {
                 marginEnd = if (item.showMoreIcon) 0
                 else max(0, manager.itemHorizontalSize - paddingEnd)
@@ -66,4 +66,6 @@ class FormMenuProvider(manager: FormManager) : BaseFormProvider<FormMenu>(manage
             } else gone()
         }
     }
+
+    override fun configMenuIcon(holder: FormViewHolder, item: FormMenu) = Unit
 }

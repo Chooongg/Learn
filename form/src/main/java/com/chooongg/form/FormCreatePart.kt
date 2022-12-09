@@ -150,6 +150,18 @@ open class FormCreatePart internal constructor() {
     }
 
 
+    fun addSlider(name: CharSequence, field: String?, block: (FormSlider.() -> Unit)? = null) {
+        add(FormSlider(name, field).apply { block?.invoke(this) })
+    }
+
+    fun addSliderMust(name: CharSequence, field: String?, block: (FormSlider.() -> Unit)? = null) {
+        addSlider(name, field) {
+            block?.invoke(this)
+            isMust = true
+        }
+    }
+
+
     fun addTime(
         name: CharSequence,
         field: String?,

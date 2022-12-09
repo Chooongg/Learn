@@ -18,7 +18,7 @@ class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(mana
     override val layoutId: Int get() = R.layout.form_item_input
     override fun onBindViewHolder(holder: FormViewHolder, item: FormInput) {
         with(holder.getView<TextInputLayout>(R.id.form_input_content)) {
-            isEnabled = item.isEnabled
+            isEnabled = item.isRealEnable(manager)
             prefixText = item.prefixText
             suffixText = item.suffixText
             if (item.menuIcon != null) {

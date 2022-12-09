@@ -85,7 +85,7 @@ class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox
                 setOnCheckedChangeListener(null)
                 text = item.getValue()
                 isChecked = form.selectedKey.contains(item.getKey())
-                isEnabled = manager.isEditable && form.isEnabled
+                isEnabled = form.isRealEnable(manager)
                 setOnCheckedChangeListener { _, isChecked ->
                     adapter?.clearFocus()
                     if (isChecked) {

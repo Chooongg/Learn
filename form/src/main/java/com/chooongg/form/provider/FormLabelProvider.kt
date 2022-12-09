@@ -23,7 +23,6 @@ class FormLabelProvider(manager: FormManager) : BaseFormProvider<FormLabel>(mana
                 width = item.iconSize ?: resDimensionPixelSize(R.dimen.formItemIconSize)
             }
             if (item.icon != null) {
-                isEnabled = item.isEnabled
                 imageTintList = item.iconTint?.invoke(context)
                 setImageResource(item.icon!!)
                 visible()

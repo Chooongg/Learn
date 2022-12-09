@@ -27,7 +27,7 @@ class FormTimeProvider(manager: FormManager) : BaseFormProvider<FormTime>(manage
                 top = verticalPadding,
                 bottom = verticalPadding
             )
-            isEnabled = item.isEnabled
+            isEnabled = item.isRealEnable(manager)
             text = item.transformContent(context)
             hint = item.hint ?: context.getString(R.string.form_select_hint)
             doOnClick { showPicker(holder, this, item) }
@@ -43,12 +43,15 @@ class FormTimeProvider(manager: FormManager) : BaseFormProvider<FormTime>(manage
         val calendar = Calendar.getInstance()
         if (item.timeStamp != null) {
             calendar.timeInMillis = item.timeStamp!!
+        } else {
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
         }
         calendar.set(Calendar.SECOND, 0)
         when (item.mode) {
             FormTimeMode.TIME -> {
                 MaterialTimePicker.Builder().setTitleText(item.name)
-                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setTimeFormat(item.timeFormatMode)
                     .setHour(calendar.get(Calendar.HOUR_OF_DAY))
                     .setMinute(calendar.get(Calendar.MINUTE))
                     .build().apply {
@@ -65,7 +68,7 @@ class FormTimeProvider(manager: FormManager) : BaseFormProvider<FormTime>(manage
             }
             FormTimeMode.DATE -> {
                 MaterialDatePicker.Builder.datePicker().setTitleText(item.name)
-                    .setSelection(calendar.timeInMillis)
+                    .setSelection(calendar.timeInMillis + calendar.timeZone.rawOffset)
                     .setCalendarConstraints(item.calendarConstraints)
                     .setDayViewDecorator(item.dayViewDecorator)
                     .build().apply {
@@ -80,22 +83,29 @@ class FormTimeProvider(manager: FormManager) : BaseFormProvider<FormTime>(manage
                     }.show(activity.supportFragmentManager, "FormDatePicker")
             }
             FormTimeMode.DATE_TIME -> {
+                val newCalendar = Calendar.getInstance()
+                newCalendar.timeInMillis = calendar.timeInMillis
                 MaterialDatePicker.Builder.datePicker().setTitleText(item.name)
-                    .setSelection(calendar.timeInMillis)
+                    .setSelection(newCalendar.timeInMillis + newCalendar.timeZone.rawOffset)
                     .setCalendarConstraints(item.calendarConstraints)
                     .setDayViewDecorator(item.dayViewDecorator)
                     .build().apply {
                         addOnPositiveButtonClickListener {
-                            calendar.timeInMillis = it - calendar.timeZone.rawOffset
+                            newCalendar.timeInMillis = it - newCalendar.timeZone.rawOffset
+                            newCalendar.set(
+                                Calendar.HOUR_OF_DAY,
+                                calendar.get(Calendar.HOUR_OF_DAY)
+                            )
+                            newCalendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE))
                             MaterialTimePicker.Builder().setTitleText(item.name)
                                 .setTimeFormat(TimeFormat.CLOCK_24H)
-                                .setHour(calendar.get(Calendar.HOUR_OF_DAY))
-                                .setMinute(calendar.get(Calendar.MINUTE))
+                                .setHour(newCalendar.get(Calendar.HOUR_OF_DAY))
+                                .setMinute(newCalendar.get(Calendar.MINUTE))
                                 .build().apply {
                                     addOnPositiveButtonClickListener {
-                                        calendar.set(Calendar.HOUR_OF_DAY, hour)
-                                        calendar.set(Calendar.MINUTE, minute)
-                                        item.timeStamp = calendar.timeInMillis
+                                        newCalendar.set(Calendar.HOUR_OF_DAY, hour)
+                                        newCalendar.set(Calendar.MINUTE, minute)
+                                        item.timeStamp = newCalendar.timeInMillis
                                         anchor.text = item.transformContent(anchor.context)
                                         groupAdapter?.onFormContentChanged(
                                             manager, item, holder.absoluteAdapterPosition

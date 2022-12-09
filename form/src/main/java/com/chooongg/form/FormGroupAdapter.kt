@@ -16,6 +16,7 @@ import com.chooongg.form.enum.FormGroupTitleMode
 import com.chooongg.form.provider.*
 import com.chooongg.form.style.FormStyle
 import kotlinx.coroutines.*
+import org.json.JSONObject
 import java.lang.ref.WeakReference
 
 class FormGroupAdapter internal constructor(
@@ -90,6 +91,7 @@ class FormGroupAdapter internal constructor(
         addItemProvider(FormRadioProvider(manager))
         addItemProvider(FormRateProvider(manager))
         addItemProvider(FormSelectProvider(manager))
+        addItemProvider(FormSliderProvider(manager))
         addItemProvider(FormTimeProvider(manager))
         addItemProvider(FormTipProvider(manager))
     }
@@ -273,5 +275,14 @@ class FormGroupAdapter internal constructor(
     fun clearFocus() {
         recyclerView?.clearFocus()
         recyclerView?.context?.hideIME()
+    }
+
+    @Throws(FormDataVerificationException::class)
+    fun checkDataCorrectness() {
+        data.forEach { part -> part.forEach { it.checkDataCorrectness(manager) } }
+    }
+
+    fun executeOutput(json: JSONObject) {
+        data.forEach { part -> part.forEach { it.executeOutput(manager, json) } }
     }
 }

@@ -3,7 +3,7 @@ package com.chooongg.form.enum
 /**
  * 输出模式
  */
-enum class FormOutPutMode {
+enum class FormOutputMode {
     /**
      * 总是输出
      */

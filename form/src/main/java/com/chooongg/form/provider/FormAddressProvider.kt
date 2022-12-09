@@ -48,6 +48,7 @@ class FormAddressProvider(manager: FormManager) : BaseFormProvider<FormAddress>(
         }
         with(editContent) {
             if (tag is TextWatcher) removeTextChangedListener(tag as TextWatcher)
+            isEnabled = item.isRealEnable(manager)
             hint = item.hint ?: resString(R.string.form_address_hint)
             setText(item.content)
             val watcher = doAfterTextChanged {
@@ -68,9 +69,10 @@ class FormAddressProvider(manager: FormManager) : BaseFormProvider<FormAddress>(
         with(button) {
             val verticalPadding = resDimensionPixelSize(R.dimen.formItemVertical)
             updatePaddingRelative(
-                top = verticalPadding ,
+                top = verticalPadding,
                 bottom = verticalPadding
             )
+            isEnabled = item.isRealEnable(manager)
             hint = item.areaHint ?: resString(R.string.form_address_area_hint)
             visible()
         }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/form_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/form_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/formItemHorizontal"
+        android:paddingTop="@dimen/formItemVertical"
+        android:paddingBottom="@dimen/formItemVertical"
+        android:textAppearance="?textAppearanceBodyMedium"
+        android:textColor="?colorSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ems="4"
+        tools:text="测试名称" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintStart_toEndOf="@id/form_tv_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="@dimen/formItemHorizontalContent">
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/form_slider_content"
+            style="@style/Widget.Material3.Slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:valueFrom="0.0"
+            android:valueTo="100.0"
+            app:haloRadius="@dimen/d16"
+            app:labelBehavior="floating" />
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/form_iv_menu"
+        android:layout_width="@dimen/formItemMenuIconSize"
+        android:layout_height="0dp"
+        android:background="@drawable/form_ripple_menu_selected_background"
+        android:paddingStart="@dimen/formItemMenuIconPadding"
+        android:paddingEnd="@dimen/formItemMenuIconPadding"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@id/form_tv_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/form_tv_name"
+        tools:src="@android:drawable/sym_def_app_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

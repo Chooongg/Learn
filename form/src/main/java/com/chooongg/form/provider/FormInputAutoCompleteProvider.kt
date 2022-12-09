@@ -23,9 +23,8 @@ class FormInputAutoCompleteProvider(manager: FormManager) :
     override val itemViewType: Int get() = FormManager.TYPE_INPUT_AUTO_COMPLETE
     override val layoutId: Int get() = R.layout.form_item_input_auto_complete
     override fun onBindViewHolder(holder: FormViewHolder, item: FormInputAutoComplete) {
-        groupAdapter
         with(holder.getView<TextInputLayout>(R.id.form_input_content)) {
-            isEnabled = item.isEnabled
+            isEnabled = item.isRealEnable(manager)
             prefixText = item.prefixText
             suffixText = item.suffixText
             if (item.menuIcon != null) {

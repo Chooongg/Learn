@@ -17,6 +17,7 @@ class FormButtonProvider(manager: FormManager) : BaseFormProvider<FormButton>(ma
     override val layoutId: Int get() = R.layout.form_item_button
     override fun onBindViewHolder(holder: FormViewHolder, item: FormButton) {
         with(holder.getView<MaterialButton>(R.id.form_button)) {
+            isEnabled = item.isRealEnable(manager)
             text = item.name
             if (item.icon != null) {
                 iconTint = item.iconTint?.invoke(context)

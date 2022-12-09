@@ -1,17 +1,20 @@
 package com.chooongg.form.bean
 
 import android.content.Context
-import com.chooongg.basic.ext.resString
 import com.chooongg.basic.utils.TimeUtils
 import com.chooongg.form.FormManager
-import com.chooongg.form.R
 import com.chooongg.form.enum.FormTimeMode
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DayViewDecorator
+import com.google.android.material.timepicker.TimeFormat
 import org.json.JSONObject
 
 class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
     BaseForm(FormManager.TYPE_TIME, name, field) {
+
+    companion object {
+        const val FORMAT_TIMESTAMP = "stamp"
+    }
 
     var timeStamp: Long? = null
         set(value) {
@@ -26,7 +29,7 @@ class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
         FormTimeMode.DATE_TIME -> "yyyy-MM-dd HH:mm"
     }
 
-    var showFormat: String = when (mode) {
+    var showFormat: String? = when (mode) {
         FormTimeMode.TIME -> "HH:mm"
         FormTimeMode.DATE -> "yyyy年MM月dd日 HH:mm"
         FormTimeMode.DATE_TIME -> "yyyy年MM月dd日 HH:mm"
@@ -40,26 +43,36 @@ class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
 
     var dayViewDecorator: DayViewDecorator? = null
 
+    @TimeFormat
+    var timeFormatMode: Int = TimeFormat.CLOCK_12H
+
     override fun configData() {
-        if (content != null) {
-            timeStamp = TimeUtils.string2Millis(content!!.toString(), importFormat ?: format)
-        }
+        timeStamp = if (content != null) {
+            if (importFormat == FORMAT_TIMESTAMP) {
+                content?.toString()?.toLongOrNull()
+            } else {
+                TimeUtils.string2Millis(content!!.toString(), importFormat ?: format)
+            }
+        } else null
     }
 
     override fun transformContent(context: Context): CharSequence? {
         return if (timeStamp != null) {
-                TimeUtils.millis2String(timeStamp!!, showFormat)
+            if (showFormat != null) {
+                TimeUtils.millis2String(timeStamp!!, showFormat!!)
+            }else timeStamp!!.toString()
         } else null
     }
 
     override fun outputData(manager: FormManager, json: JSONObject) {
         if (field != null && timeStamp != null) {
-            json.putOpt(field, timeStamp)
-        }
-        snapshotExtensionFieldAndContent().forEach {
-            if (it.value != null) {
-                json.put(it.key, it.value)
-            }
+            json.putOpt(
+                field, if (outputFormat == FORMAT_TIMESTAMP) {
+                    content?.toString()?.toLongOrNull()
+                } else {
+                    TimeUtils.millis2String(timeStamp!!, outputFormat ?: format)
+                }
+            )
         }
     }
 }

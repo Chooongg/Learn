@@ -96,6 +96,7 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager
                 updateLayoutParams<ConstraintLayout.LayoutParams> {
                     marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
                 }
+                isEnabled = item.isRealMenuEnable(manager)
                 setImageResource(item.menuIcon!!)
                 imageTintList = item.menuIconTint?.invoke(context)
                 doOnClick {

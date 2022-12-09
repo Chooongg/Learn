@@ -21,6 +21,7 @@ import com.chooongg.form.loader.OptionsLoadResult
 import com.chooongg.learn.R
 import com.chooongg.learn.databinding.ActivityFormBinding
 import kotlinx.coroutines.delay
+import java.text.DecimalFormat
 
 class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity.FormModel>(),
     FormEventListener {
@@ -72,7 +73,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         }
                         addDivider()
                         addAddress("地址选择", "address")
-                        addCheckbox("多选", "checkbox") {
+                        addCheckboxMust("多选", "checkbox") {
                             optionsLoader {
                                 try {
                                     delay(3000)
@@ -84,16 +85,16 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                                         )
                                     )
                                 } catch (e: Exception) {
-                                    logE("THROW",e.javaClass.simpleName)
+                                    logE("THROW", e.javaClass.simpleName)
                                     OptionsLoadResult.Error(e)
                                 }
                             }
                         }
-                        addInput("输入框", "edit") {
+                        addInputMust("输入框", "edit") {
                             prefixText = "￥"
                             suffixText = "米"
                         }
-                        addInputAutoComplete("提示输入框", "inputAutoComplete") {
+                        addInputAutoCompleteMust("提示输入框", "inputAutoComplete") {
                             optionsLoader {
                                 try {
                                     delay(3000)
@@ -111,7 +112,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         }
                         addLabel("标签")
                         addMenu("菜单项", "menu")
-                        addRadio("单选", "radio") {
+                        addRadioMust("单选", "radio") {
                             optionsLoader {
                                 try {
                                     delay(3000)
@@ -127,7 +128,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                                 }
                             }
                         }
-                        addSelect("选项", "select") {
+                        addSelectMust("选项", "select") {
                             optionsLoader {
                                 try {
                                     delay(3000)
@@ -143,10 +144,19 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                                 }
                             }
                         }
+                        addSlider("滑块", "slider") {
+                            valueFrom = 20f
+                            valueTo = 300f
+                            stepSize = 20f
+                            val format = DecimalFormat("0.00")
+                            labelFormatter {
+                                "${format.format(it)}人民币"
+                            }
+                        }
                         addTip("这是一个提示文本，不受 Text EMS 限制")
-                        addTime("时间选择器", "time", FormTimeMode.TIME)
-                        addTime("时间选择器", "time", FormTimeMode.DATE)
-                        addTime("时间选择器", "time", FormTimeMode.DATE_TIME)
+                        addTimeMust("时间选择器", "time", FormTimeMode.TIME)
+                        addTimeMust("时间选择器", "date", FormTimeMode.DATE)
+                        addTimeMust("时间选择器", "dateTime", FormTimeMode.DATE_TIME)
                     }
                 }
                 addMaterialCardGroup {
@@ -170,6 +180,11 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                             content = "基本文本"
                         }
                         addInput("输入框", "input")
+                    }
+                }
+                addGroup {
+                    addPart {
+                        addButton("提交数据", "submit")
                     }
                 }
             }
@@ -198,6 +213,12 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         }
                     }
                 }.show(context, view)
+            }
+            "submit" -> {
+                if (manager.checkDataCorrectness()) {
+                    val json = manager.executeOutput()
+                    logE("Form", json.toString(4))
+                }
             }
         }
     }

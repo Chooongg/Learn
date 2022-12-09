@@ -1,26 +1,26 @@
 package com.chooongg.form.enum
 
 /**
- * 可见模式
+ * 可用模式
  */
-enum class FormVisibilityMode {
+enum class FormEnableMode {
     /**
-     * 总是可见
+     * 总是可用
      */
     ALWAYS,
 
     /**
-     * 仅只读时可见
+     * 仅只读时可用
      */
     ONLY_SEE,
 
     /**
-     * 仅编辑时可见
+     * 仅编辑时可用
      */
     ONLY_EDIT,
 
     /**
-     * 总不可见
+     * 总不可用
      */
     NEVER
 }

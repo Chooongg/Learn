@@ -26,7 +26,7 @@ class FormSelectProvider(manager: FormManager) : BaseFormProvider<FormSelect>(ma
                 top = verticalPadding,
                 bottom = verticalPadding
             )
-            isEnabled = item.isEnabled
+            isEnabled = item.isRealEnable(manager)
             text = item.transformContent(context)
             hint = item.hint ?: context.getString(R.string.form_select_hint)
             if (item.isNeedLoadOptions(FormOptionsLoadScene.BIND)) {

@@ -6,7 +6,8 @@ import androidx.annotation.DrawableRes
 import com.chooongg.form.FormDataVerificationException
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormBoundaryType
-import com.chooongg.form.enum.FormOutPutMode
+import com.chooongg.form.enum.FormEnableMode
+import com.chooongg.form.enum.FormOutputMode
 import com.chooongg.form.enum.FormVisibilityMode
 import org.json.JSONObject
 import kotlin.random.Random
@@ -77,7 +78,7 @@ abstract class BaseForm(
     /**
      * 是否启用
      */
-    var isEnabled: Boolean = true
+    var enableMode: FormEnableMode = FormEnableMode.ALWAYS
 
     open fun seeOnlyType(type: Int) {
         if (type == this.type || type == FormManager.TYPE_TEXT) {
@@ -99,6 +100,11 @@ abstract class BaseForm(
     open var menuVisibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
 
     /**
+     * 菜单可用模式
+     */
+    open var menuEnableMode:FormEnableMode = FormEnableMode.ALWAYS
+
+    /**
      * 忽略名称长度限制
      */
     open var ignoreNameEms: Boolean = false
@@ -111,7 +117,9 @@ abstract class BaseForm(
     /**
      * 输出模式
      */
-    var outPutMode: FormOutPutMode = FormOutPutMode.ONLY_VISIBLE
+    var outputMode: FormOutputMode = FormOutputMode.ALWAYS
+
+    private var customOutputBlock: ((json: JSONObject) -> Unit)? = null
 
     val antiRepeatCode = System.currentTimeMillis() + Random.nextLong(3000)
 
@@ -167,17 +175,23 @@ abstract class BaseForm(
     @Throws(FormDataVerificationException::class)
     open fun checkDataCorrectness(manager: FormManager) {
         if (isMust && content.isNullOrEmpty()) {
-            if (outPutMode == FormOutPutMode.ALWAYS) {
-                throw FormDataVerificationException(field, "你需要补充$name")
-            } else if (outPutMode == FormOutPutMode.ONLY_VISIBLE) {
+            if (outputMode == FormOutputMode.ALWAYS) {
+                throw FormDataVerificationException(field, "你需要补充“$name”")
+            } else if (outputMode == FormOutputMode.ONLY_VISIBLE) {
                 if (isVisible) {
                     if (visibilityMode == FormVisibilityMode.ALWAYS) {
-                        throw FormDataVerificationException(field, "你需要补充$name")
+                        throw FormDataVerificationException(field, "你需要补充“$name”")
                     }
                 }
             }
         }
     }
+
+    fun customOutput(block: ((json: JSONObject) -> Unit)?) {
+        customOutputBlock = block
+    }
+
+    fun snapshotCustomOutputBlock() = customOutputBlock
 
     /**
      * 输出数据
@@ -186,11 +200,23 @@ abstract class BaseForm(
         if (field != null && content != null) {
             json.putOpt(field, content)
         }
+    }
+
+    /**
+     * 执行输入数据
+     */
+    fun executeOutput(manager: FormManager, json: JSONObject) {
+        if (outputMode == FormOutputMode.ONLY_VISIBLE && !isRealVisible(manager)) return
+        if (customOutputBlock != null) {
+            customOutputBlock!!.invoke(json)
+            return
+        }
         extensionFieldAndContent?.forEach {
             if (it.value != null) {
                 json.put(it.key, it.value)
             }
         }
+        outputData(manager, json)
     }
 
     /**
@@ -202,6 +228,7 @@ abstract class BaseForm(
             FormVisibilityMode.ALWAYS -> true
             FormVisibilityMode.ONLY_SEE -> !manager.isEditable
             FormVisibilityMode.ONLY_EDIT -> manager.isEditable
+            FormVisibilityMode.NEVER -> false
         }
     }
 
@@ -213,6 +240,30 @@ abstract class BaseForm(
             FormVisibilityMode.ALWAYS -> true
             FormVisibilityMode.ONLY_SEE -> !manager.isEditable
             FormVisibilityMode.ONLY_EDIT -> manager.isEditable
+            FormVisibilityMode.NEVER -> false
+        }
+    }
+
+    /**
+     * 获取真实的可用性
+     */
+    open fun isRealEnable(manager:FormManager):Boolean{
+        return when(enableMode){
+            FormEnableMode.ALWAYS -> true
+            FormEnableMode.ONLY_SEE -> !manager.isEditable
+            FormEnableMode.ONLY_EDIT -> manager.isEditable
+            FormEnableMode.NEVER -> false
+        }
+    }
+    /**
+     * 获取真实的可用性
+     */
+    open fun isRealMenuEnable(manager:FormManager):Boolean{
+        return when(menuEnableMode){
+            FormEnableMode.ALWAYS -> true
+            FormEnableMode.ONLY_SEE -> !manager.isEditable
+            FormEnableMode.ONLY_EDIT -> manager.isEditable
+            FormEnableMode.NEVER -> false
         }
     }
 
@@ -233,12 +284,12 @@ abstract class BaseForm(
         if (isMust != other.isMust) return false
         if (isVisible != other.isVisible) return false
         if (visibilityMode != other.visibilityMode) return false
-        if (isEnabled != other.isEnabled) return false
+        if (enableMode != other.enableMode) return false
         if (menuIcon != other.menuIcon) return false
         if (menuVisibilityMode != other.menuVisibilityMode) return false
         if (ignoreNameEms != other.ignoreNameEms) return false
         if (isOnEdgeVisible != other.isOnEdgeVisible) return false
-        if (outPutMode != other.outPutMode) return false
+        if (outputMode != other.outputMode) return false
 
         return true
     }
@@ -258,12 +309,12 @@ abstract class BaseForm(
         result = 31 * result + isMust.hashCode()
         result = 31 * result + isVisible.hashCode()
         result = 31 * result + visibilityMode.hashCode()
-        result = 31 * result + isEnabled.hashCode()
+        result = 31 * result + enableMode.hashCode()
         result = 31 * result + (menuIcon ?: 0)
         result = 31 * result + menuVisibilityMode.hashCode()
         result = 31 * result + ignoreNameEms.hashCode()
         result = 31 * result + isOnEdgeVisible.hashCode()
-        result = 31 * result + outPutMode.hashCode()
+        result = 31 * result + outputMode.hashCode()
         return result
     }
 }
