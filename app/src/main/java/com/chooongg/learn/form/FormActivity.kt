@@ -31,7 +31,6 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
         model.formManager.apply {
             init(this@FormActivity, binding.recyclerView, this@FormActivity)
             if (getItemCount() <= 0) {
@@ -74,21 +73,11 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addDivider()
                         addAddress("地址选择", "address")
                         addCheckboxMust("多选", "checkbox") {
-                            optionsLoader {
-                                try {
-                                    delay(3000)
-                                    OptionsLoadResult.Success(
-                                        arrayListOf(
-                                            OptionItem("选项1"),
-                                            OptionItem("选项2"),
-                                            OptionItem("选项3")
-                                        )
-                                    )
-                                } catch (e: Exception) {
-                                    logE("THROW", e.javaClass.simpleName)
-                                    OptionsLoadResult.Error(e)
-                                }
-                            }
+                            options = arrayListOf(
+                                OptionItem("选项1"),
+                                OptionItem("选项2"),
+                                OptionItem("选项3")
+                            )
                         }
                         addInputMust("输入框", "edit") {
                             prefixText = "￥"
@@ -113,34 +102,16 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addLabel("标签")
                         addMenu("菜单项", "menu")
                         addRadioMust("单选", "radio") {
-                            optionsLoader {
-                                try {
-                                    delay(3000)
-                                    OptionsLoadResult.Success(
-                                        arrayListOf(
-                                            OptionItem("男"),
-                                            OptionItem("女"),
-                                            OptionItem("未知")
-                                        )
-                                    )
-                                } catch (e: Exception) {
-                                    OptionsLoadResult.Error(e)
-                                }
-                            }
+                            options = arrayListOf(
+                                OptionItem("男"),
+                                OptionItem("女"),
+                                OptionItem("未知")
+                            )
                         }
                         addSelectMust("选项", "select") {
-                            optionsLoader {
-                                try {
-                                    delay(3000)
-                                    OptionsLoadResult.Success(
-                                        ArrayList<Option>().apply {
-                                            for (i in 0 until 100) {
-                                                add(OptionItem("选项${i + 1}"))
-                                            }
-                                        }
-                                    )
-                                } catch (e: Exception) {
-                                    OptionsLoadResult.Error(e)
+                            options = ArrayList<Option>().apply {
+                                for (i in 0 until 100) {
+                                    add(OptionItem("选项${i + 1}"))
                                 }
                             }
                         }
