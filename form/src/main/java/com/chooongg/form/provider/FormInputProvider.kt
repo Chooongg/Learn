@@ -1,9 +1,8 @@
 package com.chooongg.form.provider
 
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import com.chooongg.basic.ext.multipleValid
 import com.chooongg.form.FormManager
@@ -41,6 +40,10 @@ class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(mana
             if (tag is TextWatcher) removeTextChangedListener(tag as TextWatcher)
             hint = item.hint ?: context.getString(R.string.form_input_hint)
             setText(item.content)
+            inputType = item.inputType
+            if (item.rawInputType != InputType.TYPE_NULL) {
+                setRawInputType(item.rawInputType)
+            }
             val watcher = doAfterTextChanged {
                 item.content = if (it.isNullOrEmpty()) null else it
                 groupAdapter?.onFormContentChanged(manager, item, holder.absoluteAdapterPosition)

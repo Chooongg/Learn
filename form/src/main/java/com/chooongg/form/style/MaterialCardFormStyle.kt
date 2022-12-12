@@ -1,12 +1,14 @@
 package com.chooongg.form.style
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePaddingRelative
 import androidx.recyclerview.widget.RecyclerView
-import com.chooongg.basic.ext.*
+import com.chooongg.basic.ext.attrResourcesId
+import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.form.FormGroupAdapter
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
@@ -18,20 +20,15 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 
-open class MaterialCardFormStyle : DefaultFormStyle() {
+open class MaterialCardFormStyle : DefaultFormStyle(100) {
 
     private var partHorizontal = -1
     private var partVertical = -1
-    private var partVerticalGlobal = -1
+    private var partVerticalEdge = -1
 
     override fun createItemParentView(parent: ViewGroup) = MaterialCardView(
         parent.context, null, com.google.android.material.R.attr.materialCardViewElevatedStyle
     ).apply {
-        if (partHorizontal == -1) partHorizontal = resDimensionPixelSize(R.dimen.formPartHorizontal)
-        if (partVertical == -1) partVertical = resDimensionPixelSize(R.dimen.formPartVertical)
-        if (partVerticalGlobal == -1) partVerticalGlobal =
-            resDimensionPixelSize(R.dimen.formPartVerticalGlobal)
-        preventCornerOverlap = false
         rippleColor = ColorStateList.valueOf(Color.TRANSPARENT)
         layoutParams = RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
@@ -42,6 +39,10 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
         manager: FormManager, holder: FormViewHolder, item: BaseForm
     ) {
         with(holder.itemView as MaterialCardView) {
+            if (partHorizontal == -1) partHorizontal = resDimensionPixelSize(R.dimen.formPartHorizontal)
+            if (partVertical == -1) partVertical = resDimensionPixelSize(R.dimen.formPartVertical)
+            if (partVerticalEdge == -1) partVerticalEdge =
+                resDimensionPixelSize(R.dimen.formPartVerticalEdge)
             val shapeAppearance = ShapeAppearanceModel.builder(
                 holder.itemView.context, attrResourcesId(
                     com.google.android.material.R.attr.shapeAppearanceCornerMedium, 0
@@ -60,12 +61,12 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
                 topMargin = when (item.adapterTopBoundary) {
                     FormBoundaryType.NONE -> 0
                     FormBoundaryType.LOCAL -> partVertical
-                    FormBoundaryType.GLOBAL -> partVerticalGlobal
+                    FormBoundaryType.GLOBAL -> partVerticalEdge
                 }
                 bottomMargin = when (item.adapterBottomBoundary) {
                     FormBoundaryType.NONE -> 0
                     FormBoundaryType.LOCAL -> partVertical
-                    FormBoundaryType.GLOBAL -> partVerticalGlobal
+                    FormBoundaryType.GLOBAL -> partVerticalEdge
                 }
             }
         }

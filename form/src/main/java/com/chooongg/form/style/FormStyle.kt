@@ -1,5 +1,6 @@
 package com.chooongg.form.style
 
+import android.content.Context
 import android.view.ViewGroup
 import android.widget.TextView
 import com.chooongg.basic.ext.attrColor
@@ -11,7 +12,14 @@ import com.chooongg.form.FormViewHolder
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 
-abstract class FormStyle {
+abstract class FormStyle(
+    /**
+     * item 类型增量
+     * 因为使用 ConcatAdapter 并且关闭了隔离类型
+     * 所以每个风格建议以 100 为单位向上增加 ItemViewType
+     */
+    val typeIncrement: Int
+) {
 
     /**
      * 创建 Item 外层布局
@@ -44,7 +52,7 @@ abstract class FormStyle {
 
     open fun configNameTextView(manager: FormManager, textView: TextView?, item: BaseForm) {
         if (textView == null) return
-        textView.isEnabled = item.isEnabled
+        textView.isEnabled = item.isRealEnable(manager)
         if (item.ignoreNameEms || item.name.isEmpty()) {
             textView.minWidth = 0
         } else {

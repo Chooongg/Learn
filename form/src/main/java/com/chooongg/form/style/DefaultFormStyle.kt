@@ -20,7 +20,7 @@ import com.chooongg.form.enum.FormGroupTitleMode
 import com.google.android.material.textview.MaterialTextView
 import kotlin.math.max
 
-open class DefaultFormStyle : FormStyle() {
+open class DefaultFormStyle(typeIncrement: Int = 0) : FormStyle(typeIncrement) {
 
     override fun createItemParentView(parent: ViewGroup): ViewGroup? = null
 
@@ -49,7 +49,7 @@ open class DefaultFormStyle : FormStyle() {
                 width = item.iconSize ?: resDimensionPixelSize(R.dimen.formItemIconSize)
             }
             if (item.icon != null) {
-                isEnabled = item.isEnabled
+                isEnabled = item.isRealEnable(manager)
                 imageTintList = item.iconTint?.invoke(context)
                 setImageResource(item.icon!!)
                 visible()
@@ -63,7 +63,7 @@ open class DefaultFormStyle : FormStyle() {
                 marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
                 width = item.iconSize ?: resDimensionPixelSize(R.dimen.formItemMenuIconSize)
             }
-            isEnabled = item.isEnabled
+            isEnabled = item.isRealMenuEnable(manager)
             if (item.mode == FormGroupTitleMode.ADD) {
                 setImageResource(R.drawable.form_ic_add)
                 visible()

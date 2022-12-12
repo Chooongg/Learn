@@ -2,6 +2,7 @@ package com.chooongg.learn.form
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
@@ -82,22 +83,14 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addInputMust("输入框", "edit") {
                             prefixText = "￥"
                             suffixText = "米"
+                            inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
                         }
                         addInputAutoCompleteMust("提示输入框", "inputAutoComplete") {
-                            optionsLoader {
-                                try {
-                                    delay(3000)
-                                    OptionsLoadResult.Success(
-                                        ArrayList<Option>().apply {
-                                            for (i in 0 until 100) {
-                                                add(OptionItem("测试${i + 1}"))
-                                            }
-                                        }
-                                    )
-                                } catch (e: Exception) {
-                                    OptionsLoadResult.Error(e)
-                                }
-                            }
+                            options = arrayListOf(
+                                OptionItem("张三"),
+                                OptionItem("李四"),
+                                OptionItem("王五")
+                            )
                         }
                         addLabel("标签")
                         addMenu("菜单项", "menu")

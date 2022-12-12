@@ -102,7 +102,7 @@ abstract class BaseForm(
     /**
      * 菜单可用模式
      */
-    open var menuEnableMode:FormEnableMode = FormEnableMode.ALWAYS
+    open var menuEnableMode: FormEnableMode = FormEnableMode.ALWAYS
 
     /**
      * 忽略名称长度限制
@@ -203,10 +203,18 @@ abstract class BaseForm(
     }
 
     /**
+     * 是否验证或输出
+     */
+    fun whetherToCheckDataOrOutput(manager: FormManager): Boolean {
+        if (outputMode == FormOutputMode.ONLY_VISIBLE && !isRealVisible(manager)) return false
+        return true
+    }
+
+    /**
      * 执行输入数据
      */
     fun executeOutput(manager: FormManager, json: JSONObject) {
-        if (outputMode == FormOutputMode.ONLY_VISIBLE && !isRealVisible(manager)) return
+        if (!whetherToCheckDataOrOutput(manager)) return
         if (customOutputBlock != null) {
             customOutputBlock!!.invoke(json)
             return
@@ -247,19 +255,20 @@ abstract class BaseForm(
     /**
      * 获取真实的可用性
      */
-    open fun isRealEnable(manager:FormManager):Boolean{
-        return when(enableMode){
+    open fun isRealEnable(manager: FormManager): Boolean {
+        return when (enableMode) {
             FormEnableMode.ALWAYS -> true
             FormEnableMode.ONLY_SEE -> !manager.isEditable
             FormEnableMode.ONLY_EDIT -> manager.isEditable
             FormEnableMode.NEVER -> false
         }
     }
+
     /**
      * 获取真实的可用性
      */
-    open fun isRealMenuEnable(manager:FormManager):Boolean{
-        return when(menuEnableMode){
+    open fun isRealMenuEnable(manager: FormManager): Boolean {
+        return when (menuEnableMode) {
             FormEnableMode.ALWAYS -> true
             FormEnableMode.ONLY_SEE -> !manager.isEditable
             FormEnableMode.ONLY_EDIT -> manager.isEditable

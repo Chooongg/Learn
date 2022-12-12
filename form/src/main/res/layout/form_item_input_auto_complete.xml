@@ -50,6 +50,7 @@
             android:paddingStart="@dimen/formItemHorizontalContent"
             android:paddingTop="@dimen/formItemVertical"
             android:paddingEnd="@dimen/formItemHorizontalContent"
+            android:overlapAnchor="false"
             android:paddingBottom="@dimen/formItemVertical"
             android:requiresFadingEdge="horizontal"
             android:textAppearance="?textAppearanceBodyMedium"

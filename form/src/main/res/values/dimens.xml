@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="formPartVertical">8dp</dimen>
-    <dimen name="formPartVerticalGlobal">16dp</dimen>
+    <dimen name="formPartVerticalEdge">16dp</dimen>
     <dimen name="formPartHorizontal">16dp</dimen>
 
     <dimen name="formItemHorizontal">16dp</dimen>

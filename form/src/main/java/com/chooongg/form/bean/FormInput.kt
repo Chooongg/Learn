@@ -1,6 +1,7 @@
 package com.chooongg.form.bean
 
 import android.content.Context
+import android.text.InputType
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.style
 import com.chooongg.basic.utils.SpanUtils
@@ -20,6 +21,16 @@ class FormInput(name: CharSequence, field: String?) :
      * 后缀文本
      */
     var suffixText: CharSequence? = null
+
+    /**
+     * 输入类型
+     */
+    var inputType: Int = InputType.TYPE_CLASS_TEXT
+
+    /**
+     * 强制改变的输入类型
+     */
+    var rawInputType: Int = InputType.TYPE_NULL
 
     override fun transformContent(context: Context): CharSequence? {
         if (content.isNullOrEmpty()) return null
