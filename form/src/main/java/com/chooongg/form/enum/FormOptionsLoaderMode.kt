@@ -4,7 +4,6 @@ package com.chooongg.form.enum
  * 选项加载模式
  */
 enum class FormOptionsLoaderMode {
-
     /**
      * 总是加载
      */

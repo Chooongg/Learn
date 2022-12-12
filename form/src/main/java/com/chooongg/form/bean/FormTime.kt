@@ -2,6 +2,7 @@ package com.chooongg.form.bean
 
 import android.content.Context
 import com.chooongg.basic.utils.TimeUtils
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormTimeMode
 import com.google.android.material.datepicker.CalendarConstraints
@@ -60,11 +61,11 @@ class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
         return if (timeStamp != null) {
             if (showFormat != null) {
                 TimeUtils.millis2String(timeStamp!!, showFormat!!)
-            }else timeStamp!!.toString()
+            } else timeStamp!!.toString()
         } else null
     }
 
-    override fun outputData(manager: FormManager, json: JSONObject) {
+    override fun outputData(manager: BaseFormManager, json: JSONObject) {
         if (field != null && timeStamp != null) {
             json.putOpt(
                 field, if (outputFormat == FORMAT_TIMESTAMP) {

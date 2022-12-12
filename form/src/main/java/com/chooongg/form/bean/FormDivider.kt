@@ -1,8 +1,6 @@
 package com.chooongg.form.bean
 
 import android.content.Context
-import android.content.res.ColorStateList
-import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager
@@ -64,6 +62,4 @@ class FormDivider : BaseForm(FormManager.TYPE_DIVIDER, "", null) {
         result = 31 * result + preventDuplication.hashCode()
         return result
     }
-
-
 }

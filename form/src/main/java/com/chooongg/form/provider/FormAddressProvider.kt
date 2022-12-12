@@ -10,6 +10,7 @@ import com.chooongg.basic.ext.gone
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.resString
 import com.chooongg.basic.ext.visible
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -19,7 +20,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class FormAddressProvider(manager: FormManager) : BaseFormProvider<FormAddress>(manager) {
+class FormAddressProvider(manager: BaseFormManager) : BaseFormProvider<FormAddress>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_ADDRESS
     override val layoutId: Int get() = R.layout.form_item_address
     override fun onBindViewHolder(holder: FormViewHolder, item: FormAddress) {

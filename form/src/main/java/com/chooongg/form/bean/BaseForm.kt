@@ -3,6 +3,7 @@ package com.chooongg.form.bean
 import android.content.Context
 import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormDataVerificationException
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormBoundaryType
@@ -83,7 +84,7 @@ abstract class BaseForm(
     open fun seeOnlyType(type: Int) {
         if (type == this.type || type == FormManager.TYPE_TEXT) {
             seeType = type
-        } else throw FormDataVerificationException(field, "不支持的格式")
+        } else throw ClassCastException("seeOnlyType() only support this.type or FormManager.TYPE_TEXT")
     }
 
     /**
@@ -170,50 +171,28 @@ abstract class BaseForm(
     open fun transformContent(context: Context): CharSequence? = content
 
     /**
-     * 检查数据正确性
-     */
-    @Throws(FormDataVerificationException::class)
-    open fun checkDataCorrectness(manager: FormManager) {
-        if (isMust && content.isNullOrEmpty()) {
-            if (outputMode == FormOutputMode.ALWAYS) {
-                throw FormDataVerificationException(field, "你需要补充“$name”")
-            } else if (outputMode == FormOutputMode.ONLY_VISIBLE) {
-                if (isVisible) {
-                    if (visibilityMode == FormVisibilityMode.ALWAYS) {
-                        throw FormDataVerificationException(field, "你需要补充“$name”")
-                    }
-                }
-            }
-        }
-    }
-
-    fun customOutput(block: ((json: JSONObject) -> Unit)?) {
-        customOutputBlock = block
-    }
-
-    fun snapshotCustomOutputBlock() = customOutputBlock
-
-    /**
-     * 输出数据
-     */
-    open fun outputData(manager: FormManager, json: JSONObject) {
-        if (field != null && content != null) {
-            json.putOpt(field, content)
-        }
-    }
-
-    /**
      * 是否验证或输出
      */
-    fun whetherToCheckDataOrOutput(manager: FormManager): Boolean {
+    fun whetherToCheckDataOrOutput(manager: BaseFormManager): Boolean {
         if (outputMode == FormOutputMode.ONLY_VISIBLE && !isRealVisible(manager)) return false
         return true
     }
 
     /**
+     * 检查数据正确性
+     */
+    @Throws(FormDataVerificationException::class)
+    open fun checkDataCorrectness(manager: BaseFormManager) {
+        if (!whetherToCheckDataOrOutput(manager)) return
+        if (isMust && content.isNullOrEmpty()) {
+            throw FormDataVerificationException(null, field, name)
+        }
+    }
+
+    /**
      * 执行输入数据
      */
-    fun executeOutput(manager: FormManager, json: JSONObject) {
+    fun executeOutput(manager: BaseFormManager, json: JSONObject) {
         if (!whetherToCheckDataOrOutput(manager)) return
         if (customOutputBlock != null) {
             customOutputBlock!!.invoke(json)
@@ -227,10 +206,25 @@ abstract class BaseForm(
         outputData(manager, json)
     }
 
+    fun customOutput(block: ((json: JSONObject) -> Unit)?) {
+        customOutputBlock = block
+    }
+
+    fun snapshotCustomOutputBlock() = customOutputBlock
+
+    /**
+     * 输出数据
+     */
+    open fun outputData(manager: BaseFormManager, json: JSONObject) {
+        if (field != null && content != null) {
+            json.putOpt(field, content)
+        }
+    }
+
     /**
      * 获取真实的可见性
      */
-    open fun isRealVisible(manager: FormManager): Boolean {
+    open fun isRealVisible(manager: BaseFormManager): Boolean {
         if (!isVisible) return false
         return when (visibilityMode) {
             FormVisibilityMode.ALWAYS -> true
@@ -243,7 +237,7 @@ abstract class BaseForm(
     /**
      * 获取真实的菜单可见性
      */
-    open fun isRealMenuVisible(manager: FormManager): Boolean {
+    open fun isRealMenuVisible(manager: BaseFormManager): Boolean {
         return when (menuVisibilityMode) {
             FormVisibilityMode.ALWAYS -> true
             FormVisibilityMode.ONLY_SEE -> !manager.isEditable
@@ -255,7 +249,7 @@ abstract class BaseForm(
     /**
      * 获取真实的可用性
      */
-    open fun isRealEnable(manager: FormManager): Boolean {
+    open fun isRealEnable(manager: BaseFormManager): Boolean {
         return when (enableMode) {
             FormEnableMode.ALWAYS -> true
             FormEnableMode.ONLY_SEE -> !manager.isEditable
@@ -267,7 +261,7 @@ abstract class BaseForm(
     /**
      * 获取真实的可用性
      */
-    open fun isRealMenuEnable(manager: FormManager): Boolean {
+    open fun isRealMenuEnable(manager: BaseFormManager): Boolean {
         return when (menuEnableMode) {
             FormEnableMode.ALWAYS -> true
             FormEnableMode.ONLY_SEE -> !manager.isEditable

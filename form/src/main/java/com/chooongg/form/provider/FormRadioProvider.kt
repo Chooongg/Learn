@@ -6,10 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.showToast
-import com.chooongg.form.FormGroupAdapter
-import com.chooongg.form.FormManager
-import com.chooongg.form.FormViewHolder
-import com.chooongg.form.R
+import com.chooongg.form.*
 import com.chooongg.form.bean.FormRadio
 import com.chooongg.form.bean.Option
 import com.chooongg.form.enum.FormOptionsLoadScene
@@ -18,7 +15,7 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-class FormRadioProvider(manager: FormManager) : BaseFormProvider<FormRadio>(manager) {
+class FormRadioProvider(manager: BaseFormManager) : BaseFormProvider<FormRadio>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_RADIO
     override val layoutId: Int get() = R.layout.form_item_radio
 
@@ -44,7 +41,7 @@ class FormRadioProvider(manager: FormManager) : BaseFormProvider<FormRadio>(mana
     }
 
     private class ChildAdapter(
-        val manager: FormManager,
+        val manager: BaseFormManager,
         val adapter: FormGroupAdapter?,
         val form: FormRadio
     ) : RecyclerView.Adapter<FormViewHolder>() {

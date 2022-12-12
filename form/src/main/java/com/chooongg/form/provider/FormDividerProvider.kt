@@ -2,14 +2,14 @@ package com.chooongg.form.provider
 
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.resDimensionPixelSize
-import com.chooongg.basic.ext.visible
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.FormDivider
 import com.google.android.material.divider.MaterialDivider
 
-class FormDividerProvider(manager: FormManager) : BaseFormProvider<FormDivider>(manager) {
+class FormDividerProvider(manager: BaseFormManager) : BaseFormProvider<FormDivider>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_DIVIDER
     override val layoutId: Int get() = R.layout.form_item_divider
 

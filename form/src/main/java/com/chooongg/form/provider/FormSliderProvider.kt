@@ -1,12 +1,13 @@
 package com.chooongg.form.provider
 
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.FormSlider
 import com.google.android.material.slider.Slider
 
-class FormSliderProvider(manager: FormManager) : BaseFormProvider<FormSlider>(manager) {
+class FormSliderProvider(manager: BaseFormManager) : BaseFormProvider<FormSlider>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_SLIDER
     override val layoutId: Int get() = R.layout.form_item_slider
     override fun onBindViewHolder(holder: FormViewHolder, item: FormSlider) {

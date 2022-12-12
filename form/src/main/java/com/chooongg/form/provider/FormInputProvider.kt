@@ -5,6 +5,7 @@ import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
 import com.chooongg.basic.ext.multipleValid
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -12,7 +13,7 @@ import com.chooongg.form.bean.FormInput
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class FormInputProvider(manager: FormManager) : BaseFormProvider<FormInput>(manager) {
+class FormInputProvider(manager: BaseFormManager) : BaseFormProvider<FormInput>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_INPUT
     override val layoutId: Int get() = R.layout.form_item_input
     override fun onBindViewHolder(holder: FormViewHolder, item: FormInput) {

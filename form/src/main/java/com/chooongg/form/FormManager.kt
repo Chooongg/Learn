@@ -3,20 +3,17 @@ package com.chooongg.form
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chooongg.basic.ext.resDimensionPixelSize
-import com.chooongg.basic.ext.showToast
 import com.chooongg.core.widget.layoutManager.CenterScrollLinearLayoutLayoutManager
-import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
 import com.chooongg.form.style.MaterialCardFormStyle
-import org.json.JSONObject
 import java.lang.ref.WeakReference
 
-class FormManager(isEditable: Boolean, nameEmsSize: Int = 6):BaseFormManager(nameEmsSize){
+class FormManager(
+    isEditable: Boolean,
+    nameEmsSize: Int = 6
+) : BaseFormManager(isEditable, nameEmsSize) {
 
     companion object {
         const val TYPE_GROUP_NAME = 0
@@ -40,16 +37,6 @@ class FormManager(isEditable: Boolean, nameEmsSize: Int = 6):BaseFormManager(nam
         const val TYPE_TIP = 18
     }
 
-    /**
-     * 是否可编辑
-     */
-    var isEditable: Boolean = isEditable
-        set(value) {
-            if (field == value) return
-            field = value
-            updateAll()
-        }
-
     internal var formEventListener: FormEventListener? = null
         set(value) {
             field = value
@@ -58,21 +45,13 @@ class FormManager(isEditable: Boolean, nameEmsSize: Int = 6):BaseFormManager(nam
             }
         }
 
-    var itemHorizontalSize = 0
-        private set
-    var itemVerticalSize = 0
-        private set
-    var itemVerticalEdgeSize = 0
-        private set
 
     fun init(
         owner: LifecycleOwner, recyclerView: RecyclerView, listener: FormEventListener? = null
     ) {
-        if (owner.lifecycle.currentState < Lifecycle.State.INITIALIZED) return
-        itemHorizontalSize = recyclerView.resDimensionPixelSize(R.dimen.formItemHorizontal)
-        itemVerticalSize = recyclerView.resDimensionPixelSize(R.dimen.formItemVertical)
-        itemVerticalEdgeSize = recyclerView.resDimensionPixelSize(R.dimen.formItemVerticalEdge)
+        if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) return
         _recyclerView = WeakReference(recyclerView)
+        initSize(recyclerView.context)
         recyclerView.layoutManager = CenterScrollLinearLayoutLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
         formEventListener = listener
@@ -103,140 +82,7 @@ class FormManager(isEditable: Boolean, nameEmsSize: Int = 6):BaseFormManager(nam
         addGroup(MaterialCardFormStyle(), block)
     }
 
-    fun findItemForField(field: String, changeBlock: BaseForm.() -> Unit) {
-        var index = 0
-        adapter.adapters.forEach { group ->
-            if (group is FormGroupAdapter) {
-                group.data.forEach { part ->
-                    if (group.hasGroupTitle) index++
-                    part.forEach {
-                        if (it.field == field) {
-                            changeBlock(it)
-                            if (it.isRealVisible(this)) {
-                                group.notifyItemChanged(index, "update")
-                            }
-                            return
-                        }
-                        index++
-                    }
-                }
-            }
-        }
-    }
-
-    fun findItemForFieldAndPartPosition(
-        field: String, partPosition: Int, changeBlock: BaseForm.() -> Unit
-    ) {
-        var index = 0
-        adapter.adapters.forEach { group ->
-            if (group is FormGroupAdapter) {
-                group.data.forEach { part ->
-                    if (group.hasGroupTitle) index++
-                    part.forEach {
-                        if (it.field == field && it.partPosition == partPosition) {
-                            changeBlock(it)
-                            if (it.isRealVisible(this)) {
-                                group.notifyItemChanged(index, "update")
-                            }
-                            return
-                        }
-                        index++
-                    }
-                }
-            }
-        }
-    }
-
-    fun findItemForName(name: CharSequence, changeBlock: BaseForm.() -> Unit) {
-        var index = 0
-        adapter.adapters.forEach { group ->
-            if (group is FormGroupAdapter) {
-                group.data.forEach { part ->
-                    if (group.hasGroupTitle) index++
-                    part.forEach {
-                        if (it.name == name) {
-                            changeBlock(it)
-                            if (it.isRealVisible(this)) {
-                                group.notifyItemChanged(index, "update")
-                            }
-                            return
-                        }
-                        index++
-                    }
-                }
-            }
-        }
-    }
-
-    fun findItemForNameAndPartPosition(
-        name: CharSequence, partPosition: Int, changeBlock: BaseForm.() -> Unit
-    ) {
-        var index = 0
-        adapter.adapters.forEach { group ->
-            if (group is FormGroupAdapter) {
-                group.data.forEach { part ->
-                    if (group.hasGroupTitle) index++
-                    part.forEach {
-                        if (it.name == name && it.partPosition == partPosition) {
-                            changeBlock(it)
-                            if (it.isRealVisible(this)) {
-                                group.notifyItemChanged(index, "update")
-                            }
-                            return
-                        }
-                        index++
-                    }
-                }
-            }
-        }
-    }
-
     fun setOnFormEventListener(listener: FormEventListener? = null) {
         formEventListener = listener
-    }
-
-    fun notifyItemChanged(position: Int) {
-        adapter.notifyItemChanged(position, "update")
-    }
-
-    /**
-     * 检查数据正确性
-     */
-    fun checkDataCorrectness(): Boolean {
-        try {
-            adapter.adapters.forEach { if (it is FormGroupAdapter) it.checkDataCorrectness() }
-            return true
-        } catch (e: FormDataVerificationException) {
-            showToast(e.message)
-            var globalPosition = 0
-            adapter@ for (i in 0 until adapter.adapters.size) {
-                if (adapter.adapters[i] !is FormGroupAdapter) {
-                    globalPosition += adapter.adapters[i].itemCount
-                    continue@adapter
-                }
-                val itemAdapter = adapter.adapters[i] as FormGroupAdapter
-                for (j in 0 until itemAdapter.itemCount) {
-                    val item = itemAdapter.getItem(j)
-                    if (item.field == e.field) {
-                        _recyclerView?.get()?.smoothScrollToPosition(globalPosition)
-                        break@adapter
-                    } else {
-                        globalPosition++
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            showToast(e.message)
-        }
-        return false
-    }
-
-    /**
-     * 执行输出
-     */
-    fun executeOutput(): JSONObject {
-        val json = JSONObject()
-        adapter.adapters.forEach { if (it is FormGroupAdapter) it.executeOutput(json) }
-        return json
     }
 }

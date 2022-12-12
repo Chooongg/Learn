@@ -1,13 +1,12 @@
 package com.chooongg.form.style
 
-import android.content.Context
 import android.view.ViewGroup
 import android.widget.TextView
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.setText
 import com.chooongg.basic.ext.style
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormGroupAdapter
-import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
@@ -31,13 +30,13 @@ abstract class FormStyle(
      * 绑定外层布局
      */
     abstract fun onBindParentViewHolder(
-        manager: FormManager, holder: FormViewHolder, item: BaseForm
+        manager: BaseFormManager, holder: FormViewHolder, item: BaseForm
     )
 
     abstract fun getGroupTitleLayoutId(): Int
 
     abstract fun onBindGroupTitleHolder(
-        manager: FormManager,
+        manager: BaseFormManager,
         adapter: FormGroupAdapter?,
         holder: FormViewHolder,
         item: FormGroupTitle
@@ -47,10 +46,10 @@ abstract class FormStyle(
      * 绑定外层布局
      */
     open fun onBindParentViewHolder(
-        manager: FormManager, holder: FormViewHolder, item: BaseForm, payloads: MutableList<Any>
+        manager: BaseFormManager, holder: FormViewHolder, item: BaseForm, payloads: MutableList<Any>
     ) = onBindParentViewHolder(manager, holder, item)
 
-    open fun configNameTextView(manager: FormManager, textView: TextView?, item: BaseForm) {
+    open fun configNameTextView(manager: BaseFormManager, textView: TextView?, item: BaseForm) {
         if (textView == null) return
         textView.isEnabled = item.isRealEnable(manager)
         if (item.ignoreNameEms || item.name.isEmpty()) {

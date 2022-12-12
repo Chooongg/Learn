@@ -7,7 +7,6 @@ import androidx.annotation.DrawableRes
 import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormButtonGravity
-import com.chooongg.form.enum.FormVisibilityMode
 import com.google.android.material.button.MaterialButton
 
 class FormButton(name: CharSequence, field: String?) :
@@ -57,20 +56,6 @@ class FormButton(name: CharSequence, field: String?) :
         logE("Form", "无效的设置")
     }
 
-    @Deprecated("无效")
-    override var menuIcon: Int? = null
-
-    @Deprecated("无效")
-    override var menuIconTint: (Context.() -> ColorStateList)? = null
-
-    @Deprecated("无效")
-    override var menuVisibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
-
-    @Deprecated("无效", ReplaceWith("false"))
-    override fun isRealMenuVisible(manager: FormManager): Boolean {
-        return false
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is FormButton) return false
@@ -92,6 +77,4 @@ class FormButton(name: CharSequence, field: String?) :
         result = 31 * result + iconPadding
         return result
     }
-
-
 }

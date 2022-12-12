@@ -9,15 +9,12 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import com.chooongg.basic.ext.*
-import com.chooongg.form.FormGroupAdapter
-import com.chooongg.form.FormManager
-import com.chooongg.form.FormViewHolder
-import com.chooongg.form.R
+import com.chooongg.form.*
 import com.chooongg.form.bean.BaseForm
 import java.lang.ref.WeakReference
 import kotlin.math.max
 
-abstract class BaseFormProvider<T : BaseForm>(protected val manager: FormManager) {
+abstract class BaseFormProvider<T : BaseForm>(protected val manager: BaseFormManager) {
 
     lateinit var context: Context internal set
 

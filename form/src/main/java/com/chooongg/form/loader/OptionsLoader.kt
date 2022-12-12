@@ -25,7 +25,7 @@ abstract class OptionsLoader<T : Option> {
     }
 }
 
-sealed class OptionsLoadResult<T : Option> protected constructor() {
+sealed class OptionsLoadResult<T : Option> private constructor() {
     data class Success<T : Option>(val data: List<T>) : OptionsLoadResult<T>()
     data class Error<T : Option>(val throwable: Throwable) : OptionsLoadResult<T>()
 }

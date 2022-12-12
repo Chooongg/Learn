@@ -4,6 +4,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -12,7 +13,7 @@ import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormButtonGravity
 import com.google.android.material.button.MaterialButton
 
-class FormButtonProvider(manager: FormManager) : BaseFormProvider<FormButton>(manager) {
+class FormButtonProvider(manager: BaseFormManager) : BaseFormProvider<FormButton>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_BUTTON
     override val layoutId: Int get() = R.layout.form_item_button
     override fun onBindViewHolder(holder: FormViewHolder, item: FormButton) {

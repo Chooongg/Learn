@@ -6,6 +6,7 @@ import androidx.core.view.updateLayoutParams
 import com.chooongg.basic.ext.gone
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.visible
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -13,7 +14,7 @@ import com.chooongg.form.bean.FormLabel
 import com.google.android.material.textview.MaterialTextView
 import kotlin.math.max
 
-class FormLabelProvider(manager: FormManager) : BaseFormProvider<FormLabel>(manager) {
+class FormLabelProvider(manager: BaseFormManager) : BaseFormProvider<FormLabel>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_LABEL
     override val layoutId: Int get() = R.layout.form_item_label
     override fun onBindViewHolder(holder: FormViewHolder, item: FormLabel) {

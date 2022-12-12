@@ -7,15 +7,15 @@ interface FormEventListener {
     /**
      * 表单点击事件
      */
-    fun onFormClick(manager: FormManager, item: BaseForm, view: View, position: Int) {}
+    fun onFormClick(manager: BaseFormManager, item: BaseForm, view: View, position: Int) {}
 
     /**
      * 表单菜单点击事件
      */
-    fun onFormMenuClick(manager: FormManager, item: BaseForm, view: View, position: Int) {}
+    fun onFormMenuClick(manager: BaseFormManager, item: BaseForm, view: View, position: Int) {}
 
     /**
      * 表单内容更改事件
      */
-    fun onFormContentChanged(manager: FormManager, item: BaseForm, position: Int) {}
+    fun onFormContentChanged(manager: BaseFormManager, item: BaseForm, position: Int) {}
 }

@@ -1,8 +1,8 @@
 package com.chooongg.form.bean
 
 import android.content.Context
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormDataVerificationException
-import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormOutPutStyle
 import com.chooongg.form.enum.FormOutputMode
 import com.chooongg.form.enum.FormVisibilityMode
@@ -19,7 +19,7 @@ abstract class BaseMultipleOptionForm(type: Int, name: CharSequence, field: Stri
 
     val selectedKey = HashSet<CharSequence>()
 
-    var outPutStyle:FormOutPutStyle = FormOutPutStyle.ARRAY
+    var outPutStyle: FormOutPutStyle = FormOutPutStyle.ARRAY
 
     override fun transformContent(context: Context): CharSequence? {
         if (selectedKey.isEmpty()) return null
@@ -35,21 +35,21 @@ abstract class BaseMultipleOptionForm(type: Int, name: CharSequence, field: Stri
     }
 
     @Throws(FormDataVerificationException::class)
-    override fun checkDataCorrectness(manager: FormManager) {
+    override fun checkDataCorrectness(manager: BaseFormManager) {
         if (isMust && selectedKey.isEmpty()) {
             if (outputMode == FormOutputMode.ALWAYS) {
-                throw FormDataVerificationException(field, "你需要补充“$name”")
+                throw FormDataVerificationException(null, field, name)
             } else if (outputMode == FormOutputMode.ONLY_VISIBLE) {
                 if (isVisible) {
                     if (visibilityMode == FormVisibilityMode.ALWAYS) {
-                        throw FormDataVerificationException(field, "你需要补充“$name”")
+                        throw FormDataVerificationException(null, field, name)
                     }
                 }
             }
         }
     }
 
-    override fun outputData(manager: FormManager, json: JSONObject) {
+    override fun outputData(manager: BaseFormManager, json: JSONObject) {
         if (field != null && selectedKey.isNotEmpty()) {
             when (outPutStyle) {
                 FormOutPutStyle.SEPARATOR -> json.put(field!!, buildString {

@@ -6,10 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.showToast
-import com.chooongg.form.FormGroupAdapter
-import com.chooongg.form.FormManager
-import com.chooongg.form.FormViewHolder
-import com.chooongg.form.R
+import com.chooongg.form.*
 import com.chooongg.form.bean.FormCheckbox
 import com.chooongg.form.bean.Option
 import com.chooongg.form.enum.FormOptionsLoadScene
@@ -18,7 +15,7 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox>(manager) {
+class FormCheckboxProvider(manager: BaseFormManager) : BaseFormProvider<FormCheckbox>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_CHECKBOX
     override val layoutId: Int get() = R.layout.form_item_checkbox
 
@@ -44,7 +41,7 @@ class FormCheckboxProvider(manager: FormManager) : BaseFormProvider<FormCheckbox
     }
 
     private class ChildAdapter(
-        val manager: FormManager,
+        val manager: BaseFormManager,
         val adapter: FormGroupAdapter?,
         val form: FormCheckbox
     ) : RecyclerView.Adapter<FormViewHolder>() {

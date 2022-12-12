@@ -154,6 +154,4 @@ class FormAddress(name: CharSequence, field: String?) :
         result = 31 * result + (areaField?.hashCode() ?: 0)
         return result
     }
-
-
 }

@@ -6,6 +6,7 @@ import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.getActivity
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.showToast
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -17,7 +18,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import java.util.*
 
-class FormTimeProvider(manager: FormManager) : BaseFormProvider<FormTime>(manager) {
+class FormTimeProvider(manager: BaseFormManager) : BaseFormProvider<FormTime>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_TIME
     override val layoutId: Int get() = R.layout.form_item_time
     override fun onBindViewHolder(holder: FormViewHolder, item: FormTime) {

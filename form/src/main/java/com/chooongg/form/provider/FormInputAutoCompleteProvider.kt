@@ -6,6 +6,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.chooongg.basic.ext.multipleValid
 import com.chooongg.basic.ext.showToast
 import com.chooongg.basic.ext.withMain
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -18,7 +19,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-class FormInputAutoCompleteProvider(manager: FormManager) :
+class FormInputAutoCompleteProvider(manager: BaseFormManager) :
     BaseFormProvider<FormInputAutoComplete>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_INPUT_AUTO_COMPLETE
     override val layoutId: Int get() = R.layout.form_item_input_auto_complete

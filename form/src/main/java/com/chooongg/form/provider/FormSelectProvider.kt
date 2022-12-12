@@ -6,6 +6,7 @@ import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.showToast
 import com.chooongg.core.popupMenu.popupMenu
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -16,7 +17,7 @@ import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-class FormSelectProvider(manager: FormManager) : BaseFormProvider<FormSelect>(manager) {
+class FormSelectProvider(manager: BaseFormManager) : BaseFormProvider<FormSelect>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_SELECT
     override val layoutId: Int get() = R.layout.form_item_select
     override fun onBindViewHolder(holder: FormViewHolder, item: FormSelect) {

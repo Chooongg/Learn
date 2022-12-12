@@ -20,7 +20,7 @@ import org.json.JSONObject
 import java.lang.ref.WeakReference
 
 class FormGroupAdapter internal constructor(
-    private val manager: FormManager, val style: FormStyle, private val typeIncrement: Int
+    private val manager: BaseFormManager, val style: FormStyle, private val typeIncrement: Int
 ) : RecyclerView.Adapter<FormViewHolder>() {
 
     private var _recyclerView: WeakReference<RecyclerView>? = null
@@ -206,7 +206,7 @@ class FormGroupAdapter internal constructor(
         formEventListener = listener
     }
 
-    fun onFormMenuClick(manager: FormManager, item: BaseForm, view: View, position: Int) {
+    fun onFormMenuClick(manager: BaseFormManager, item: BaseForm, view: View, position: Int) {
         if (item is FormGroupTitle) {
             if (item.mode == FormGroupTitleMode.ADD) {
                 if (dynamicGroupAddPartBlock != null) {
@@ -225,11 +225,11 @@ class FormGroupAdapter internal constructor(
         formEventListener?.onFormMenuClick(manager, item, view, position)
     }
 
-    fun onFormClick(manager: FormManager, item: BaseForm, view: View, position: Int) {
+    fun onFormClick(manager: BaseFormManager, item: BaseForm, view: View, position: Int) {
         formEventListener?.onFormClick(manager, item, view, position)
     }
 
-    fun onFormContentChanged(manager: FormManager, item: BaseForm, position: Int) {
+    fun onFormContentChanged(manager: BaseFormManager, item: BaseForm, position: Int) {
         formEventListener?.onFormContentChanged(manager, item, position)
     }
 
@@ -273,7 +273,7 @@ class FormGroupAdapter internal constructor(
     }
 
     fun clearFocus() {
-        recyclerView?.clearFocus()
+        recyclerView?.focusedChild?.clearFocus()
         recyclerView?.context?.hideIME()
     }
 

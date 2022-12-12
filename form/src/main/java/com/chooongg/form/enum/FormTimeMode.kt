@@ -4,7 +4,6 @@ package com.chooongg.form.enum
  * 时间模式
  */
 enum class FormTimeMode {
-
     /**
      * 单时间
      */

@@ -11,6 +11,7 @@ import com.chooongg.basic.ext.logE
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingModelActivity
 import com.chooongg.core.popupMenu.popupMenu
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormEventListener
 import com.chooongg.form.FormManager
 import com.chooongg.form.bean.BaseForm
@@ -18,10 +19,8 @@ import com.chooongg.form.bean.Option
 import com.chooongg.form.bean.OptionItem
 import com.chooongg.form.enum.FormTimeMode
 import com.chooongg.form.enum.FormVisibilityMode
-import com.chooongg.form.loader.OptionsLoadResult
 import com.chooongg.learn.R
 import com.chooongg.learn.databinding.ActivityFormBinding
-import kotlinx.coroutines.delay
 import java.text.DecimalFormat
 
 class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity.FormModel>(),
@@ -156,7 +155,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
     }
 
 
-    override fun onFormClick(manager: FormManager, item: BaseForm, view: View, position: Int) {
+    override fun onFormClick(manager: BaseFormManager, item: BaseForm, view: View, position: Int) {
         when (item.field) {
             "isEditable" -> {
                 item.name = if (manager.isEditable) "不可编辑" else "可编辑"

@@ -9,6 +9,11 @@ class FormMenu(name: CharSequence, field: String?) :
     BaseForm(FormManager.TYPE_MENU, name, field) {
 
     /**
+     * 名称文本颜色
+     */
+    var nameTextColor: (Context.() -> ColorStateList)? = null
+
+    /**
      * 图标资源
      */
     @DrawableRes

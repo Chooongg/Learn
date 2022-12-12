@@ -33,5 +33,4 @@ class FormFile(name: CharSequence, field: String?) :
     override fun seeOnlyType(type: Int) {
         logE("Form", "无效的设置")
     }
-
 }

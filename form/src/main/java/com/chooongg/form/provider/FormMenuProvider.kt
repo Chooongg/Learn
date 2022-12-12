@@ -4,6 +4,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import com.chooongg.basic.ext.*
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
@@ -12,7 +13,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import kotlin.math.max
 
-class FormMenuProvider(manager: FormManager) : BaseFormProvider<FormMenu>(manager) {
+class FormMenuProvider(manager: BaseFormManager) : BaseFormProvider<FormMenu>(manager) {
     override val itemViewType: Int get() = FormManager.TYPE_MENU
     override val layoutId: Int get() = R.layout.form_item_menu
     override fun onBindViewHolder(holder: FormViewHolder, item: FormMenu) {

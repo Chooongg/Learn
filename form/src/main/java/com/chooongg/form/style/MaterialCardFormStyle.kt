@@ -1,6 +1,5 @@
 package com.chooongg.form.style
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.ViewGroup
@@ -9,8 +8,8 @@ import androidx.core.view.updatePaddingRelative
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.attrResourcesId
 import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormGroupAdapter
-import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
@@ -36,10 +35,13 @@ open class MaterialCardFormStyle : DefaultFormStyle(100) {
     }
 
     override fun onBindParentViewHolder(
-        manager: FormManager, holder: FormViewHolder, item: BaseForm
+        manager: BaseFormManager,
+        holder: FormViewHolder,
+        item: BaseForm
     ) {
         with(holder.itemView as MaterialCardView) {
-            if (partHorizontal == -1) partHorizontal = resDimensionPixelSize(R.dimen.formPartHorizontal)
+            if (partHorizontal == -1) partHorizontal =
+                resDimensionPixelSize(R.dimen.formPartHorizontal)
             if (partVertical == -1) partVertical = resDimensionPixelSize(R.dimen.formPartVertical)
             if (partVerticalEdge == -1) partVerticalEdge =
                 resDimensionPixelSize(R.dimen.formPartVerticalEdge)
@@ -69,19 +71,20 @@ open class MaterialCardFormStyle : DefaultFormStyle(100) {
                     FormBoundaryType.GLOBAL -> partVerticalEdge
                 }
             }
-        }
-        holder.getViewOrNull<ViewGroup>(R.id.form_item_layout)?.apply {
-            updatePaddingRelative(
-                top = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
-                bottom = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
-            )
+            if (childCount > 0) {
+                if (item is FormGroupTitle) return@with
+                getChildAt(0).updatePaddingRelative(
+                    top = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
+                    bottom = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
+                )
+            }
         }
     }
 
     override fun getGroupTitleLayoutId() = R.layout.form_item_group_name_card
 
     override fun onBindGroupTitleHolder(
-        manager: FormManager,
+        manager: BaseFormManager,
         adapter: FormGroupAdapter?,
         holder: FormViewHolder,
         item: FormGroupTitle

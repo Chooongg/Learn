@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CenterScrollLinearLayoutLayoutManager : LinearLayoutManager {
 
+    var millisecondsPerInch = 25f
+
     constructor(
         context: Context?
     ) : super(context)
@@ -36,7 +38,7 @@ class CenterScrollLinearLayoutLayoutManager : LinearLayoutManager {
         startSmoothScroll(smoothScroller)
     }
 
-    private class CenterSmoothScroller(context: Context?) : LinearSmoothScroller(context) {
+    private inner class CenterSmoothScroller(context: Context?) : LinearSmoothScroller(context) {
         override fun calculateDtToFit(
             viewStart: Int,
             viewEnd: Int,
@@ -48,7 +50,7 @@ class CenterScrollLinearLayoutLayoutManager : LinearLayoutManager {
         }
 
         override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-            return 25f / displayMetrics.densityDpi
+            return millisecondsPerInch / displayMetrics.densityDpi
         }
     }
 }
