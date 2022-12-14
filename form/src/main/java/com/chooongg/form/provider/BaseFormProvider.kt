@@ -11,6 +11,7 @@ import androidx.core.view.updateLayoutParams
 import com.chooongg.basic.ext.*
 import com.chooongg.form.*
 import com.chooongg.form.bean.BaseForm
+import com.google.android.flexbox.FlexboxLayoutManager
 import java.lang.ref.WeakReference
 import kotlin.math.max
 
@@ -40,10 +41,15 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: BaseFormMan
 
     open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FormViewHolder {
         val parentView = style?.createItemParentView(parent)
-        return if (parentView != null) {
+        val holder = if (parentView != null) {
             LayoutInflater.from(parentView.context).inflate(layoutId, parentView, true)
             FormViewHolder(parentView)
         } else FormViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
+        holder.itemView.updateLayoutParams<FlexboxLayoutManager.LayoutParams> {
+            val percent = manager.itemMaxWidth / parent.width.toFloat()
+            flexBasisPercent = if (percent >= 1f) 1f else max(0.500001f, percent)
+        }
+        return holder
     }
 
     open fun onViewHolderCreated(holder: FormViewHolder) = Unit

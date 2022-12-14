@@ -2,10 +2,7 @@ package com.chooongg.core.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import com.chooongg.basic.ext.attrBoolean
-import com.chooongg.basic.ext.attrColor
-import com.chooongg.basic.ext.contentView
-import com.chooongg.basic.ext.logDClass
+import com.chooongg.basic.ext.*
 import com.chooongg.core.R
 import com.chooongg.core.annotation.ActivityEdgeToEdge
 import com.chooongg.core.annotation.ActivityTransitions
@@ -28,7 +22,6 @@ import com.chooongg.core.ext.TRANSITION_NAME_CONTAINER_TRANSFORM
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
 import com.google.android.material.motion.MotionUtils
-import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -59,10 +52,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 supportFragmentManager.fragments.forEach {
-                    if (it is BasicFragment
-                        && !it.isHidden && it.isResumed
-                        && it.onBackPressedIntercept()
-                    ) return
+                    if (it is BasicFragment && !it.isHidden && it.isResumed && it.onBackPressedIntercept()) return
                 }
                 finishAfterTransition()
             }
@@ -185,6 +175,12 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     fun clearTransition() {
         contentView.transitionName = null
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        val active = super.dispatchTouchEvent(ev)
+        if (!active) hideIME()
+        return active
     }
 
     override fun onDestroy() {

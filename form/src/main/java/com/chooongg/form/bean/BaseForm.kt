@@ -79,7 +79,7 @@ abstract class BaseForm(
     /**
      * 是否启用
      */
-    var enableMode: FormEnableMode = FormEnableMode.ALWAYS
+    open var enableMode: FormEnableMode = FormEnableMode.ONLY_EDIT
 
     open fun seeOnlyType(type: Int) {
         if (type == this.type || type == FormManager.TYPE_TEXT) {

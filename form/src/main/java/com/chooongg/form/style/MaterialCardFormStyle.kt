@@ -15,6 +15,7 @@ import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -29,15 +30,13 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
         parent.context, null, com.google.android.material.R.attr.materialCardViewElevatedStyle
     ).apply {
         rippleColor = ColorStateList.valueOf(Color.TRANSPARENT)
-        layoutParams = RecyclerView.LayoutParams(
+        layoutParams = FlexboxLayoutManager.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
 
     override fun onBindParentViewHolder(
-        manager: BaseFormManager,
-        holder: FormViewHolder,
-        item: BaseForm
+        manager: BaseFormManager, holder: FormViewHolder, item: BaseForm
     ) {
         with(holder.itemView as MaterialCardView) {
             if (partHorizontal == -1) partHorizontal =
@@ -57,7 +56,7 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
                 shapeAppearance.setBottomLeftCornerSize(0f).setBottomRightCornerSize(0f)
             }
             shapeAppearanceModel = shapeAppearance.build()
-            updateLayoutParams<RecyclerView.LayoutParams> {
+            updateLayoutParams<FlexboxLayoutManager.LayoutParams> {
                 marginStart = partHorizontal
                 marginEnd = partHorizontal
                 topMargin = when (item.adapterTopBoundary) {

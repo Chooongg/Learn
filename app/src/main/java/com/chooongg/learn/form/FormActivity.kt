@@ -27,7 +27,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
     FormEventListener {
 
     class FormModel : ViewModel() {
-        val formManager = FormManager(true, 4)
+        val formManager = FormManager(true)
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -80,7 +80,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addInputMust("输入框", "edit") {
                             prefixText = "￥"
                             suffixText = "米"
-                            inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+//                            inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
                         }
                         addInputAutoCompleteMust("提示输入框", "inputAutoComplete") {
                             options = arrayListOf(

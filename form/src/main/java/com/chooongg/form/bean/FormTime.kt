@@ -17,6 +17,8 @@ class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
         const val FORMAT_TIMESTAMP = "stamp"
     }
 
+    override var seeType: Int = FormManager.TYPE_TEXT
+
     var timeStamp: Long? = null
         set(value) {
             field = value

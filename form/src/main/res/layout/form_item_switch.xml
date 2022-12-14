@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/form_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,10 +22,11 @@
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/form_switch"
-        style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="0dp"
+        android:paddingStart="@dimen/formItemHorizontalContent"
+        android:paddingEnd="@dimen/formItemHorizontalContent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
         app:layout_constraintHorizontal_bias="0.0"

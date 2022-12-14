@@ -2,15 +2,21 @@ package com.chooongg.form.bean
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.view.Gravity
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
+import androidx.annotation.GravityInt
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager
 import com.chooongg.form.enum.FormButtonGravity
+import com.chooongg.form.enum.FormEnableMode
 import com.google.android.material.button.MaterialButton
 
 class FormButton(name: CharSequence, field: String?) :
     BaseForm(FormManager.TYPE_BUTTON, name, field) {
+
+    override var enableMode: FormEnableMode = FormEnableMode.ALWAYS
 
     /**
      * 图标资源
@@ -50,7 +56,7 @@ class FormButton(name: CharSequence, field: String?) :
      * 按钮宽度
      */
     @androidx.annotation.IntRange(from = -2)
-    var width: Int = ViewGroup.LayoutParams.MATCH_PARENT
+    var width: Int = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 
     override fun seeOnlyType(type: Int) {
         logE("Form", "无效的设置")

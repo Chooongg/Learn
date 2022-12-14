@@ -24,8 +24,7 @@ class FormButtonProvider(manager: BaseFormManager) : BaseFormProvider<FormButton
                 iconTint = item.iconTint?.invoke(context)
                 setIconResource(item.icon!!)
             } else icon = null
-            iconSize =
-                item.iconSize ?: context.resDimensionPixelSize(com.chooongg.basic.R.dimen.d48)
+            iconSize = item.iconSize ?: context.resDimensionPixelSize(R.dimen.formItemIconSize)
             iconGravity = item.iconGravity
             iconPadding = item.iconPadding
             updateLayoutParams<ConstraintLayout.LayoutParams> {

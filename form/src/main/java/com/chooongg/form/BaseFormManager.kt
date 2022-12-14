@@ -17,6 +17,8 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
         ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
     )
 
+    var itemMaxWidth = 0
+        private set
     var itemHorizontalSize = 0
         private set
     var itemVerticalSize = 0
@@ -44,7 +46,11 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
             updateAll(true)
         }
 
+    /**
+     * 初始化数值
+     */
     protected fun initSize(context: Context) {
+        itemMaxWidth = context.resDimensionPixelSize(R.dimen.formItemMaxWidth)
         itemHorizontalSize = context.resDimensionPixelSize(R.dimen.formItemHorizontal)
         itemVerticalSize = context.resDimensionPixelSize(R.dimen.formItemVertical)
         itemVerticalEdgeSize = context.resDimensionPixelSize(R.dimen.formItemVerticalEdge)

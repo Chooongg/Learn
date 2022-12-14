@@ -4,17 +4,22 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.chooongg.basic.ext.getActivity
+import com.chooongg.basic.ext.hideIME
 import com.chooongg.basic.ext.logE
-import com.chooongg.core.widget.layoutManager.CenterScrollLinearLayoutManager
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
 import com.chooongg.form.style.MaterialCardFormStyle
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.reflect.KClass
 
 class FormManager(
-    isEditable: Boolean, nameEmsSize: Int = 6
+    isEditable: Boolean, nameEmsSize: Int = 5
 ) : BaseFormManager(isEditable, nameEmsSize) {
 
     companion object {
@@ -35,8 +40,7 @@ class FormManager(
         const val TYPE_SLIDER = 14
         const val TYPE_SWITCH = 15
         const val TYPE_TIME = 16
-        const val TYPE_TIME_RANGE = 17
-        const val TYPE_TIP = 18
+        const val TYPE_TIP = 17
     }
 
     internal var formEventListener: FormEventListener? = null
@@ -53,9 +57,22 @@ class FormManager(
         owner: LifecycleOwner, recyclerView: RecyclerView, listener: FormEventListener? = null
     ) {
         if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) return
+        recyclerView.requestLayout()
         _recyclerView = WeakReference(recyclerView)
         initSize(recyclerView.context)
-        recyclerView.layoutManager = CenterScrollLinearLayoutManager(recyclerView.context)
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING && recyclerView.focusedChild != null) {
+                    recyclerView.focusedChild.clearFocus()
+                    recyclerView.context.hideIME()
+                }
+            }
+        })
+        recyclerView.layoutManager = FlexboxLayoutManager(
+            recyclerView.context, FlexDirection.ROW, FlexWrap.WRAP
+        ).apply {
+            justifyContent = JustifyContent.CENTER
+        }
         recyclerView.adapter = adapter
         formEventListener = listener
         owner.lifecycle.addObserver(object : LifecycleEventObserver {
