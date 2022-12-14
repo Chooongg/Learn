@@ -22,6 +22,10 @@ class FormCreateGroup {
 
     var dynamicGroup: Boolean = false
 
+    @androidx.annotation.IntRange(from = 0)
+    var dynamicMinPartCount: Int = 1
+
+    @androidx.annotation.IntRange(from = 1)
     var dynamicMaxPartCount: Int = Int.MAX_VALUE
 
     internal var dynamicGroupAddPartBlock: (FormCreatePart.() -> Unit)? = null

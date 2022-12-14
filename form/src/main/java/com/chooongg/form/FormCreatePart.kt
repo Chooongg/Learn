@@ -138,6 +138,18 @@ open class FormCreatePart internal constructor() {
     }
 
 
+    fun addRate(name: CharSequence, field: String?, block: (FormRating.() -> Unit)? = null) {
+        add(FormRating(name, field).apply { block?.invoke(this) })
+    }
+
+    fun addRateMust(name: CharSequence, field: String?, block: (FormRating.() -> Unit)? = null) {
+        addRate(name, field) {
+            block?.invoke(this)
+            isMust = true
+        }
+    }
+
+
     fun addSelect(name: CharSequence, field: String?, block: (FormSelect.() -> Unit)? = null) {
         add(FormSelect(name, field).apply { block?.invoke(this) })
     }
@@ -156,6 +168,18 @@ open class FormCreatePart internal constructor() {
 
     fun addSliderMust(name: CharSequence, field: String?, block: (FormSlider.() -> Unit)? = null) {
         addSlider(name, field) {
+            block?.invoke(this)
+            isMust = true
+        }
+    }
+
+
+    fun addSwitch(name: CharSequence, field: String?, block: (FormSwitch.() -> Unit)? = null) {
+        add(FormSwitch(name, field).apply { block?.invoke(this) })
+    }
+
+    fun addSwitchMust(name: CharSequence, field: String?, block: (FormSwitch.() -> Unit)? = null) {
+        addSwitch(name, field) {
             block?.invoke(this)
             isMust = true
         }

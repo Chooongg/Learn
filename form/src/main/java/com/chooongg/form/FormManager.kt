@@ -4,15 +4,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.chooongg.core.widget.layoutManager.CenterScrollLinearLayoutLayoutManager
+import com.chooongg.basic.ext.logE
+import com.chooongg.core.widget.layoutManager.CenterScrollLinearLayoutManager
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
 import com.chooongg.form.style.MaterialCardFormStyle
 import java.lang.ref.WeakReference
+import java.util.concurrent.CopyOnWriteArraySet
+import kotlin.reflect.KClass
 
 class FormManager(
-    isEditable: Boolean,
-    nameEmsSize: Int = 6
+    isEditable: Boolean, nameEmsSize: Int = 6
 ) : BaseFormManager(isEditable, nameEmsSize) {
 
     companion object {
@@ -28,7 +30,7 @@ class FormManager(
         const val TYPE_LABEL = 9
         const val TYPE_MENU = 10
         const val TYPE_RADIO = 11
-        const val TYPE_RATE = 12
+        const val TYPE_RATING = 12
         const val TYPE_SELECT = 13
         const val TYPE_SLIDER = 14
         const val TYPE_SWITCH = 15
@@ -45,6 +47,7 @@ class FormManager(
             }
         }
 
+    private val styleSequence = CopyOnWriteArraySet<KClass<out FormStyle>>()
 
     fun init(
         owner: LifecycleOwner, recyclerView: RecyclerView, listener: FormEventListener? = null
@@ -52,7 +55,7 @@ class FormManager(
         if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) return
         _recyclerView = WeakReference(recyclerView)
         initSize(recyclerView.context)
-        recyclerView.layoutManager = CenterScrollLinearLayoutLayoutManager(recyclerView.context)
+        recyclerView.layoutManager = CenterScrollLinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
         formEventListener = listener
         owner.lifecycle.addObserver(object : LifecycleEventObserver {
@@ -67,9 +70,13 @@ class FormManager(
     }
 
     fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormCreateGroup.() -> Unit) {
-        val group = FormGroupAdapter(this, style, style.typeIncrement)
+        if (!styleSequence.contains(style::class)) {
+            styleSequence.add(style::class)
+        }
+        val group = FormGroupAdapter(this, style, styleSequence.indexOf(style::class) * 100)
         group.setFormEventListener(formEventListener)
         val count = adapter.adapters.size
+        logE("Form", "styleIndex: ${styleSequence.indexOf(style::class) * 100}")
         adapter.addAdapter(group)
         group.setNewList(block)
         if (count > 0) {

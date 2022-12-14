@@ -74,9 +74,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addAddress("地址选择", "address")
                         addCheckboxMust("多选", "checkbox") {
                             options = arrayListOf(
-                                OptionItem("选项1"),
-                                OptionItem("选项2"),
-                                OptionItem("选项3")
+                                OptionItem("选项1"), OptionItem("选项2"), OptionItem("选项3")
                             )
                         }
                         addInputMust("输入框", "edit") {
@@ -86,20 +84,17 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         }
                         addInputAutoCompleteMust("提示输入框", "inputAutoComplete") {
                             options = arrayListOf(
-                                OptionItem("张三"),
-                                OptionItem("李四"),
-                                OptionItem("王五")
+                                OptionItem("张三"), OptionItem("李四"), OptionItem("王五")
                             )
                         }
                         addLabel("标签")
                         addMenu("菜单项", "menu")
                         addRadioMust("单选", "radio") {
                             options = arrayListOf(
-                                OptionItem("男"),
-                                OptionItem("女"),
-                                OptionItem("未知")
+                                OptionItem("男"), OptionItem("女"), OptionItem("未知")
                             )
                         }
+                        addRate("评级", "rating")
                         addSelectMust("选项", "select") {
                             options = ArrayList<Option>().apply {
                                 for (i in 0 until 100) {
@@ -112,10 +107,9 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                             valueTo = 300f
                             stepSize = 20f
                             val format = DecimalFormat("0.00")
-                            labelFormatter {
-                                "${format.format(it)}人民币"
-                            }
+                            labelFormatter { "${format.format(it)}人民币" }
                         }
+                        addSwitch("切换", "switch")
                         addTip("这是一个提示文本，不受 Text EMS 限制")
                         addTimeMust("时间选择器", "time", FormTimeMode.TIME)
                         addTimeMust("时间选择器", "date", FormTimeMode.DATE)

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 
-class CenterScrollLinearLayoutLayoutManager : LinearLayoutManager {
+class CenterScrollLinearLayoutManager : LinearLayoutManager {
 
     var millisecondsPerInch = 25f
 

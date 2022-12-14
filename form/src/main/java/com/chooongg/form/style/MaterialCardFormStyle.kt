@@ -19,7 +19,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 
-open class MaterialCardFormStyle : DefaultFormStyle(100) {
+open class MaterialCardFormStyle : DefaultFormStyle() {
 
     private var partHorizontal = -1
     private var partVertical = -1

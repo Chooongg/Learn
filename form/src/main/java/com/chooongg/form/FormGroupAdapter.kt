@@ -65,6 +65,8 @@ class FormGroupAdapter internal constructor(
 
     var dynamicGroup: Boolean = false
 
+    var dynamicMinPartCount: Int = 1
+
     var dynamicMaxPartCount: Int = Int.MAX_VALUE
 
     var dynamicGroupAddPartBlock: (FormCreatePart.() -> Unit)? = null
@@ -89,9 +91,10 @@ class FormGroupAdapter internal constructor(
         addItemProvider(FormLabelProvider(manager))
         addItemProvider(FormMenuProvider(manager))
         addItemProvider(FormRadioProvider(manager))
-        addItemProvider(FormRateProvider(manager))
+        addItemProvider(FormRatingProvider(manager))
         addItemProvider(FormSelectProvider(manager))
         addItemProvider(FormSliderProvider(manager))
+        addItemProvider(FormSwitchProvider(manager))
         addItemProvider(FormTimeProvider(manager))
         addItemProvider(FormTipProvider(manager))
     }
@@ -112,12 +115,18 @@ class FormGroupAdapter internal constructor(
         icon = createGroup.groupIcon
         iconTint = createGroup.groupIconTint
         dynamicGroup = createGroup.dynamicGroup
+        dynamicMinPartCount = createGroup.dynamicMinPartCount
         dynamicMaxPartCount = createGroup.dynamicMaxPartCount
         dynamicGroupAddPartBlock = createGroup.dynamicGroupAddPartBlock
 
         adapterScope.cancel()
         adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         data = createGroup.createdFormPartList
+        if (data.size < dynamicMinPartCount && dynamicGroupAddPartBlock != null) {
+            val createPart = FormCreatePart()
+            dynamicGroupAddPartBlock!!.invoke(createPart)
+            data.add(createPart.createdFormGroupList)
+        }
         data.forEach { it.forEach { item -> item.configData() } }
         update()
     }
@@ -212,7 +221,7 @@ class FormGroupAdapter internal constructor(
                 if (dynamicGroupAddPartBlock != null) {
                     val createPart = FormCreatePart()
                     dynamicGroupAddPartBlock!!.invoke(createPart)
-                    data.add(createPart.createdFormGroupList)
+                    data.add(createPart.createdFormGroupList.onEach { it.configData() })
                     update(true)
                     return
                 }

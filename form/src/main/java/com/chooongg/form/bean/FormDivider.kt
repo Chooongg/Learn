@@ -35,8 +35,6 @@ class FormDivider : BaseForm(FormManager.TYPE_DIVIDER, "", null) {
      */
     override var isOnEdgeVisible = false
 
-    private val preventDuplication = System.currentTimeMillis() + (Math.random() * 1000).toLong()
-
     override fun seeOnlyType(type: Int) {
         logE("Form", "无效的设置")
     }
@@ -49,7 +47,6 @@ class FormDivider : BaseForm(FormManager.TYPE_DIVIDER, "", null) {
         if (thickness != other.thickness) return false
         if (insetEnd != other.insetEnd) return false
         if (insetStart != other.insetStart) return false
-        if (preventDuplication != other.preventDuplication) return false
 
         return true
     }
@@ -59,7 +56,6 @@ class FormDivider : BaseForm(FormManager.TYPE_DIVIDER, "", null) {
         result = 31 * result + (thickness ?: 0)
         result = 31 * result + (insetEnd ?: 0)
         result = 31 * result + (insetStart ?: 0)
-        result = 31 * result + preventDuplication.hashCode()
         return result
     }
 }

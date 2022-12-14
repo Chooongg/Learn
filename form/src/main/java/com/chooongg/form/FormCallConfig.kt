@@ -9,7 +9,6 @@ import com.chooongg.core.popupMenu.popupMenu
 import com.chooongg.form.bean.FormFile
 import com.chooongg.form.bean.FormSelect
 import com.chooongg.form.bean.FormTime
-import com.chooongg.form.bean.FormTimeRange
 import com.chooongg.form.enum.FormTimeMode
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -89,16 +88,5 @@ abstract class FormCallConfig {
 
             }
         }
-    }
-
-    open fun openTimeRange(
-        part: FormGroupAdapter,
-        holder: FormViewHolder,
-        parent: View,
-        contentView: View,
-        item: FormTimeRange
-    ) {
-
-
     }
 }

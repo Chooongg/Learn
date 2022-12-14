@@ -146,7 +146,8 @@ class FormAddress(name: CharSequence, field: String?) :
     }
 
     override fun hashCode(): Int {
-        var result = areaMode.hashCode()
+        var result = super.hashCode()
+        result = 31 * result + areaMode.hashCode()
         result = 31 * result + (longitudeField?.hashCode() ?: 0)
         result = 31 * result + (latitudeField?.hashCode() ?: 0)
         result = 31 * result + (provinceField?.hashCode() ?: 0)

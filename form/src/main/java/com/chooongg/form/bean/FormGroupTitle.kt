@@ -49,7 +49,6 @@ class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
 
         if (nameColorStyle != other.nameColorStyle) return false
         if (icon != other.icon) return false
-        if (iconTint != other.iconTint) return false
         if (iconSize != other.iconSize) return false
 
         return true
@@ -59,7 +58,6 @@ class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
         var result = super.hashCode()
         result = 31 * result + nameColorStyle.hashCode()
         result = 31 * result + (icon ?: 0)
-        result = 31 * result + (iconTint?.hashCode() ?: 0)
         result = 31 * result + (iconSize ?: 0)
         return result
     }

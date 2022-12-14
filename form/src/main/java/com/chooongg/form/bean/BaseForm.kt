@@ -120,6 +120,11 @@ abstract class BaseForm(
      */
     var outputMode: FormOutputMode = FormOutputMode.ALWAYS
 
+    /**
+     * 扩展参数输出模式
+     */
+    var extensionOutputMode: FormOutputMode = FormOutputMode.ALWAYS
+
     private var customOutputBlock: ((json: JSONObject) -> Unit)? = null
 
     val antiRepeatCode = System.currentTimeMillis() + Random.nextLong(3000)
@@ -280,6 +285,7 @@ abstract class BaseForm(
         if (partPosition != other.partPosition) return false
         if (adapterPosition != other.adapterPosition) return false
         if (adapterTopBoundary != other.adapterTopBoundary) return false
+        if (adapterBottomBoundary != other.adapterBottomBoundary) return false
         if (seeType != other.seeType) return false
         if (extensionFieldAndContent != other.extensionFieldAndContent) return false
         if (hint != other.hint) return false
@@ -290,9 +296,11 @@ abstract class BaseForm(
         if (enableMode != other.enableMode) return false
         if (menuIcon != other.menuIcon) return false
         if (menuVisibilityMode != other.menuVisibilityMode) return false
+        if (menuEnableMode != other.menuEnableMode) return false
         if (ignoreNameEms != other.ignoreNameEms) return false
         if (isOnEdgeVisible != other.isOnEdgeVisible) return false
         if (outputMode != other.outputMode) return false
+        if (extensionOutputMode != other.extensionOutputMode) return false
 
         return true
     }
@@ -315,9 +323,11 @@ abstract class BaseForm(
         result = 31 * result + enableMode.hashCode()
         result = 31 * result + (menuIcon ?: 0)
         result = 31 * result + menuVisibilityMode.hashCode()
+        result = 31 * result + menuEnableMode.hashCode()
         result = 31 * result + ignoreNameEms.hashCode()
         result = 31 * result + isOnEdgeVisible.hashCode()
         result = 31 * result + outputMode.hashCode()
+        result = 31 * result + extensionOutputMode.hashCode()
         return result
     }
 }

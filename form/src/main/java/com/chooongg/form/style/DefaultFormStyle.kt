@@ -20,7 +20,7 @@ import com.chooongg.form.enum.FormGroupTitleMode
 import com.google.android.material.textview.MaterialTextView
 import kotlin.math.max
 
-open class DefaultFormStyle(typeIncrement: Int = 0) : FormStyle(typeIncrement) {
+open class DefaultFormStyle : FormStyle() {
 
     override fun createItemParentView(parent: ViewGroup): ViewGroup? = null
 

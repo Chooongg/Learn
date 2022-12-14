@@ -32,7 +32,7 @@ class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
 
     var showFormat: String? = when (mode) {
         FormTimeMode.TIME -> "HH:mm"
-        FormTimeMode.DATE -> "yyyy年MM月dd日 HH:mm"
+        FormTimeMode.DATE -> "yyyy年MM月dd日"
         FormTimeMode.DATE_TIME -> "yyyy年MM月dd日 HH:mm"
     }
 
