@@ -41,22 +41,15 @@ dependencies {
     implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
 }
 
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            release(MavenPublication) {
-//                from components.release
-//                groupId = "com.chooongg.learn"
-//                artifactId = "form"
-//                version = rootProject.ext.versionName
-//            }
-//        }
-//    }
-//}
-
-//
-//ext {
-//    PUBLISH_ARTIFACT_ID = "form"
-//}
-//
-//apply from: '../publish.gradle'
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.chooongg.learn"
+                artifactId = "form"
+                version = rootProject.ext.versionName
+            }
+        }
+    }
+}

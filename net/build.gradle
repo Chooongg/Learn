@@ -37,7 +37,7 @@ dependencies {
     api project(path: ':basic')
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
     // JSON解析
-    api 'com.google.code.gson:gson:2.9.1'
+    api 'com.google.code.gson:gson:2.10'
     api 'com.github.getActivity:GsonFactory:6.3'
     // 网络请求
     api 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
@@ -61,10 +61,3 @@ afterEvaluate {
         }
     }
 }
-
-//
-//ext {
-//    PUBLISH_ARTIFACT_ID = "net"
-//}
-//
-//apply from: '../publish.gradle'

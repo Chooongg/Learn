@@ -51,10 +51,3 @@ afterEvaluate {
         }
     }
 }
-
-//
-//ext {
-//    PUBLISH_ARTIFACT_ID = "eventFlow"
-//}
-//
-//apply from: '../publish.gradle'

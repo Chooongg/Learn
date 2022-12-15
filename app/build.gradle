@@ -65,7 +65,6 @@ dependencies {
     implementation project(path: ':net')
     implementation project(path: ':form')
     implementation project(path: ':filePicker')
-    implementation project(path: ':mediaPicker')
     implementation project(path: ':extend-echarts')
     implementation project(path: ':extend-eventFlow')
     implementation project(path: ':extend-stateLayout')

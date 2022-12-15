@@ -50,10 +50,3 @@ afterEvaluate {
         }
     }
 }
-
-//
-//ext {
-//    PUBLISH_ARTIFACT_ID = "adapter"
-//}
-//
-//apply from: '../publish.gradle'

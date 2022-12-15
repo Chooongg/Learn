@@ -54,10 +54,3 @@ afterEvaluate {
         }
     }
 }
-
-//
-//ext {
-//    PUBLISH_ARTIFACT_ID = "stateLayout"
-//}
-//
-//apply from: '../publish.gradle'
