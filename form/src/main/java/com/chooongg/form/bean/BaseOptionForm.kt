@@ -54,4 +54,22 @@ abstract class BaseOptionForm(type: Int, name: CharSequence, field: String?) :
             FormOptionsLoaderMode.TRIGGER_IF_EMPTY -> scene == FormOptionsLoadScene.TRIGGER && options.isNullOrEmpty()
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BaseOptionForm) return false
+        if (!super.equals(other)) return false
+
+        if (options != other.options) return false
+        if (optionsLoaderMode != other.optionsLoaderMode) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (options?.hashCode() ?: 0)
+        result = 31 * result + optionsLoaderMode.hashCode()
+        return result
+    }
 }

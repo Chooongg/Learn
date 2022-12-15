@@ -29,17 +29,28 @@ abstract class BaseForm(
 ) {
 
     /**
-     * 片段坐标
+     * 扩展字段和内容
      */
+    private var extensionFieldAndContent: HashMap<String, CharSequence?>? = null
+
+    // 片段坐标
     var partPosition: Int = -1
         internal set
+
+    // 片段名称
+    var partName: CharSequence? = null
+        internal set
+
+    // 适配器坐标
     var adapterPosition: Int = -1
         internal set
-    var adapterTopBoundary: FormBoundaryType = FormBoundaryType.NONE
+
+    // 顶部边缘类型
+    var topBoundary: FormBoundaryType = FormBoundaryType.NONE
         internal set
-    var adapterBottomBoundary: FormBoundaryType = FormBoundaryType.NONE
-        internal set
-    var partName: CharSequence? = null
+
+    // 底部边缘类型
+    var bottomBoundary: FormBoundaryType = FormBoundaryType.NONE
         internal set
 
     /**
@@ -49,14 +60,19 @@ abstract class BaseForm(
         protected set
 
     /**
-     * 扩展字段和内容
+     * 是否是必填项
      */
-    private var extensionFieldAndContent: HashMap<String, CharSequence?>? = null
+    open var isMust: Boolean = false
+
+    /**
+     * 名称文本颜色
+     */
+    open var nameTextColor: (Context.() -> ColorStateList)? = null
 
     /**
      * 提示文字
      */
-    var hint: CharSequence? = null
+    open var hint: CharSequence? = null
 
     /**
      * 内容
@@ -64,30 +80,29 @@ abstract class BaseForm(
     open var content: CharSequence? = null
 
     /**
-     * 是否是必填项
-     */
-    var isMust: Boolean = false
-
-    /**
      * 是否可见
      */
-    var isVisible: Boolean = true
+    open var isVisible: Boolean = true
 
     /**
      * 可见模式
      */
-    var visibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
+    open var visibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
 
     /**
      * 是否启用
      */
     open var enableMode: FormEnableMode = FormEnableMode.ONLY_EDIT
 
-    open fun seeOnlyType(type: Int) {
-        if (type == this.type || type == FormManager.TYPE_TEXT) {
-            seeType = type
-        } else throw ClassCastException("seeOnlyType() only support this.type or FormManager.TYPE_TEXT")
-    }
+    /**
+     * 菜单文本
+     */
+    open var menuText: CharSequence? = null
+
+    /**
+     * 菜单文本颜色
+     */
+    open var menuTextColor: (Context.() -> ColorStateList)? = null
 
     /**
      * 菜单图标
@@ -95,6 +110,9 @@ abstract class BaseForm(
     @DrawableRes
     open var menuIcon: Int? = null
 
+    /**
+     * 菜单图标
+     */
     open var menuIconTint: (Context.() -> ColorStateList)? = null
 
     /**
@@ -120,12 +138,12 @@ abstract class BaseForm(
     /**
      * 输出模式
      */
-    var outputMode: FormOutputMode = FormOutputMode.ALWAYS
+    open var outputMode: FormOutputMode = FormOutputMode.ALWAYS
 
     /**
      * 扩展参数输出模式
      */
-    var extensionOutputMode: FormOutputMode = FormOutputMode.ALWAYS
+    open var extensionOutputMode: FormOutputMode = FormOutputMode.ALWAYS
 
     private var customOutputBlock: ((json: JSONObject) -> Unit)? = null
 
@@ -135,6 +153,15 @@ abstract class BaseForm(
      * 初始化完成后配置数据
      */
     open fun configData() = Unit
+
+    /**
+     * 设置只读类型
+     */
+    open fun seeOnlyType(type: Int) {
+        if (type == this.type || type == FormManager.TYPE_TEXT) {
+            seeType = type
+        } else throw ClassCastException("seeOnlyType() only support this.type or FormManager.TYPE_TEXT")
+    }
 
     /**
      * 设置扩展内容
@@ -242,18 +269,6 @@ abstract class BaseForm(
     }
 
     /**
-     * 获取真实的菜单可见性
-     */
-    open fun isRealMenuVisible(manager: BaseFormManager): Boolean {
-        return when (menuVisibilityMode) {
-            FormVisibilityMode.ALWAYS -> true
-            FormVisibilityMode.ONLY_SEE -> !manager.isEditable
-            FormVisibilityMode.ONLY_EDIT -> manager.isEditable
-            FormVisibilityMode.NEVER -> false
-        }
-    }
-
-    /**
      * 获取真实的可用性
      */
     open fun isRealEnable(manager: BaseFormManager): Boolean {
@@ -262,6 +277,19 @@ abstract class BaseForm(
             FormEnableMode.ONLY_SEE -> !manager.isEditable
             FormEnableMode.ONLY_EDIT -> manager.isEditable
             FormEnableMode.NEVER -> false
+        }
+    }
+
+    /**
+     * 获取真实的菜单可见性
+     */
+    open fun isRealMenuVisible(manager: BaseFormManager): Boolean {
+        val isHaveMenu = menuText != null || menuIcon != null
+        return when (menuVisibilityMode) {
+            FormVisibilityMode.ALWAYS -> isHaveMenu
+            FormVisibilityMode.ONLY_SEE -> isHaveMenu && !manager.isEditable
+            FormVisibilityMode.ONLY_EDIT -> isHaveMenu && manager.isEditable
+            FormVisibilityMode.NEVER -> false
         }
     }
 
@@ -284,19 +312,20 @@ abstract class BaseForm(
         if (type != other.type) return false
         if (name != other.name) return false
         if (field != other.field) return false
-        if (partPosition != other.partPosition) return false
-        if (adapterPosition != other.adapterPosition) return false
-        if (adapterTopBoundary != other.adapterTopBoundary) return false
-        if (adapterBottomBoundary != other.adapterBottomBoundary) return false
-        if (partName != other.partName) return false
-        if (seeType != other.seeType) return false
         if (extensionFieldAndContent != other.extensionFieldAndContent) return false
+        if (partPosition != other.partPosition) return false
+        if (partName != other.partName) return false
+        if (adapterPosition != other.adapterPosition) return false
+        if (topBoundary != other.topBoundary) return false
+        if (bottomBoundary != other.bottomBoundary) return false
+        if (seeType != other.seeType) return false
+        if (isMust != other.isMust) return false
         if (hint != other.hint) return false
         if (content != other.content) return false
-        if (isMust != other.isMust) return false
         if (isVisible != other.isVisible) return false
         if (visibilityMode != other.visibilityMode) return false
         if (enableMode != other.enableMode) return false
+        if (menuText != other.menuText) return false
         if (menuIcon != other.menuIcon) return false
         if (menuVisibilityMode != other.menuVisibilityMode) return false
         if (menuEnableMode != other.menuEnableMode) return false
@@ -304,6 +333,7 @@ abstract class BaseForm(
         if (isOnEdgeVisible != other.isOnEdgeVisible) return false
         if (outputMode != other.outputMode) return false
         if (extensionOutputMode != other.extensionOutputMode) return false
+        if (antiRepeatCode != other.antiRepeatCode) return false
 
         return true
     }
@@ -312,19 +342,20 @@ abstract class BaseForm(
         var result = type
         result = 31 * result + name.hashCode()
         result = 31 * result + (field?.hashCode() ?: 0)
-        result = 31 * result + partPosition
-        result = 31 * result + adapterPosition
-        result = 31 * result + adapterTopBoundary.hashCode()
-        result = 31 * result + adapterBottomBoundary.hashCode()
-        result = 31 * result + (partName?.hashCode() ?: 0)
-        result = 31 * result + seeType
         result = 31 * result + (extensionFieldAndContent?.hashCode() ?: 0)
+        result = 31 * result + partPosition
+        result = 31 * result + (partName?.hashCode() ?: 0)
+        result = 31 * result + adapterPosition
+        result = 31 * result + topBoundary.hashCode()
+        result = 31 * result + bottomBoundary.hashCode()
+        result = 31 * result + seeType
+        result = 31 * result + isMust.hashCode()
         result = 31 * result + (hint?.hashCode() ?: 0)
         result = 31 * result + (content?.hashCode() ?: 0)
-        result = 31 * result + isMust.hashCode()
         result = 31 * result + isVisible.hashCode()
         result = 31 * result + visibilityMode.hashCode()
         result = 31 * result + enableMode.hashCode()
+        result = 31 * result + (menuText?.hashCode() ?: 0)
         result = 31 * result + (menuIcon ?: 0)
         result = 31 * result + menuVisibilityMode.hashCode()
         result = 31 * result + menuEnableMode.hashCode()
@@ -332,6 +363,7 @@ abstract class BaseForm(
         result = 31 * result + isOnEdgeVisible.hashCode()
         result = 31 * result + outputMode.hashCode()
         result = 31 * result + extensionOutputMode.hashCode()
+        result = 31 * result + antiRepeatCode.hashCode()
         return result
     }
 }

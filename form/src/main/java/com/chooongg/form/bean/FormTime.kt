@@ -78,4 +78,38 @@ class FormTime(name: CharSequence, field: String?, val mode: FormTimeMode) :
             )
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FormTime) return false
+        if (!super.equals(other)) return false
+
+        if (mode != other.mode) return false
+        if (timeStamp != other.timeStamp) return false
+        if (format != other.format) return false
+        if (showFormat != other.showFormat) return false
+        if (importFormat != other.importFormat) return false
+        if (outputFormat != other.outputFormat) return false
+        if (calendarConstraints != other.calendarConstraints) return false
+        if (dayViewDecorator != other.dayViewDecorator) return false
+        if (timeFormatMode != other.timeFormatMode) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + mode.hashCode()
+        result = 31 * result + (timeStamp?.hashCode() ?: 0)
+        result = 31 * result + format.hashCode()
+        result = 31 * result + (showFormat?.hashCode() ?: 0)
+        result = 31 * result + (importFormat?.hashCode() ?: 0)
+        result = 31 * result + (outputFormat?.hashCode() ?: 0)
+        result = 31 * result + (calendarConstraints?.hashCode() ?: 0)
+        result = 31 * result + (dayViewDecorator?.hashCode() ?: 0)
+        result = 31 * result + timeFormatMode
+        return result
+    }
+
+
 }

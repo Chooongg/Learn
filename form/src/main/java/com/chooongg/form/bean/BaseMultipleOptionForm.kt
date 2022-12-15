@@ -67,4 +67,24 @@ abstract class BaseMultipleOptionForm(type: Int, name: CharSequence, field: Stri
             }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BaseMultipleOptionForm) return false
+        if (!super.equals(other)) return false
+
+        if (separator != other.separator) return false
+        if (selectedKey != other.selectedKey) return false
+        if (outPutStyle != other.outPutStyle) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + separator.hashCode()
+        result = 31 * result + selectedKey.hashCode()
+        result = 31 * result + outPutStyle.hashCode()
+        return result
+    }
 }

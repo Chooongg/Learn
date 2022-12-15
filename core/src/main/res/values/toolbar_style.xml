@@ -4,24 +4,25 @@
     <!-- TopAppBar -->
 
     <style name="Widget.Learn.TopAppBar.Surface" parent="Widget.Material3.Toolbar.Surface">
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="maxButtonHeight">?attr/actionBarSize</item>
+        <item name="android:minHeight">?android:attr/actionBarSize</item>
+        <item name="maxButtonHeight">?android:attr/actionBarSize</item>
         <item name="titleMargin">0dp</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.OnSurface" parent="Widget.Material3.Toolbar.OnSurface">
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="maxButtonHeight">?attr/actionBarSize</item>
+        <item name="android:minHeight">?android:attr/actionBarSize</item>
+        <item name="maxButtonHeight">?android:attr/actionBarSize</item>
         <item name="titleMargin">0dp</item>
     </style>
 
     <style name="Widget.Learn.TopAppBar.Primary" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:minHeight">?android:attr/actionBarSize</item>
         <item name="contentInsetStartWithNavigation">56dp</item>
-        <item name="maxButtonHeight">?attr/actionBarSize</item>
+        <item name="maxButtonHeight">?android:attr/actionBarSize</item>
         <item name="titleMargin">0dp</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.Material3.Toolbar.Primary</item>
     </style>
+
 
     <style name="Widget.Learn.TopAppBar.OnPrimary" parent="Widget.Learn.TopAppBar.Primary">
         <item name="android:background">@null</item>

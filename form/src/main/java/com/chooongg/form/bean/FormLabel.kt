@@ -24,5 +24,21 @@ class FormLabel(name: CharSequence, field: String?) :
      */
     @androidx.annotation.IntRange(from = 0)
     var iconSize: Int? = null
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FormLabel) return false
+        if (!super.equals(other)) return false
 
+        if (icon != other.icon) return false
+        if (iconSize != other.iconSize) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (icon ?: 0)
+        result = 31 * result + (iconSize ?: 0)
+        return result
+    }
 }

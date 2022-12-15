@@ -48,20 +48,20 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
                     com.google.android.material.R.attr.shapeAppearanceCornerMedium, 0
                 ), 0
             )
-            if (item.adapterTopBoundary == FormBoundaryType.NONE) {
+            if (item.topBoundary == FormBoundaryType.NONE) {
                 shapeAppearance.setTopLeftCornerSize(0f).setTopRightCornerSize(0f)
             }
-            if (item.adapterBottomBoundary == FormBoundaryType.NONE) {
+            if (item.bottomBoundary == FormBoundaryType.NONE) {
                 shapeAppearance.setBottomLeftCornerSize(0f).setBottomRightCornerSize(0f)
             }
             shapeAppearanceModel = shapeAppearance.build()
             updateLayoutParams<RecyclerView.LayoutParams> {
-                topMargin = when (item.adapterTopBoundary) {
+                topMargin = when (item.topBoundary) {
                     FormBoundaryType.NONE -> 0
                     FormBoundaryType.LOCAL -> partVertical
                     FormBoundaryType.GLOBAL -> partVerticalEdge
                 }
-                bottomMargin = when (item.adapterBottomBoundary) {
+                bottomMargin = when (item.bottomBoundary) {
                     FormBoundaryType.NONE -> 0
                     FormBoundaryType.LOCAL -> partVertical
                     FormBoundaryType.GLOBAL -> partVerticalEdge
@@ -78,8 +78,8 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
             if (childCount > 0) {
                 if (item is FormGroupTitle) return@with
                 getChildAt(0).updatePaddingRelative(
-                    top = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
-                    bottom = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
+                    top = if (item.topBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
+                    bottom = if (item.bottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
                 )
             }
         }

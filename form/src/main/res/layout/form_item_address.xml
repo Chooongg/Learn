@@ -24,6 +24,7 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/formItemHorizontalIgnoreContent"
         android:gravity="center_vertical"
         android:minHeight="0dp"
         android:paddingStart="@dimen/formItemHorizontalContent"
@@ -34,30 +35,17 @@
         app:iconGravity="end"
         app:iconPadding="@dimen/formItemMenuIconPadding"
         app:iconTint="?colorOnSurface"
-        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/form_tv_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginEnd="@dimen/formItemHorizontalContent"
         tools:text="内容" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/form_iv_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:background="@drawable/form_ripple_menu_selected_background"
-        android:paddingStart="@dimen/formItemMenuIconPadding"
-        android:paddingEnd="@dimen/formItemMenuIconPadding"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@id/form_tv_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/form_tv_name"
-        tools:src="@android:drawable/sym_def_app_icon" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_input_content"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/formItemHorizontalIgnoreContent"
         android:paddingEnd="@dimen/formItemHorizontalContent"
         app:boxBackgroundMode="none"
         app:endIconCheckable="true"
@@ -66,10 +54,9 @@
         app:endIconMode="clear_text"
         app:hintEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/form_tv_name"
         app:layout_constraintTop_toBottomOf="@id/form_btn_area"
-        app:layout_goneMarginEnd="@dimen/formItemHorizontalContent"
         app:prefixTextAppearance="?textAppearanceBodyMedium"
         app:prefixTextColor="?colorOutline"
         app:suffixTextAppearance="?textAppearanceBodyMedium"
@@ -91,5 +78,14 @@
             tools:text="内容" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <include
+        layout="@layout/form_include_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/formItemHorizontalIgnoreMenuIcon"
+        app:layout_constraintBottom_toBottomOf="@id/form_input_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/form_input_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@
 
     <dimen name="formItemHorizontal">16dp</dimen>
     <dimen name="formItemHorizontalContent">8dp</dimen>
+    <dimen name="formItemHorizontalIgnoreContent">8dp</dimen>
     <dimen name="formItemVertical">8dp</dimen>
     <dimen name="formItemVerticalEdge">16dp</dimen>
 
@@ -20,4 +21,5 @@
     <dimen name="formItemMenuIconSizeIgnorePadding">20dp</dimen>
     <dimen name="formItemMenuIconPadding">8dp</dimen>
     <dimen name="formItemMenuIconRippleRadius">16dp</dimen>
+    <dimen name="formItemHorizontalIgnoreMenuIcon">8dp</dimen>
 </resources>

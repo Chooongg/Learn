@@ -34,6 +34,13 @@
         app:layout_goneMarginEnd="@dimen/formItemHorizontalContent"
         tools:listitem="@layout/form_item_radio_child" />
 
-    <include layout="@layout/form_include_menu" />
+    <include
+        layout="@layout/form_include_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/formItemHorizontalIgnoreContent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

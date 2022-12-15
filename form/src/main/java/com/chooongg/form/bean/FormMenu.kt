@@ -9,11 +9,6 @@ class FormMenu(name: CharSequence, field: String?) :
     BaseForm(FormManager.TYPE_MENU, name, field) {
 
     /**
-     * 名称文本颜色
-     */
-    var nameTextColor: (Context.() -> ColorStateList)? = null
-
-    /**
      * 图标资源
      */
     @DrawableRes
@@ -34,4 +29,23 @@ class FormMenu(name: CharSequence, field: String?) :
      * 显示更多图标
      */
     var showMoreIcon: Boolean = true
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FormMenu) return false
+        if (!super.equals(other)) return false
+
+        if (icon != other.icon) return false
+        if (iconSize != other.iconSize) return false
+        if (showMoreIcon != other.showMoreIcon) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (icon ?: 0)
+        result = 31 * result + (iconSize ?: 0)
+        result = 31 * result + showMoreIcon.hashCode()
+        return result
+    }
 }

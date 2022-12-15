@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
-import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.*
 import com.chooongg.form.*
 import com.chooongg.form.bean.BaseForm
-import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.material.button.MaterialButton
 import java.lang.ref.WeakReference
 import kotlin.math.max
 
@@ -88,14 +86,11 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: BaseFormMan
      * 配置菜单图标
      */
     open fun configMenuIcon(holder: FormViewHolder, item: T) {
-        holder.getViewOrNull<AppCompatImageView>(R.id.form_iv_menu)?.apply {
+        holder.getViewOrNull<MaterialButton>(R.id.form_iv_menu)?.apply {
             if (item.menuIcon != null && item.isRealMenuVisible(manager)) {
-                updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
-                }
                 isEnabled = item.isRealMenuEnable(manager)
-                setImageResource(item.menuIcon!!)
-                imageTintList = item.menuIconTint?.invoke(context)
+                setIconResource(item.menuIcon!!)
+                iconTint = item.menuIconTint?.invoke(context)
                 doOnClick {
                     groupAdapter?.clearFocus()
                     groupAdapter?.onFormMenuClick(

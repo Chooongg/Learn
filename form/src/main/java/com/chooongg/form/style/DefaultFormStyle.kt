@@ -18,6 +18,7 @@ import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormGroupTitleMode
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import kotlin.math.max
 
@@ -26,14 +27,12 @@ open class DefaultFormStyle : FormStyle() {
     override fun createItemParentView(parent: ViewGroup): ViewGroup? = null
 
     override fun onBindParentViewHolder(
-        manager: BaseFormManager,
-        holder: FormViewHolder,
-        item: BaseForm
+        manager: BaseFormManager, holder: FormViewHolder, item: BaseForm
     ) {
         with(holder.itemView) {
             updatePaddingRelative(
-                top = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
-                bottom = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
+                top = if (item.topBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
+                bottom = if (item.bottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
             )
             updateLayoutParams<RecyclerView.LayoutParams> {
                 val recyclerViewWidth = manager._recyclerView?.get()?.width ?: 0
@@ -71,21 +70,21 @@ open class DefaultFormStyle : FormStyle() {
         with(holder.getView<MaterialTextView>(R.id.form_tv_name)) {
             hint = item.hint
         }
-        with(holder.getView<AppCompatImageView>(R.id.form_iv_menu)) {
+        with(holder.getView<MaterialButton>(R.id.form_iv_menu)) {
             updateLayoutParams<ConstraintLayout.LayoutParams> {
                 marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
                 width = item.iconSize ?: resDimensionPixelSize(R.dimen.formItemMenuIconSize)
             }
             isEnabled = item.isRealMenuEnable(manager)
             if (item.mode == FormGroupTitleMode.ADD) {
-                setImageResource(R.drawable.form_ic_add)
+                setIconResource(R.drawable.form_ic_add)
                 visible()
             } else if (item.mode == FormGroupTitleMode.DELETE) {
-                setImageResource(R.drawable.form_ic_remove)
+                setIconResource(R.drawable.form_ic_remove)
                 visible()
             } else if (item.isRealMenuVisible(manager) && item.menuIcon != null) {
-                imageTintList = item.menuIconTint?.invoke(context)
-                setImageResource(item.menuIcon!!)
+                iconTint = item.menuIconTint?.invoke(context)
+                setIconResource(item.menuIcon!!)
                 visible()
             } else gone()
             doOnClick {

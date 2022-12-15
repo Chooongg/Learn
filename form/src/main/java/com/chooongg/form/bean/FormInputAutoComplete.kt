@@ -41,4 +41,22 @@ class FormInputAutoComplete(name: CharSequence, field: String?) :
         }
         return span.toSpannableString()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FormInputAutoComplete) return false
+        if (!super.equals(other)) return false
+
+        if (prefixText != other.prefixText) return false
+        if (suffixText != other.suffixText) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (prefixText?.hashCode() ?: 0)
+        result = 31 * result + (suffixText?.hashCode() ?: 0)
+        return result
+    }
 }

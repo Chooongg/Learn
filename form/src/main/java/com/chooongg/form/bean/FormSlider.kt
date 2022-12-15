@@ -18,4 +18,23 @@ class FormSlider(name: CharSequence, field: String?) :
     }
 
     fun getLabelFormatter() = labelFormatter
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FormSlider) return false
+        if (!super.equals(other)) return false
+
+        if (valueFrom != other.valueFrom) return false
+        if (valueTo != other.valueTo) return false
+        if (stepSize != other.stepSize) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + valueFrom.hashCode()
+        result = 31 * result + valueTo.hashCode()
+        result = 31 * result + stepSize.hashCode()
+        return result
+    }
 }

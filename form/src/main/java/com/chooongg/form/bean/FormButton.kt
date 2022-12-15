@@ -2,10 +2,7 @@ package com.chooongg.form.bean
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.view.Gravity
-import android.view.ViewGroup
 import androidx.annotation.DrawableRes
-import androidx.annotation.GravityInt
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager

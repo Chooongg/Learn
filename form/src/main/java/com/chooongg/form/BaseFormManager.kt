@@ -90,94 +90,55 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
         return count
     }
 
+    /**
+     * 通知项目更新
+     * @param position 全局坐标
+     */
     fun notifyItemChanged(position: Int) {
         adapter.notifyItemChanged(position, "update")
     }
 
+    /**
+     * 查找项目并更新
+     */
+    fun findItem(item: BaseForm, changeBlock: BaseForm.() -> Unit) {
+        changeBlock(item)
+        group@ for (adapter in adapter.adapters.iterator()) {
+            if (adapter !is FormGroupAdapter) continue@group
+            val index = adapter.getShowingList().indexOfFirst { it == item }
+            if (index != -1) {
+                adapter.notifyItemChanged(index, "update")
+                return
+            }
+        }
+    }
+
+    /**
+     * 根据参数查找项目并更新
+     */
     fun findItemForField(field: String, changeBlock: BaseForm.() -> Unit) {
-        var index = 0
-        adapter.adapters.forEach { group ->
-            if (group is FormGroupAdapter) {
-                group.data.forEach { part ->
-                    if (group.hasGroupTitle) index++
-                    part.forEach {
-                        if (it.field == field) {
-                            changeBlock(it)
-                            if (it.isRealVisible(this)) {
-                                group.notifyItemChanged(index, "update")
-                            }
-                            return
-                        }
-                        index++
-                    }
-                }
+        group@ for (adapter in adapter.adapters.iterator()) {
+            if (adapter !is FormGroupAdapter) continue@group
+            val index = adapter.getShowingList().indexOfFirst { it.field == field }
+            if (index != -1) {
+                changeBlock(adapter.getShowingList()[index])
+                adapter.notifyItemChanged(index, "update")
+                return
             }
         }
     }
 
-    fun findItemForFieldAndPartPosition(
-        field: String, partPosition: Int, changeBlock: BaseForm.() -> Unit
-    ) {
-        var index = 0
-        adapter.adapters.forEach { group ->
-            if (group is FormGroupAdapter) {
-                group.data.forEach { part ->
-                    if (group.hasGroupTitle) index++
-                    part.forEach {
-                        if (it.field == field && it.partPosition == partPosition) {
-                            changeBlock(it)
-                            if (it.isRealVisible(this)) {
-                                group.notifyItemChanged(index, "update")
-                            }
-                            return
-                        }
-                        index++
-                    }
-                }
-            }
-        }
-    }
-
+    /**
+     * 根据名称查找项目并更新
+     */
     fun findItemForName(name: CharSequence, changeBlock: BaseForm.() -> Unit) {
-        var index = 0
-        adapter.adapters.forEach { group ->
-            if (group is FormGroupAdapter) {
-                group.data.forEach { part ->
-                    if (group.hasGroupTitle) index++
-                    part.forEach {
-                        if (it.name == name) {
-                            changeBlock(it)
-                            if (it.isRealVisible(this)) {
-                                group.notifyItemChanged(index, "update")
-                            }
-                            return
-                        }
-                        index++
-                    }
-                }
-            }
-        }
-    }
-
-    fun findItemForNameAndPartPosition(
-        name: CharSequence, partPosition: Int, changeBlock: BaseForm.() -> Unit
-    ) {
-        var index = 0
-        adapter.adapters.forEach { group ->
-            if (group is FormGroupAdapter) {
-                group.data.forEach { part ->
-                    if (group.hasGroupTitle) index++
-                    part.forEach {
-                        if (it.name == name && it.partPosition == partPosition) {
-                            changeBlock(it)
-                            if (it.isRealVisible(this)) {
-                                group.notifyItemChanged(index, "update")
-                            }
-                            return
-                        }
-                        index++
-                    }
-                }
+        group@ for (adapter in adapter.adapters.iterator()) {
+            if (adapter !is FormGroupAdapter) continue@group
+            val index = adapter.getShowingList().indexOfFirst { it.name == name }
+            if (index != -1) {
+                changeBlock(adapter.getShowingList()[index])
+                adapter.notifyItemChanged(index, "update")
+                return
             }
         }
     }

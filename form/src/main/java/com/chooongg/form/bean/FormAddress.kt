@@ -130,12 +130,11 @@ class FormAddress(name: CharSequence, field: String?) :
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is FormAddress) return false
         if (!super.equals(other)) return false
 
-        other as FormAddress
-
         if (areaMode != other.areaMode) return false
+        if (areaHint != other.areaHint) return false
         if (longitudeField != other.longitudeField) return false
         if (latitudeField != other.latitudeField) return false
         if (provinceField != other.provinceField) return false
@@ -148,6 +147,7 @@ class FormAddress(name: CharSequence, field: String?) :
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + areaMode.hashCode()
+        result = 31 * result + (areaHint?.hashCode() ?: 0)
         result = 31 * result + (longitudeField?.hashCode() ?: 0)
         result = 31 * result + (latitudeField?.hashCode() ?: 0)
         result = 31 * result + (provinceField?.hashCode() ?: 0)

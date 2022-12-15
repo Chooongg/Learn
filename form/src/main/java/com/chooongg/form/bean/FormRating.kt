@@ -38,4 +38,22 @@ class FormRating(name: CharSequence, field: String?) :
             content = 0f.toString()
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is FormRating) return false
+        if (!super.equals(other)) return false
+
+        if (numStars != other.numStars) return false
+        if (stepSize != other.stepSize) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + numStars
+        result = 31 * result + stepSize.hashCode()
+        return result
+    }
 }

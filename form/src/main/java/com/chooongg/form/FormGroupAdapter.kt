@@ -165,7 +165,7 @@ class FormGroupAdapter internal constructor(
                     nameColorStyle = this@FormGroupAdapter.nameColorStyle
                     partPosition = partIndex
                     adapterPosition = 0
-                    adapterTopBoundary = if (partIndex == 0 && groupIsFirst) {
+                    topBoundary = if (partIndex == 0 && groupIsFirst) {
                         FormBoundaryType.GLOBAL
                     } else FormBoundaryType.LOCAL
                 })
@@ -182,7 +182,7 @@ class FormGroupAdapter internal constructor(
                 item.partName = partName
                 item.partPosition = partIndex
                 item.adapterPosition = index
-                item.adapterTopBoundary = if (index == 0) {
+                item.topBoundary = if (index == 0) {
                     if (partIndex == 0 && groupIsFirst) {
                         FormBoundaryType.GLOBAL
                     } else FormBoundaryType.LOCAL
@@ -198,12 +198,12 @@ class FormGroupAdapter internal constructor(
                 continue@list
             }
             if (index == list.lastIndex) {
-                item.adapterBottomBoundary =
+                item.bottomBoundary =
                     if (groupIsLast) FormBoundaryType.GLOBAL else FormBoundaryType.LOCAL
                 continue@list
             }
             val nextItem = list[index + 1]
-            item.adapterBottomBoundary = if (nextItem.adapterPosition == 0) FormBoundaryType.LOCAL
+            item.bottomBoundary = if (nextItem.adapterPosition == 0) FormBoundaryType.LOCAL
             else FormBoundaryType.NONE
         }
         asyncDiffer.submitList(list) {
@@ -243,9 +243,9 @@ class FormGroupAdapter internal constructor(
         formEventListener?.onFormContentChanged(manager, item, position)
     }
 
-    fun getDifferList() = asyncDiffer.currentList
+    fun getShowingList() = asyncDiffer.currentList
 
-    fun getItem(position: Int) = getDifferList()[position]
+    fun getItem(position: Int) = getShowingList()[position]
 
     override fun getItemCount() = asyncDiffer.currentList.size
 
