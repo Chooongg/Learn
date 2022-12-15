@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
+import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.*
 import com.chooongg.form.*
 import com.chooongg.form.bean.BaseForm
@@ -41,15 +42,10 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: BaseFormMan
 
     open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FormViewHolder {
         val parentView = style?.createItemParentView(parent)
-        val holder = if (parentView != null) {
+        return if (parentView != null) {
             LayoutInflater.from(parentView.context).inflate(layoutId, parentView, true)
             FormViewHolder(parentView)
         } else FormViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
-        holder.itemView.updateLayoutParams<FlexboxLayoutManager.LayoutParams> {
-            val percent = manager.itemMaxWidth / parent.width.toFloat()
-            flexBasisPercent = if (percent >= 1f) 1f else max(0.500001f, percent)
-        }
-        return holder
     }
 
     open fun onViewHolderCreated(holder: FormViewHolder) = Unit
@@ -60,8 +56,8 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: BaseFormMan
         configItemClick(holder, item)
         configMenuIcon(holder, item)
         style?.apply {
-            configNameTextView(manager, holder.getView(nameTextViewId), item)
             onBindParentViewHolder(manager, holder, item)
+            configNameTextView(manager, holder.getView(nameTextViewId), item)
         }
         onBindViewHolder(holder, item)
     }
@@ -72,8 +68,8 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: BaseFormMan
         configItemClick(holder, item)
         configMenuIcon(holder, item)
         style?.apply {
-            configNameTextView(manager, holder.getViewOrNull(nameTextViewId), item)
             onBindParentViewHolder(manager, holder, item, payloads)
+            configNameTextView(manager, holder.getViewOrNull(nameTextViewId), item)
         }
         onBindViewHolder(holder, item, payloads)
     }

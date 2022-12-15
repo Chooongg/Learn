@@ -15,7 +15,6 @@ import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
-import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -30,7 +29,7 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
         parent.context, null, com.google.android.material.R.attr.materialCardViewElevatedStyle
     ).apply {
         rippleColor = ColorStateList.valueOf(Color.TRANSPARENT)
-        layoutParams = FlexboxLayoutManager.LayoutParams(
+        layoutParams = RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
@@ -56,9 +55,7 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
                 shapeAppearance.setBottomLeftCornerSize(0f).setBottomRightCornerSize(0f)
             }
             shapeAppearanceModel = shapeAppearance.build()
-            updateLayoutParams<FlexboxLayoutManager.LayoutParams> {
-                marginStart = partHorizontal
-                marginEnd = partHorizontal
+            updateLayoutParams<RecyclerView.LayoutParams> {
                 topMargin = when (item.adapterTopBoundary) {
                     FormBoundaryType.NONE -> 0
                     FormBoundaryType.LOCAL -> partVertical
@@ -68,6 +65,14 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
                     FormBoundaryType.NONE -> 0
                     FormBoundaryType.LOCAL -> partVertical
                     FormBoundaryType.GLOBAL -> partVerticalEdge
+                }
+                val recyclerViewWidth = manager._recyclerView?.get()?.width ?:0
+                if (recyclerViewWidth > manager.itemMaxWidth) {
+                    marginStart = (recyclerViewWidth - manager.itemMaxWidth) / 2
+                    marginEnd = (recyclerViewWidth - manager.itemMaxWidth) / 2
+                } else {
+                    marginStart = partHorizontal
+                    marginEnd = partHorizontal
                 }
             }
             if (childCount > 0) {

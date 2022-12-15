@@ -34,17 +34,6 @@
         app:layout_goneMarginEnd="@dimen/formItemHorizontalContent"
         tools:listitem="@layout/form_item_checkbox_child" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/form_iv_menu"
-        android:layout_width="@dimen/formItemMenuIconSize"
-        android:layout_height="0dp"
-        android:background="@drawable/form_ripple_menu_selected_background"
-        android:paddingStart="@dimen/formItemMenuIconPadding"
-        android:paddingEnd="@dimen/formItemMenuIconPadding"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@id/form_tv_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/form_tv_name"
-        tools:src="@android:drawable/sym_def_app_icon" />
+    <include layout="@layout/form_include_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,14 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.showToast
 import com.chooongg.form.bean.BaseForm
+import com.chooongg.form.config.FormManagerConfig
 import org.json.JSONObject
 import java.lang.ref.WeakReference
 
 abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEmsSize: Int) {
 
-    protected var _recyclerView: WeakReference<RecyclerView>? = null
+    var _recyclerView: WeakReference<RecyclerView>? = null
+        protected set
 
-    internal val adapter = ConcatAdapter(
+    val adapter = ConcatAdapter(
         ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
     )
 
@@ -185,29 +187,17 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
      */
     fun checkDataCorrectness(): Boolean {
         try {
-            adapter.adapters.forEach { if (it is FormGroupAdapter) it.checkDataCorrectness() }
-            return true
-        } catch (e: FormDataVerificationException) {
-            showToast(e.message)
-            var globalPosition = 0
-            adapter@ for (i in 0 until adapter.adapters.size) {
-                if (adapter.adapters[i] !is FormGroupAdapter) {
-                    globalPosition += adapter.adapters[i].itemCount
-                    continue@adapter
-                }
-                val itemAdapter = adapter.adapters[i] as FormGroupAdapter
-                for (j in 0 until itemAdapter.itemCount) {
-                    val item = itemAdapter.getItem(j)
-                    if (item.field == e.field) {
-                        _recyclerView?.get()?.smoothScrollToPosition(globalPosition)
-                        break@adapter
-                    } else {
-                        globalPosition++
-                    }
+            adapter.adapters.forEach {
+                if (it is FormGroupAdapter) {
+                    it.checkDataCorrectness()
                 }
             }
+            return true
+        } catch (e: FormDataVerificationException) {
+            FormManagerConfig.onDataVerificationExceptionBlock.invoke(this, e)
         } catch (e: Exception) {
-            showToast(e.message)
+            showToast("发生异常验证失败")
+            e.printStackTrace()
         }
         return false
     }
@@ -215,7 +205,7 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
     /**
      * 执行输出
      */
-    fun executeOutput(): JSONObject {
+    fun output(): JSONObject {
         val json = JSONObject()
         adapter.adapters.forEach { if (it is FormGroupAdapter) it.executeOutput(json) }
         return json

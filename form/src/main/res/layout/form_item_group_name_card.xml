@@ -19,7 +19,6 @@
         android:id="@+id/form_iv_icon"
         android:layout_width="@dimen/formItemIconSize"
         android:layout_height="0dp"
-        android:background="@drawable/form_ripple_menu_selected_background"
         android:paddingStart="@dimen/formItemIconPadding"
         android:paddingEnd="@dimen/formItemIconPadding"
         android:scaleType="centerInside"
@@ -44,17 +43,6 @@
         app:layout_goneMarginStart="@dimen/formItemHorizontal"
         tools:text="内容" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/form_iv_menu"
-        android:layout_width="@dimen/formItemIconSize"
-        android:layout_height="0dp"
-        android:background="@drawable/form_ripple_menu_selected_background"
-        android:paddingStart="@dimen/formItemMenuIconPadding"
-        android:paddingEnd="@dimen/formItemMenuIconPadding"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@android:drawable/sym_def_app_icon" />
+    <include layout="@layout/form_include_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

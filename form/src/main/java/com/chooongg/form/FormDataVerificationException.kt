@@ -1,7 +1,7 @@
 package com.chooongg.form
 
 class FormDataVerificationException(
-    val groupName: CharSequence?,
+    val partName: CharSequence?,
     val field: String?,
     val name: CharSequence?
 ) : RuntimeException(name?.toString())

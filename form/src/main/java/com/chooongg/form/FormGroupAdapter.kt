@@ -138,15 +138,15 @@ class FormGroupAdapter internal constructor(
         val list = ArrayList<BaseForm>()
         data.forEachIndexed { partIndex, part ->
             var index = 0
+            val partName = if (dynamicGroup) {
+                if (dynamicGroupNameFormatBlock != null) {
+                    dynamicGroupNameFormatBlock!!.invoke(name, partIndex)
+                } else {
+                    "${name ?: "表"}${partIndex + 1}"
+                }
+            } else name ?: ""
             if (hasGroupTitle) {
-                val groupName = if (dynamicGroup) {
-                    if (dynamicGroupNameFormatBlock != null) {
-                        dynamicGroupNameFormatBlock!!.invoke(name, partIndex)
-                    } else {
-                        "${name ?: "表"}${partIndex + 1}"
-                    }
-                } else name!!
-                list.add(FormGroupTitle(groupName, field).apply {
+                list.add(FormGroupTitle(partName, field).apply {
                     mode = if (dynamicGroup) {
                         if (partIndex == 0) {
                             if (data.size < dynamicMaxPartCount) {
@@ -179,6 +179,7 @@ class FormGroupAdapter internal constructor(
                     if (index == 0) continue@part
                     if (index == part.lastIndex) continue@part
                 }
+                item.partName = partName
                 item.partPosition = partIndex
                 item.adapterPosition = index
                 item.adapterTopBoundary = if (index == 0) {
@@ -242,7 +243,9 @@ class FormGroupAdapter internal constructor(
         formEventListener?.onFormContentChanged(manager, item, position)
     }
 
-    fun getItem(position: Int) = asyncDiffer.currentList[position]
+    fun getDifferList() = asyncDiffer.currentList
+
+    fun getItem(position: Int) = getDifferList()[position]
 
     override fun getItemCount() = asyncDiffer.currentList.size
 

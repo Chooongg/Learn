@@ -41,6 +41,9 @@ class FormMenuProvider(manager: BaseFormManager) : BaseFormProvider<FormMenu>(ma
         }
         with(holder.getView<MaterialTextView>(R.id.form_tv_name)) {
             text = item.name
+            if (item.nameTextColor != null) {
+                setTextColor(item.nameTextColor!!.invoke(context))
+            } else setTextColorAttr(com.google.android.material.R.attr.colorOnSurface)
         }
         with(holder.getView<AppCompatImageView>(R.id.form_iv_menu)) {
             isEnabled = item.isRealMenuEnable(manager)

@@ -9,4 +9,7 @@
 
     <string name="form_time_start_error">选择器无法打开</string>
     <string name="form_time_format_error">格式转换异常</string>
+
+    <string name="form_check_data_exception">你需要检查“%s”</string>
+    <string name="form_check_data_part_exception">请检查“%s”下的“%s”</string>
 </resources>

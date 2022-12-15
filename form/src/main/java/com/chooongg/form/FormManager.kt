@@ -4,22 +4,20 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.chooongg.basic.ext.getActivity
 import com.chooongg.basic.ext.hideIME
 import com.chooongg.basic.ext.logE
+import com.chooongg.core.widget.layoutManager.CenterScrollLinearLayoutManager
+import com.chooongg.form.config.FormManagerConfig
 import com.chooongg.form.style.DefaultFormStyle
 import com.chooongg.form.style.FormStyle
 import com.chooongg.form.style.MaterialCardFormStyle
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.reflect.KClass
 
 class FormManager(
-    isEditable: Boolean, nameEmsSize: Int = 5
+    isEditable: Boolean,
+    @androidx.annotation.IntRange(from = 1) nameEmsSize: Int = FormManagerConfig.nameEmsSize
 ) : BaseFormManager(isEditable, nameEmsSize) {
 
     companion object {
@@ -41,6 +39,10 @@ class FormManager(
         const val TYPE_SWITCH = 15
         const val TYPE_TIME = 16
         const val TYPE_TIP = 17
+
+        fun config(block: FormManagerConfig.() -> Unit) {
+            FormManagerConfig.block()
+        }
     }
 
     internal var formEventListener: FormEventListener? = null
@@ -68,11 +70,7 @@ class FormManager(
                 }
             }
         })
-        recyclerView.layoutManager = FlexboxLayoutManager(
-            recyclerView.context, FlexDirection.ROW, FlexWrap.WRAP
-        ).apply {
-            justifyContent = JustifyContent.CENTER
-        }
+        recyclerView.layoutManager = CenterScrollLinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
         formEventListener = listener
         owner.lifecycle.addObserver(object : LifecycleEventObserver {

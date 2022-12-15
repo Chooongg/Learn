@@ -2,7 +2,6 @@ package com.chooongg.learn.form
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
@@ -45,7 +44,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addButton("夜间模式", "nightMode")
                     }
                 }
-                addMaterialCardGroup {
+                addGroup {
                     groupName = "Form表单"
                     groupIcon = R.drawable.ic_main_form
                     groupIconTint = {
@@ -173,7 +172,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
             }
             "submit" -> {
                 if (manager.checkDataCorrectness()) {
-                    val json = manager.executeOutput()
+                    val json = manager.output()
                     logE("Form", json.toString(4))
                 }
             }

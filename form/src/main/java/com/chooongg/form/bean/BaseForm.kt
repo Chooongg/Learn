@@ -39,6 +39,8 @@ abstract class BaseForm(
         internal set
     var adapterBottomBoundary: FormBoundaryType = FormBoundaryType.NONE
         internal set
+    var partName: CharSequence? = null
+        internal set
 
     /**
      * 只读状态类型
@@ -190,7 +192,7 @@ abstract class BaseForm(
     open fun checkDataCorrectness(manager: BaseFormManager) {
         if (!whetherToCheckDataOrOutput(manager)) return
         if (isMust && content.isNullOrEmpty()) {
-            throw FormDataVerificationException(null, field, name)
+            throw FormDataVerificationException(partName, field, name)
         }
     }
 
@@ -286,6 +288,7 @@ abstract class BaseForm(
         if (adapterPosition != other.adapterPosition) return false
         if (adapterTopBoundary != other.adapterTopBoundary) return false
         if (adapterBottomBoundary != other.adapterBottomBoundary) return false
+        if (partName != other.partName) return false
         if (seeType != other.seeType) return false
         if (extensionFieldAndContent != other.extensionFieldAndContent) return false
         if (hint != other.hint) return false
@@ -313,6 +316,7 @@ abstract class BaseForm(
         result = 31 * result + adapterPosition
         result = 31 * result + adapterTopBoundary.hashCode()
         result = 31 * result + adapterBottomBoundary.hashCode()
+        result = 31 * result + (partName?.hashCode() ?: 0)
         result = 31 * result + seeType
         result = 31 * result + (extensionFieldAndContent?.hashCode() ?: 0)
         result = 31 * result + (hint?.hashCode() ?: 0)

@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePaddingRelative
+import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.doOnClick
 import com.chooongg.basic.ext.gone
 import com.chooongg.basic.ext.resDimensionPixelSize
@@ -30,13 +31,19 @@ open class DefaultFormStyle : FormStyle() {
         item: BaseForm
     ) {
         with(holder.itemView) {
-            if (this !is ViewGroup) return@with
-            if (item is FormGroupTitle) return@with
-            if (childCount > 0) {
-                getChildAt(0).updatePaddingRelative(
-                    top = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
-                    bottom = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
-                )
+            updatePaddingRelative(
+                top = if (item.adapterTopBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
+                bottom = if (item.adapterBottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
+            )
+            updateLayoutParams<RecyclerView.LayoutParams> {
+                val recyclerViewWidth = manager._recyclerView?.get()?.width ?: 0
+                if (recyclerViewWidth > manager.itemMaxWidth) {
+                    marginStart = (recyclerViewWidth - manager.itemMaxWidth) / 2
+                    marginEnd = (recyclerViewWidth - manager.itemMaxWidth) / 2
+                } else {
+                    marginStart = 0
+                    marginEnd = 0
+                }
             }
         }
     }
