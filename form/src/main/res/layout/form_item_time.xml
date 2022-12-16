@@ -34,10 +34,10 @@
         app:iconGravity="end"
         app:iconTint="?colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintEnd_toStartOf="@id/form_btn_menu"
         app:layout_constraintStart_toEndOf="@id/form_tv_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginEnd="@dimen/formItemHorizontalContent"
+        app:layout_goneMarginEnd="@dimen/formItemHorizontalIgnoreContent"
         tools:text="内容" />
 
     <include

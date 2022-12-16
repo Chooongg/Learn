@@ -1,9 +1,11 @@
 package com.chooongg.form.provider
 
+import android.content.res.ColorStateList
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
+import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.multipleValid
 import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
@@ -23,6 +25,11 @@ class FormInputProvider(manager: BaseFormManager) : BaseFormProvider<FormInput>(
             suffixText = item.suffixText
             if (item.menuIcon != null) {
                 endIconMode = TextInputLayout.END_ICON_CUSTOM
+                setEndIconTintList(
+                    item.menuIconTint?.invoke(context) ?: ColorStateList.valueOf(
+                        attrColor(androidx.appcompat.R.attr.colorPrimary)
+                    )
+                )
                 setEndIconDrawable(item.menuIcon!!)
                 setEndIconOnClickListener {
                     if (multipleValid()) {
@@ -33,6 +40,7 @@ class FormInputProvider(manager: BaseFormManager) : BaseFormProvider<FormInput>(
                     }
                 }
             } else {
+                setEndIconTintList(null)
                 endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT
                 setEndIconDrawable(R.drawable.form_ic_edit_clear)
             }

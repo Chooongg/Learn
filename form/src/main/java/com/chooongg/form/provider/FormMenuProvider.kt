@@ -9,6 +9,7 @@ import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.FormMenu
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import kotlin.math.max
@@ -45,31 +46,8 @@ class FormMenuProvider(manager: BaseFormManager) : BaseFormProvider<FormMenu>(ma
                 setTextColor(item.nameTextColor!!.invoke(context))
             } else setTextColorAttr(com.google.android.material.R.attr.colorOnSurface)
         }
-//        with(holder.getView<AppCompatImageView>(R.id.form_iv_menu)) {
-//            isEnabled = item.isRealMenuEnable(manager)
-//            updateLayoutParams<ConstraintLayout.LayoutParams> {
-//                marginEnd = if (item.showMoreIcon) 0
-//                else max(0, manager.itemHorizontalSize - paddingEnd)
-//            }
-//            if (item.isRealMenuVisible(manager) && item.menuIcon != null) {
-//                imageTintList = item.menuIconTint?.invoke(context)
-//                setImageResource(item.menuIcon!!)
-//                visible()
-//            } else gone()
-//            doOnClick {
-//                groupAdapter?.clearFocus()
-//                groupAdapter?.onFormMenuClick(manager, item, this, holder.absoluteAdapterPosition)
-//            }
-//        }
-//        with(holder.getView<AppCompatImageView>(R.id.form_iv_more)) {
-//            if (item.showMoreIcon) {
-//                updateLayoutParams<ConstraintLayout.LayoutParams> {
-//                    marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
-//                }
-//                visible()
-//            } else gone()
-//        }
+        with(holder.getView<MaterialButton>(R.id.form_btn_menu)) {
+            isEnabled = false
+        }
     }
-
-    override fun configMenuIcon(holder: FormViewHolder, item: FormMenu) = Unit
 }

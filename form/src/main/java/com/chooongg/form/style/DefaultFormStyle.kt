@@ -1,15 +1,13 @@
 package com.chooongg.form.style
 
+import android.content.res.ColorStateList
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePaddingRelative
 import androidx.recyclerview.widget.RecyclerView
-import com.chooongg.basic.ext.doOnClick
-import com.chooongg.basic.ext.gone
-import com.chooongg.basic.ext.resDimensionPixelSize
-import com.chooongg.basic.ext.visible
+import com.chooongg.basic.ext.*
 import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormGroupAdapter
 import com.chooongg.form.FormViewHolder
@@ -43,6 +41,7 @@ open class DefaultFormStyle : FormStyle() {
                     marginStart = 0
                     marginEnd = 0
                 }
+
             }
         }
     }
@@ -70,21 +69,29 @@ open class DefaultFormStyle : FormStyle() {
         with(holder.getView<MaterialTextView>(R.id.form_tv_name)) {
             hint = item.hint
         }
-        with(holder.getView<MaterialButton>(R.id.form_iv_menu)) {
-            updateLayoutParams<ConstraintLayout.LayoutParams> {
-                marginEnd = max(0, manager.itemHorizontalSize - paddingEnd)
-                width = item.iconSize ?: resDimensionPixelSize(R.dimen.formItemMenuIconSize)
-            }
+        with(holder.getView<MaterialButton>(R.id.form_btn_menu)) {
             isEnabled = item.isRealMenuEnable(manager)
             if (item.mode == FormGroupTitleMode.ADD) {
+                val tint = ColorStateList.valueOf(attrColor(androidx.appcompat.R.attr.colorPrimary))
+                text = "添加"
+                setTextColor(tint)
+                iconTint = tint
                 setIconResource(R.drawable.form_ic_add)
+                iconGravity = MaterialButton.ICON_GRAVITY_START
                 visible()
             } else if (item.mode == FormGroupTitleMode.DELETE) {
+                val tint = ColorStateList.valueOf(attrColor(androidx.appcompat.R.attr.colorError))
+                text = "删除"
+                setTextColor(tint)
+                iconTint = tint
                 setIconResource(R.drawable.form_ic_remove)
+                iconGravity = MaterialButton.ICON_GRAVITY_START
                 visible()
-            } else if (item.isRealMenuVisible(manager) && item.menuIcon != null) {
+            } else if (item.isRealMenuVisible(manager)) {
+                text = item.menuText
                 iconTint = item.menuIconTint?.invoke(context)
-                setIconResource(item.menuIcon!!)
+                if (item.menuIcon != null) setIconResource(item.menuIcon!!) else icon = null
+                iconGravity = item.menuIconGravity
                 visible()
             } else gone()
             doOnClick {

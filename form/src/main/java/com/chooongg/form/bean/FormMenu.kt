@@ -3,10 +3,18 @@ package com.chooongg.form.bean
 import android.content.Context
 import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
+import com.chooongg.basic.ext.attrColor
 import com.chooongg.form.FormManager
+import com.chooongg.form.R
 
 class FormMenu(name: CharSequence, field: String?) :
     BaseForm(FormManager.TYPE_MENU, name, field) {
+
+    override var menuIcon: Int? = R.drawable.form_ic_more
+
+    override var menuIconTint: (Context.() -> ColorStateList)? = {
+        ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorSecondary))
+    }
 
     /**
      * 图标资源
@@ -25,10 +33,6 @@ class FormMenu(name: CharSequence, field: String?) :
     @androidx.annotation.IntRange(from = 0)
     var iconSize: Int? = null
 
-    /**
-     * 显示更多图标
-     */
-    var showMoreIcon: Boolean = true
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is FormMenu) return false
@@ -36,7 +40,6 @@ class FormMenu(name: CharSequence, field: String?) :
 
         if (icon != other.icon) return false
         if (iconSize != other.iconSize) return false
-        if (showMoreIcon != other.showMoreIcon) return false
 
         return true
     }
@@ -45,7 +48,6 @@ class FormMenu(name: CharSequence, field: String?) :
         var result = super.hashCode()
         result = 31 * result + (icon ?: 0)
         result = 31 * result + (iconSize ?: 0)
-        result = 31 * result + showMoreIcon.hashCode()
         return result
     }
 }

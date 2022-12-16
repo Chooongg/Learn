@@ -44,7 +44,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addButton("夜间模式", "nightMode")
                     }
                 }
-                addGroup {
+                addMaterialCardGroup {
                     groupName = "Form表单"
                     groupIcon = R.drawable.ic_main_form
                     groupIconTint = {
@@ -60,10 +60,8 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         }
                         addText("文本", "text_menu") {
                             content = "带菜单按钮的文本"
-                            menuIcon = R.drawable.ic_night_mode_day
-                            menuIconTint = {
-                                ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorSecondary))
-                            }
+                            menuIcon = com.chooongg.form.R.drawable.form_ic_add
+                            menuText = "测试"
                         }
                         addText("仅编辑", "only_edit") {
                             content = "仅编辑时显示的文本仅编辑时显示的文本"
@@ -79,7 +77,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addInputMust("输入框", "edit") {
                             prefixText = "￥"
                             suffixText = "米"
-//                            inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+                            menuIcon = com.chooongg.form.R.drawable.form_ic_add
                         }
                         addInputAutoCompleteMust("提示输入框", "inputAutoComplete") {
                             options = arrayListOf(

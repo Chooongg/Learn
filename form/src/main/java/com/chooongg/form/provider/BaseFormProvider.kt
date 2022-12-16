@@ -1,18 +1,16 @@
 package com.chooongg.form.provider
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.updateLayoutParams
 import com.chooongg.basic.ext.*
 import com.chooongg.form.*
 import com.chooongg.form.bean.BaseForm
 import com.google.android.material.button.MaterialButton
 import java.lang.ref.WeakReference
-import kotlin.math.max
 
 abstract class BaseFormProvider<T : BaseForm>(protected val manager: BaseFormManager) {
 
@@ -86,17 +84,21 @@ abstract class BaseFormProvider<T : BaseForm>(protected val manager: BaseFormMan
      * 配置菜单图标
      */
     open fun configMenuIcon(holder: FormViewHolder, item: T) {
-        holder.getViewOrNull<MaterialButton>(R.id.form_iv_menu)?.apply {
-            if (item.menuIcon != null && item.isRealMenuVisible(manager)) {
-                isEnabled = item.isRealMenuEnable(manager)
-                setIconResource(item.menuIcon!!)
-                iconTint = item.menuIconTint?.invoke(context)
+        holder.getViewOrNull<MaterialButton>(R.id.form_btn_menu)?.apply {
+            if (item.isRealMenuVisible(manager)) {
+                text = item.menuText
+                iconTint = item.menuIconTint?.invoke(context) ?: ColorStateList.valueOf(
+                    attrColor(androidx.appcompat.R.attr.colorPrimary)
+                )
+                if (item.menuIcon != null) setIconResource(item.menuIcon!!) else icon = null
+                iconGravity = item.menuIconGravity
                 doOnClick {
                     groupAdapter?.clearFocus()
                     groupAdapter?.onFormMenuClick(
                         manager, item, this, holder.absoluteAdapterPosition
                     )
                 }
+                isEnabled = item.isRealMenuEnable(manager)
                 visible()
             } else gone()
         }

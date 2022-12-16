@@ -1,5 +1,6 @@
 package com.chooongg.form.style
 
+import android.content.res.ColorStateList
 import android.view.ViewGroup
 import android.widget.TextView
 import com.chooongg.basic.ext.attrColor
@@ -45,6 +46,11 @@ abstract class FormStyle {
     open fun configNameTextView(manager: BaseFormManager, textView: TextView?, item: BaseForm) {
         if (textView == null) return
         textView.isEnabled = item.isRealEnable(manager)
+        textView.setTextColor(
+            item.nameTextColor?.invoke(textView.context) ?: ColorStateList.valueOf(
+                textView.attrColor(com.google.android.material.R.attr.colorSecondary)
+            )
+        )
         if (item.ignoreNameEms || item.name.isEmpty()) {
             textView.minWidth = 0
         } else {

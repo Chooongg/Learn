@@ -15,7 +15,6 @@ import com.chooongg.form.enum.FormTimeMode
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import java.util.*
 
 class FormTimeProvider(manager: BaseFormManager) : BaseFormProvider<FormTime>(manager) {
@@ -99,7 +98,7 @@ class FormTimeProvider(manager: BaseFormManager) : BaseFormProvider<FormTime>(ma
                             )
                             newCalendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE))
                             MaterialTimePicker.Builder().setTitleText(item.name)
-                                .setTimeFormat(TimeFormat.CLOCK_24H)
+                                .setTimeFormat(item.timeFormatMode)
                                 .setHour(newCalendar.get(Calendar.HOUR_OF_DAY))
                                 .setMinute(newCalendar.get(Calendar.MINUTE))
                                 .build().apply {

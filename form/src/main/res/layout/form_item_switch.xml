@@ -28,7 +28,7 @@
         android:paddingStart="@dimen/formItemHorizontalContent"
         android:paddingEnd="@dimen/formItemHorizontalContent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/form_iv_menu"
+        app:layout_constraintEnd_toStartOf="@id/form_btn_menu"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/form_tv_name"
         app:layout_constraintTop_toTopOf="parent" />

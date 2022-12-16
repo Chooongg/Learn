@@ -10,6 +10,8 @@ import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormEnableMode
 import com.chooongg.form.enum.FormOutputMode
 import com.chooongg.form.enum.FormVisibilityMode
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButton.IconGravity
 import org.json.JSONObject
 import kotlin.random.Random
 
@@ -103,6 +105,12 @@ abstract class BaseForm(
      * 菜单文本颜色
      */
     open var menuTextColor: (Context.() -> ColorStateList)? = null
+
+    /**
+     * 菜单图标重力
+     */
+    @IconGravity
+    open var menuIconGravity: Int = MaterialButton.ICON_GRAVITY_START
 
     /**
      * 菜单图标
@@ -326,6 +334,7 @@ abstract class BaseForm(
         if (visibilityMode != other.visibilityMode) return false
         if (enableMode != other.enableMode) return false
         if (menuText != other.menuText) return false
+        if (menuIconGravity != other.menuIconGravity) return false
         if (menuIcon != other.menuIcon) return false
         if (menuVisibilityMode != other.menuVisibilityMode) return false
         if (menuEnableMode != other.menuEnableMode) return false
@@ -356,6 +365,7 @@ abstract class BaseForm(
         result = 31 * result + visibilityMode.hashCode()
         result = 31 * result + enableMode.hashCode()
         result = 31 * result + (menuText?.hashCode() ?: 0)
+        result = 31 * result + menuIconGravity.hashCode()
         result = 31 * result + (menuIcon ?: 0)
         result = 31 * result + menuVisibilityMode.hashCode()
         result = 31 * result + menuEnableMode.hashCode()
