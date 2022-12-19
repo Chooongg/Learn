@@ -40,7 +40,7 @@ dependencies {
 
     api 'com.tencent:mmkv:1.2.14'
     // 调试工具
-    implementation 'com.facebook.stetho:stetho:1.6.0'
+    api 'com.facebook.stetho:stetho:1.6.0'
 }
 
 afterEvaluate {

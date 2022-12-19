@@ -45,8 +45,8 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.9.0'
     api 'com.squareup.retrofit2:converter-scalars:2.9.0'
     // 调试工具-拦截器
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
-    implementation 'com.localebro:okhttpprofiler:1.0.8'
+    api 'com.facebook.stetho:stetho-okhttp3:1.6.0'
+    api 'com.localebro:okhttpprofiler:1.0.8'
 }
 
 afterEvaluate {
