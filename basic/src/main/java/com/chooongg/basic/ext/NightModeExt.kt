@@ -27,7 +27,5 @@ fun getNightMode() = AppCompatDelegate.getDefaultNightMode()
  */
 fun setNightMode(@AppCompatDelegate.NightMode mode: Int) {
     LearnMMKV.DayNightMode.set(mode)
-    APPLICATION.getSharedPreferences("chooongg-learn", Context.MODE_PRIVATE).edit()
-        .putInt("night_mode", mode).apply()
     AppCompatDelegate.setDefaultNightMode(mode)
 }
