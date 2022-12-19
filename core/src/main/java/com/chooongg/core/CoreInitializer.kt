@@ -11,11 +11,12 @@ import com.chooongg.core.widget.BasicLoadMoreView
 import com.hjq.permissions.XXPermissions
 
 @Keep
-class CoreInitializer : Initializer<Unit> {
-    override fun create(context: Context) {
+class CoreInitializer : Initializer<String> {
+    override fun create(context: Context): String {
         XXPermissions.setInterceptor(PermissionInterceptor())
         LoadMoreModuleConfig.defLoadMoreView = BasicLoadMoreView()
         logDClass("Learn", CoreInitializer::class.java, "Created")
+        return "Created"
     }
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> =
