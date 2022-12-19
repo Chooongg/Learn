@@ -1,5 +1,6 @@
 package com.chooongg.form.provider
 
+import android.content.res.ColorStateList
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
@@ -11,6 +12,8 @@ import com.chooongg.form.R
 import com.chooongg.form.bean.FormMenu
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.textview.MaterialTextView
 import kotlin.math.max
 
@@ -40,14 +43,35 @@ class FormMenuProvider(manager: BaseFormManager) : BaseFormProvider<FormMenu>(ma
                 visible()
             } else gone()
         }
+        with(holder.getView<MaterialTextView>(R.id.form_tv_bubble)) {
+            if (item.bubbleText.isNullOrEmpty()) gone()
+            else {
+                background = MaterialShapeDrawable(
+                    ShapeAppearanceModel.builder(
+                        context, com.chooongg.core.R.style.ShapeAppearanceImage_Circle, 0
+                    ).build()
+                ).apply {
+                    fillColor =
+                        ColorStateList.valueOf(attrColor(androidx.appcompat.R.attr.colorError))
+                }
+                text = item.bubbleText
+                visible()
+            }
+        }
         with(holder.getView<MaterialTextView>(R.id.form_tv_name)) {
             text = item.name
             if (item.nameTextColor != null) {
                 setTextColor(item.nameTextColor!!.invoke(context))
             } else setTextColorAttr(com.google.android.material.R.attr.colorOnSurface)
         }
-        with(holder.getView<MaterialButton>(R.id.form_btn_menu)) {
+    }
+
+    override fun configMenuIcon(holder: FormViewHolder, item: FormMenu) {
+        super.configMenuIcon(holder, item)
+        holder.getViewOrNull<MaterialButton>(R.id.form_btn_menu)?.apply {
             isEnabled = false
+            isCheckable = false
+            setOnClickListener(null)
         }
     }
 }

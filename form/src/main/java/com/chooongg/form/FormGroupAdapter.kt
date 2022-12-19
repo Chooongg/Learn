@@ -3,11 +3,14 @@ package com.chooongg.form
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.SparseArray
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.*
+import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.hideIME
+import com.chooongg.core.popupMenu.popupMenu
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
@@ -65,6 +68,8 @@ class FormGroupAdapter internal constructor(
 
     var dynamicGroup: Boolean = false
 
+    var dynamicGroupDeleteConfirm: Boolean = false
+
     var dynamicMinPartCount: Int = 1
 
     var dynamicMaxPartCount: Int = Int.MAX_VALUE
@@ -115,6 +120,7 @@ class FormGroupAdapter internal constructor(
         icon = createGroup.groupIcon
         iconTint = createGroup.groupIconTint
         dynamicGroup = createGroup.dynamicGroup
+        dynamicGroupDeleteConfirm = createGroup.dynamicGroupDeleteConfirm
         dynamicMinPartCount = createGroup.dynamicMinPartCount
         dynamicMaxPartCount = createGroup.dynamicMaxPartCount
         dynamicGroupAddPartBlock = createGroup.dynamicGroupAddPartBlock
@@ -227,8 +233,29 @@ class FormGroupAdapter internal constructor(
                     return
                 }
             } else if (item.mode == FormGroupTitleMode.DELETE) {
-                data.removeAt(item.partPosition)
-                update(true)
+                if (dynamicGroupDeleteConfirm) {
+                    popupMenu {
+                        dropdownGravity = Gravity.END
+                        section {
+                            title = "你确定删除${item.name}吗？"
+                            isForceShowIcon = true
+                            item {
+                                label = "删除"
+                                icon = R.drawable.form_ic_delete
+                                val color = view.attrColor(androidx.appcompat.R.attr.colorError)
+                                iconTint = ColorStateList.valueOf(color)
+                                labelColor = color
+                                onSelectedCallback {
+                                    data.removeAt(item.partPosition)
+                                    update(true)
+                                }
+                            }
+                        }
+                    }.show(view.context, view)
+                } else {
+                    data.removeAt(item.partPosition)
+                    update(true)
+                }
                 return
             }
         }

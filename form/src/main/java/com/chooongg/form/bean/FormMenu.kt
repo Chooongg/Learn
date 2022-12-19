@@ -33,6 +33,11 @@ class FormMenu(name: CharSequence, field: String?) :
     @androidx.annotation.IntRange(from = 0)
     var iconSize: Int? = null
 
+    /**
+     * 气泡文本
+     */
+    var bubbleText: CharSequence? = null
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is FormMenu) return false

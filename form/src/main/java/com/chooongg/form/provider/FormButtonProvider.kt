@@ -29,10 +29,6 @@ class FormButtonProvider(manager: BaseFormManager) : BaseFormProvider<FormButton
             iconPadding = item.iconPadding
             updateLayoutParams<ConstraintLayout.LayoutParams> {
                 width = item.width
-                topMargin = if (item.topBoundary == FormBoundaryType.NONE) 0
-                else resDimensionPixelSize(R.dimen.formPartVertical)
-                bottomMargin = if (item.bottomBoundary == FormBoundaryType.NONE) 0
-                else resDimensionPixelSize(R.dimen.formPartVertical)
                 when (item.gravity) {
                     FormButtonGravity.START -> {
                         startToStart = ConstraintLayout.LayoutParams.PARENT_ID

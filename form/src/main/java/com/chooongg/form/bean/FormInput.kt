@@ -5,7 +5,9 @@ import android.text.InputType
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.basic.ext.style
 import com.chooongg.basic.utils.SpanUtils
+import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormManager
+import com.chooongg.form.enum.FormVisibilityMode
 
 class FormInput(name: CharSequence, field: String?) :
     BaseForm(FormManager.TYPE_INPUT, name, field) {
@@ -51,6 +53,17 @@ class FormInput(name: CharSequence, field: String?) :
             span + spans[i]
         }
         return span.toSpannableString()
+    }
+
+    override fun isRealMenuVisible(manager: BaseFormManager): Boolean {
+        if (suffixText != null) return false
+        if (menuIcon == null) return false
+        return when (menuVisibilityMode) {
+            FormVisibilityMode.ALWAYS -> true
+            FormVisibilityMode.ONLY_SEE -> !manager.isEditable
+            FormVisibilityMode.ONLY_EDIT -> manager.isEditable
+            FormVisibilityMode.NEVER -> false
+        }
     }
 
     override fun equals(other: Any?): Boolean {

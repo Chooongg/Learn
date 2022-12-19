@@ -23,14 +23,13 @@ class FormInputProvider(manager: BaseFormManager) : BaseFormProvider<FormInput>(
             isEnabled = item.isRealEnable(manager)
             prefixText = item.prefixText
             suffixText = item.suffixText
-            if (item.menuIcon != null) {
+            if (item.isRealMenuVisible(manager)) {
                 endIconMode = TextInputLayout.END_ICON_CUSTOM
-                setEndIconTintList(
-                    item.menuIconTint?.invoke(context) ?: ColorStateList.valueOf(
-                        attrColor(androidx.appcompat.R.attr.colorPrimary)
-                    )
-                )
                 setEndIconDrawable(item.menuIcon!!)
+                setEndIconTintList(
+                    item.menuIconTint?.invoke(context)
+                        ?: ColorStateList.valueOf(attrColor(androidx.appcompat.R.attr.colorPrimary))
+                )
                 setEndIconOnClickListener {
                     if (multipleValid()) {
                         groupAdapter?.clearFocus()
@@ -40,9 +39,12 @@ class FormInputProvider(manager: BaseFormManager) : BaseFormProvider<FormInput>(
                     }
                 }
             } else {
-                setEndIconTintList(null)
                 endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT
                 setEndIconDrawable(R.drawable.form_ic_edit_clear)
+                setEndIconTintList(
+                    item.menuIconTint?.invoke(context)
+                        ?: ColorStateList.valueOf(attrColor(android.R.attr.textColorHint))
+                )
             }
         }
         with(holder.getView<TextInputEditText>(R.id.form_edit_content)) {

@@ -22,6 +22,8 @@ class FormCreateGroup {
 
     var dynamicGroup: Boolean = false
 
+    var dynamicGroupDeleteConfirm: Boolean = true
+
     @androidx.annotation.IntRange(from = 0)
     var dynamicMinPartCount: Int = 1
 

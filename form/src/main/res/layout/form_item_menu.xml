@@ -26,18 +26,37 @@
         android:textAppearance="?textAppearanceBodyLarge"
         android:textColor="@color/form_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/form_btn_menu"
+        app:layout_constraintEnd_toStartOf="@id/form_tv_bubble"
         app:layout_constraintStart_toEndOf="@id/form_iv_icon"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginEnd="@dimen/formItemHorizontal"
+        app:layout_goneMarginEnd="@dimen/formItemHorizontalContent"
         app:layout_goneMarginStart="@dimen/formItemHorizontal"
         tools:text="内容" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/form_tv_bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/formItemHorizontalContent"
+        android:paddingStart="4dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="4dp"
+        android:paddingBottom="2dp"
+        android:textAppearance="?textAppearanceOverline"
+        android:textColor="?colorOnError"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/form_btn_menu"
+        app:layout_constraintStart_toEndOf="@id/form_tv_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="@dimen/formItemHorizontal" />
 
     <include
         layout="@layout/form_include_menu"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="@dimen/formItemHorizontalIgnoreContent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

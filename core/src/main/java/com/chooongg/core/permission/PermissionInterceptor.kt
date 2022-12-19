@@ -14,36 +14,17 @@ import com.hjq.permissions.XXPermissions
 
 open class PermissionInterceptor : IPermissionInterceptor {
 
-    override fun requestPermissions(
+
+    override fun deniedPermissionRequest(
         activity: Activity,
-        permissions: MutableList<String>,
-        callback: OnPermissionCallback
-    ) {
-        super.requestPermissions(activity, permissions, callback)
-    }
-
-    override fun grantedPermissions(
-        activity: Activity?,
-        permissions: MutableList<String>?,
-        grantedPermissions: MutableList<String>?,
-        all: Boolean,
-        callback: OnPermissionCallback?
-    ) {
-        super.grantedPermissions(activity, permissions, grantedPermissions, all, callback)
-    }
-
-    override fun deniedPermissions(
-        activity: Activity?,
-        permissions: MutableList<String>?,
-        deniedPermissions: MutableList<String>?,
+        allPermissions: MutableList<String>,
+        deniedPermissions: MutableList<String>,
         never: Boolean,
         callback: OnPermissionCallback?
     ) {
-        // 回调授权失败的方法
-        callback?.onDenied(permissions, never)
+        super.deniedPermissionRequest(activity, allPermissions, deniedPermissions, never, callback)
         if (never) {
-            if (activity == null || permissions == null) return
-            showPermissionDialog(activity, permissions)
+            showPermissionDialog(activity, deniedPermissions)
             return
         }
     }

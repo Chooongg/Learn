@@ -34,7 +34,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
             init(this@FormActivity, binding.recyclerView, this@FormActivity)
             if (getItemCount() <= 0) {
                 addGroup {
-                    groupName = "选项菜单"
+                    groupName = "操作菜单"
                     groupIcon = R.drawable.ic_main_popup_menu
                     groupIconTint = {
                         ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorOnSurface))
@@ -45,7 +45,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                     }
                 }
                 addMaterialCardGroup {
-                    groupName = "Form表单"
+                    groupName = "示例表单"
                     groupIcon = R.drawable.ic_main_form
                     groupIconTint = {
                         ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorOnSecondaryContainer))
@@ -85,7 +85,9 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                             )
                         }
                         addLabel("标签")
-                        addMenu("菜单项", "menu")
+                        addMenu("菜单项", "menu") {
+                            bubbleText = "有新版本"
+                        }
                         addRadioMust("单选", "radio") {
                             options = arrayListOf(
                                 OptionItem("男"), OptionItem("女"), OptionItem("未知")
@@ -111,10 +113,11 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addTimeMust("时间选择器", "time", FormTimeMode.TIME)
                         addTimeMust("时间选择器", "date", FormTimeMode.DATE)
                         addTimeMust("时间选择器", "dateTime", FormTimeMode.DATE_TIME)
+                        addButton("按钮", "button")
                     }
                 }
                 addMaterialCardGroup {
-                    groupName = "动态表单"
+                    groupName = "示例动态表单"
                     dynamicGroup = true
                     dynamicMaxPartCount = 4
                     addPart {
@@ -136,7 +139,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addInput("输入框", "input")
                     }
                 }
-                addGroup {
+                addMaterialCardGroup {
                     addPart {
                         addButton("提交数据", "submit")
                     }
