@@ -148,7 +148,6 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
         }
     }
 
-
     override fun onFormClick(manager: BaseFormManager, item: BaseForm, view: View, position: Int) {
         when (item.field) {
             "isEditable" -> {

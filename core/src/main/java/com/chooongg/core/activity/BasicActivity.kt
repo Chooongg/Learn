@@ -177,12 +177,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         contentView.transitionName = null
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        val active = super.dispatchTouchEvent(ev)
-        if (!active) hideIME()
-        return active
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         logDClass("Activity", javaClass, buildString {
