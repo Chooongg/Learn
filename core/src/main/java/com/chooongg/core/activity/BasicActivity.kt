@@ -22,6 +22,7 @@ import com.chooongg.core.ext.TRANSITION_NAME_CONTAINER_TRANSFORM
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
 import com.google.android.material.motion.MotionUtils
+import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialSharedAxis
@@ -118,7 +119,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         transform.addTarget(android.R.id.content)
         transform.containerColor = attrColor(android.R.attr.colorBackground)
         transform.fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
-//        transform.pathMotion = MaterialArcMotion()
+        transform.pathMotion = MaterialArcMotion()
         transform.duration
         return transform
     }
