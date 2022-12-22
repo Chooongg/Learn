@@ -139,7 +139,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
                         addInput("输入框", "input")
                     }
                 }
-                addMaterialCardGroup {
+                addGroup {
                     addPart {
                         addButton("提交数据", "submit")
                     }

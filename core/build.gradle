@@ -52,8 +52,16 @@ dependencies {
     api 'com.google.android.flexbox:flexbox:3.0.0'
     api 'com.github.getActivity:XXPermissions:16.5'
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11'
-    api 'com.mikepenz:fastadapter:5.7.0'
-    api 'com.mikepenz:fastadapter-extensions-expandable:5.7.0'
+    api "com.mikepenz:fastadapter:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-expandable:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-binding:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-diff:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-drag:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-paged:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-scroll:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-swipe:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-ui:${dependenciesVersion.fastAdapterVersion}"
+    api "com.mikepenz:fastadapter-extensions-utils:${dependenciesVersion.fastAdapterVersion}"
     api 'com.github.fondesa:recycler-view-divider:3.5.0'
     // 下拉刷新-上拉加载
     api 'io.github.scwang90:refresh-layout-kernel:2.0.5'

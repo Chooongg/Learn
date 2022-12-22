@@ -5,7 +5,6 @@ import com.chooongg.form.BaseFormManager
 import com.chooongg.form.FormDataVerificationException
 import com.chooongg.form.enum.FormOutPutStyle
 import com.chooongg.form.enum.FormOutputMode
-import com.chooongg.form.enum.FormVisibilityMode
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -40,10 +39,8 @@ abstract class BaseMultipleOptionForm(type: Int, name: CharSequence, field: Stri
             if (outputMode == FormOutputMode.ALWAYS) {
                 throw FormDataVerificationException(null, field, name)
             } else if (outputMode == FormOutputMode.ONLY_VISIBLE) {
-                if (isVisible) {
-                    if (visibilityMode == FormVisibilityMode.ALWAYS) {
-                        throw FormDataVerificationException(null, field, name)
-                    }
+                if (isRealVisible(manager)) {
+                    throw FormDataVerificationException(null, field, name)
                 }
             }
         }

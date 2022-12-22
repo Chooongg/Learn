@@ -61,7 +61,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         configEdgeToEdge()
         javaClass.getAnnotationTitle(context)?.let { title = it }
         setContentViewInternal()
-        window.setBackgroundDrawable(null)
         initView(savedInstanceState)
     }
 
@@ -120,7 +119,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         transform.containerColor = attrColor(android.R.attr.colorBackground)
         transform.fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         transform.pathMotion = MaterialArcMotion()
-        transform.duration
         return transform
     }
 

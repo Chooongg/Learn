@@ -8,13 +8,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.menu.MenuBuilder
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.chooongg.basic.ext.resDimensionPixelSize
 import com.chooongg.basic.ext.setNightMode
 import com.chooongg.core.activity.BasicBindingActivity
 import com.chooongg.core.adapter.BindingAdapter
 import com.chooongg.core.annotation.NavigationButton
-import com.chooongg.core.ext.divider
-import com.chooongg.core.ext.showAllDivider
 import com.chooongg.core.ext.startActivity
 import com.chooongg.filePicker.LearnFilePickerActivity
 import com.chooongg.learn.databinding.ActivityMainBinding
@@ -29,6 +26,8 @@ import com.chooongg.learn.platte.PlatteActivity
 import com.chooongg.learn.popupMenu.PopupMenuActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 
 @NavigationButton(false)
 class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
@@ -36,11 +35,10 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
     private val adapter = Adapter()
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.divider {
-            asSpace().showAllDivider()
-            size(resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium))
+        binding.recyclerView.layoutManager = FlexboxLayoutManager(context).apply {
+            justifyContent = JustifyContent.CENTER
         }
+        binding.recyclerView.adapter = adapter
         adapter.setOnItemClickListener { _, view, position ->
             adapter.data[position].action(view)
         }

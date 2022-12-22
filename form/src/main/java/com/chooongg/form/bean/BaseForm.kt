@@ -82,11 +82,6 @@ abstract class BaseForm(
     open var content: CharSequence? = null
 
     /**
-     * 是否可见
-     */
-    open var isVisible: Boolean = true
-
-    /**
      * 可见模式
      */
     open var visibilityMode: FormVisibilityMode = FormVisibilityMode.ALWAYS
@@ -267,7 +262,6 @@ abstract class BaseForm(
      * 获取真实的可见性
      */
     open fun isRealVisible(manager: BaseFormManager): Boolean {
-        if (!isVisible) return false
         return when (visibilityMode) {
             FormVisibilityMode.ALWAYS -> true
             FormVisibilityMode.ONLY_SEE -> !manager.isEditable
@@ -330,7 +324,6 @@ abstract class BaseForm(
         if (isMust != other.isMust) return false
         if (hint != other.hint) return false
         if (content != other.content) return false
-        if (isVisible != other.isVisible) return false
         if (visibilityMode != other.visibilityMode) return false
         if (enableMode != other.enableMode) return false
         if (menuText != other.menuText) return false
@@ -361,7 +354,6 @@ abstract class BaseForm(
         result = 31 * result + isMust.hashCode()
         result = 31 * result + (hint?.hashCode() ?: 0)
         result = 31 * result + (content?.hashCode() ?: 0)
-        result = 31 * result + isVisible.hashCode()
         result = 31 * result + visibilityMode.hashCode()
         result = 31 * result + enableMode.hashCode()
         result = 31 * result + (menuText?.hashCode() ?: 0)

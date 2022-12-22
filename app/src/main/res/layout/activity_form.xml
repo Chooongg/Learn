@@ -12,13 +12,4 @@
         android:background="?android:colorBackground"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/iv_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginEnd="@dimen/contentMedium"
-        android:layout_marginBottom="@dimen/contentMedium" />
-
 </com.chooongg.core.widget.TopAppBarLayout>

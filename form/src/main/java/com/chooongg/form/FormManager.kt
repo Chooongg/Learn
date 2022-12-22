@@ -59,9 +59,8 @@ class FormManager(
         owner: LifecycleOwner, recyclerView: RecyclerView, listener: FormEventListener? = null
     ) {
         if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) return
-        recyclerView.requestLayout()
-        _recyclerView = WeakReference(recyclerView)
         initSize(recyclerView.context)
+        _recyclerView = WeakReference(recyclerView)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING && recyclerView.focusedChild != null) {
@@ -91,7 +90,6 @@ class FormManager(
         val group = FormGroupAdapter(this, style, styleSequence.indexOf(style::class) * 100)
         group.setFormEventListener(formEventListener)
         val count = adapter.adapters.size
-        logE("Form", "styleIndex: ${styleSequence.indexOf(style::class) * 100}")
         adapter.addAdapter(group)
         group.setNewList(block)
         if (count > 0) {
