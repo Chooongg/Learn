@@ -6,7 +6,7 @@
     style="@style/Widget.Material3.CompoundButton.RadioButton"
     android:layout_height="wrap_content"
     android:minWidth="0dp"
-    android:background="@drawable/form_ripple_menu_selected_background"
+    android:background="@drawable/form_ripple_button_selected_background"
     android:minHeight="0dp"
     android:paddingTop="@dimen/formItemHorizontalContent"
     android:paddingEnd="@dimen/formItemHorizontalContent"

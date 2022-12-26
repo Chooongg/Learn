@@ -33,7 +33,7 @@ open class DefaultFormStyle : FormStyle() {
                 bottom = if (item.bottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize
             )
             updateLayoutParams<RecyclerView.LayoutParams> {
-                val recyclerViewWidth = manager._recyclerView?.get()?.width ?: 0
+                val recyclerViewWidth = manager.recyclerView?.width ?: 0
                 if (recyclerViewWidth > manager.itemMaxWidth) {
                     marginStart = (recyclerViewWidth - manager.itemMaxWidth) / 2
                     marginEnd = (recyclerViewWidth - manager.itemMaxWidth) / 2

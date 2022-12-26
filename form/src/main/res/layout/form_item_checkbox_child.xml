@@ -4,7 +4,7 @@
     android:id="@+id/form_checkbox"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/form_ripple_menu_selected_background"
+    android:background="@drawable/form_ripple_button_selected_background"
     android:minWidth="0dp"
     android:minHeight="0dp"
     android:paddingTop="@dimen/formItemHorizontalContent"

@@ -31,7 +31,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormActivity
 
     override fun initView(savedInstanceState: Bundle?) {
         model.formManager.apply {
-            init(this@FormActivity, binding.recyclerView, this@FormActivity)
+            init(activity, binding.recyclerView, this@FormActivity)
             if (getItemCount() <= 0) {
                 addGroup {
                     groupName = "操作菜单"

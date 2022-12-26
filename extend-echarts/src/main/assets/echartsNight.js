@@ -1,5 +1,9 @@
 var container = document.getElementById('container');
-var charts = echarts.init(container,"dark");
+container.setAttribute("style", "height:100%")
+var charts = echarts.init(container, "dark");
+window.addEventListener("resize", () => {
+    charts.resize()
+})
 
 /**
  * 构建动态图表

@@ -13,27 +13,25 @@ import com.chooongg.form.bean.FormAddress
 
 object FormManagerConfig {
 
-    var nameEmsSize: Int = 5
+    var defaultNameEmsSize: Int = 5
 
     internal var onAddressAreaSelectBlock: (
         context: Context,
-        group: FormGroupAdapter,
         item: FormAddress,
         anchorView: View
-    ) -> Unit = { _, _, _, _ ->
+    ) -> Unit = { _, _, _ ->
         showToast("未实现")
     }
 
     internal var onFilePickerBlock: (
         context: Context,
-        group: FormGroupAdapter,
         item: FormAddress,
         anchorView: View
-    ) -> Unit = { _, _, _, _ ->
+    ) -> Unit = { _, _, _ ->
         showToast("未实现")
     }
 
-    internal var onDataVerificationExceptionBlock: (
+    internal var onVerificationDataExceptionBlock: (
         manager: BaseFormManager,
         exception: FormDataVerificationException
     ) -> Unit = { manager, e ->
@@ -53,7 +51,7 @@ object FormManagerConfig {
             for (j in 0 until itemAdapter.itemCount) {
                 val item = itemAdapter.getItem(j)
                 if (item.field == e.field) {
-                    manager._recyclerView?.get()?.smoothScrollToPosition(globalPosition)
+                    manager.recyclerView?.smoothScrollToPosition(globalPosition)
                     break@adapter
                 } else {
                     globalPosition++
@@ -62,4 +60,30 @@ object FormManagerConfig {
         }
     }
 
+    /**
+     * 设置地址地区选择监听
+     */
+    fun setOnAddressAreaSelectListener(
+        block: (context: Context, item: FormAddress, anchorView: View) -> Unit
+    ) {
+        onAddressAreaSelectBlock = block
+    }
+
+    /**
+     * 设置文件选择监听
+     */
+    fun setOnFilePickerListener(
+        block: (context: Context, item: FormAddress, anchorView: View) -> Unit
+    ) {
+        onFilePickerBlock = block
+    }
+
+    /**
+     * 设置验证数据异常操作监听
+     */
+    fun setOnVerificationDataExceptionListener(
+        block: (manager: BaseFormManager, exception: FormDataVerificationException) -> Unit
+    ) {
+        onVerificationDataExceptionBlock = block
+    }
 }

@@ -66,7 +66,7 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
                     FormBoundaryType.LOCAL -> partVertical
                     FormBoundaryType.GLOBAL -> partVerticalEdge
                 }
-                val recyclerViewWidth = manager._recyclerView?.get()?.width ?:0
+                val recyclerViewWidth = manager.recyclerView?.width ?:0
                 if (recyclerViewWidth > manager.itemMaxWidth) {
                     marginStart = (recyclerViewWidth - manager.itemMaxWidth) / 2
                     marginEnd = (recyclerViewWidth - manager.itemMaxWidth) / 2

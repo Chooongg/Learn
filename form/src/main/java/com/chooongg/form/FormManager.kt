@@ -5,7 +5,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.hideIME
-import com.chooongg.basic.ext.logE
 import com.chooongg.core.widget.layoutManager.CenterScrollLinearLayoutManager
 import com.chooongg.form.config.FormManagerConfig
 import com.chooongg.form.style.DefaultFormStyle
@@ -17,7 +16,7 @@ import kotlin.reflect.KClass
 
 class FormManager(
     isEditable: Boolean,
-    @androidx.annotation.IntRange(from = 1) nameEmsSize: Int = FormManagerConfig.nameEmsSize
+    @androidx.annotation.IntRange(from = 1) nameEmsSize: Int = FormManagerConfig.defaultNameEmsSize
 ) : BaseFormManager(isEditable, nameEmsSize) {
 
     companion object {

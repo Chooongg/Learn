@@ -12,8 +12,9 @@ import java.lang.ref.WeakReference
 
 abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEmsSize: Int) {
 
-    var _recyclerView: WeakReference<RecyclerView>? = null
-        protected set
+    protected var _recyclerView: WeakReference<RecyclerView>? = null
+
+    val recyclerView: RecyclerView? get() = _recyclerView?.get()
 
     val adapter = ConcatAdapter(
         ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
@@ -155,7 +156,7 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
             }
             return true
         } catch (e: FormDataVerificationException) {
-            FormManagerConfig.onDataVerificationExceptionBlock.invoke(this, e)
+            FormManagerConfig.onVerificationDataExceptionBlock.invoke(this, e)
         } catch (e: Exception) {
             showToast("发生异常验证失败")
             e.printStackTrace()

@@ -14,6 +14,14 @@ import com.hjq.permissions.XXPermissions
 
 open class PermissionInterceptor : IPermissionInterceptor {
 
+    override fun finishPermissionRequest(
+        activity: Activity,
+        allPermissions: MutableList<String>,
+        skipRequest: Boolean,
+        callback: OnPermissionCallback?
+    ) {
+        super.finishPermissionRequest(activity, allPermissions, skipRequest, callback)
+    }
 
     override fun deniedPermissionRequest(
         activity: Activity,
@@ -36,7 +44,8 @@ open class PermissionInterceptor : IPermissionInterceptor {
         // 这里的 Dialog 只是示例，没有用 DialogFragment 来处理 Dialog 生命周期
         MaterialAlertDialogBuilder(activity)
             .setIcon(R.drawable.ic_dialog_permission)
-            .setTitle(R.string.common_permission_fail_2_list)
+            .setTitle(R.string.common_permission_alert)
+            .setMessage(R.string.common_permission_fail_2_list)
             .setAdapter(
                 SimpleAdapter(
                     activity,

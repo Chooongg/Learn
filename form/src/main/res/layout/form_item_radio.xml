@@ -13,7 +13,7 @@
         android:paddingTop="@dimen/formItemVertical"
         android:paddingBottom="@dimen/formItemVertical"
         android:textAppearance="?textAppearanceBodyMedium"
-        android:textColor="?colorSecondary"
+        android:textColor="@color/form_name_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ems="4"
