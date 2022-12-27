@@ -68,6 +68,10 @@ open class DefaultFormStyle : FormStyle() {
         }
         with(holder.getView<MaterialTextView>(R.id.form_tv_name)) {
             hint = item.hint
+            setTextColor(
+                item.nameColor?.invoke(context)
+                    ?: ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorOnSurface))
+            )
         }
         with(holder.getView<MaterialButton>(R.id.form_btn_menu)) {
             isEnabled = item.isRealMenuEnable(manager)

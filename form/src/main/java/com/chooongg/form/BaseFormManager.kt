@@ -106,7 +106,7 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
         changeBlock(item)
         group@ for (adapter in adapter.adapters.iterator()) {
             if (adapter !is FormGroupAdapter) continue@group
-            val index = adapter.getShowingList().indexOfFirst { it == item }
+            val index = adapter.currentList.indexOfFirst { it == item }
             if (index != -1) {
                 adapter.notifyItemChanged(index, "update")
                 return
@@ -120,9 +120,9 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
     fun findItemForField(field: String, changeBlock: BaseForm.() -> Unit) {
         group@ for (adapter in adapter.adapters.iterator()) {
             if (adapter !is FormGroupAdapter) continue@group
-            val index = adapter.getShowingList().indexOfFirst { it.field == field }
+            val index = adapter.currentList.indexOfFirst { it.field == field }
             if (index != -1) {
-                changeBlock(adapter.getShowingList()[index])
+                changeBlock(adapter.currentList[index])
                 adapter.notifyItemChanged(index, "update")
                 return
             }
@@ -135,9 +135,9 @@ abstract class BaseFormManager internal constructor(isEditable: Boolean, nameEms
     fun findItemForName(name: CharSequence, changeBlock: BaseForm.() -> Unit) {
         group@ for (adapter in adapter.adapters.iterator()) {
             if (adapter !is FormGroupAdapter) continue@group
-            val index = adapter.getShowingList().indexOfFirst { it.name == name }
+            val index = adapter.currentList.indexOfFirst { it.name == name }
             if (index != -1) {
-                changeBlock(adapter.getShowingList()[index])
+                changeBlock(adapter.currentList[index])
                 adapter.notifyItemChanged(index, "update")
                 return
             }

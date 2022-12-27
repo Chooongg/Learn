@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
 import com.chooongg.form.bean.BaseForm
-import com.chooongg.form.enum.FormColorStyle
 
 class FormCreateGroup {
     internal val createdFormPartList = mutableListOf<ArrayList<BaseForm>>()
 
     var groupName: CharSequence? = null
 
-    var groupNameColorStyle: FormColorStyle = FormColorStyle.DEFAULT
+    var groupNameColor: (Context.() -> ColorStateList)? = null
 
     var groupField: String? = null
 

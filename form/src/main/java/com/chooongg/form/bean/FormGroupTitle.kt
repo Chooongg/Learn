@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
 import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager
-import com.chooongg.form.enum.FormColorStyle
 import com.chooongg.form.enum.FormGroupTitleMode
 
 class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
@@ -14,7 +13,7 @@ class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
     /**
      * 名字颜色
      */
-    var nameColorStyle: FormColorStyle = FormColorStyle.DEFAULT
+    var nameColor: (Context.() -> ColorStateList)? = null
 
     /**
      * 图标资源
@@ -47,18 +46,18 @@ class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
         if (other !is FormGroupTitle) return false
         if (!super.equals(other)) return false
 
-        if (nameColorStyle != other.nameColorStyle) return false
         if (icon != other.icon) return false
         if (iconSize != other.iconSize) return false
+        if (mode != other.mode) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + nameColorStyle.hashCode()
         result = 31 * result + (icon ?: 0)
         result = 31 * result + (iconSize ?: 0)
+        result = 31 * result + mode.hashCode()
         return result
     }
 }

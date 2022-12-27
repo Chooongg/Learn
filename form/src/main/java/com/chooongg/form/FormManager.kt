@@ -3,6 +3,7 @@ package com.chooongg.form
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.hideIME
 import com.chooongg.core.widget.layoutManager.CenterScrollLinearLayoutManager
@@ -55,9 +56,9 @@ class FormManager(
     private val styleSequence = CopyOnWriteArraySet<KClass<out FormStyle>>()
 
     fun init(
-        owner: LifecycleOwner, recyclerView: RecyclerView, listener: FormEventListener? = null
+        recyclerView: RecyclerView, listener: FormEventListener? = null
     ) {
-        if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) return
+//        if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) return
         initSize(recyclerView.context)
         _recyclerView = WeakReference(recyclerView)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -71,15 +72,15 @@ class FormManager(
         recyclerView.layoutManager = CenterScrollLinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
         formEventListener = listener
-        owner.lifecycle.addObserver(object : LifecycleEventObserver {
-            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) {
-                    owner.lifecycle.removeObserver(this)
-                    formEventListener = null
-                    recyclerView.adapter = null
-                }
-            }
-        })
+//        owner.lifecycle.addObserver(object : LifecycleEventObserver {
+//            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+//                if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) {
+//                    owner.lifecycle.removeObserver(this)
+//                    formEventListener = null
+//                    recyclerView.adapter = null
+//                }
+//            }
+//        })
     }
 
     fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormCreateGroup.() -> Unit) {

@@ -69,9 +69,9 @@ class FormMenuProvider(manager: BaseFormManager) : BaseFormProvider<FormMenu>(ma
     override fun configMenuIcon(holder: FormViewHolder, item: FormMenu) {
         super.configMenuIcon(holder, item)
         holder.getViewOrNull<MaterialButton>(R.id.form_btn_menu)?.apply {
-            isEnabled = false
-            isCheckable = false
-            setOnClickListener(null)
+            background = null
+            isClickable = false
+            isLongClickable = false
         }
     }
 }

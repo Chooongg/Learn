@@ -14,7 +14,6 @@ import com.chooongg.core.popupMenu.popupMenu
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
-import com.chooongg.form.enum.FormColorStyle
 import com.chooongg.form.enum.FormGroupTitleMode
 import com.chooongg.form.provider.*
 import com.chooongg.form.style.FormStyle
@@ -57,7 +56,7 @@ class FormGroupAdapter internal constructor(
 
     var name: CharSequence? = null
 
-    var nameColorStyle: FormColorStyle = FormColorStyle.DEFAULT
+    var nameColor: (Context.() -> ColorStateList)? = null
 
     var field: String? = null
 
@@ -115,7 +114,7 @@ class FormGroupAdapter internal constructor(
 
     fun setNewList(createGroup: FormCreateGroup) {
         name = createGroup.groupName
-        nameColorStyle = createGroup.groupNameColorStyle
+        nameColor = createGroup.groupNameColor
         field = createGroup.groupField
         icon = createGroup.groupIcon
         iconTint = createGroup.groupIconTint
@@ -168,7 +167,7 @@ class FormGroupAdapter internal constructor(
                     }
                     icon = this@FormGroupAdapter.icon
                     iconTint = this@FormGroupAdapter.iconTint
-                    nameColorStyle = this@FormGroupAdapter.nameColorStyle
+                    nameColor = this@FormGroupAdapter.nameColor
                     partPosition = partIndex
                     adapterPosition = 0
                     topBoundary = if (partIndex == 0 && groupIsFirst) {
@@ -270,11 +269,11 @@ class FormGroupAdapter internal constructor(
         formEventListener?.onFormContentChanged(manager, item, position)
     }
 
-    fun getShowingList() = asyncDiffer.currentList
+    val currentList get() = asyncDiffer.currentList
 
-    fun getItem(position: Int) = getShowingList()[position]
+    fun getItem(position: Int) = currentList[position]
 
-    override fun getItemCount() = asyncDiffer.currentList.size
+    override fun getItemCount() = currentList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FormViewHolder {
         val provider = getItemProvider(viewType)

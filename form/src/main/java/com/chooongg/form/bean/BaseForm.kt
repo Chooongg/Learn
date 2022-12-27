@@ -126,7 +126,7 @@ abstract class BaseForm(
     /**
      * 菜单可用模式
      */
-    open var menuEnableMode: FormEnableMode = FormEnableMode.ALWAYS
+    open var menuEnableMode: FormEnableMode = FormEnableMode.ONLY_EDIT
 
     /**
      * 忽略名称长度限制
