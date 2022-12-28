@@ -34,13 +34,13 @@ class TopAppBarLayout @JvmOverloads constructor(
         }
         val collapsingToolbarLayout: CollapsingToolbarLayout? =
             findViewById(R.id.collapsing_toolbar_layout)
-        ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
-            val displayCutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-            if (collapsingToolbarLayout != null) {
-                collapsingToolbarLayout.updatePadding(left = displayCutout.left, right = displayCutout.right)
-            } else topAppBar.updatePadding(left = displayCutout.left, right = displayCutout.right)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+//            val displayCutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+//            if (collapsingToolbarLayout != null) {
+//                collapsingToolbarLayout.updatePadding(left = displayCutout.left, right = displayCutout.right)
+//            } else topAppBar.updatePadding(left = displayCutout.left, right = displayCutout.right)
+//            insets
+//        }
         val activity = context.getActivity()
         if (context.attrBoolean(androidx.appcompat.R.attr.windowActionBar, false)) {
             if (collapsingToolbarLayout != null) appBarLayout.removeView(collapsingToolbarLayout)
