@@ -16,7 +16,15 @@ class LoadingActivity : BasicBindingActivity<ActivityLoadingBinding>() {
         binding.btn.doOnClick {
             lifecycleScope.launch {
                 showLoading("Loading会在5秒后关闭")
-                delay(5000)
+                delay(1000)
+                showLoading("Loading会在4秒后关闭")
+                delay(1000)
+                showLoading("Loading会在3秒后关闭")
+                delay(1000)
+                showLoading("Loading会在2秒后关闭")
+                delay(1000)
+                showLoading("Loading会在1秒后关闭")
+                delay(1000)
                 hideLoading()
             }
         }

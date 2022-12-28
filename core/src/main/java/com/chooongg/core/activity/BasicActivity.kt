@@ -61,6 +61,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         configEdgeToEdge()
         javaClass.getAnnotationTitle(context)?.let { title = it }
         setContentViewInternal()
+        window.setBackgroundDrawable(null)
         initView(savedInstanceState)
     }
 
@@ -116,7 +117,6 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     protected open fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
         val transform = MaterialContainerTransform(this, entering)
         transform.addTarget(android.R.id.content)
-        transform.containerColor = attrColor(android.R.attr.colorBackground)
         transform.fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         transform.pathMotion = MaterialArcMotion()
         return transform
@@ -135,12 +135,14 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
             val bottom = it.fitsSide and ActivityEdgeToEdge.BOTTOM != 0
             if (left || top || right || bottom) {
                 ViewCompat.setOnApplyWindowInsetsListener(contentView) { view, insets ->
-                    val systemBarInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                    val barInsets = insets.getInsets(
+                        WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+                    )
                     view.setPadding(
-                        if (left) systemBarInsets.left else 0,
-                        if (top) systemBarInsets.top else 0,
-                        if (right) systemBarInsets.right else 0,
-                        if (bottom) systemBarInsets.bottom else 0
+                        if (left) barInsets.left else 0,
+                        if (top) barInsets.top else 0,
+                        if (right) barInsets.right else 0,
+                        if (bottom) barInsets.bottom else 0
                     )
                     insets
                 }

@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.GravityCompat
+import androidx.core.view.*
 import com.chooongg.basic.ext.attrBoolean
 import com.chooongg.basic.ext.getActivity
 import com.chooongg.core.R
@@ -32,12 +32,21 @@ class TopAppBarLayout @JvmOverloads constructor(
             1 -> inflate(context, R.layout.learn_top_app_bar_medium, this)
             2 -> inflate(context, R.layout.learn_top_app_bar_large, this)
         }
+        val collapsingToolbarLayout: CollapsingToolbarLayout? =
+            findViewById(R.id.collapsing_toolbar_layout)
+        ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+            val displayCutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            if (collapsingToolbarLayout != null) {
+                collapsingToolbarLayout.updatePadding(left = displayCutout.left, right = displayCutout.right)
+            } else topAppBar.updatePadding(left = displayCutout.left, right = displayCutout.right)
+            insets
+        }
+        val activity = context.getActivity()
         if (context.attrBoolean(androidx.appcompat.R.attr.windowActionBar, false)) {
-            val collapsing = findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar_layout)
-            if (collapsing != null) appBarLayout.removeView(collapsing)
+            if (collapsingToolbarLayout != null) appBarLayout.removeView(collapsingToolbarLayout)
             else appBarLayout.removeView(topAppBar)
         } else if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
-            (context.getActivity() as? AppCompatActivity)?.setSupportActionBar(topAppBar)
+            (activity as? AppCompatActivity)?.setSupportActionBar(topAppBar)
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_liftOnScroll)) {
             appBarLayout.isLiftOnScroll =
@@ -50,7 +59,7 @@ class TopAppBarLayout @JvmOverloads constructor(
         if (a.hasValue(R.styleable.TopAppBarLayout_title)) {
             val title = a.getString(R.styleable.TopAppBarLayout_title)
             if (a.getBoolean(R.styleable.TopAppBarLayout_setActionBar, true)) {
-                context.getActivity()?.title = title
+                activity?.title = title
             } else topAppBar.title = title
         } else if (isInEditMode) {
             topAppBar.title = "TITLE"
@@ -76,38 +85,34 @@ class TopAppBarLayout @JvmOverloads constructor(
                 context, a.getResourceId(R.styleable.TopAppBarLayout_subtitleTextAppearance, 0)
             )
         }
-        if (a.hasValue(R.styleable.TopAppBarLayout_titleMargin)) {
-            val margin = a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMargin, 0)
-            topAppBar.setTitleMargin(margin, margin, margin, margin)
-        } else {
-            val marginStart =
-                a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginStart, -1)
-            val marginEnd =
-                a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginEnd, -1)
-            val marginTop =
-                a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginTop, -1)
-            val marginBottom =
-                a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginBottom, -1)
-            if (marginStart != -1 || marginEnd != -1 || marginTop != -1 || marginBottom != -1) {
-                topAppBar.setTitleMargin(
-                    if (marginStart >= 0) marginStart else topAppBar.titleMarginStart,
-                    if (marginTop >= 0) marginTop else topAppBar.titleMarginTop,
-                    if (marginEnd >= 0) marginEnd else topAppBar.titleMarginEnd,
-                    if (marginBottom >= 0) marginBottom else topAppBar.titleMarginBottom
-                )
-            }
+        val margin = a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMargin, -1)
+        val marginStart =
+            a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginStart, margin)
+        val marginEnd =
+            a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginEnd, margin)
+        val marginTop =
+            a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginTop, margin)
+        val marginBottom =
+            a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginBottom, margin)
+        if (marginStart != -1 || marginEnd != -1 || marginTop != -1 || marginBottom != -1) {
+            topAppBar.setTitleMargin(
+                if (marginStart >= 0) marginStart else topAppBar.titleMarginStart,
+                if (marginTop >= 0) marginTop else topAppBar.titleMarginTop,
+                if (marginEnd >= 0) marginEnd else topAppBar.titleMarginEnd,
+                if (marginBottom >= 0) marginBottom else topAppBar.titleMarginBottom
+            )
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleBackground)) {
             appBarLayout.background = a.getDrawable(R.styleable.TopAppBarLayout_titleBackground)
         }
-        findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar_layout)?.let {
+        collapsingToolbarLayout?.let {
             if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseEnabled)) {
                 it.isTitleEnabled =
                     a.getBoolean(R.styleable.TopAppBarLayout_titleCollapseEnabled, true)
             }
-            if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseMode)) {
-                it.titleCollapseMode = a.getInt(R.styleable.TopAppBarLayout_titleCollapseMode, 0)
-            }
+//            if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseMode)) {
+            it.titleCollapseMode = a.getInt(R.styleable.TopAppBarLayout_titleCollapseMode, 0)
+//            }
             if (a.hasValue(R.styleable.TopAppBarLayout_maxLines)) {
                 it.maxLines = a.getInteger(R.styleable.TopAppBarLayout_maxLines, 1)
             }
@@ -131,11 +136,11 @@ class TopAppBarLayout @JvmOverloads constructor(
                 val marginStart = a.getDimensionPixelOffset(
                     R.styleable.TopAppBarLayout_expandedTitleMarginStart, -1
                 )
-                val marginEnd = a.getDimensionPixelOffset(
-                    R.styleable.TopAppBarLayout_expandedTitleMarginEnd, -1
-                )
                 val marginTop = a.getDimensionPixelOffset(
                     R.styleable.TopAppBarLayout_expandedTitleMarginTop, -1
+                )
+                val marginEnd = a.getDimensionPixelOffset(
+                    R.styleable.TopAppBarLayout_expandedTitleMarginEnd, -1
                 )
                 val marginBottom = a.getDimensionPixelOffset(
                     R.styleable.TopAppBarLayout_expandedTitleMarginBottom, -1
@@ -218,7 +223,6 @@ class TopAppBarLayout @JvmOverloads constructor(
                     isHavTopAppBarContent = true
                     findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar_layout)
                         ?.isTitleEnabled = false
-                    context.getActivity()?.title = null
                     topAppBar.title = null
                 }
                 return
@@ -230,8 +234,10 @@ class TopAppBarLayout @JvmOverloads constructor(
                 return
             }
         }
-        if (child !is AppBarLayout && params is CoordinatorLayout.LayoutParams && params.height == ViewGroup.LayoutParams.MATCH_PARENT) {
-            params.behavior = AppBarLayout.ScrollingViewBehavior()
+        if (child !is AppBarLayout) {
+            if (params is CoordinatorLayout.LayoutParams && params.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+                params.behavior = AppBarLayout.ScrollingViewBehavior()
+            }
         }
         super.addView(child, index, params)
     }

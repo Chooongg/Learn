@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Learn.Surface" parent="Base.Theme.Learn">
         <item name="appBarLayoutStyle">@style/Widget.Learn.AppBarLayout.Surface</item>
@@ -29,6 +29,7 @@
     <style name="Theme.Learn.primarySurface" parent="Theme.Learn.Primary" />
 
     <style name="Base.Theme.Learn" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="actionBarSize">@dimen/learn_action_bar_size</item>
         <item name="android:actionBarSize">@dimen/learn_action_bar_size</item>
         <item name="android:colorBackground">?colorSurface</item>
         <item name="windowActionModeOverlay">false</item>
@@ -37,10 +38,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/LearnWindowAnimation</item>
         <item name="materialDividerHeavyStyle">@style/Widget.Learn.MaterialDivider.Heavy</item>
+        <item name="snackbarStyle">@style/Widget.Learn.Snackbar</item>
         <item name="materialAlertDialogTheme">
             @style/ThemeOverlay.Material3.MaterialAlertDialog.Centered.FullWidthButtons
         </item>
-        <item name="snackbarStyle">@style/Widget.Learn.Snackbar</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges
+        </item>
     </style>
 
     <style name="LearnWindowAnimation" parent="@android:style/Animation.Activity">

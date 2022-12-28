@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:colorBackground"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="@integer/main_grid_layout_span"
         tools:listitem="@layout/item_main" />
 
 </com.chooongg.core.widget.TopAppBarLayout>

@@ -6,9 +6,14 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 
 val View?.localVisibleRect: Rect get() = Rect().also { this?.getLocalVisibleRect(it) }
 val View?.globalVisibleRect: Rect get() = Rect().also { this?.getGlobalVisibleRect(it) }
@@ -87,6 +92,25 @@ fun View?.isTouchView(event: MotionEvent?): Boolean {
         outLocation[1].toFloat() + height
     )
     return x >= rectF.left && x <= rectF.right && y >= rectF.top && y <= rectF.bottom
+}
+
+fun View.setOnApplyWindowInsetsOnMarginDisplayCutout() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val displayCutoutInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+        view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            leftMargin = displayCutoutInsets.left
+            rightMargin = displayCutoutInsets.right
+        }
+        insets
+    }
+}
+
+fun View.setOnApplyWindowInsetsOnPaddingDisplayCutout() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val displayCutoutInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+        view.updatePadding(left = displayCutoutInsets.left, right = displayCutoutInsets.right)
+        insets
+    }
 }
 
 fun TextView.setTextColorRes(@ColorRes resId: Int) = setTextColor(resColor(resId))

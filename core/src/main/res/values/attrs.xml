@@ -83,6 +83,7 @@
             <enum name="medium" value="1" />
             <enum name="large" value="2" />
         </attr>
+        <attr name="collapsingLayoutFitsSystemWindow" format="boolean" />
         <attr name="liftOnScroll" format="boolean" />
         <attr name="liftOnScrollTargetViewId" format="reference" />
         <attr name="liftOnScrollColor" format="color" />

@@ -1,7 +1,5 @@
 package com.chooongg.core.annotation
 
-import android.graphics.Color
-import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import java.lang.annotation.Inherited
 
@@ -10,7 +8,7 @@ import java.lang.annotation.Inherited
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ActivityEdgeToEdge(
     val isEdgeToEdge: Boolean = true,
-    @InsetsSide val fitsSide: Int = BOTTOM
+    @InsetsSide val fitsSide: Int = BOTTOM or LEFT or RIGHT
 ) {
     companion object {
         const val LEFT = 1 shl 0
