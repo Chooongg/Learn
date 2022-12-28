@@ -12,6 +12,7 @@ import com.chooongg.form.FormManager
 import com.chooongg.form.FormViewHolder
 import com.chooongg.form.R
 import com.chooongg.form.bean.FormInput
+import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -45,6 +46,9 @@ class FormInputProvider(manager: BaseFormManager) : BaseFormProvider<FormInput>(
                     item.menuIconTint?.invoke(context)
                         ?: ColorStateList.valueOf(attrColor(android.R.attr.textColorHint))
                 )
+            }
+            with(findViewById<CheckableImageButton>(com.google.android.material.R.id.text_input_end_icon)) {
+                setBackgroundResource(R.drawable.form_ripple_menu_selected_background)
             }
         }
         with(holder.getView<TextInputEditText>(R.id.form_edit_content)) {

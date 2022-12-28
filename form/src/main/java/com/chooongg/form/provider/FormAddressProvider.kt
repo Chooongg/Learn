@@ -17,6 +17,7 @@ import com.chooongg.form.R
 import com.chooongg.form.bean.FormAddress
 import com.chooongg.form.enum.FormAreaMode
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -62,6 +63,11 @@ class FormAddressProvider(manager: BaseFormManager) : BaseFormProvider<FormAddre
                     groupAdapter?.clearFocus()
                     true
                 } else false
+            }
+        }
+        with(inputContent){
+            with(findViewById<CheckableImageButton>(com.google.android.material.R.id.text_input_end_icon)) {
+                setBackgroundResource(R.drawable.form_ripple_menu_selected_background)
             }
         }
     }

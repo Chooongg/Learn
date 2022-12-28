@@ -14,6 +14,7 @@ import com.chooongg.form.bean.FormInputAutoComplete
 import com.chooongg.form.enum.FormOptionsLoadScene
 import com.chooongg.form.enum.FormOptionsLoadState
 import com.chooongg.form.loader.OptionsLoadResult
+import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.CancellationException
@@ -42,6 +43,9 @@ class FormInputAutoCompleteProvider(manager: BaseFormManager) :
             } else {
                 endIconMode = TextInputLayout.END_ICON_DROPDOWN_MENU
                 setEndIconDrawable(R.drawable.form_ic_dropdown)
+            }
+            with(findViewById<CheckableImageButton>(com.google.android.material.R.id.text_input_end_icon)) {
+                setBackgroundResource(R.drawable.form_ripple_menu_selected_background)
             }
         }
         with(holder.getView<MaterialAutoCompleteTextView>(R.id.form_edit_content)) {
