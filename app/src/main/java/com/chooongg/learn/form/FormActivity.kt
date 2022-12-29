@@ -21,6 +21,7 @@ class FormActivity : BasicBindingModelActivity<ActivityFormBinding, FormViewMode
         binding.recyclerView.itemAnimator = DefaultItemAnimator().apply {
         }
         model.formManager.init(binding.recyclerView, this)
+        model.buildFormData()
     }
 
     override fun onFormClick(manager: BaseFormManager, item: BaseForm, view: View, position: Int) {

@@ -2,7 +2,6 @@ package com.chooongg.learn.form.viewModel
 
 import android.content.res.ColorStateList
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.chooongg.basic.ext.attrColor
 import com.chooongg.form.FormManager
 import com.chooongg.form.bean.Option
@@ -12,18 +11,13 @@ import com.chooongg.form.enum.FormEnableMode
 import com.chooongg.form.enum.FormTimeMode
 import com.chooongg.form.enum.FormVisibilityMode
 import com.chooongg.learn.R
-import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 class FormViewModel : ViewModel() {
 
     val formManager = FormManager(true)
 
-    init {
-        viewModelScope.launch { buildFormData() }
-    }
-
-    private fun buildFormData() {
+    fun buildFormData() {
         formManager.setNewData {
             addGroup("操作菜单") {
                 groupIcon = R.drawable.ic_main_popup_menu
