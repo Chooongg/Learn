@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:appBarType="small"
+    android:layout_height="0dp"
+    android:layout_weight="1"
     app:expandedTitleGravity="center_horizontal|bottom"
     app:titleCollapseEnabled="false">
 
@@ -12,9 +12,15 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:colorBackground"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="@integer/main_grid_layout_span"
         tools:listitem="@layout/item_main" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/night_mode" />
 
 </com.chooongg.core.widget.TopAppBarLayout>

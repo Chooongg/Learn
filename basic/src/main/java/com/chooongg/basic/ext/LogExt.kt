@@ -1,6 +1,7 @@
 package com.chooongg.basic.ext
 
 import android.annotation.SuppressLint
+import android.os.Looper
 import android.util.Log
 
 private fun getTag(offset: Int): String {
@@ -10,13 +11,29 @@ private fun getTag(offset: Int): String {
         3 + offset > stackTrace.lastIndex -> stackTrace[stackTrace.lastIndex]
         else -> stackTrace[3 + offset]
     }
-    return String.format("%s(%s:%d) ", caller.methodName, caller.fileName, caller.lineNumber)
+    val thread = Thread.currentThread()
+    return String.format(
+        "%s at %s.%s(%s:%d)\n",
+        String.format(
+            "Thread [%s]",
+            if (thread == Looper.getMainLooper().thread) "Main" else thread.id.toString()
+        ),
+        caller.className,
+        caller.methodName,
+        caller.fileName,
+        caller.lineNumber
+    )
 }
 
 private fun getClassTag(clazz: Class<*>): String {
+    val thread = Thread.currentThread()
+    val threadStr = String.format(
+        "Thread [%s]",
+        if (thread == Looper.getMainLooper().thread) "Main" else thread.id.toString()
+    )
     return if (clazz.isAnnotationPresent(Metadata::class.java)) {
-        String.format("(%s.kt:%d) ", clazz.simpleName, 0)
-    } else String.format("(%s.java:%d) ", clazz.simpleName, 0)
+        String.format("%s at %s(%s.kt:%d)\n", threadStr, clazz.name, clazz.simpleName, 0)
+    } else String.format("%s at %s(%s.java:%d)\n", threadStr, clazz.name, clazz.simpleName, 0)
 }
 
 fun logV(tag: String, msg: Any?, e: Throwable? = null, offsetStack: Int = 0) {

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class LoadingActivity : BasicBindingActivity<ActivityLoadingBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding.btn.doOnClick {
+        binding.fabLoading.doOnClick {
             lifecycleScope.launch {
                 showLoading("Loading会在5秒后关闭")
                 delay(1000)

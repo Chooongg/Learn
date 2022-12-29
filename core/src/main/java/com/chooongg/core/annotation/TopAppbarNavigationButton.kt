@@ -6,7 +6,7 @@ import java.lang.annotation.Inherited
 @Inherited
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class NavigationButton(
+annotation class TopAppbarNavigationButton(
     val isShow: Boolean = true,
     @IconType val iconType: Int = ICON_TYPE_BACK
 ) {

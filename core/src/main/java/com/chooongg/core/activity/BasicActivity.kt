@@ -15,8 +15,8 @@ import com.chooongg.basic.ext.*
 import com.chooongg.core.R
 import com.chooongg.core.annotation.ActivityEdgeToEdge
 import com.chooongg.core.annotation.ActivityTransitions
-import com.chooongg.core.annotation.NavigationButton
 import com.chooongg.core.annotation.Theme
+import com.chooongg.core.annotation.TopAppbarNavigationButton
 import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
 import com.chooongg.core.ext.TRANSITION_NAME_CONTAINER_TRANSFORM
 import com.chooongg.core.ext.getAnnotationTitle
@@ -29,7 +29,7 @@ import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
-@NavigationButton
+@TopAppbarNavigationButton
 @ActivityTransitions
 @ActivityEdgeToEdge(true)
 abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -61,13 +61,14 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
         configEdgeToEdge()
         javaClass.getAnnotationTitle(context)?.let { title = it }
         setContentViewInternal()
+        contentView.setBackgroundColor(attrColor(android.R.attr.colorBackground))
         window.setBackgroundDrawable(null)
         initView(savedInstanceState)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
-        logDClass("Activity", javaClass, buildString {
-            if (title != null) append('[').append(title).append("] ")
+        logEClass("Activity", javaClass, buildString {
+            if (title != null) append('《').append(title).append("》")
             append("onCreated")
         })
         super.onPostCreate(savedInstanceState)
@@ -153,14 +154,15 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     override fun setSupportActionBar(toolbar: Toolbar?) {
         super.setSupportActionBar(toolbar)
         if (toolbar == null) return
-        val navigationButton = javaClass.getAnnotation(NavigationButton::class.java) ?: return
+        val navigationButton =
+            javaClass.getAnnotation(TopAppbarNavigationButton::class.java) ?: return
         if (navigationButton.isShow) {
             supportActionBar?.let {
                 it.setHomeButtonEnabled(true)
                 it.setDisplayHomeAsUpEnabled(true)
                 when (navigationButton.iconType) {
-                    NavigationButton.ICON_TYPE_BACK -> it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_back)
-                    NavigationButton.ICON_TYPE_CLOSE -> it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_close)
+                    TopAppbarNavigationButton.ICON_TYPE_BACK -> it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_back)
+                    TopAppbarNavigationButton.ICON_TYPE_CLOSE -> it.setHomeAsUpIndicator(R.drawable.ic_top_app_bar_close)
                 }
             }
         }
@@ -181,7 +183,7 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
     override fun onDestroy() {
         super.onDestroy()
         logDClass("Activity", javaClass, buildString {
-            if (title != null) append('[').append(title).append("] ")
+            if (title != null) append('《').append(title).append("》")
             append("onDestroy")
         })
     }

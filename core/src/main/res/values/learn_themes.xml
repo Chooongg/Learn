@@ -23,7 +23,6 @@
         <item name="toolbarStyle">@style/Widget.Learn.TopAppBar.OnPrimary</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.Learn.TopAppBar.Navigation.Primary
         </item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Learn.primarySurface" parent="Theme.Learn.Primary" />
@@ -35,13 +34,14 @@
         <item name="windowActionModeOverlay">false</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:configChanges">orientation|keyboardHidden|screenSize</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/LearnWindowAnimation</item>
         <item name="materialDividerHeavyStyle">@style/Widget.Learn.MaterialDivider.Heavy</item>
         <item name="snackbarStyle">@style/Widget.Learn.Snackbar</item>
         <item name="materialAlertDialogTheme">
             @style/ThemeOverlay.Material3.MaterialAlertDialog.Centered.FullWidthButtons
         </item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges
         </item>
     </style>

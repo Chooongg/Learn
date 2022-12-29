@@ -7,27 +7,18 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/contentMedium"
-                android:text="显示Loading" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/contentMedium"
-                android:layout_marginTop="@dimen/contentMedium"
+                android:layout_marginTop="@dimen/d40"
                 android:layout_marginEnd="@dimen/contentMedium"
                 android:layout_marginBottom="@dimen/contentMedium"
                 android:text="@string/lorem_ipsum" />
@@ -40,7 +31,6 @@
         android:id="@+id/fab_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
         android:layout_margin="@dimen/contentMedium"
         android:text="显示Loading"
         app:icon="@drawable/ic_main_loading"

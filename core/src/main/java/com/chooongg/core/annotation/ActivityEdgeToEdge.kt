@@ -8,7 +8,7 @@ import java.lang.annotation.Inherited
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ActivityEdgeToEdge(
     val isEdgeToEdge: Boolean = true,
-    @InsetsSide val fitsSide: Int = BOTTOM or LEFT or RIGHT
+    @InsetsSide val fitsSide: Int = 0
 ) {
     companion object {
         const val LEFT = 1 shl 0
