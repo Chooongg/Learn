@@ -14,7 +14,7 @@ class FormRatingProvider(manager: BaseFormManager) : BaseFormProvider<FormRating
     override val layoutId: Int get() = R.layout.form_item_rating
     override fun onBindViewHolder(holder: FormViewHolder, item: FormRating) {
         with(holder.getView<AppCompatRatingBar>(R.id.form_rating)) {
-            isEnabled = item.isRealEnable(manager)
+            setIsIndicator(!item.isRealEnable(manager))
             numStars = item.numStars
             stepSize = item.stepSize
             onRatingBarChangeListener = null

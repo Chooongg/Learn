@@ -1,7 +1,6 @@
 package com.chooongg.form.style
 
-import android.content.res.ColorStateList
-import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePaddingRelative
@@ -19,25 +18,19 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 
-open class MaterialCardFormStyle : DefaultFormStyle() {
+open class Material3CardFormStyle : DefaultFormStyle() {
 
     private var partHorizontal = -1
     private var partVertical = -1
     private var partVerticalEdge = -1
 
-    override fun createItemParentView(parent: ViewGroup) = MaterialCardView(
-        parent.context, null, com.google.android.material.R.attr.materialCardViewElevatedStyle
-    ).apply {
-        rippleColor = ColorStateList.valueOf(Color.TRANSPARENT)
-        layoutParams = RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-    }
+    override fun createItemParentView(parent: ViewGroup) = LayoutInflater.from(parent.context)
+        .inflate(R.layout.form_style_material3_card_parent, parent, false) as? ViewGroup
 
     override fun onBindParentViewHolder(
         manager: BaseFormManager, holder: FormViewHolder, item: BaseForm
     ) {
-        with(holder.itemView as MaterialCardView) {
+        (holder.itemView as? MaterialCardView)?.apply {
             if (partHorizontal == -1) partHorizontal =
                 resDimensionPixelSize(R.dimen.formPartHorizontal)
             if (partVertical == -1) partVertical = resDimensionPixelSize(R.dimen.formPartVertical)
@@ -56,6 +49,8 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
             }
             shapeAppearanceModel = shapeAppearance.build()
             updateLayoutParams<RecyclerView.LayoutParams> {
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
                 topMargin = when (item.topBoundary) {
                     FormBoundaryType.NONE -> 0
                     FormBoundaryType.LOCAL -> partVertical
@@ -66,7 +61,7 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
                     FormBoundaryType.LOCAL -> partVertical
                     FormBoundaryType.GLOBAL -> partVerticalEdge
                 }
-                val recyclerViewWidth = manager.recyclerView?.width ?:0
+                val recyclerViewWidth = manager.recyclerView?.width ?: 0
                 if (recyclerViewWidth > manager.itemMaxWidth) {
                     marginStart = (recyclerViewWidth - manager.itemMaxWidth) / 2
                     marginEnd = (recyclerViewWidth - manager.itemMaxWidth) / 2
@@ -76,7 +71,7 @@ open class MaterialCardFormStyle : DefaultFormStyle() {
                 }
             }
             if (childCount > 0) {
-                if (item is FormGroupTitle) return@with
+                if (item is FormGroupTitle) return@apply
                 getChildAt(0).updatePaddingRelative(
                     top = if (item.topBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize,
                     bottom = if (item.bottomBoundary == FormBoundaryType.NONE) 0 else manager.itemVerticalEdgeSize - manager.itemVerticalSize

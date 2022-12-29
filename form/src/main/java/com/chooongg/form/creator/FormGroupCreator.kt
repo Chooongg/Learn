@@ -1,14 +1,12 @@
-package com.chooongg.form
+package com.chooongg.form.creator
 
 import android.content.Context
 import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
 import com.chooongg.form.bean.BaseForm
 
-class FormCreateGroup {
+class FormGroupCreator(val groupName:CharSequence?) {
     internal val createdFormPartList = mutableListOf<ArrayList<BaseForm>>()
-
-    var groupName: CharSequence? = null
 
     var groupNameColor: (Context.() -> ColorStateList)? = null
 
@@ -29,7 +27,7 @@ class FormCreateGroup {
     @androidx.annotation.IntRange(from = 1)
     var dynamicMaxPartCount: Int = Int.MAX_VALUE
 
-    internal var dynamicGroupAddPartBlock: (FormCreatePart.() -> Unit)? = null
+    internal var dynamicGroupAddPartBlock: (FormPartCreator.() -> Unit)? = null
 
     internal var dynamicGroupNameFormatBlock: ((name: CharSequence?, index: Int) -> CharSequence)? =
         null
@@ -37,14 +35,14 @@ class FormCreateGroup {
     /**
      * 添加片段
      */
-    fun addPart(block: FormCreatePart.() -> Unit) {
-        createdFormPartList.add(FormCreatePart().apply(block).createdFormGroupList)
+    fun addPart(block: FormPartCreator.() -> Unit) {
+        createdFormPartList.add(FormPartCreator().apply(block).createdFormGroupList)
     }
 
     /**
      * 动态组添加区块
      */
-    fun dynamicGroupAddPartListener(block: (FormCreatePart.() -> Unit)?) {
+    fun dynamicGroupAddPartListener(block: (FormPartCreator.() -> Unit)?) {
         dynamicGroupAddPartBlock = block
         if (block != null) {
             dynamicGroup = true

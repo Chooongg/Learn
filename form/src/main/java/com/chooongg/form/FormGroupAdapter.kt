@@ -13,6 +13,8 @@ import com.chooongg.basic.ext.hideIME
 import com.chooongg.core.popupMenu.popupMenu
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
+import com.chooongg.form.creator.FormGroupCreator
+import com.chooongg.form.creator.FormPartCreator
 import com.chooongg.form.enum.FormBoundaryType
 import com.chooongg.form.enum.FormGroupTitleMode
 import com.chooongg.form.provider.*
@@ -73,7 +75,7 @@ class FormGroupAdapter internal constructor(
 
     var dynamicMaxPartCount: Int = Int.MAX_VALUE
 
-    var dynamicGroupAddPartBlock: (FormCreatePart.() -> Unit)? = null
+    var dynamicGroupAddPartBlock: (FormPartCreator.() -> Unit)? = null
 
     var dynamicGroupNameFormatBlock: ((name: CharSequence?, index: Int) -> CharSequence)? = null
 
@@ -108,11 +110,7 @@ class FormGroupAdapter internal constructor(
         itemProviders.put(provider.itemViewType, provider)
     }
 
-    fun setNewList(block: FormCreateGroup.() -> Unit) {
-        setNewList(FormCreateGroup().apply(block))
-    }
-
-    fun setNewList(createGroup: FormCreateGroup) {
+    fun setNewList(createGroup: FormGroupCreator) {
         name = createGroup.groupName
         nameColor = createGroup.groupNameColor
         field = createGroup.groupField
@@ -128,7 +126,7 @@ class FormGroupAdapter internal constructor(
         adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
         data = createGroup.createdFormPartList
         if (data.size < dynamicMinPartCount && dynamicGroupAddPartBlock != null) {
-            val createPart = FormCreatePart()
+            val createPart = FormPartCreator()
             dynamicGroupAddPartBlock!!.invoke(createPart)
             data.add(createPart.createdFormGroupList)
         }
@@ -225,7 +223,7 @@ class FormGroupAdapter internal constructor(
         if (item is FormGroupTitle) {
             if (item.mode == FormGroupTitleMode.ADD) {
                 if (dynamicGroupAddPartBlock != null) {
-                    val createPart = FormCreatePart()
+                    val createPart = FormPartCreator()
                     dynamicGroupAddPartBlock!!.invoke(createPart)
                     data.add(createPart.createdFormGroupList.onEach { it.configData() })
                     update(true)

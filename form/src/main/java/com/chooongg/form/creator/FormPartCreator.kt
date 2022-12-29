@@ -1,9 +1,9 @@
-package com.chooongg.form
+package com.chooongg.form.creator
 
 import com.chooongg.form.bean.*
 import com.chooongg.form.enum.FormTimeMode
 
-open class FormCreatePart internal constructor() {
+open class FormPartCreator internal constructor() {
 
     internal val createdFormGroupList = ArrayList<BaseForm>()
 

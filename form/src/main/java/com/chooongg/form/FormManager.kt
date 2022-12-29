@@ -1,16 +1,11 @@
 package com.chooongg.form
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.basic.ext.hideIME
 import com.chooongg.core.widget.layoutManager.CenterScrollLinearLayoutManager
 import com.chooongg.form.config.FormManagerConfig
-import com.chooongg.form.style.DefaultFormStyle
+import com.chooongg.form.creator.FormAdapterCreator
 import com.chooongg.form.style.FormStyle
-import com.chooongg.form.style.MaterialCardFormStyle
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.reflect.KClass
@@ -53,12 +48,11 @@ class FormManager(
             }
         }
 
-    private val styleSequence = CopyOnWriteArraySet<KClass<out FormStyle>>()
+    internal val styleSequence = CopyOnWriteArraySet<KClass<out FormStyle>>()
 
     fun init(
         recyclerView: RecyclerView, listener: FormEventListener? = null
     ) {
-//        if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) return
         initSize(recyclerView.context)
         _recyclerView = WeakReference(recyclerView)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -72,34 +66,40 @@ class FormManager(
         recyclerView.layoutManager = CenterScrollLinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
         formEventListener = listener
-//        owner.lifecycle.addObserver(object : LifecycleEventObserver {
-//            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-//                if (owner.lifecycle.currentState <= Lifecycle.State.DESTROYED) {
-//                    owner.lifecycle.removeObserver(this)
-//                    formEventListener = null
-//                    recyclerView.adapter = null
-//                }
-//            }
-//        })
     }
 
-    fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormCreateGroup.() -> Unit) {
-        if (!styleSequence.contains(style::class)) {
-            styleSequence.add(style::class)
-        }
-        val group = FormGroupAdapter(this, style, styleSequence.indexOf(style::class) * 100)
-        group.setFormEventListener(formEventListener)
-        val count = adapter.adapters.size
-        adapter.addAdapter(group)
-        group.setNewList(block)
-        if (count > 0) {
-            val previousGroup = adapter.adapters[count - 1] as? FormGroupAdapter
-            previousGroup?.update(true)
-        }
+//    fun addGroup(style: FormStyle = DefaultFormStyle(), block: FormGroupCreator.() -> Unit) {
+//        if (!styleSequence.contains(style::class)) {
+//            styleSequence.add(style::class)
+//        }
+//        val group = FormGroupAdapter(this, style, styleSequence.indexOf(style::class) * 100)
+//        group.setFormEventListener(formEventListener)
+//        val count = adapter.adapters.size
+//        adapter.addAdapter(group)
+//        group.setNewList(block)
+//        if (count > 0) {
+//            val previousGroup = adapter.adapters[count - 1] as? FormGroupAdapter
+//            previousGroup?.update(true)
+//        }
+//    }
+//
+//    fun addMaterialCardGroup(block: FormGroupCreator.() -> Unit) {
+//        addGroup(Material3CardFormStyle(), block)
+//    }
+
+    fun setNewData(block: FormAdapterCreator.() -> Unit) {
+        val creator = FormAdapterCreator(this@FormManager).apply(block)
+        setNewData(creator)
     }
 
-    fun addMaterialCardGroup(block: FormCreateGroup.() -> Unit) {
-        addGroup(MaterialCardFormStyle(), block)
+    fun setNewData(creator: FormAdapterCreator) {
+        adapter.adapters.forEach { adapter.removeAdapter(it) }
+        creator.adapters.forEachIndexed { index, group ->
+            adapter.addAdapter(group)
+            if (index > 1) {
+                (adapter.adapters[index - 1] as? FormGroupAdapter)?.update(true)
+            }
+        }
     }
 
     fun setOnFormEventListener(listener: FormEventListener? = null) {
