@@ -1,6 +1,7 @@
 package com.chooongg.net
 
 import com.chooongg.basic.ext.withMain
+import com.chooongg.net.exception.HttpException
 
 /**
  * 网络请求且返回提封装 DSL
@@ -9,13 +10,13 @@ open class CoroutinesRequestDSL<RESPONSE : ResponseData<DATA>, DATA> :
     CoroutinesRequestBasicDSL<RESPONSE>() {
 
     private var onSuccessMessage: (suspend (String?) -> Unit)? = null
-    private var onSuccess: (suspend (DATA?) -> Unit)? = null
+    private var onSuccess: (suspend (DATA) -> Unit)? = null
 
     fun onSuccessMessage(block: suspend (String?) -> Unit) {
         onSuccessMessage = block
     }
 
-    fun onSuccess(block: suspend (DATA?) -> Unit) {
+    fun onSuccess(block: suspend (DATA) -> Unit) {
         onSuccess = block
     }
 
@@ -23,7 +24,8 @@ open class CoroutinesRequestDSL<RESPONSE : ResponseData<DATA>, DATA> :
         val data = response.checkData()
         withMain {
             onSuccessMessage?.invoke(response.getMessage())
-            onSuccess?.invoke(data)
+            if (onSuccessMessage == null) throw HttpException(HttpException.Type.EMPTY)
+            if (data != null) onSuccess?.invoke(data)
         }
     }
 }
