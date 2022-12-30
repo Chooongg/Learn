@@ -3,14 +3,13 @@ package com.chooongg.core.activity
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.*
 import com.chooongg.basic.ext.*
 import com.chooongg.core.R
 import com.chooongg.core.annotation.ActivityEdgeToEdge
@@ -21,6 +20,7 @@ import com.chooongg.core.ext.EXTRA_TRANSITION_NAME
 import com.chooongg.core.ext.TRANSITION_NAME_CONTAINER_TRANSFORM
 import com.chooongg.core.ext.getAnnotationTitle
 import com.chooongg.core.fragment.BasicFragment
+import com.chooongg.core.widget.TopAppBarLayout
 import com.google.android.material.motion.MotionUtils
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
@@ -58,11 +58,11 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
                 finishAfterTransition()
             }
         })
-        configEdgeToEdge()
         javaClass.getAnnotationTitle(context)?.let { title = it }
-        setContentViewInternal()
-        contentView.setBackgroundColor(attrColor(android.R.attr.colorBackground))
         window.setBackgroundDrawable(null)
+        contentView.setBackgroundColor(attrColor(android.R.attr.colorBackground))
+        setContentViewInternal()
+        configEdgeToEdge()
         initView(savedInstanceState)
     }
 
@@ -135,16 +135,30 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
             val right = it.fitsSide and ActivityEdgeToEdge.RIGHT != 0
             val bottom = it.fitsSide and ActivityEdgeToEdge.BOTTOM != 0
             if (left || top || right || bottom) {
+                val contentView = contentView
+                contentView.clipToPadding = false
                 ViewCompat.setOnApplyWindowInsetsListener(contentView) { view, insets ->
                     val barInsets = insets.getInsets(
                         WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
                     )
-                    view.setPadding(
+                    contentView.setPadding(
                         if (left) barInsets.left else 0,
                         if (top) barInsets.top else 0,
                         if (right) barInsets.right else 0,
                         if (bottom) barInsets.bottom else 0
                     )
+                    val indexOf =
+                        contentView.children.indexOfFirst { item -> item is TopAppBarLayout }
+                    if (indexOf != -1) {
+                        contentView.getChildAt(indexOf).updateLayoutParams<MarginLayoutParams> {
+                            setMargins(
+                                if (left) -barInsets.left else 0,
+                                if (top) -barInsets.top else 0,
+                                if (right) -barInsets.right else 0,
+                                if (bottom) -barInsets.bottom else 0
+                            )
+                        }
+                    }
                     insets
                 }
             }

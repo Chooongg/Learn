@@ -1,13 +1,9 @@
 package com.chooongg.learn
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -42,7 +38,7 @@ class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         binding.navigationView.post {
             binding.recyclerView.updateLayoutParams<MarginLayoutParams> {
-                bottomMargin = binding.navigationView.height
+                bottomMargin = binding.navigationView.height - binding.navigationView.paddingBottom
             }
         }
         binding.recyclerView.layoutManager =
