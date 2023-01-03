@@ -24,8 +24,8 @@ open class CoroutinesRequestDSL<RESPONSE : ResponseData<DATA>, DATA> :
         val data = response.checkData()
         withMain {
             onSuccessMessage?.invoke(response.getMessage())
-            if (onSuccessMessage == null) throw HttpException(HttpException.Type.EMPTY)
             if (data != null) onSuccess?.invoke(data)
+            else throw HttpException(HttpException.Type.EMPTY)
         }
     }
 }
