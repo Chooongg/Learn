@@ -2,17 +2,13 @@ package com.chooongg.learn
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.chooongg.basic.ext.getNightMode
-import com.chooongg.basic.ext.resDimensionPixelSize
-import com.chooongg.basic.ext.resInteger
-import com.chooongg.basic.ext.setNightMode
+import com.chooongg.basic.ext.*
 import com.chooongg.core.activity.BasicBindingActivity
 import com.chooongg.core.adapter.BindingAdapter
+import com.chooongg.core.annotation.ActivityEdgeToEdge
 import com.chooongg.core.annotation.TopAppbarNavigationButton
 import com.chooongg.core.ext.divider
 import com.chooongg.core.ext.startActivity
@@ -30,19 +26,15 @@ import com.chooongg.learn.popupMenu.PopupMenuActivity
 import com.chooongg.learn.stateLayout.StateLayoutActivity
 import com.chooongg.learn.topAppBar.TopAppBarActivity
 
+@ActivityEdgeToEdge(true, ActivityEdgeToEdge.LEFT or ActivityEdgeToEdge.RIGHT)
 @TopAppbarNavigationButton(false)
 class MainActivity : BasicBindingActivity<ActivityMainBinding>() {
 
     private val adapter = Adapter()
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding.navigationView.post {
-            binding.recyclerView.updateLayoutParams<MarginLayoutParams> {
-                bottomMargin = binding.navigationView.height - binding.navigationView.paddingBottom
-            }
-        }
         binding.recyclerView.layoutManager =
-            GridLayoutManager(context, resInteger(R.integer.main_grid_layout_span))
+            GridLayoutManager(context, getScreenWidth() / dp2px(160f))
         binding.recyclerView.divider {
             asSpace().size(resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium))
             showFirstDivider().showLastDivider().showSideDividers()

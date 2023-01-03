@@ -3,7 +3,6 @@ package com.chooongg.core.activity
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -136,28 +135,18 @@ abstract class BasicActivity : AppCompatActivity(), CoroutineScope by MainScope(
             val bottom = it.fitsSide and ActivityEdgeToEdge.BOTTOM != 0
             if (left || top || right || bottom) {
                 val contentView = contentView
-                contentView.clipToPadding = false
-                ViewCompat.setOnApplyWindowInsetsListener(contentView) { view, insets ->
+                ViewCompat.setOnApplyWindowInsetsListener(contentView) { _, insets ->
                     val barInsets = insets.getInsets(
                         WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
                     )
-                    contentView.setPadding(
-                        if (left) barInsets.left else 0,
-                        if (top) barInsets.top else 0,
-                        if (right) barInsets.right else 0,
-                        if (bottom) barInsets.bottom else 0
-                    )
-                    val indexOf =
-                        contentView.children.indexOfFirst { item -> item is TopAppBarLayout }
-                    if (indexOf != -1) {
-                        contentView.getChildAt(indexOf).updateLayoutParams<MarginLayoutParams> {
-                            setMargins(
-                                if (left) -barInsets.left else 0,
-                                if (top) -barInsets.top else 0,
-                                if (right) -barInsets.right else 0,
-                                if (bottom) -barInsets.bottom else 0
-                            )
-                        }
+                    if (contentView.childCount <= 0) return@setOnApplyWindowInsetsListener insets
+                    val child = contentView.getChildAt(0)
+                    if (child.tag != resString(R.string.keepWindowInsetsPadding)) {
+                        if (child is TopAppBarLayout) child.updateWindowInsets(barInsets)
+                        else child.setPadding(
+                            if (left) barInsets.left else 0, if (top) barInsets.top else 0,
+                            if (right) barInsets.right else 0, if (bottom) barInsets.bottom else 0
+                        )
                     }
                     insets
                 }

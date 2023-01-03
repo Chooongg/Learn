@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.chooongg.core.widget.TopAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_view"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    app:expandedTitleGravity="center_horizontal|bottom"
-    app:titleCollapseEnabled="false">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:tag="@string/keepWindowInsetsPadding">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <com.chooongg.core.widget.TopAppBarLayout
+        android:id="@+id/top_appbar_Layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="@integer/main_grid_layout_span"
-        tools:listitem="@layout/item_main" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:expandedTitleGravity="center_horizontal|bottom"
+        app:titleCollapseEnabled="false">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="@integer/main_grid_layout_span"
+            tools:listitem="@layout/item_main" />
+
+    </com.chooongg.core.widget.TopAppBarLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_view"
@@ -23,4 +33,4 @@
         android:layout_gravity="bottom"
         app:menu="@menu/night_mode" />
 
-</com.chooongg.core.widget.TopAppBarLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

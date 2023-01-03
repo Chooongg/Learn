@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.Insets
 import androidx.core.view.*
 import com.chooongg.basic.ext.attrBoolean
-import com.chooongg.basic.ext.dp2px
 import com.chooongg.basic.ext.getActivity
+import com.chooongg.basic.ext.resDimensionPixelSize
+import com.chooongg.basic.ext.resString
 import com.chooongg.core.R
 import com.chooongg.core.annotation.ActivityEdgeToEdge
 import com.google.android.material.appbar.AppBarLayout
@@ -30,6 +32,11 @@ class TopAppBarLayout @JvmOverloads constructor(
     val appBarLayout: AppBarLayout by lazy { findViewById(R.id.appbar_layout) }
     val topAppBar: TopAppBar by lazy { findViewById(R.id.top_app_bar) }
     val collapsingToolbarLayout: CollapsingToolbarLayout? by lazy { findViewById(R.id.collapsing_toolbar_layout) }
+
+    private var expandedTitleMarginStart: Int = 0
+    private var expandedTitleMarginTop: Int = 0
+    private var expandedTitleMarginEnd: Int = 0
+    private var expandedTitleMarginBottom: Int = 0
 
     init {
         clipToPadding = false
@@ -86,67 +93,20 @@ class TopAppBarLayout @JvmOverloads constructor(
         if (a.hasValue(R.styleable.TopAppBarLayout_titleBackground)) {
             appBarLayout.background = a.getDrawable(R.styleable.TopAppBarLayout_titleBackground)
         }
-        val defaultMargin = dp2px(16f)
-        val marginStart =
+        val defaultMargin = resDimensionPixelSize(com.chooongg.basic.R.dimen.contentMedium)
+        expandedTitleMarginStart =
             a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginStart, defaultMargin)
-        val marginEnd =
+        expandedTitleMarginTop =
+            a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginTop, defaultMargin)
+        expandedTitleMarginEnd =
             a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginEnd, defaultMargin)
-        val marginTop =
-            a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginTop, 0)
-        val marginBottom =
+        expandedTitleMarginBottom =
             a.getDimensionPixelOffset(R.styleable.TopAppBarLayout_titleMarginBottom, defaultMargin)
-        if (edgeToEdge?.isEdgeToEdge == true) {
-            val left = edgeToEdge.fitsSide and ActivityEdgeToEdge.LEFT != 0
-            val top = edgeToEdge.fitsSide and ActivityEdgeToEdge.TOP != 0
-            val right = edgeToEdge.fitsSide and ActivityEdgeToEdge.RIGHT != 0
-            val bottom = edgeToEdge.fitsSide and ActivityEdgeToEdge.BOTTOM != 0
-            ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-                val barInsets = insets.getInsets(
-                    WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
-                )
-                view.setPadding(
-                    if (left) barInsets.left else 0,
-                    if (top) barInsets.top else 0,
-                    if (right) barInsets.right else 0,
-                    if (bottom) barInsets.bottom else 0
-                )
-                appBarLayout.updateLayoutParams<MarginLayoutParams> {
-                    setMargins(
-                        if (left) -barInsets.left else 0,
-                        if (top) -barInsets.top else 0,
-                        if (right) -barInsets.right else 0,
-                        0
-                    )
-                }
-                if (collapsingToolbarLayout != null) {
-                    collapsingToolbarLayout!!.setPadding(
-                        if (left) barInsets.left else 0,
-                        0,
-                        if (right) barInsets.right else 0,
-                        0
-                    )
-                    val isRtl = layoutDirection == LAYOUT_DIRECTION_RTL
-                    collapsingToolbarLayout!!.setExpandedTitleMargin(
-                        marginStart + if (isRtl) barInsets.right else barInsets.left,
-                        marginTop,
-                        marginEnd + if (isRtl) barInsets.left else barInsets.right,
-                        marginBottom
-                    )
-                } else topAppBar.setPadding(
-                    if (left) barInsets.left else 0,
-                    0,
-                    if (right) barInsets.right else 0,
-                    0
-                )
-                insets
-            }
-        } else collapsingToolbarLayout?.setExpandedTitleMargin(
-            marginStart,
-            marginTop,
-            marginEnd,
-            marginBottom
-        )
         collapsingToolbarLayout?.let {
+            it.setExpandedTitleMargin(
+                expandedTitleMarginStart, expandedTitleMarginTop,
+                expandedTitleMarginEnd, expandedTitleMarginBottom
+            )
             if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseEnabled)) {
                 it.isTitleEnabled =
                     a.getBoolean(R.styleable.TopAppBarLayout_titleCollapseEnabled, true)
@@ -198,6 +158,61 @@ class TopAppBarLayout @JvmOverloads constructor(
             } else it.setCollapsedTitleTextColor(topAppBar.titleTextColor)
         }
         a.recycle()
+        if (edgeToEdge?.isEdgeToEdge == true
+            && (parent as? ViewGroup)?.id != android.R.id.content
+            && tag != resString(R.string.keepWindowInsetsPadding)
+        ) {
+            ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+                updateWindowInsets(
+                    insets.getInsets(
+                        WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+                    )
+                )
+                insets
+            }
+        }
+    }
+
+    fun updateWindowInsets(insets: Insets) {
+        if (edgeToEdge?.isEdgeToEdge != true) return
+        val left = edgeToEdge.fitsSide and ActivityEdgeToEdge.LEFT != 0
+        val top = edgeToEdge.fitsSide and ActivityEdgeToEdge.TOP != 0
+        val right = edgeToEdge.fitsSide and ActivityEdgeToEdge.RIGHT != 0
+        val bottom = edgeToEdge.fitsSide and ActivityEdgeToEdge.BOTTOM != 0
+        setPadding(
+            if (left) insets.left else 0,
+            if (top) insets.top else 0,
+            if (right) insets.right else 0,
+            if (bottom) insets.bottom else 0
+        )
+        appBarLayout.updateLayoutParams<MarginLayoutParams> {
+            setMargins(
+                if (left) -insets.left else 0,
+                if (top) -insets.top else 0,
+                if (right) -insets.right else 0,
+                0
+            )
+        }
+        if (collapsingToolbarLayout != null) {
+            collapsingToolbarLayout!!.setPadding(
+                if (left) insets.left else 0,
+                0,
+                if (right) insets.right else 0,
+                0
+            )
+            val isRtl = layoutDirection == LAYOUT_DIRECTION_RTL
+            collapsingToolbarLayout!!.setExpandedTitleMargin(
+                expandedTitleMarginStart + if (isRtl) insets.right else insets.left,
+                expandedTitleMarginTop,
+                expandedTitleMarginEnd + if (isRtl) insets.left else insets.right,
+                expandedTitleMarginBottom
+            )
+        } else topAppBar.setPadding(
+            if (left) insets.left else 0,
+            0,
+            if (right) insets.right else 0,
+            0
+        )
     }
 
     @SuppressLint("CustomViewStyleable")

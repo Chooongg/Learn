@@ -1,14 +1,19 @@
 package com.chooongg.core.ext
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.Gravity
+import android.view.MenuInflater
 import android.widget.TextView
+import androidx.annotation.MenuRes
+import androidx.appcompat.view.menu.MenuBuilder
 import com.google.android.material.tabs.TabLayout
 
 /**
  * 绑定tabLayout文字设置
  */
-inline fun <reified T : BaseText> TabLayout.buildText():T {
+inline fun <reified T : BaseText> TabLayout.buildText(): T {
     val text = T::class.java.newInstance()
     text.bindTabLayout(this)
     return text
@@ -54,8 +59,9 @@ open class BaseText {
                     getTabAt(i)?.let {
                         it.customView = TextView(context).apply {
                             text = it.text
-                            textSize = if (selectedTabPosition==i) selectTextSize else normalTextSize
-                            if (selectedTabPosition==i)
+                            textSize =
+                                if (selectedTabPosition == i) selectTextSize else normalTextSize
+                            if (selectedTabPosition == i)
                                 paint?.isFakeBoldText = selectTextBold
                             else
                                 paint?.isFakeBoldText = normalTextBold
@@ -91,3 +97,32 @@ open class BaseText {
         }
     }
 }
+
+@SuppressLint("RestrictedApi")
+fun TabLayout.setMenu(@MenuRes resId: Int) {
+    removeAllTabs()
+    val builder = MenuBuilder(context)
+    MenuInflater(context).inflate(resId, builder)
+    builder.visibleItems.forEach {
+        addTab(newTab().apply {
+            id = it.itemId
+            text = it.title
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                tooltipText = it.tooltipText ?: it.title
+            }
+            if (it.icon != null) icon = it.icon
+        })
+    }
+}
+
+var TabLayout.selectedTabId: Int?
+    get() = getTabAt(selectedTabPosition)?.id
+    set(value) {
+        tabFor@ for (i in 0 until tabCount) {
+            val tab = getTabAt(i) ?: continue@tabFor
+            if (tab.id == value) {
+                tab.select()
+                return
+            }
+        }
+    }
