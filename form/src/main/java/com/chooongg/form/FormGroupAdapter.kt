@@ -77,7 +77,8 @@ class FormGroupAdapter internal constructor(
 
     var dynamicGroupAddPartBlock: (FormPartCreator.() -> Unit)? = null
 
-    var dynamicGroupNameFormatBlock: ((name: CharSequence?, index: Int) -> CharSequence)? = null
+    var dynamicGroupNameFormatBlock: ((name: CharSequence?, index: Int, count: Int) -> CharSequence)? =
+        null
 
     val hasGroupTitle get() = name != null || dynamicGroup
 
@@ -143,9 +144,10 @@ class FormGroupAdapter internal constructor(
             var index = 0
             val partName = if (dynamicGroup) {
                 if (dynamicGroupNameFormatBlock != null) {
-                    dynamicGroupNameFormatBlock!!.invoke(name, partIndex)
+                    dynamicGroupNameFormatBlock!!.invoke(name, partIndex, data.size)
                 } else {
-                    "${name ?: "表"}${partIndex + 1}"
+                    if (data.size <= 1) name ?: "表"
+                    else "${name ?: "表"}${partIndex + 1}"
                 }
             } else name ?: ""
             if (hasGroupTitle) {
