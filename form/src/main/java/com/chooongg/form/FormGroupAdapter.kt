@@ -16,7 +16,7 @@ import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.creator.FormGroupCreator
 import com.chooongg.form.creator.FormPartCreator
 import com.chooongg.form.enum.FormBoundaryType
-import com.chooongg.form.enum.FormGroupTitleMode
+import com.chooongg.form.enum.FormGroupTitleOperationMode
 import com.chooongg.form.provider.*
 import com.chooongg.form.style.FormStyle
 import kotlinx.coroutines.*
@@ -155,15 +155,15 @@ class FormGroupAdapter internal constructor(
                     mode = if (dynamicGroup) {
                         if (partIndex == 0) {
                             if (data.size < dynamicMaxPartCount) {
-                                FormGroupTitleMode.ADD
+                                FormGroupTitleOperationMode.ADD
                             } else {
-                                FormGroupTitleMode.NORMAL
+                                FormGroupTitleOperationMode.NONE
                             }
                         } else {
-                            FormGroupTitleMode.DELETE
+                            FormGroupTitleOperationMode.DELETE
                         }
                     } else {
-                        FormGroupTitleMode.NORMAL
+                        FormGroupTitleOperationMode.NONE
                     }
                     icon = this@FormGroupAdapter.icon
                     iconTint = this@FormGroupAdapter.iconTint
@@ -212,7 +212,7 @@ class FormGroupAdapter internal constructor(
             else FormBoundaryType.NONE
         }
         asyncDiffer.submitList(list) {
-            notifyItemRangeChanged(0, list.size, if (isHasPayloads) "update" else null)
+            notifyItemRangeChanged(0, itemCount, if (isHasPayloads) "update" else null)
             block?.invoke()
         }
     }
@@ -223,7 +223,7 @@ class FormGroupAdapter internal constructor(
 
     fun onFormMenuClick(manager: BaseFormManager, item: BaseForm, view: View, position: Int) {
         if (item is FormGroupTitle) {
-            if (item.mode == FormGroupTitleMode.ADD) {
+            if (item.mode == FormGroupTitleOperationMode.ADD) {
                 if (dynamicGroupAddPartBlock != null) {
                     val createPart = FormPartCreator()
                     dynamicGroupAddPartBlock!!.invoke(createPart)
@@ -231,7 +231,7 @@ class FormGroupAdapter internal constructor(
                     update(true)
                     return
                 }
-            } else if (item.mode == FormGroupTitleMode.DELETE) {
+            } else if (item.mode == FormGroupTitleOperationMode.DELETE) {
                 if (dynamicGroupDeleteConfirm) {
                     popupMenu {
                         dropdownGravity = Gravity.END

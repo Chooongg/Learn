@@ -22,10 +22,10 @@ open class CoroutinesRequestDSL<RESPONSE : ResponseData<DATA>, DATA> :
 
     override suspend fun processData(response: RESPONSE) {
         val data = response.checkData()
-        withMain {
+        withMain<Unit> {
             onSuccessMessage?.invoke(response.getMessage())
             if (data != null) onSuccess?.invoke(data)
-            else throw HttpException(HttpException.Type.EMPTY)
+            else if (onSuccessMessage == null) throw HttpException(HttpException.Type.EMPTY)
         }
     }
 }

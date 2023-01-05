@@ -15,7 +15,7 @@ import com.chooongg.form.R
 import com.chooongg.form.bean.BaseForm
 import com.chooongg.form.bean.FormGroupTitle
 import com.chooongg.form.enum.FormBoundaryType
-import com.chooongg.form.enum.FormGroupTitleMode
+import com.chooongg.form.enum.FormGroupTitleOperationMode
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import kotlin.math.max
@@ -75,7 +75,7 @@ open class DefaultFormStyle : FormStyle() {
         }
         with(holder.getView<MaterialButton>(R.id.form_btn_menu)) {
             isEnabled = item.isRealMenuEnable(manager)
-            if (item.mode == FormGroupTitleMode.ADD) {
+            if (item.mode == FormGroupTitleOperationMode.ADD) {
                 val tint = ColorStateList.valueOf(attrColor(androidx.appcompat.R.attr.colorPrimary))
                 text = "添加"
                 setTextColor(tint)
@@ -83,7 +83,7 @@ open class DefaultFormStyle : FormStyle() {
                 setIconResource(R.drawable.form_ic_add)
                 iconGravity = MaterialButton.ICON_GRAVITY_START
                 visible()
-            } else if (item.mode == FormGroupTitleMode.DELETE) {
+            } else if (item.mode == FormGroupTitleOperationMode.DELETE) {
                 val tint = ColorStateList.valueOf(attrColor(androidx.appcompat.R.attr.colorError))
                 text = "删除"
                 setTextColor(tint)

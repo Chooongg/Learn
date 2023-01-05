@@ -5,7 +5,7 @@ import android.content.res.ColorStateList
 import androidx.annotation.DrawableRes
 import com.chooongg.basic.ext.logE
 import com.chooongg.form.FormManager
-import com.chooongg.form.enum.FormGroupTitleMode
+import com.chooongg.form.enum.FormGroupTitleOperationMode
 
 class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
     BaseForm(FormManager.TYPE_GROUP_NAME, name, field) {
@@ -35,7 +35,7 @@ class FormGroupTitle internal constructor(name: CharSequence, field: String?) :
     /**
      * 模式
      */
-    var mode = FormGroupTitleMode.NORMAL
+    var mode = FormGroupTitleOperationMode.NONE
 
     override fun seeOnlyType(type: Int) {
         logE("Form", "无效的设置")

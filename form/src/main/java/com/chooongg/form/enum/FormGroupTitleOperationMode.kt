@@ -1,10 +1,10 @@
 package com.chooongg.form.enum
 
-enum class FormGroupTitleMode {
+enum class FormGroupTitleOperationMode {
     /**
-     * 正常
+     * 无
      */
-    NORMAL,
+    NONE,
 
     /**
      * 新增
