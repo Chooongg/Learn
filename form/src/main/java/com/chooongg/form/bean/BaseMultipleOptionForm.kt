@@ -13,7 +13,7 @@ abstract class BaseMultipleOptionForm(type: Int, name: CharSequence, field: Stri
 
     var separator: String = ","
 
-    @Deprecated("弃用")
+    @Deprecated("无效项", ReplaceWith("selectedKey"))
     override var content: CharSequence? = null
 
     val selectedKey = HashSet<CharSequence>()

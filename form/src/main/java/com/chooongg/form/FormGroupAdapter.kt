@@ -39,14 +39,18 @@ class FormGroupAdapter internal constructor(
 
     private val asyncDiffer = AsyncListDiffer(object : ListUpdateCallback {
         override fun onChanged(position: Int, count: Int, payload: Any?) = Unit
+        override fun onRemoved(position: Int, count: Int) {
+            notifyItemRangeRemoved(position, count)
+        }
 
-        override fun onInserted(position: Int, count: Int) =
+        override fun onInserted(position: Int, count: Int) {
             notifyItemRangeInserted(position, count)
+        }
 
-        override fun onRemoved(position: Int, count: Int) = notifyItemRangeRemoved(position, count)
-
-        override fun onMoved(fromPosition: Int, toPosition: Int) =
+        override fun onMoved(fromPosition: Int, toPosition: Int) {
             notifyItemMoved(fromPosition, toPosition)
+        }
+
     }, AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<BaseForm>() {
         override fun areItemsTheSame(oldItem: BaseForm, newItem: BaseForm) =
             if (oldItem.type != FormManager.TYPE_GROUP_NAME || newItem.type != FormManager.TYPE_GROUP_NAME) {
@@ -234,6 +238,7 @@ class FormGroupAdapter internal constructor(
             } else if (item.mode == FormGroupTitleOperationMode.DELETE) {
                 if (dynamicGroupDeleteConfirm) {
                     popupMenu {
+                        overlapAnchor = true
                         dropdownGravity = Gravity.END
                         section {
                             title = "你确定删除${item.name}吗？"

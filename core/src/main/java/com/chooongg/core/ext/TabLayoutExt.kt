@@ -98,10 +98,6 @@ open class BaseText {
     }
 }
 
-
-@Deprecated("deprecated", ReplaceWith("inflateMenu(resId)"))
-fun TabLayout.setMenu(@MenuRes resId: Int) = inflateMenu(resId)
-
 @SuppressLint("RestrictedApi")
 fun TabLayout.inflateMenu(@MenuRes resId: Int) {
     removeAllTabs()

@@ -40,13 +40,11 @@ abstract class BindingMultiItemAdapter<T : MultiItemEntity> :
         )
     }
 
-    @Deprecated("弃用", ReplaceWith("convert(binding, holder, provider)"))
-    override fun convert(holder: BindingHolder<*>, item: T) {
+    final override fun convert(holder: BindingHolder<*>, item: T) {
         convert(holder, holder.binding, item)
     }
 
-    @Deprecated("弃用", ReplaceWith("convert(binding, holder, provider, payloads)"))
-    override fun convert(holder: BindingHolder<*>, item: T, payloads: List<Any>) {
+    final override fun convert(holder: BindingHolder<*>, item: T, payloads: List<Any>) {
         convert(holder, holder.binding, item, payloads)
     }
 }

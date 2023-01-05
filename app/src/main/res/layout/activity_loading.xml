@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.chooongg.core.widget.TopAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:appBarType="large">
+    app:appBarType="large"
+    tools:context=".loading.LoadingActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -31,10 +33,18 @@
         android:id="@+id/fab_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/contentMedium"
+        android:layout_marginEnd="@dimen/contentMedium"
         android:text="显示Loading"
         app:icon="@drawable/ic_main_loading"
         app:layout_anchor="@id/appbar_layout"
         app:layout_anchorGravity="bottom|end" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/contentMedium"
+        android:src="@drawable/ic_main_loading"
+        app:layout_anchor="@id/appbar_layout"
+        app:layout_anchorGravity="bottom|start" />
 
 </com.chooongg.core.widget.TopAppBarLayout>

@@ -12,10 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.Insets
 import androidx.core.view.*
-import com.chooongg.basic.ext.attrBoolean
-import com.chooongg.basic.ext.getActivity
-import com.chooongg.basic.ext.resDimensionPixelSize
-import com.chooongg.basic.ext.resString
+import com.chooongg.basic.ext.*
 import com.chooongg.core.R
 import com.chooongg.core.annotation.ActivityEdgeToEdge
 import com.google.android.material.appbar.AppBarLayout
@@ -67,7 +64,7 @@ class TopAppBarLayout @JvmOverloads constructor(
                 activity?.title = title
             } else topAppBar.title = title
         } else if (isInEditMode) {
-            topAppBar.title = "TITLE"
+            topAppBar.title = resString(android.R.string.dialog_alert_title)
         }
         if (a.hasValue(R.styleable.TopAppBarLayout_titleCentered)) {
             topAppBar.isTitleCentered =
@@ -111,9 +108,9 @@ class TopAppBarLayout @JvmOverloads constructor(
                 it.isTitleEnabled =
                     a.getBoolean(R.styleable.TopAppBarLayout_titleCollapseEnabled, true)
             }
-//            if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseMode)) {
-            it.titleCollapseMode = a.getInt(R.styleable.TopAppBarLayout_titleCollapseMode, 0)
-//            }
+            if (a.hasValue(R.styleable.TopAppBarLayout_titleCollapseMode)) {
+                it.titleCollapseMode = a.getInt(R.styleable.TopAppBarLayout_titleCollapseMode, 0)
+            }
             if (a.hasValue(R.styleable.TopAppBarLayout_maxLines)) {
                 it.maxLines = a.getInteger(R.styleable.TopAppBarLayout_maxLines, 1)
             }

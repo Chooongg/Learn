@@ -17,6 +17,10 @@ class FormViewModel : ViewModel() {
 
     val formManager = FormManager(true)
 
+    init {
+        buildFormData()
+    }
+
     fun buildFormData() {
         formManager.setNewData {
             addGroup("操作菜单") {
@@ -25,7 +29,9 @@ class FormViewModel : ViewModel() {
                     ColorStateList.valueOf(attrColor(com.google.android.material.R.attr.colorOnSurface))
                 }
                 addPart {
-                    addButton("夜间模式", "nightMode")
+                    addButton("夜间模式", "nightMode"){
+                        enableMode = FormEnableMode.ALWAYS
+                    }
                     addButton("可编辑", "isEditable") {
                         style = FormButtonStyle.TONAL
                         enableMode = FormEnableMode.ALWAYS
