@@ -1,14 +1,24 @@
 package com.chooongg.adapter.viewHolder
 
 import android.util.SparseArray
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
 /**
  * 布局 ViewHolder
  */
-open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+open class BaseViewHolder : RecyclerView.ViewHolder {
+
+    constructor(view: View) : super(view)
+
+    constructor(
+        @LayoutRes resId: Int,
+        parent: ViewGroup
+    ) : super(LayoutInflater.from(parent.context).inflate(resId, parent, false))
 
     /**
      * Views indexed with their IDs
