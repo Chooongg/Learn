@@ -9,9 +9,11 @@ import java.lang.reflect.ParameterizedType
 
 abstract class BindingAdapter<DATA, T : ViewBinding>(data: MutableList<DATA>? = null) :
     LearnAdapter<DATA, BindingViewHolder<T>>(data) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder<T> {
-        return BindingViewHolder(getBinding(javaClass, parent.context))
-    }
+    override fun onCreateViewHolder(
+        context: Context,
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingViewHolder<T> = BindingViewHolder(getBinding(javaClass, context))
 
     abstract fun onBind(holder: BindingViewHolder<*>, binding: T, position: Int)
 

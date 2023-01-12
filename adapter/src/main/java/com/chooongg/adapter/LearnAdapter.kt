@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chooongg.adapter.listener.*
@@ -14,7 +15,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
 abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DATA>? = null) :
-    RecyclerView.Adapter<HOLDER>() {
+    RecyclerView.Adapter<HOLDER>(), DiffCallback<DATA> {
 
     protected var adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -32,13 +33,13 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
 
     private var _recyclerView: RecyclerView? = null
 
-    val recyclerView: RecyclerView
+    protected val recyclerView: RecyclerView
         get() {
             checkNotNull(_recyclerView) { "Please get it after onAttachedToRecyclerView()" }
             return _recyclerView!!
         }
 
-    val context: Context get() = recyclerView.context
+    protected val context: Context get() = recyclerView.context
 
     init {
         this.data = data ?: mutableListOf()
@@ -64,6 +65,14 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
                 listener.onItemLongClick(this, holder.itemView, position)
             }
         }
+        for (i in 0 until onItemChildClickList.size()) {
+            val id = onItemChildClickList.keyAt(i)
+            holder.getViewOrNull<View>(id)?.setOnClickListener {
+                val position = holder.bindingAdapterPosition
+                if (position == RecyclerView.NO_POSITION) return@setOnClickListener
+                onitemchildclick
+            }
+        }
         return holder
     }
 
@@ -79,7 +88,15 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
         onBind(holder, position, payloads)
     }
 
-    fun submitData(list: List<DATA>?, callback: DiffCallback<DATA>) {
+    override fun areItemsTheSame(oldData: DATA, newData: DATA): Boolean {
+        return oldData == newData
+    }
+
+    override fun areContentsTheSame(oldData: DATA, newData: DATA): Boolean {
+        return oldData == newData
+    }
+
+    open fun submitData(list: List<DATA>?) {
         if (!isAttachedToRecyclerView) {
             data = list?.toMutableList() ?: mutableListOf()
             return
@@ -89,21 +106,44 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
             override fun getNewListSize() = list?.size ?: 0
             override fun areItemsTheSame(
                 oldItemPosition: Int, newItemPosition: Int
-            ) = callback.areItemsTheSame(data[oldItemPosition], list!![newItemPosition])
+            ) = areItemsTheSame(data[oldItemPosition], list!![newItemPosition])
 
             override fun areContentsTheSame(
                 oldItemPosition: Int, newItemPosition: Int
-            ) = callback.areContentsTheSame(data[oldItemPosition], list!![newItemPosition])
+            ) = areContentsTheSame(data[oldItemPosition], list!![newItemPosition])
         })
         data = list?.toMutableList() ?: mutableListOf()
         result.dispatchUpdatesTo(this@LearnAdapter)
     }
 
-    fun addAll(list: List<DATA>?) {
+    open operator fun set(
+        @androidx.annotation.IntRange(from = 0) position: Int,
+        item: DATA
+    ): Boolean {
+        if (position >= data.size) return false
+        data[position] = item
+        notifyItemChanged(position)
+        return true
+    }
+
+    open fun addAll(list: List<DATA>?) {
         if (list.isNullOrEmpty()) return
         val oldSize = data.size
         data.addAll(list)
         notifyItemRangeInserted(oldSize, list.size)
+    }
+
+    open fun removeAt(@androidx.annotation.IntRange(from = 0) position: Int): Boolean {
+        if (position >= data.size) return false
+        data.removeAt(position)
+        notifyItemRemoved(position)
+        return true
+    }
+
+    open fun remove(item: DATA): Boolean {
+        val index = data.indexOf(item)
+        if (index == -1) return false
+        return removeAt(index)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -122,11 +162,29 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
         adapterScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     }
 
+    /**
+     * Item点击事件实现
+     */
     protected open fun onItemClick(view: View, position: Int) =
         onItemClickListener?.onItemClick(this, view, position)
 
+    /**
+     * Item长点击事件实现
+     */
     protected open fun onItemLongClick(view: View, position: Int) =
         onItemLongClickListener?.onItemLongClick(this, view, position)
+
+    /**
+     * Item子点击事件实现
+     */
+    protected open fun onItemChildClick(view: View, position: Int) =
+        onItemChildClickList.get(view.id)?.onItemChildClick(this, view, view.id, position)
+
+    /**
+     * Item子长点击事件实现
+     */
+    protected open fun onItemChildLongClick(view: View, position: Int) =
+        onItemChildLongClickList.get(view.id)?.onItemChildLongClick(this, view, view.id, position)
 
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         onItemClickListener = listener
@@ -134,5 +192,29 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
 
     fun setOnItemLongClickListener(listener: OnItemLongClickListener?) {
         onItemLongClickListener = listener
+    }
+
+    fun addOnItemChildClickListener(@IdRes resId: Int, listener: OnItemChildClickListener) {
+        onItemChildClickList.put(resId, listener)
+    }
+
+    fun removeOnItemChildClickListener(@IdRes resId: Int) {
+        onItemChildClickList.remove(resId)
+    }
+
+    fun clearOnItemChildClickListener() {
+        onItemChildClickList.clear()
+    }
+
+    fun addOnItemChildLongClickListener(@IdRes resId: Int, listener: OnItemChildLongClickListener) {
+        onItemChildLongClickList.put(resId, listener)
+    }
+
+    fun removeOnItemChildLongClickListener(@IdRes resId: Int) {
+        onItemChildLongClickList.remove(resId)
+    }
+
+    fun clearOnItemChildLongClickListener() {
+        onItemChildLongClickList.clear()
     }
 }
