@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
 import androidx.core.graphics.Insets
 import androidx.core.view.*
 import com.chooongg.basic.ext.*
 import com.chooongg.core.R
 import com.chooongg.core.annotation.ActivityEdgeToEdge
+import com.chooongg.core.widget.behavior.AppBarLayoutBehavior
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -36,8 +38,23 @@ class TopAppBarLayout @JvmOverloads constructor(
     private var expandedTitleMarginBottom: Int = 0
 
     init {
-        clipToPadding = false
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopAppBarLayout, defStyleAttr, 0)
+//        appBarLayout = AppBarLayout(context, attrs, defStyleAttr).also {
+//            addView(it, LayoutParams(-1, -2).apply {
+//                behavior = AppBarLayoutBehavior()
+//            })
+//        }
+
+
+
+
+
+
+
+
+
+
+
         when (a.getInt(R.styleable.TopAppBarLayout_appBarType, 0)) {
             0 -> inflate(context, R.layout.learn_top_app_bar_small, this)
             1 -> inflate(context, R.layout.learn_top_app_bar_medium, this)
@@ -176,12 +193,36 @@ class TopAppBarLayout @JvmOverloads constructor(
         val top = edgeToEdge.fitsSide and ActivityEdgeToEdge.TOP != 0
         val right = edgeToEdge.fitsSide and ActivityEdgeToEdge.RIGHT != 0
         val bottom = edgeToEdge.fitsSide and ActivityEdgeToEdge.BOTTOM != 0
-        setPadding(
-            if (left) insets.left else 0,
-            if (top) insets.top else 0,
-            if (right) insets.right else 0,
-            if (bottom) insets.bottom else 0
-        )
+
+//        topAppBar.updateLayoutParams<MarginLayoutParams> {
+//            setMargins(if (left) insets.left else 0, 0, if (right) insets.right else 0, 0)
+//        }
+//
+//        for (i in 0 until childCount) {
+//            val child = getChildAt(i)
+//            val layoutParams = child.layoutParams as? LayoutParams ?: continue
+//            if (child is AppBarLayout) {
+//                layoutParams.fitsDisplayCutout
+//                child.updateLayoutParams<MarginLayoutParams> {
+//                    setMargins(
+//                        if (left) -insets.left else 0,
+//                        if (top) -insets.top else 0,
+//                        if (right) -insets.right else 0,
+//                        0
+//                    )
+//                }
+//            } else {
+//                child.updateLayoutParams<MarginLayoutParams> {
+//                    setMargins(
+//                        if (left) insets.left else 0,
+//                        if (top) insets.top else 0,
+//                        if (right) insets.right else 0,
+//                        if (bottom) insets.bottom else 0
+//                    )
+//                }
+//            }
+//        }
+
         appBarLayout.updateLayoutParams<MarginLayoutParams> {
             setMargins(
                 if (left) -insets.left else 0,
@@ -204,12 +245,10 @@ class TopAppBarLayout @JvmOverloads constructor(
                 expandedTitleMarginEnd + if (isRtl) insets.left else insets.right,
                 expandedTitleMarginBottom
             )
-        } else topAppBar.setPadding(
-            if (left) insets.left else 0,
-            0,
-            if (right) insets.right else 0,
-            0
-        )
+        } else topAppBar.updateLayoutParams<MarginLayoutParams> {
+            leftMargin = if (left) insets.left else 0
+            rightMargin = if (right) insets.right else 0
+        }
     }
 
     @SuppressLint("CustomViewStyleable")
@@ -220,6 +259,9 @@ class TopAppBarLayout @JvmOverloads constructor(
         ) {
             val parentParams = super.generateLayoutParams(attrs)
             val params = LayoutParams(parentParams).apply {
+                fitsDisplayCutout = a.getBoolean(
+                    R.styleable.TopAppBarLayout_Layout_fitsDisplayCutout, false
+                )
                 isTopAppBarChild = a.getBoolean(
                     R.styleable.TopAppBarLayout_Layout_isTopAppBarChild, false
                 )
@@ -298,16 +340,61 @@ class TopAppBarLayout @JvmOverloads constructor(
     }
 
     class LayoutParams(p: CoordinatorLayout.LayoutParams) : CoordinatorLayout.LayoutParams(p) {
+
+        var fitsDisplayCutout = false
+            internal set
         var isTopAppBarChild = false
             internal set
         var isAppBarLayoutChild = false
             internal set
+
+        private var mLayoutDirection: Int = 0
+
+        var originalMarginLeft = Int.MIN_VALUE
+        var originalMarginTop = Int.MIN_VALUE
+        var originalMarginRight = Int.MIN_VALUE
+        var originalMarginBottom = Int.MIN_VALUE
 
         @AppBarLayout.LayoutParams.ScrollFlags
         var scrollFlags: Int = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
 
         init {
             gravity = p.gravity
+            originalMarginLeft = leftMargin
+            originalMarginTop = topMargin
+            originalMarginRight = rightMargin
+            originalMarginBottom = bottomMargin
+        }
+
+        override fun resolveLayoutDirection(layoutDirection: Int) {
+            super.resolveLayoutDirection(layoutDirection)
+            mLayoutDirection = layoutDirection
+        }
+
+        override fun setMarginStart(start: Int) {
+            super.setMarginStart(start)
+            when (mLayoutDirection) {
+                LAYOUT_DIRECTION_RTL -> rightMargin
+                LAYOUT_DIRECTION_LTR -> leftMargin
+                else -> leftMargin
+            }
+        }
+
+        override fun setMarginEnd(end: Int) {
+            super.setMarginEnd(end)
+            when (mLayoutDirection) {
+                LAYOUT_DIRECTION_RTL -> leftMargin
+                LAYOUT_DIRECTION_LTR -> rightMargin
+                else -> rightMargin
+            }
+        }
+
+        override fun setMargins(left: Int, top: Int, right: Int, bottom: Int) {
+            super.setMargins(left, top, right, bottom)
+            originalMarginLeft = left
+            originalMarginTop = top
+            originalMarginRight = right
+            originalMarginBottom = bottom
         }
     }
 }

@@ -86,6 +86,11 @@
             android:label="TopAppBarLayout"
             android:launchMode="singleTop" />
 
+        <activity
+            android:name="com.chooongg.learn.TestActivity"
+            android:label="Test"
+            android:launchMode="singleTop" />
+
     </application>
 
 </manifest>

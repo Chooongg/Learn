@@ -1,7 +1,7 @@
 plugins {
-    id 'com.android.application' version '7.3.1' apply false
-    id 'com.android.library' version '7.3.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+    id 'com.android.application' version '7.4.0' apply false
+    id 'com.android.library' version '7.4.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
 }
 
 task clean(type: Delete) {
@@ -17,8 +17,9 @@ ext {
             targetSdk : 33,
     ]
     dependenciesVersion = [
+
             appcompatVersion  : '1.7.0-alpha01',
-            materialVersion   : '1.8.0-alpha01',
-            lifecycleVersion  : '2.6.0-alpha03',
+            materialVersion   : '1.9.0-alpha01',
+            lifecycleVersion  : '2.6.0-alpha05',
     ]
 }

@@ -36,7 +36,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$dependenciesVersion.appcompatVersion"
     implementation "com.google.android.material:material:$dependenciesVersion.materialVersion"
     api 'androidx.core:core-ktx:1.9.0'
-    api "androidx.startup:startup-runtime:1.2.0-alpha01"
+    api "androidx.startup:startup-runtime:1.2.0-alpha02"
 
     api 'com.tencent:mmkv:1.2.14'
     // 调试工具

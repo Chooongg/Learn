@@ -47,7 +47,11 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
 
     override fun getItemCount() = data.size
 
-    abstract fun onCreateViewHolder(context: Context, parent: ViewGroup, viewType: Int): HOLDER
+    abstract fun onCreateViewHolder(
+        context: Context,
+        parent: ViewGroup,
+        viewType: Int
+    ): HOLDER
 
     final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HOLDER {
         val holder = onCreateViewHolder(parent.context, parent, viewType)
@@ -70,7 +74,15 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
             holder.getViewOrNull<View>(id)?.setOnClickListener {
                 val position = holder.bindingAdapterPosition
                 if (position == RecyclerView.NO_POSITION) return@setOnClickListener
-                onitemchildclick
+                onItemChildClick(it, position)
+            }
+        }
+        for (i in 0 until onItemChildLongClickList.size()) {
+            val id = onItemChildLongClickList.keyAt(i)
+            holder.getViewOrNull<View>(id)?.setOnLongClickListener {
+                val position = holder.bindingAdapterPosition
+                if (position == RecyclerView.NO_POSITION) return@setOnLongClickListener false
+                onItemChildLongClick(it, position)
             }
         }
         return holder
@@ -185,6 +197,7 @@ abstract class LearnAdapter<DATA, HOLDER : BaseViewHolder>(data: MutableList<DAT
      */
     protected open fun onItemChildLongClick(view: View, position: Int) =
         onItemChildLongClickList.get(view.id)?.onItemChildLongClick(this, view, view.id, position)
+            ?: false
 
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         onItemClickListener = listener
